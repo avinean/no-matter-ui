@@ -2,33 +2,36 @@
 import type { FormError, FormSubmitEvent } from '#ui/types'
 
 definePageMeta({
-  layout: 'auth'
+  layout: 'auth',
 })
 
 const form = reactive({
   username: undefined,
-  password: undefined
+  password: undefined,
 })
 
-const validate = (state: any): FormError[] => {
+function validate(state: any): FormError[] {
   const errors = []
-  if (!state.username) errors.push({ path: 'username', message: 'Required' })
-  if (!state.password) errors.push({ path: 'password', message: 'Required' })
+  if (!state.username)
+    errors.push({ path: 'username', message: 'Required' })
+  if (!state.password)
+    errors.push({ path: 'password', message: 'Required' })
   return errors
 }
 
 async function onSubmit(event: FormSubmitEvent<any>) {
   const { data, error } = await useFetch<{ access_token: string }>('/api/auth/login', {
     method: 'POST',
-    body: JSON.stringify(event.data)
+    body: JSON.stringify(event.data),
   })
 
   if (error.value) {
     const toast = useToast()
     toast.add({
-      title: 'Авторизація невдала'
+      title: 'Авторизація невдала',
     })
-  } else {
+  }
+  else {
     const cookie = useCookie('sraka')
     cookie.value = data.value?.access_token
     useRouter().push('/')
