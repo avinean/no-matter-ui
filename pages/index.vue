@@ -1,6 +1,6 @@
 <template>
 <pre>
-  {{ data }}
+  <UTable :rows="data" />
 </pre>
 </template>
 

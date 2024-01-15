@@ -1,30 +1,53 @@
-<template>
-  <div>
-    <label for="">
-      login
-      <input type="text" v-model="form.username">
-    </label>
-    <label for="">
-      password
-      <input type="text" v-model="form.password">
-    </label>
-    <button @click="signIn">sign in</button>
-  </div>
-</template>
+<script setup lang="ts">
+import type { FormError, FormSubmitEvent } from '#ui/types'
 
-<script lang="ts" setup>
-
-const form = reactive({
-  username: '',
-  password: ''
+definePageMeta({
+  layout: 'auth'
 })
 
-async function signIn() {
-  const { data } = await useFetch('/api/auth/login', {
+const form = reactive({
+  username: undefined,
+  password: undefined
+})
+
+const validate = (state: any): FormError[] => {
+  const errors = []
+  if (!state.username) errors.push({ path: 'username', message: 'Required' })
+  if (!state.password) errors.push({ path: 'password', message: 'Required' })
+  return errors
+}
+
+async function onSubmit(event: FormSubmitEvent<any>) {
+  const { data, error } = await useFetch<{ access_token: string }>('/api/auth/login', {
     method: 'POST',
-    body: JSON.stringify(form)
+    body: JSON.stringify(event.data)
   })
-  const cookie = useCookie('sraka')
-  cookie.value = data.value.access_token
+
+  if (error.value) {
+    const toast = useToast()
+    toast.add({
+      title: 'Авторизація невдала'
+    })
+  } else {
+    const cookie = useCookie('sraka')
+    cookie.value = data.value?.access_token
+    useRouter().push('/')
+  }
 }
 </script>
+
+<template>
+  <UForm :validate="validate" :state="form" class="space-y-4 self-center w-full lg:w-1/2" @submit="onSubmit">
+    <UFormGroup label="Username" name="username">
+      <UInput v-model="form.username" />
+    </UFormGroup>
+
+    <UFormGroup label="Password" name="password">
+      <UInput v-model="form.password" type="password" />
+    </UFormGroup>
+
+    <UButton type="submit">
+      Submit
+    </UButton>
+  </UForm>
+</template>
