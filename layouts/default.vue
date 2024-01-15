@@ -31,12 +31,12 @@ const links = [
     {
       label: 'Examples',
       icon: 'i-heroicons-light-bulb',
-      to: '/',
+      to: '/examples',
     },
     {
       label: 'Help',
       icon: 'i-heroicons-question-mark-circle',
-      to: '/',
+      to: '/help',
     },
   ],
 ]

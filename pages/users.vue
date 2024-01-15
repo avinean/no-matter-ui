@@ -1,15 +1,8 @@
 <script lang="ts" setup>
-
-const { data, pending } = await useFetch<{ [key: string]: any }[]>('/api/users', {
-  headers: {
-    Authorization: `Bearer ${useCookie('sraka').value}`,
-  },
-})
+const store = useUsersStore()
+store.get()
 </script>
 
 <template>
-  <div v-if="pending">
-    pending
-  </div>
-  <UTable v-else :rows="data" />
+  <UTable :rows="store.items" />
 </template>
