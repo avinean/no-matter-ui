@@ -20,7 +20,7 @@ export const useMaterialsStore = defineStore('materials', () => {
   async function getTransactions() {
     if (transactions.value.length) return
     loading.value = true
-    transactions.value = await $fetch<MaterialTransaction[]>('/api/materials-transactions', {
+    transactions.value = await $fetch<MaterialTransaction[]>('/api/materials/transactions', {
       headers: {
         Authorization: `Bearer ${useCookie('sraka').value}`,
       },
@@ -45,7 +45,7 @@ export const useMaterialsStore = defineStore('materials', () => {
 
   async function createTransaction(transaction: Partial<MaterialTransaction>) {
     updating.value = true
-    const response = await $fetch<MaterialTransaction>('/api/materials-transactions', {
+    const response = await $fetch<MaterialTransaction>('/api/materials/transactions', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${useCookie('sraka').value}`,

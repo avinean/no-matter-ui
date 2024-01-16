@@ -4,5 +4,8 @@ store.get()
 </script>
 
 <template>
-  <UTable :rows="store.items" />
+  <UCard>
+    <h2>Users</h2>
+    <UTable :rows="store.items" />
+  </UCard>
 </template>

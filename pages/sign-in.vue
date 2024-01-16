@@ -49,7 +49,7 @@ async function onSubmit(event: FormSubmitEvent<any>) {
       <UInput v-model="form.password" type="password" />
     </UFormGroup>
 
-    <UButton type="submit">
+    <UButton type="submit" size="lg">
       Submit
     </UButton>
   </UForm>
