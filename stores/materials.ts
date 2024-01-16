@@ -1,4 +1,4 @@
-import type { Material, v } from '#types/entities'
+import type { Material, MaterialTransaction } from '#types/entities'
 
 export const useMaterialsStore = defineStore('materials', () => {
   const loading = ref(false)

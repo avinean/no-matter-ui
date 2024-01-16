@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { FormError, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types';
-import type { Material } from '#types/entities';
+import type { Material, MaterialTransaction } from '#types/entities';
 
 const store = useMaterialsStore()
 store.get()
@@ -20,12 +20,13 @@ const transaction = reactive({
   materialId: undefined,
   quantity: undefined,
   type: undefined,
+  description: undefined,
 })
 
 function validate(state: any): FormError[] {
   const errors = []
   for (const key in state) {
-    if (!state[key])
+    if (state[key] === undefined || state[key] === '')
       errors.push({ path: key, message: 'Required' })
   }
   return errors
@@ -36,7 +37,7 @@ async function onAddMaterial(event: FormSubmitEvent<Partial<Material>>) {
   createMaterial.value = false
 }
 
-async function onCreateTransaction(event: FormSubmitEvent<Partial<Material>>) {
+async function onCreateTransaction(event: FormSubmitEvent<Partial<MaterialTransaction>>) {
   await store.createTransaction(event.data)
   addTransaction.value = false
 } 
@@ -108,7 +109,11 @@ async function onCreateTransaction(event: FormSubmitEvent<Partial<Material>>) {
         </UFormGroup>
 
         <UFormGroup label="Type" name="type">
-          <USelect v-model="transaction.type" :options="[{ label: 'Income', value: 0 }, { label: 'Outcome', value: 1 }]" />
+          <USelect v-model.number="transaction.type" :options="[{ label: 'Income', value: 0 }, { label: 'Outcome', value: 1 }]" />
+        </UFormGroup>
+
+        <UFormGroup label="Description" name="description">
+          <UInput v-model="transaction.description" />
         </UFormGroup>
 
         <UButton type="submit" :loading="store.updating">

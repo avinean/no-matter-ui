@@ -20,5 +20,6 @@ export interface Material extends Entity {
 export interface MaterialTransaction extends Entity {
   materialId: number;
   quantity: number;
-  type: number
+  type: number;
+  description: string;
 }
