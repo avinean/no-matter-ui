@@ -7,7 +7,7 @@
       </h1>
     </div>
     <div class="w-full lg:w-2/3 p-4 flex">
-      <NuxtPage />
+      <slot />
     </div>
   </div>
 </template>

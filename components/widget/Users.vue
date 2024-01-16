@@ -1,6 +1,11 @@
 <script lang="ts" setup>
 const store = useUsersStore()
-store.get()
+console.log(store)
+console.log(store.get)
+console.log(store.items)
+onMounted(() => {
+  store.get()
+})
 </script>
 
 <template>

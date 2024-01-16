@@ -1,4 +1,5 @@
 <script setup>
+
 const links = [
   [
     {
@@ -24,7 +25,7 @@ const links = [
     {
       label: 'Sign in',
       icon: 'i-heroicons-arrow-left-circle',
-      to: '/sign-in',
+      to: '/auth/sign-in',
     },
   ],
   [
@@ -51,7 +52,7 @@ const links = [
       <main class="w-full flex-1 flex">
         <UVerticalNavigation class="w-40" :links="links" />
         <UContainer class="flex-1">
-          <NuxtPage />
+          <slot />
         </UContainer>
       </main>
       <UContainer class="w-full h-20 p-2">

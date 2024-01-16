@@ -6,7 +6,6 @@ export interface Entity {
 }
 
 export interface User extends Entity {
-  username: string
   email: string,
 }
 
@@ -14,6 +13,7 @@ export interface Material extends Entity {
   name: string;
   description: string;
   unit: string;
+  quantity: number;
   criticalQuantity: number;
 }
 
