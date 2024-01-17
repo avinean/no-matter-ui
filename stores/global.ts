@@ -5,32 +5,21 @@ export const useGlobalStore = defineStore('global', () => {
   const cookie = useCookie('sraka')
 
   async function login(body: { email: string, password: string }) {
-    const { data, error } = await useFetch<{ access_token: string }>('/api/auth/login', {
+    const data = await useApi<{ access_token: string }>('/auth/login', {
       method: 'POST',
       body,
     })
 
-    if (error.value) {
-      const toast = useToast()
-      toast.add({
-        title: 'Авторизація невдала',
-      })
-    }
-    else {
-      cookie.value = data.value?.access_token
-      getUser()
-      useRouter().push('/')
-    }
+    cookie.value = data?.access_token
+    getUser()
+    useRouter().push('/')
+  
   }
 
   async function getUser() {
     if (user.value) return
 
-    user.value = await $fetch<User>('/api/users/me', {
-      headers: {
-        Authorization: `Bearer ${cookie.value}`,
-      },
-    })
+    user.value = await useApi<User>('/users/me')
   }
 
   return {

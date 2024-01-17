@@ -9,22 +9,14 @@ export const useMaterialsStore = defineStore('materials', () => {
   async function get() {
     if (items.value.length) return
     loading.value = true
-    items.value = await $fetch<Material[]>('/api/materials', {
-      headers: {
-        Authorization: `Bearer ${useCookie('sraka').value}`,
-      },
-    })
+    items.value = await useApi<Material[]>('/materials')
     loading.value = false
   }
 
   async function getTransactions() {
     if (transactions.value.length) return
     loading.value = true
-    transactions.value = await $fetch<MaterialTransaction[]>('/api/materials/transactions', {
-      headers: {
-        Authorization: `Bearer ${useCookie('sraka').value}`,
-      },
-    })
+    transactions.value = await useApi<MaterialTransaction[]>('/materials/transactions')
     
     loading.value = false
   }
@@ -32,12 +24,9 @@ export const useMaterialsStore = defineStore('materials', () => {
 
   async function create(material: Partial<Material>) {
     updating.value = true
-    const response = await $fetch<Material>('/api/materials', {
+    const response = await useApi<Material>('/materials', {
       method: 'POST',
-      headers: {
-        Authorization: `Bearer ${useCookie('sraka').value}`,
-      },
-      body: JSON.stringify(material),
+      body: material,
     })
     items.value.push(response)
     updating.value = false
@@ -45,12 +34,9 @@ export const useMaterialsStore = defineStore('materials', () => {
 
   async function createTransaction(transaction: Partial<MaterialTransaction>) {
     updating.value = true
-    const response = await $fetch<MaterialTransaction>('/api/materials/transactions', {
+    const response = await useApi<MaterialTransaction>('/materials/transactions', {
       method: 'POST',
-      headers: {
-        Authorization: `Bearer ${useCookie('sraka').value}`,
-      },
-      body: JSON.stringify(transaction),
+      body: transaction
     })
     
     transactions.value.unshift(response)

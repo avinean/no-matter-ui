@@ -5,11 +5,7 @@ export const useUsersStore = defineStore('users', () => {
 
   async function get() {
     if (items.value.length) return
-    items.value = await $fetch<User[]>('/api/users', {
-      headers: {
-        Authorization: `Bearer ${useCookie('sraka').value}`,
-      },
-    })
+    items.value = await useApi<User[]>('/users')
   }
 
   return {

@@ -19,23 +19,15 @@ function validate(state: any): FormError[] {
 }
 
 async function onSubmit(event: FormSubmitEvent<any>) {
-  const { data, error } = await useFetch('/api/auth/set-password', {
+  await useApi('/auth/set-password', {
     method: 'POST',
     body: {
       password: event.data.password,
       token: route.query.t,
     },
   })
-
-  if (error.value) {
-    const toast = useToast()
-    toast.add({
-      title: 'Встановлення паролю невдале',
-    })
-  }
-  else {
-    router.push('/auth/sign-in')
-  }
+  
+  router.push('/auth/sign-in')
 }
 </script>
 

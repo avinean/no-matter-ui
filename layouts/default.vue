@@ -8,8 +8,13 @@ const links = [
       to: '/',
     },
     {
-      label: 'Users',
+      label: 'Clients',
       icon: 'i-heroicons-identification',
+      to: '/clients',
+    },
+    {
+      label: 'Users',
+      icon: 'i-heroicons-user-group',
       to: '/users',
     },
     {
