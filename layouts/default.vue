@@ -55,7 +55,7 @@ const links = [
         <img src="/logo.svg" class="h-full" alt="logo">
       </UContainer>
       <main class="w-full flex-1 flex">
-        <UVerticalNavigation class="w-40" :links="links" />
+        <UVerticalNavigation class="w-40 border-r" :links="links" />
         <UContainer class="flex-1">
           <slot />
         </UContainer>

@@ -1,3 +1,5 @@
+import type { ContactType } from './enums';
+
 export interface Entity {
   id: number,
   createdAt: string,
@@ -22,4 +24,20 @@ export interface MaterialTransaction extends Entity {
   quantity: number;
   type: number;
   description: string;
+}
+
+export interface Contact extends Entity {
+  type: ContactType;
+  value: string;
+}
+
+export interface Profile extends Entity {
+  firstName: string;
+  lastName: string;
+  sex: string;
+  birthday: Date;
+  source: string;
+  balance: number;
+  cardId: number;
+  contacts: Contact[];
 }
