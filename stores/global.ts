@@ -5,7 +5,7 @@ export const useGlobalStore = defineStore('global', () => {
   const cookie = useCookie('sraka')
 
   async function login(body: { email: string, password: string }) {
-    const data = await useApi<{ access_token: string }>('/auth/login', {
+    const data = await $api<{ access_token: string }>('/auth/login', {
       method: 'POST',
       body,
     })
@@ -19,7 +19,7 @@ export const useGlobalStore = defineStore('global', () => {
   async function getUser() {
     if (user.value) return
 
-    user.value = await useApi<User>('/users/me')
+    user.value = await $api<User>('/users/me')
   }
 
   return {

@@ -2,9 +2,10 @@
 import type { FormError, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types';
 import type { Material, MaterialTransaction } from '#types/entities';
 
-const store = useMaterialsStore()
-store.get()
-store.getTransactions()
+const items = ref()
+items.value = await $api<Material[]>('/materials')
+const transactions = ref()
+transactions.value = await $api<MaterialTransaction[]>('/materials/transactions')
 
 const createMaterial = ref(false)
 const addTransaction = ref(false)
@@ -33,12 +34,30 @@ function validate(state: any): FormError[] {
 }
 
 async function onAddMaterial(event: FormSubmitEvent<Partial<Material>>) {
-  await store.create(event.data)
+  const response = await $api<Material>('/materials', {
+    method: 'POST',
+    body: event.data,
+  })
   createMaterial.value = false
 }
 
 async function onCreateTransaction(event: FormSubmitEvent<Partial<MaterialTransaction>>) {
-  await store.createTransaction(event.data)
+  const response = await $api<MaterialTransaction>('/materials/transactions', {
+    method: 'POST',
+    body: event.data
+  })
+  transactions.value.unshift(response)
+  items.value = items.value.map((item) => {
+    const _item = {...item}
+    if (_item.id === event.data.materialId) {
+      if (!event.data.type) {
+        _item.quantity += event.data.quantity
+      } else {
+        _item.quantity -= event.data.quantity
+      }
+    }
+    return _item
+})
   addTransaction.value = false
 } 
 </script>
@@ -87,7 +106,7 @@ async function onCreateTransaction(event: FormSubmitEvent<Partial<MaterialTransa
           <UInput v-model="material.criticalQuantity" />
         </UFormGroup>
 
-        <UButton type="submit" :loading="store.updating">
+        <UButton type="submit">
           Submit
         </UButton>
       </UForm>
@@ -101,7 +120,7 @@ async function onCreateTransaction(event: FormSubmitEvent<Partial<MaterialTransa
       </h2>
       <UForm :validate="validate" :state="transaction" class="space-y-4 w-full" @submit="onCreateTransaction">
         <UFormGroup label="Material" name="materialId">
-          <USelect v-model="transaction.materialId" :options="store.items.map(item => ({ label: item.name, value: item.id }))" />
+          <USelect v-model="transaction.materialId" :options="items.map(item => ({ label: item.name, value: item.id }))" />
         </UFormGroup>
 
         <UFormGroup label="Quantity" name="quantity">
@@ -116,7 +135,7 @@ async function onCreateTransaction(event: FormSubmitEvent<Partial<MaterialTransa
           <UInput v-model="transaction.description" />
         </UFormGroup>
 
-        <UButton type="submit" :loading="store.updating">
+        <UButton type="submit">
           Submit
         </UButton>
       </UForm>
@@ -125,10 +144,10 @@ async function onCreateTransaction(event: FormSubmitEvent<Partial<MaterialTransa
 
   <UCard>
     <h2>Materials</h2>
-    <UTable :rows="store.items" />
+    <UTable :rows="items" />
   </UCard>
   <UCard class="mt-4">
     <h2>Transactions</h2>
-    <UTable :rows="store.transactions" />
+    <UTable :rows="transactions" />
   </UCard>
 </template>

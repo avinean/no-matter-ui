@@ -19,7 +19,7 @@ function validate(state: any): FormError[] {
 }
 
 async function onSubmit(event: FormSubmitEvent<any>) {
-  await useApi('/auth/set-password', {
+  await $api('/auth/set-password', {
     method: 'POST',
     body: {
       password: event.data.password,

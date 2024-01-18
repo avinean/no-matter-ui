@@ -3,7 +3,7 @@
 import type { Profile } from '#types/entities'
 import { ContactType } from '#types/enums'
 
-const clients = await useApi<Profile[]>('/profiles')
+const { data } = useApi<Profile[]>('/profiles')
 const newClients = ref<Profile[]>([])
 const commandPaletteRef = ref()
 const isOpen = ref(false)
@@ -20,7 +20,7 @@ const phones = computed(() => selectedClient.value?.contacts
 
 const groups = computed(() => [{
   key: 'users',
-  commands: [...newClients.value, ...clients].map((client) => ({
+  commands: [...newClients.value, ...(data.value || [])].map((client) => ({
     id: client.id, label: `${client.firstName} ${client.lastName}`, client,
     avatar: { src: 'https://picsum.photos/200/300', srcset: 'https://picsum.photos/200/300 2x', loading: 'lazy' },
   })),

@@ -22,7 +22,7 @@ const profile: Partial<Profile> = reactive({
 async function onCreate({ data }: FormSubmitEvent<Profile>) {
   loading.value = true
   try {
-    const profile = await useApi<Profile>('/profiles', {
+    const profile = await $api<Profile>('/profiles', {
       method: 'POST',
       body: data,
     })

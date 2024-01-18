@@ -56,9 +56,9 @@ const links = [
       </UContainer>
       <main class="w-full flex-1 flex">
         <UVerticalNavigation class="w-40 border-r" :links="links" />
-        <UContainer class="flex-1">
+        <div class="flex-1 p-2">
           <slot />
-        </UContainer>
+        </div>
       </main>
       <UContainer class="w-full h-20 p-2">
         <img src="/logo.svg" class="h-full" alt="logo">
