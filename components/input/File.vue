@@ -1,0 +1,30 @@
+<template>
+  <label :style="{ backgroundImage: `url(${imageUrl || src || 'placeholder.jpg'})`}" class="bg-cover bg-size">
+    <input type="file" @change="handleFileChange" hidden />
+    <img v-if="imageUrl" :src="imageUrl" alt="Preview" style="max-width: 100%;" />
+  </label>
+</template>
+
+<script setup lang="ts">
+const props = defineProps < {
+  src?: string;
+} > ();
+
+const emit = defineEmits<{
+  'change': [file: File];
+}>();
+
+const imageUrl = ref('');
+
+function handleFileChange(event: Event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      imageUrl.value = e.target.result;
+      emit('change', file);
+    };
+    reader.readAsDataURL(file);
+  }
+};
+</script>

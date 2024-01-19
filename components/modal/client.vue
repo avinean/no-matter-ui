@@ -44,6 +44,10 @@ async function onCreate({ data }: FormSubmitEvent<Profile>) {
       Add profile
     </h2>
     <UForm :state="profile" class="space-y-4 w-full" @submit="onCreate">
+      <UFormGroup label="Profile phote">
+        <input-file class="block w-40 h-40 rounded-full"/>
+      </UFormGroup>
+
       <UFormGroup label="First name" name="firstName" required>
         <UInput v-model="profile.firstName" />
       </UFormGroup>
@@ -65,11 +69,11 @@ async function onCreate({ data }: FormSubmitEvent<Profile>) {
       </UFormGroup>
 
       <UFormGroup label="Emails" name="emails">
-        <base-multi-input v-model="profile.emails" />
+        <input-tags v-model="profile.emails" />
       </UFormGroup>
 
       <UFormGroup label="Phones" name="phones">
-        <base-multi-input v-model="profile.phones" />
+        <input-tags v-model="profile.phones" />
       </UFormGroup>
 
       <UButton type="submit" :loading>
