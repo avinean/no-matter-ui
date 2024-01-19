@@ -7,8 +7,8 @@ const { data, pending, error, refresh } = useApi<User[]>('/users')
 <template>
   <UNotification
     v-if="error"
-    title="Something went erong! Try to refresh the page"
     :id="2"
+    title="Something went erong! Try to refresh the page"
     class="mb-2"
     :timeout="0"
     :actions="[{ label: 'Refresh', click: refresh }]"
@@ -16,6 +16,9 @@ const { data, pending, error, refresh } = useApi<User[]>('/users')
   />
   <UCard>
     <h2>Users</h2>
-    <UTable :rows="data || []" :loading="pending" />
+    <UTable
+      :rows="data || []"
+      :loading="pending"
+    />
   </UCard>
 </template>

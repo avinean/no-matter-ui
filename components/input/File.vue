@@ -1,12 +1,24 @@
 <template>
-  <label :style="{ backgroundImage: `url(${imageUrl || src || 'placeholder.jpg'})`}" class="bg-cover bg-size">
-    <input type="file" @change="handleFileChange" hidden />
-    <img v-if="imageUrl" :src="imageUrl" alt="Preview" style="max-width: 100%;" />
+  <label
+    :style="{ backgroundImage: `url(${imageUrl || src || 'placeholder.jpg'})`}"
+    class="bg-cover bg-size"
+  >
+    <input
+      type="file"
+      hidden
+      @change="handleFileChange"
+    >
+    <img
+      v-if="imageUrl"
+      :src="imageUrl"
+      alt="Preview"
+      style="max-width: 100%;"
+    >
   </label>
 </template>
 
 <script setup lang="ts">
-const props = defineProps < {
+defineProps < {
   src?: string;
 } > ();
 
@@ -26,5 +38,5 @@ function handleFileChange(event: Event) {
     };
     reader.readAsDataURL(file);
   }
-};
+}
 </script>

@@ -89,20 +89,37 @@ async function onCreateTransaction(event: FormSubmitEvent<Partial<MaterialTransa
       <h2 class="mb-4">
         Create Material
       </h2>
-      <UForm :validate="validate" :state="material" class="space-y-4 w-full" @submit="onAddMaterial">
-        <UFormGroup label="Name" name="name">
+      <UForm
+        :validate="validate"
+        :state="material"
+        class="space-y-4 w-full"
+        @submit="onAddMaterial"
+      >
+        <UFormGroup
+          label="Name"
+          name="name"
+        >
           <UInput v-model="material.name" />
         </UFormGroup>
 
-        <UFormGroup label="Description" name="description">
+        <UFormGroup
+          label="Description"
+          name="description"
+        >
           <UInput v-model="material.description" />
         </UFormGroup>
 
-        <UFormGroup label="Unit" name="unit">
+        <UFormGroup
+          label="Unit"
+          name="unit"
+        >
           <UInput v-model="material.unit" />
         </UFormGroup>
 
-        <UFormGroup label="Critical quantity" name="criticalQuantity">
+        <UFormGroup
+          label="Critical quantity"
+          name="criticalQuantity"
+        >
           <UInput v-model="material.criticalQuantity" />
         </UFormGroup>
 
@@ -118,20 +135,43 @@ async function onCreateTransaction(event: FormSubmitEvent<Partial<MaterialTransa
       <h2 class="mb-4">
         Update Material data
       </h2>
-      <UForm :validate="validate" :state="transaction" class="space-y-4 w-full" @submit="onCreateTransaction">
-        <UFormGroup label="Material" name="materialId">
-          <USelect v-model="transaction.materialId" :options="items.map(item => ({ label: item.name, value: item.id }))" />
+      <UForm
+        :validate="validate"
+        :state="transaction"
+        class="space-y-4 w-full"
+        @submit="onCreateTransaction"
+      >
+        <UFormGroup
+          label="Material"
+          name="materialId"
+        >
+          <USelect
+            v-model="transaction.materialId"
+            :options="items.map(item => ({ label: item.name, value: item.id }))"
+          />
         </UFormGroup>
 
-        <UFormGroup label="Quantity" name="quantity">
+        <UFormGroup
+          label="Quantity"
+          name="quantity"
+        >
           <UInput v-model="transaction.quantity" />
         </UFormGroup>
 
-        <UFormGroup label="Type" name="type">
-          <USelect v-model.number="transaction.type" :options="[{ label: 'Income', value: 0 }, { label: 'Outcome', value: 1 }]" />
+        <UFormGroup
+          label="Type"
+          name="type"
+        >
+          <USelect
+            v-model.number="transaction.type"
+            :options="[{ label: 'Income', value: 0 }, { label: 'Outcome', value: 1 }]"
+          />
         </UFormGroup>
 
-        <UFormGroup label="Description" name="description">
+        <UFormGroup
+          label="Description"
+          name="description"
+        >
           <UInput v-model="transaction.description" />
         </UFormGroup>
 

@@ -39,28 +39,58 @@ function onProfileAdded(profile: Profile) {
 <template>
   <div class="grid grid-cols-[200px,1fr] gap-2 divide-x min-h-full">
     <div>
-      <UButton label="Add item" icon="i-heroicons-identification" @click="isOpen = true" class="w-full"/>
-      <UCommandPalette ref="commandPaletteRef" :groups="groups" :autoselect="false" @update:model-value="onSelect">
+      <UButton
+        label="Add item"
+        icon="i-heroicons-identification"
+        class="w-full"
+        @click="isOpen = true"
+      />
+      <UCommandPalette
+        ref="commandPaletteRef"
+        :groups="groups"
+        :autoselect="false"
+        @update:model-value="onSelect"
+      >
         <template #empty-state>
           <div class="flex flex-col items-center justify-center py-6 gap-3">
             <span class="italic text-sm">Nothing here!</span>
-            <UButton label="Add item" color="gray" icon="i-heroicons-identification" @click="isOpen = true" />
+            <UButton
+              label="Add item"
+              color="gray"
+              icon="i-heroicons-identification"
+              @click="isOpen = true"
+            />
           </div>
         </template>
       </UCommandPalette>
       <UModal v-model="isOpen">
-        <modal-client @submit="onProfileAdded"/>
+        <modal-client @submit="onProfileAdded" />
       </UModal> 
     </div>
     <div class="w-full flex items-start gap-2 px-2">
       <template v-if="selectedClient">
         <div class="flex gap-2">
-          <img src="https://picsum.photos/200/300" alt="users photo" width="200" height="300"/>
+          <img
+            src="https://picsum.photos/200/300"
+            alt="users photo"
+            width="200"
+            height="300"
+          >
           <div class="grid grid-cols-[150px,1fr] items-center">
             <span class="font-bold">First name:</span><span>{{ selectedClient.firstName }}</span>
             <span class="font-bold">Last name:</span><span>{{ selectedClient.lastName }}</span>
-            <span class="font-bold">Phones:</span><span><UBadge v-for="phone in phones" :key="phone" color="white" variant="solid">{{ phone }}</UBadge></span>
-            <span class="font-bold">Emails:</span><span><UBadge v-for="email in emails" :key="email" color="white" variant="solid">{{ email }}</UBadge></span>
+            <span class="font-bold">Phones:</span><span><UBadge
+              v-for="phone in phones"
+              :key="phone"
+              color="white"
+              variant="solid"
+            >{{ phone }}</UBadge></span>
+            <span class="font-bold">Emails:</span><span><UBadge
+              v-for="email in emails"
+              :key="email"
+              color="white"
+              variant="solid"
+            >{{ email }}</UBadge></span>
             <span class="font-bold">Sex:</span><span>{{ selectedClient.sex }}</span>
             <span class="font-bold">Birthday:</span><span>{{ selectedClient.birthday }}</span>
             <span class="font-bold">Source:</span><span>{{ selectedClient.source }}</span>

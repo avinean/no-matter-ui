@@ -43,40 +43,73 @@ async function onCreate({ data }: FormSubmitEvent<Profile>) {
     <h2 class="mb-4">
       Add profile
     </h2>
-    <UForm :state="profile" class="space-y-4 w-full" @submit="onCreate">
+    <UForm
+      :state="profile"
+      class="space-y-4 w-full"
+      @submit="onCreate"
+    >
       <UFormGroup label="Profile phote">
-        <input-file class="block w-40 h-40 rounded-full"/>
+        <input-file class="block w-40 h-40 rounded-full" />
       </UFormGroup>
 
-      <UFormGroup label="First name" name="firstName" required>
+      <UFormGroup
+        label="First name"
+        name="firstName"
+        required
+      >
         <UInput v-model="profile.firstName" />
       </UFormGroup>
 
-      <UFormGroup label="Last name" name="lastName" required>
+      <UFormGroup
+        label="Last name"
+        name="lastName"
+        required
+      >
         <UInput v-model="profile.lastName" />
       </UFormGroup>
 
-      <UFormGroup label="Sex" name="sex" required>
+      <UFormGroup
+        label="Sex"
+        name="sex"
+        required
+      >
         <UInput v-model="profile.sex" />
       </UFormGroup>
 
-      <UFormGroup label="Birthday" name="birthday" required>
+      <UFormGroup
+        label="Birthday"
+        name="birthday"
+        required
+      >
         <UInput v-model="profile.birthday" />
       </UFormGroup>
 
-      <UFormGroup label="Source" name="source" required>
+      <UFormGroup
+        label="Source"
+        name="source"
+        required
+      >
         <UInput v-model="profile.source" />
       </UFormGroup>
 
-      <UFormGroup label="Emails" name="emails">
+      <UFormGroup
+        label="Emails"
+        name="emails"
+      >
         <input-tags v-model="profile.emails" />
       </UFormGroup>
 
-      <UFormGroup label="Phones" name="phones">
+      <UFormGroup
+        label="Phones"
+        name="phones"
+      >
         <input-tags v-model="profile.phones" />
       </UFormGroup>
 
-      <UButton type="submit" :loading>
+      <UButton
+        type="submit"
+        :loading
+      >
         Submit
       </UButton>
     </UForm>

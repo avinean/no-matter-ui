@@ -51,9 +51,18 @@ const links = [
 <template>
   <div class="flex min-h-screen">
     <div class="w-384 max-h-screen py-6 px-4 bg-slate-800 flex flex-col items-center gap-4 sticky top-0">
-      <img src="/logo.svg" alt="Syns" class="min-w-16" width="70" height="70">
+      <img
+        src="/logo.svg"
+        alt="Syns"
+        class="min-w-16"
+        width="70"
+        height="70"
+      >
 
-      <template v-for="group, key in links" :key>
+      <template
+        v-for="group, key in links"
+        :key
+      >
         <UButton
           v-for="link in group"
           :key="link.to"
@@ -61,13 +70,16 @@ const links = [
           :icon="link.icon"
           :aria-label="link.label"
           class="hover:bg-gray-400"
-          activeClass="bg-gray-400"
+          active-class="bg-gray-400"
           size="sm"
           color="gray"
           square
           variant="solid"
         />
-        <div v-if="key < links.length -1" class="flex-1" />
+        <div
+          v-if="key < links.length -1"
+          class="flex-1"
+        />
       </template>
     </div>
     <div class="w-full p-4">

@@ -24,17 +24,36 @@ async function onSubmit(event: FormSubmitEvent<any>) {
 
 <template>
   <div class="self-center w-full lg:w-1/2">
-    <h1 class="text-2xl text-gray-700 mb-4">Авторизуватись</h1>
-    <UForm :validate="validate" :state="form" class="space-y-4" @submit="onSubmit">
-      <UFormGroup label="Email" name="email">
+    <h1 class="text-2xl text-gray-700 mb-4">
+      Авторизуватись
+    </h1>
+    <UForm
+      :validate="validate"
+      :state="form"
+      class="space-y-4"
+      @submit="onSubmit"
+    >
+      <UFormGroup
+        label="Email"
+        name="email"
+      >
         <UInput v-model="form.email" />
       </UFormGroup>
 
-      <UFormGroup label="Password" name="password">
-        <UInput v-model="form.password" type="password" />
+      <UFormGroup
+        label="Password"
+        name="password"
+      >
+        <UInput
+          v-model="form.password"
+          type="password"
+        />
       </UFormGroup>
 
-      <UButton type="submit" size="lg">
+      <UButton
+        type="submit"
+        size="lg"
+      >
         Submit
       </UButton>
     </UForm>
