@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import type { FormSubmitEvent } from '@nuxt/ui/dist/runtime/types';
 import type { Profile } from '#types/entities';
 
 const emit = defineEmits<{
@@ -9,24 +8,48 @@ const emit = defineEmits<{
 const toast = useToast()
 const loading = ref(false)
 
+const photo = ref()
+
 const profile: Partial<Profile> = reactive({
   firstName:  undefined,
   lastName:  undefined,
   sex: undefined,
   birthday:  undefined,
   source: undefined,
+  image: undefined,
   emails: [],
   phones: [],
 })
 
-async function onCreate({ data }: FormSubmitEvent<Profile>) {
+async function onCreate() {
   loading.value = true
+  let image
+  if (photo.value) {
+    try {
+      const body = new FormData()
+      body.append('photo', photo.value)
+
+      image = await $api<Profile>('/profiles/photo', {
+        method: 'POST',
+        body,
+      })
+    } catch (e) {
+      toast.add({
+        title: 'Error',
+        description: 'An error occured while uploading photo',
+      })
+    }
+  }
+
   try {
-    const profile = await $api<Profile>('/profiles', {
+    const data = await $api<Profile>('/profiles', {
       method: 'POST',
-      body: data,
+      body: {
+        ...profile,
+        image,
+      }
     })
-    emit('submit', profile)
+    emit('submit', data)
   } catch (e) {
     toast.add({
       title: 'Error',
@@ -49,7 +72,10 @@ async function onCreate({ data }: FormSubmitEvent<Profile>) {
       @submit="onCreate"
     >
       <UFormGroup label="Profile phote">
-        <input-file class="block w-40 h-40 rounded-full" />
+        <input-file
+          class="block w-40 h-40 rounded-full"
+          @change="photo = $event"
+        />
       </UFormGroup>
 
       <UFormGroup

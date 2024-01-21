@@ -69,35 +69,39 @@ function onProfileAdded(profile: Profile) {
     </div>
     <div class="w-full flex items-start gap-2 px-2">
       <template v-if="selectedClient">
-        <div class="flex gap-2">
-          <img
-            src="https://picsum.photos/200/300"
-            alt="users photo"
-            width="200"
-            height="300"
-          >
-          <div class="grid grid-cols-[150px,1fr] items-center">
-            <span class="font-bold">First name:</span><span>{{ selectedClient.firstName }}</span>
-            <span class="font-bold">Last name:</span><span>{{ selectedClient.lastName }}</span>
-            <span class="font-bold">Phones:</span><span><UBadge
-              v-for="phone in phones"
-              :key="phone"
-              color="white"
-              variant="solid"
-            >{{ phone }}</UBadge></span>
-            <span class="font-bold">Emails:</span><span><UBadge
-              v-for="email in emails"
-              :key="email"
-              color="white"
-              variant="solid"
-            >{{ email }}</UBadge></span>
-            <span class="font-bold">Sex:</span><span>{{ selectedClient.sex }}</span>
-            <span class="font-bold">Birthday:</span><span>{{ selectedClient.birthday }}</span>
-            <span class="font-bold">Source:</span><span>{{ selectedClient.source }}</span>
-            <span class="font-bold">Balance:</span><span>{{ selectedClient.balance || 0 }}</span>
-            <span class="font-bold">Card:</span><span>{{ selectedClient.cardId || `${selectedClient.id}`.padStart(4, '0') }}</span>
-            <span class="font-bold">Created at:</span><span>{{ selectedClient.createdAt }}</span>
-          </div>
+        <div class="grid grid-cols-3 gap-2">
+          <UCard>
+            <base-image
+              :src="selectedClient.image"
+              alt="users photo"
+              width="200"
+              height="300"
+            />
+          </UCard>  
+          <UCard class="col-span-2">
+            <div class="grid grid-cols-[150px,1fr] items-center">
+              <span class="font-bold">First name:</span><span>{{ selectedClient.firstName }}</span>
+              <span class="font-bold">Last name:</span><span>{{ selectedClient.lastName }}</span>
+              <span class="font-bold">Phones:</span><span><UBadge
+                v-for="phone in phones"
+                :key="phone"
+                color="white"
+                variant="solid"
+              >{{ phone }}</UBadge></span>
+              <span class="font-bold">Emails:</span><span><UBadge
+                v-for="email in emails"
+                :key="email"
+                color="white"
+                variant="solid"
+              >{{ email }}</UBadge></span>
+              <span class="font-bold">Sex:</span><span>{{ selectedClient.sex }}</span>
+              <span class="font-bold">Birthday:</span><span>{{ selectedClient.birthday }}</span>
+              <span class="font-bold">Source:</span><span>{{ selectedClient.source }}</span>
+              <span class="font-bold">Balance:</span><span>{{ selectedClient.balance || 0 }}</span>
+              <span class="font-bold">Card:</span><span>{{ selectedClient.cardId || `${selectedClient.id}`.padStart(4, '0') }}</span>
+              <span class="font-bold">Created at:</span><span>{{ selectedClient.createdAt }}</span>
+            </div>
+          </UCard>
         </div>
       </template>
     </div>

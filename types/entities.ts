@@ -39,5 +39,6 @@ export interface Profile extends Entity {
   source: string;
   balance: number;
   cardId: number;
+  image: string;
   contacts: Contact[];
 }

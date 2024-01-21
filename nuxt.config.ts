@@ -4,6 +4,11 @@ import path from 'node:path'
 export default defineNuxtConfig({
   devtools: { enabled: true },
   ssr: false,
+  runtimeConfig: {
+    public: {
+      baseUrl: process.env.API_BASE_URL || '/',
+    }
+  },
   modules: ['@nuxt/ui', '@pinia/nuxt'],
   pinia: {
     storesDirs: ['./stores/**'],
@@ -18,7 +23,6 @@ export default defineNuxtConfig({
         '/api': {
           target: 'http://localhost:5050',
           changeOrigin: true,
-          rewrite: path => path.replace(/^\/api/, ''),
         },
       },
     },
