@@ -2,6 +2,9 @@
 function random() {
   return `rgb(${Math.random() * 100}, ${Math.random() * 100}, ${Math.random() * 100})`
 }
+definePageMeta({
+  // middleware: 'requires-auth',
+})
 </script>
 
 <template>

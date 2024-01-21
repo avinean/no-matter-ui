@@ -12,6 +12,11 @@ const links = [
       to: '/clients',
     },
     {
+      label: 'Записи',
+      icon: 'i-heroicons-identification',
+      to: '/entries',
+    },
+    {
       label: 'Users',
       icon: 'i-heroicons-user-group',
       to: '/users',

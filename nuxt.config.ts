@@ -9,7 +9,15 @@ export default defineNuxtConfig({
       baseUrl: process.env.API_BASE_URL || '/',
     },
   },
-  modules: ['@nuxt/ui', '@pinia/nuxt'],
+  modules: ['@nuxt/ui', '@pinia/nuxt', '@nuxtjs/google-fonts'],
+  googleFonts: {
+    families: {
+      Raleway: true
+    }
+  },
+  css: [
+      '@/assets/global.css',
+  ],
   pinia: {
     storesDirs: ['./stores/**'],
   },
