@@ -66,10 +66,16 @@ async function onCreate() {
 </script>
 
 <template>
-  <div class="p-2">
-    <h2 class="mb-4">
-      Add profile
-    </h2>
+  <UCard
+    class="flex flex-col flex-1"
+    :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"
+  >
+    <template #header>
+      <h1 class="text-3xl font-bold">
+        Add profile
+      </h1>
+    </template>
+
     <UForm
       :state="profile"
       class="space-y-4 w-full"
@@ -144,5 +150,5 @@ async function onCreate() {
         Submit
       </UButton>
     </UForm>
-  </div>
+  </UCard>
 </template>
