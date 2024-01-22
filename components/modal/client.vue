@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import DatePicker from 'v-calendar';
 import type { Profile } from '#types/entities';
 
 const emit = defineEmits<{
@@ -17,9 +18,9 @@ const profile: Partial<Profile> = reactive({
   birthday:  undefined,
   source: undefined,
   image: undefined,
-  emails: [],
-  phones: [],
 })
+const emails = ref<string[]>([])
+const phones = ref<string[]>([])
 
 async function onCreate() {
   loading.value = true
@@ -46,6 +47,9 @@ async function onCreate() {
       method: 'POST',
       body: {
         ...profile,
+        emails: emails.value,
+        phones: phones.value,
+        birthday: new Date(profile.birthday!).toISOString(),
         image,
       }
     })
@@ -107,8 +111,9 @@ async function onCreate() {
         name="birthday"
         required
       >
-        <UInput v-model="profile.birthday" />
+        <input-date v-model="profile.birthday" />
       </UFormGroup>
+
 
       <UFormGroup
         label="Source"
@@ -122,14 +127,14 @@ async function onCreate() {
         label="Emails"
         name="emails"
       >
-        <input-tags v-model="profile.emails" />
+        <input-tags v-model="emails" />
       </UFormGroup>
 
       <UFormGroup
         label="Phones"
         name="phones"
       >
-        <input-tags v-model="profile.phones" />
+        <input-tags v-model="phones" />
       </UFormGroup>
 
       <UButton

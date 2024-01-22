@@ -50,40 +50,44 @@ const links = [
 
 <template>
   <div class="flex min-h-screen">
-    <div class="w-384 max-h-screen py-6 px-4 bg-slate-800 flex flex-col items-center gap-4 sticky top-0">
-      <img
-        src="/logo.svg"
-        alt="Syns"
-        class="min-w-16"
-        width="70"
-        height="70"
-      >
+    <div class="w-384 max-h-screen bg-slate-800 flex flex-col items-center sticky top-0">
+      <div class="p-4">
+        <img
+          src="/logo.svg"
+          alt="Syns"
+          class="min-w-16"
+          width="70"
+          height="70"
+        >
+      </div>
 
       <template
         v-for="group, key in links"
         :key
       >
-        <UButton
+        <NuxtLink
           v-for="link in group"
           :key="link.to"
           :to="link.to"
-          :icon="link.icon"
           :aria-label="link.label"
-          class="hover:bg-gray-400"
-          active-class="bg-gray-400"
-          size="sm"
-          color="gray"
-          square
-          variant="solid"
-        />
+          class="flex itens-center justify-center w-full py-5 text-gray-100 transition hover:bg-gray-100 hover:text-slate-800"
+          active-class="bg-gray-100 text-slate-800"
+        >
+          <UIcon
+            :name="link.icon"
+            class="text-3xl"
+          />
+        </NuxtLink>
         <div
           v-if="key < links.length -1"
           class="flex-1"
         />
       </template>
     </div>
-    <div class="w-full p-4">
-      <slot />
+    <div class="w-full p-4 bg-gray-100">
+      <div class="p-2 bg-white h-full rounded-xl">
+        <slot />
+      </div>
     </div>  
   </div>
 </template>
