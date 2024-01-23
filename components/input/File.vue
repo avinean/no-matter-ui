@@ -1,7 +1,7 @@
 <template>
   <label
-    :style="{ backgroundImage: `url(${imageUrl || src || 'placeholder.jpg'})`}"
-    class="bg-cover bg-size"
+    :style="{ backgroundImage: `url(${imageUrl || src || '/placeholder.jpg'})`}"
+    class="bg-cover bg-size bg-center cursor-pointer"
   >
     <input
       type="file"

@@ -5,12 +5,13 @@ const emit = defineEmits<{
   submit: [profile: Profile]
 }>()
 
-const model = defineModel<boolean>()
 const toast = useToast()
+const store = useSuggestionsStore()
+store.get('sexes')
+
+const model = defineModel<boolean>()
 const loading = ref(false)
-
 const photo = ref()
-
 const profile: Partial<Profile> = reactive({
   firstName:  undefined,
   lastName:  undefined,
@@ -88,15 +89,10 @@ async function onCreate() {
         class="grid grid-cols-2 gap-x-4 gap-y-2"
         @submit="onCreate"
       >
-        <UFormGroup
-          label="Profile phote"
+        <input-file
           class="row-span-5"
-        >
-          <input-file
-            class="block w-full aspect-square"
-            @change="photo = $event"
-          />
-        </UFormGroup>
+          @change="photo = $event"
+        />
 
         <UFormGroup
           label="First name"
@@ -119,7 +115,10 @@ async function onCreate() {
           name="sex"
           required
         >
-          <UInput v-model="profile.sex" />
+          <USelect
+            v-model="profile.sex"
+            :options="store.suggestions.sexes"
+          />
         </UFormGroup>
 
         <UFormGroup

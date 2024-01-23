@@ -9,7 +9,7 @@ const { data } = useApi<Profile[]>('/profiles')
 const newClients = ref<Profile[]>([])
 const commandPaletteRef = ref()
 const isOpen = ref(false)
-
+const isEdit = ref(false)
 const selectedClient = ref<Profile>(null)
 const emails = computed(() => selectedClient.value?.contacts
   .filter(({ type }) => type === ContactType.Email)
@@ -68,6 +68,7 @@ function onProfileAdded(profile: Profile) {
       
       <modal-client
         v-model="isOpen"
+        :preset="isEdit ? selectedClient : null"
         @submit="onProfileAdded"
       />
     </div>
