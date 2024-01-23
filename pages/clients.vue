@@ -65,9 +65,11 @@ function onProfileAdded(profile: Profile) {
           </div>
         </template>
       </UCommandPalette>
-      <USlideover v-model="isOpen">
-        <modal-client @submit="onProfileAdded" />
-      </USlideover> 
+      
+      <modal-client
+        v-model="isOpen"
+        @submit="onProfileAdded"
+      />
     </div>
     <div class="w-full flex items-start gap-2 pl-2">
       <template v-if="selectedClient">
@@ -99,11 +101,11 @@ function onProfileAdded(profile: Profile) {
                 variant="solid"
               >{{ email }}</UBadge></span>
               <span class="font-bold">Sex:</span><span>{{ selectedClient.sex }}</span>
-              <span class="font-bold">Birthday:</span><span><base-datetime :date="selectedClient.birthday"/></span>
+              <span class="font-bold">Birthday:</span><span><base-datetime :date="selectedClient.birthday" /></span>
               <span class="font-bold">Source:</span><span>{{ selectedClient.source }}</span>
               <span class="font-bold">Balance:</span><span>{{ selectedClient.balance || 0 }}</span>
               <span class="font-bold">Card:</span><span>{{ selectedClient.cardId || `${selectedClient.id}`.padStart(4, '0') }}</span>
-              <span class="font-bold">Created at:</span><span><base-datetime :date="selectedClient.createdAt"/></span>
+              <span class="font-bold">Created at:</span><span><base-datetime :date="selectedClient.createdAt" /></span>
             </div>
           </UCard>
         </div>

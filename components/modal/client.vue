@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import DatePicker from 'v-calendar';
 import type { Profile } from '#types/entities';
 
 const emit = defineEmits<{
   submit: [profile: Profile]
 }>()
 
+const model = defineModel<boolean>()
 const toast = useToast()
 const loading = ref(false)
 
@@ -66,89 +66,103 @@ async function onCreate() {
 </script>
 
 <template>
-  <UCard
-    class="flex flex-col flex-1"
-    :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"
+  <UModal
+    v-model="model"
+    :ui="{
+      width: 'sm:max-w-4xl'
+    }"
   >
-    <template #header>
-      <h1 class="text-3xl font-bold">
-        Add profile
-      </h1>
-    </template>
-
-    <UForm
-      :state="profile"
-      class="space-y-4 w-full"
-      @submit="onCreate"
+    <UCard
+      class="flex flex-col flex-1"
+      :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"
     >
-      <UFormGroup label="Profile phote">
-        <input-file
-          class="block w-40 h-40 rounded-full"
-          @change="photo = $event"
-        />
-      </UFormGroup>
+      <template #header>
+        <h1 class="text-3xl font-bold">
+          Add profile
+        </h1>
+      </template>
 
-      <UFormGroup
-        label="First name"
-        name="firstName"
-        required
+      <UForm
+        ref="form"
+        :state="profile"
+        class="grid grid-cols-2 gap-x-4 gap-y-2"
+        @submit="onCreate"
       >
-        <UInput v-model="profile.firstName" />
-      </UFormGroup>
+        <UFormGroup
+          label="Profile phote"
+          class="row-span-5"
+        >
+          <input-file
+            class="block w-full aspect-square"
+            @change="photo = $event"
+          />
+        </UFormGroup>
 
-      <UFormGroup
-        label="Last name"
-        name="lastName"
-        required
-      >
-        <UInput v-model="profile.lastName" />
-      </UFormGroup>
+        <UFormGroup
+          label="First name"
+          name="firstName"
+          required
+        >
+          <UInput v-model="profile.firstName" />
+        </UFormGroup>
 
-      <UFormGroup
-        label="Sex"
-        name="sex"
-        required
-      >
-        <UInput v-model="profile.sex" />
-      </UFormGroup>
+        <UFormGroup
+          label="Last name"
+          name="lastName"
+          required
+        >
+          <UInput v-model="profile.lastName" />
+        </UFormGroup>
 
-      <UFormGroup
-        label="Birthday"
-        name="birthday"
-        required
-      >
-        <input-date v-model="profile.birthday" />
-      </UFormGroup>
+        <UFormGroup
+          label="Sex"
+          name="sex"
+          required
+        >
+          <UInput v-model="profile.sex" />
+        </UFormGroup>
+
+        <UFormGroup
+          label="Birthday"
+          name="birthday"
+          required
+        >
+          <input-date v-model="profile.birthday" />
+        </UFormGroup>
 
 
-      <UFormGroup
-        label="Source"
-        name="source"
-        required
-      >
-        <UInput v-model="profile.source" />
-      </UFormGroup>
+        <UFormGroup
+          label="Source"
+          name="source"
+          required
+        >
+          <UInput v-model="profile.source" />
+        </UFormGroup>
 
-      <UFormGroup
-        label="Emails"
-        name="emails"
-      >
-        <input-tags v-model="emails" />
-      </UFormGroup>
+        <UFormGroup
+          label="Emails"
+          name="emails"
+        >
+          <input-tags v-model="emails" />
+        </UFormGroup>
 
-      <UFormGroup
-        label="Phones"
-        name="phones"
-      >
-        <input-tags v-model="phones" />
-      </UFormGroup>
-
-      <UButton
-        type="submit"
-        :loading
-      >
-        Submit
-      </UButton>
-    </UForm>
-  </UCard>
+        <UFormGroup
+          label="Phones"
+          name="phones"
+        >
+          <input-tags v-model="phones" />
+        </UFormGroup>
+      </UForm>
+      <template #footer>
+        <div class="flex justify-end">
+          <UButton
+            :loading
+            @click="$refs.form.submit()"
+          >
+            Submit
+          </UButton>
+        </div>
+      </template>
+    </UCard>
+  </UModal>
 </template>
