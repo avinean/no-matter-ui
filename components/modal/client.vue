@@ -19,13 +19,12 @@ const photo = ref()
 const profile: Partial<Profile> = reactive({
   firstName: props.preset?.firstName,
   lastName: props.preset?.lastName,
+  phone: props.preset?.phone,
   sex: props.preset?.sex,
   birthday: props.preset?.birthday,
   source: props.preset?.source,
   image: props.preset?.image,
 })
-const emails = ref<string[]>(props.preset?.emails.map(e => e.value) || [])
-const phones = ref<string[]>(props.preset?.phones.map(e => e.value) || [])
 
 async function onCreateOrUpdate() {
   loading.value = true
@@ -56,8 +55,6 @@ async function onCreateOrUpdate() {
       method,
       body: {
         ...profile,
-        emails: emails.value,
-        phones: phones.value,
         birthday: new Date(profile.birthday!).toISOString(),
         image,
       },
@@ -68,7 +65,7 @@ async function onCreateOrUpdate() {
   catch (e) {
     toast.add({
       title: 'Error',
-      description: e.data.message,
+      description: 'Користувача з таким номером телефону вже зареєстровано',
     })
   }
   finally {
@@ -95,7 +92,7 @@ async function onCreateOrUpdate() {
       @submit="onCreateOrUpdate"
     >
       <input-file
-        class="row-span-5"
+        class="row-span-6"
         :src="profile.image ? `${baseUrl}/${profile.image}` : null"
         @change="photo = $event"
       />
@@ -114,6 +111,14 @@ async function onCreateOrUpdate() {
         required
       >
         <UInput v-model="profile.lastName" />
+      </UFormGroup>
+
+      <UFormGroup
+        label="Phone number"
+        name="phone"
+        required
+      >
+        <UInput v-model="profile.phone" />
       </UFormGroup>
 
       <UFormGroup
@@ -141,20 +146,6 @@ async function onCreateOrUpdate() {
         required
       >
         <UInput v-model="profile.source" />
-      </UFormGroup>
-
-      <UFormGroup
-        label="Emails"
-        name="emails"
-      >
-        <input-tags v-model="emails" />
-      </UFormGroup>
-
-      <UFormGroup
-        label="Phones"
-        name="phones"
-      >
-        <input-tags v-model="phones" />
       </UFormGroup>
     </UForm>
     <template #footer>

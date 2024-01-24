@@ -3,7 +3,7 @@ import { DatePicker as VCalendarDatePicker } from 'v-calendar'
 import 'v-calendar/dist/style.css'
 
 const props = defineProps(['mode'])
-const model = defineModel<Date>()
+const model = defineModel<Date | string>()
 const label = computed(() => model.value?.toLocaleDateString?.('uk-ua', {
   weekday: 'long',
   year: 'numeric',
@@ -14,6 +14,7 @@ const label = computed(() => model.value?.toLocaleDateString?.('uk-ua', {
   hour12: false,
 }))
 const datePickerMode = ref(props.mode || 'date')
+
 </script>
 
 <template>
