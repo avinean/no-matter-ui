@@ -8,21 +8,23 @@ const label = computed(() => model.value?.toLocaleDateString?.('uk-ua', { weekda
 
 <template>
   <UPopover :popper="{ placement: 'bottom-start' }">
-    <UButtonGroup
-      class="w-full"
-      size="sm"
-      orientation="horizontal"
-    >
-      <UInput
-        v-model="label"
-        class="w-full"
-        disabled
-      />
-      <UButton
-        icon="i-heroicons-calendar"
-        color="gray"
-      />
-    </UButtonGroup>
+    <slot>
+      <UButtonGroup
+          class="w-full"
+          size="sm"
+          orientation="horizontal"
+      >
+        <UInput
+            v-model="label"
+            class="w-full"
+            disabled
+        />
+        <UButton
+            icon="i-heroicons-calendar"
+            color="gray"
+        />
+      </UButtonGroup>
+    </slot>
     <template #panel="{ close }">
       <VCalendarDatePicker
         v-model="model"

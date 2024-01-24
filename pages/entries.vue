@@ -9,8 +9,9 @@ import FullCalendar from '@fullcalendar/vue3'
 import interactionPlugin from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import dayGridPlugin from '@fullcalendar/daygrid'
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import type {CalendarOptions} from "@fullcalendar/core";
+
 const todayButtonText = computed(() => `${new Date().toLocaleDateString()}`);
 
 const getEventStyle = (event: boolean) => ({
@@ -24,14 +25,14 @@ const getEventStyle = (event: boolean) => ({
   'width': '100%'
 });
 const calendarRef = ref()
-console.log(calendarRef, 'calendarRef')
+ const selectedCalendarDay = ref()
+ const currentCalendarView = ref();
 const handleEventClick = (clickInfo: any) => {
-  console.log(clickInfo, 'clickInfo')
-  console.log(clickInfo.event.extendedProps, 'all props without title')
-  console.log(clickInfo.event.title, 'event title')
+  // console.log(clickInfo, 'clickInfo')
+  // console.log(clickInfo.event.extendedProps, 'all props without title')
+  // console.log(clickInfo.event.title, 'event title')
   // clickInfo.event.remove()
 }
-
 
 const options = {
   plugins: [interactionPlugin, timeGridPlugin, dayGridPlugin],
@@ -41,6 +42,10 @@ const options = {
   selectable: true,
   droppable: true,
   locale: 'UK',
+  viewDidMount: (viewInfo) => {
+    // Update the currentView variable
+    currentCalendarView.value = viewInfo.view.type;
+  },
   timeZone: 'local',
   events: store.events,
   eventColor: 'transparent',
@@ -65,34 +70,41 @@ const options = {
   dayHeaderContent: '',
   headerToolbar: {
     start: '', // Change the placement of buttons
-    // center: 'title',
     end: '', // Change the placement of buttons
   },
 } satisfies CalendarOptions
 
+
+
+ // Function to update the selectedDate variable
+
 onMounted(() => {
   if (calendarRef.value) {
     calendarRef.value = calendarRef.value.getApi();
+    selectedCalendarDay.value = calendarRef.value.getDate();
   }
 });
-
 const goToPrev = () => {
   calendarRef.value.prev();
+  // selectedCalendarDay.value = calendarRef.value.getDate()
 };
 
 const goToToday = () => {
   calendarRef.value.today();
 };
 
+const goToSelectedDate = (val: Date) => {
+  calendarRef.value.gotoDate(val);
+}
+
 const goToNext = () => {
   calendarRef.value.next();
 };
 
 const changeView = (view: string) => {
-  // Call the changeView method to switch to the specified view
   calendarRef.value?.changeView(view);
 };
-
+ console.log(currentCalendarView, 'currentCalendarView')
 </script>
 
 <template>
@@ -106,7 +118,7 @@ const changeView = (view: string) => {
               class="px-6 py-3 flex items-center cursor-pointer"
               @click="goToPrev"
           >
-            <UIcon style="font-size: 1.5rem;" name="i-heroicons-chevron-left" class="text-gray-900"  />
+            <UIcon   name="i-heroicons-chevron-left" class="text-xl text-gray-900"  />
           </div>
         </div>
         <div
@@ -115,38 +127,44 @@ const changeView = (view: string) => {
         >
           Сьогодні
         </div>
-        <div class="flex gap-4 px-6 py-3 border-l-4 border-r-4">
+        <div class="flex items-center gap-4 px-6 py-2 border-l-4 border-r-4">
           {{todayButtonText}}
+          {{currentCalendarView}}
+<!--          <base-datetime v-if="selectedCalendarDay" :date="selectedCalendarDay"  :date-style="'medium'" />-->
+          <input-date
+              @update:model-value="goToSelectedDate"
+          >
+            <UButton
+                size="xs"
+                icon="i-heroicons-calendar-days-solid"
+                color="gray"
+             />
+          </input-date>
         </div>
         <div class="px-4 py-3 border-r-4">
           {{getCurrentDayName()}}
         </div>
         <div>
           <div @click="goToNext" class="px-6 py-3 flex items-center cursor-pointer" >
-            <UIcon style="font-size: 1.5rem;" name="i-heroicons-chevron-right" class="text-gray-900" />
+            <UIcon  name="i-heroicons-chevron-right" class="text-gray-900 text-xl" />
           </div>
         </div>
-
-<!--        <button class="flex gap-4 px-4 py-3 border-l-4 border-r-4 border-gray-900" @click="goToToday">-->
-<!--          <span>-->
-<!--             {{todayButtonText}}-->
-<!--          </span> <span>-->
-<!--          1-->
-
-<!--          </span>-->
-
-<!--        </button>-->
-
       </div>
       <div>
-        <button @click="changeView('dayGridMonth')">Місяць</button>
-        <button @click="changeView('timeGridWeek')">Тиждень</button>
-        <button @click="changeView('timeGridDay')">День</button>
+        <UButton
+            color="gray"
+            @click="changeView('dayGridMonth')">Місяць</UButton>
+        <UButton
+            color="gray"
+            @click="changeView('timeGridWeek')">Тиждень</UButton>
+        <UButton
+            color="gray"
+            @click="changeView('timeGridDay')">День</UButton>
       </div>
     </div>
 
 
-    <FullCalendar :options="options" ref="calendarRef" class="syns_calendar">
+    <FullCalendar   :options="options" ref="calendarRef" class="syns_calendar">
       <template v-slot:eventContent="arg">
 
         <UPopover
@@ -164,10 +182,9 @@ const changeView = (view: string) => {
             <div class="rounded-md bg-gray-300 p-2"
             >
                 <span>
-                {{ new Date(arg.event.start).getHours() }} :
-                  {{new Date(arg.event.start).getMinutes().toString().padStart(2, '0')}}
-                  - {{ new Date(arg.event.end).getHours()}} :
-                   {{new Date(arg.event.end).getMinutes().toString().padStart(2, '0')}}
+                  <base-datetime :date="arg.event.start"  :time-style="'short'" />
+                  -
+                  <base-datetime :date="arg.event.end"  :time-style="'short'" />
                 </span><br>
               <span>{{ arg.event.title }}</span><br>
               <span>{{ arg.event.extendedProps.userName }}</span><br>
