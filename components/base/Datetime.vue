@@ -6,7 +6,7 @@ const props = defineProps<{
 }>()
 
 const formattedDate = computed(() => new Intl.DateTimeFormat('uk', {
-  dateStyle: props.dateStyle || 'medium',
+  dateStyle: props.dateStyle,
   timeStyle: props.timeStyle,
 }).format(new Date(props.date)))
 </script>

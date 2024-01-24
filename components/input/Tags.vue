@@ -3,10 +3,11 @@ const model = defineModel<string[]>({ default: () => [] })
 const value = ref('')
 
 function add() {
-  if (!value.value || model.value.includes(value.value))
+  const v = value.value.trim()
+  if (!v || model.value.includes(v))
     return value.value = ''
 
-  model.value = [...model.value, value.value]
+  model.value = [...model.value, v]
   value.value = ''
 }
 

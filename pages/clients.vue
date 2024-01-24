@@ -8,7 +8,7 @@ const newClients = ref<Profile[]>([])
 const commandPaletteRef = ref()
 const isOpen = ref(false)
 const isEdit = ref(false)
-const selectedClient = ref<Profile>(null)
+const selectedClient = ref<Profile | null>(null)
 
 const groups = computed(() => [{
   key: 'users',
@@ -20,18 +20,16 @@ const groups = computed(() => [{
   })),
 }])
 
-function onSelect({ client }) {
+function onSelect({ client }: { client: Profile }) {
   selectedClient.value = client
 }
 
 function onProfileAddedOrEdited(profile: Profile) {
-  if (isEdit.value) {
-    const index = newClients.value.findIndex(client => client.id === profile.id)
-    newClients.value.splice(index, 1, profile)
-  }
-  else {
+  if (isEdit.value)
+    Object.assign(selectedClient.value!, profile)
+  else
     newClients.value.push(profile)
-  }
+
   isOpen.value = false
   isEdit.value = false
 }
@@ -70,6 +68,7 @@ function onProfileAddedOrEdited(profile: Profile) {
         :ui="{
           width: 'sm:max-w-4xl',
         }"
+        @close="isEdit = false"
       >
         <modal-client
           v-if="isOpen"

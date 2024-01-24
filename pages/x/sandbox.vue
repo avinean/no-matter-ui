@@ -1,3 +1,8 @@
+<script setup lang="ts">
+const dateStyle = ref()
+const timeStyle = ref()
+</script>
+
 <template>
   <div class="space-y-8">
     <div>
@@ -18,7 +23,9 @@
     </div>
     <div>
       base-datetime
-      <div><base-datetime :date="Date()" /></div>
+      <USelect v-model="dateStyle" :options="['full', 'long','medium','short']"/>
+      <USelect v-model="timeStyle" :options="['full', 'long','medium','short']"/>
+      <div><base-datetime :date="Date()" :date-style="dateStyle" :time-style="timeStyle" /></div>
     </div>
   </div>
 </template>

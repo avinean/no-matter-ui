@@ -2,7 +2,7 @@
 import type { Profile } from '#types/entities'
 
 const props = defineProps<{
-  preset: Profile
+  preset?: Profile | null
 }>()
 
 const emit = defineEmits<{
@@ -66,13 +66,9 @@ async function onCreateOrUpdate() {
     emit('submit', data)
   }
   catch (e) {
-    const errorMessage = props.preset?.id
-      ? 'An error occurred while updating the profile'
-      : 'An error occurred while creating the profile'
-
     toast.add({
       title: 'Error',
-      description: errorMessage,
+      description: e.data.message,
     })
   }
   finally {
