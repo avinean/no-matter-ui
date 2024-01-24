@@ -85,24 +85,24 @@ onMounted(() => {
   }
 });
 const goToPrev = () => {
-  calendarRef.value.prev();
+  calendarRef?.value.prev();
   // selectedCalendarDay.value = calendarRef.value.getDate()
 };
 
 const goToToday = () => {
-  calendarRef.value.today();
+  calendarRef?.value.today();
 };
 
 const goToSelectedDate = (val: Date) => {
-  calendarRef.value.gotoDate(val);
+  calendarRef?.value.gotoDate(val);
 }
 
 const goToNext = () => {
-  calendarRef.value.next();
+  calendarRef?.value.next();
 };
 
 const changeView = (view: string) => {
-  calendarRef.value?.changeView(view);
+  calendarRef?.value?.changeView(view);
 };
  console.log(currentCalendarView, 'currentCalendarView')
 </script>
