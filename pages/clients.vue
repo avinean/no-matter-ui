@@ -99,23 +99,12 @@ function onProfileAddedOrEdited(profile: Profile) {
               />
             </h1>
             <div class="grid grid-cols-[150px,1fr] items-center">
-              <span class="font-bold">Phones:</span><span><UBadge
-                v-for="phone in selectedClient.phones"
-                :key="phone.value"
-                color="white"
-                variant="solid"
-              >{{ phone.value }}</UBadge></span>
-              <span class="font-bold">Emails:</span><span><UBadge
-                v-for="email in selectedClient.emails"
-                :key="email.value"
-                color="white"
-                variant="solid"
-              >{{ email.value }}</UBadge></span>
-              <span class="font-bold">Sex:</span><span>{{ selectedClient.sex }}</span>
-              <span class="font-bold">Birthday:</span><span><base-datetime :date="selectedClient.birthday" /></span>
+              <span class="font-bold">Номер телефону:</span><span>{{ selectedClient.phone }}</span>
+              <span class="font-bold">Стать:</span><span>{{ selectedClient.sex }}</span>
+              <span class="font-bold">День народжння:</span><span><base-datetime :date="selectedClient.birthday" /></span>
+              <span class="font-bold">Баланс:</span><span>{{ selectedClient.balance || 0 }}</span>
+              <span class="font-bold">Номер картки:</span><span>{{ selectedClient.cardId || `${selectedClient.id}`.padStart(4, '0') }}</span>
               <span class="font-bold">Source:</span><span>{{ selectedClient.source }}</span>
-              <span class="font-bold">Balance:</span><span>{{ selectedClient.balance || 0 }}</span>
-              <span class="font-bold">Card:</span><span>{{ selectedClient.cardId || `${selectedClient.id}`.padStart(4, '0') }}</span>
               <span class="font-bold">Created at:</span><span><base-datetime :date="selectedClient.createdAt" /></span>
             </div>
           </UCard>

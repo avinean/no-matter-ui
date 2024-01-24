@@ -32,12 +32,11 @@ export interface Contact extends Entity {
 export interface Profile extends Entity {
   firstName: string
   lastName: string
+  phone: string
   sex: string
   birthday: Date
   source: string
   balance: number
   cardId: number
   image: string
-  emails: Contact[]
-  phones: Contact[]
 }
