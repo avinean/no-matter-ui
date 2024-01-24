@@ -1,10 +1,3 @@
-<template>
-  <img
-    v-bind="$props"
-    :src="`${baseUrl}/${src}`"
-  >
-</template>
-
 <script setup lang="ts">
 defineProps<{
   src: string
@@ -16,3 +9,10 @@ defineProps<{
 
 const { baseUrl } = useRuntimeConfig().public
 </script>
+
+<template>
+  <img
+    v-bind="$props"
+    :src="`${baseUrl}/${src}`"
+  >
+</template>

@@ -13,11 +13,11 @@ export const useGlobalStore = defineStore('global', () => {
     cookie.value = data?.access_token
     getUser()
     useRouter().push('/')
-  
   }
 
   async function getUser() {
-    if (user.value) return
+    if (user.value)
+      return
 
     user.value = await $api<User>('/users/me')
   }
@@ -25,6 +25,6 @@ export const useGlobalStore = defineStore('global', () => {
   return {
     user,
     login,
-    getUser
+    getUser,
   }
 })

@@ -1,6 +1,8 @@
-import type { FetchOptions } from "ohmyfetch";
+import type { FetchOptions } from 'ohmyfetch'
 
-export const useApi = <T>(url: string, opts?: FetchOptions) => useAsyncData(
-  url,
-  () => $api<T>(url, opts)
-)
+export function useApi<T>(url: string, opts?: FetchOptions) {
+  return useAsyncData(
+    url,
+    () => $api<T>(url, opts),
+  )
+}

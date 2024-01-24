@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { FormError, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types';
-import type { Material, MaterialTransaction } from '#types/entities';
+import type { FormError, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types'
+import type { Material, MaterialTransaction } from '#types/entities'
 
 const items = ref()
 items.value = await $api<Material[]>('/materials')
@@ -34,7 +34,7 @@ function validate(state: any): FormError[] {
 }
 
 async function onAddMaterial(event: FormSubmitEvent<Partial<Material>>) {
-  const response = await $api<Material>('/materials', {
+  await $api<Material>('/materials', {
     method: 'POST',
     body: event.data,
   })
@@ -44,22 +44,21 @@ async function onAddMaterial(event: FormSubmitEvent<Partial<Material>>) {
 async function onCreateTransaction(event: FormSubmitEvent<Partial<MaterialTransaction>>) {
   const response = await $api<MaterialTransaction>('/materials/transactions', {
     method: 'POST',
-    body: event.data
+    body: event.data,
   })
   transactions.value.unshift(response)
   items.value = items.value.map((item) => {
-    const _item = {...item}
+    const _item = { ...item }
     if (_item.id === event.data.materialId) {
-      if (!event.data.type) {
+      if (!event.data.type)
         _item.quantity += event.data.quantity
-      } else {
+      else
         _item.quantity -= event.data.quantity
-      }
     }
     return _item
-})
+  })
   addTransaction.value = false
-} 
+}
 </script>
 
 <template>
@@ -82,7 +81,7 @@ async function onCreateTransaction(event: FormSubmitEvent<Partial<MaterialTransa
       label="Add Material"
       @click="addTransaction = true"
     />
-  </div> 
+  </div>
 
   <UModal v-model="createMaterial">
     <div class="p-4">

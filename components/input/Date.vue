@@ -3,7 +3,7 @@ import { DatePicker as VCalendarDatePicker } from 'v-calendar'
 import 'v-calendar/dist/style.css'
 
 const model = defineModel<Date>()
-const label = computed(() => model.value?.toLocaleDateString('uk-ua', { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' }))
+const label = computed(() => model.value?.toLocaleDateString?.('uk-ua', { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' }))
 </script>
 
 <template>
@@ -30,7 +30,7 @@ const label = computed(() => model.value?.toLocaleDateString('uk-ua', { weekday:
         expanded
         :attributes="[{
           key: 'today',
-          dates: new Date()
+          dates: new Date(),
         }]"
         :first-day-of-week="2"
         @update:model-value="close"

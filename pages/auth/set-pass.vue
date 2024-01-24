@@ -26,7 +26,7 @@ async function onSubmit(event: FormSubmitEvent<any>) {
       token: route.query.t,
     },
   })
-  
+
   router.push('/auth/sign-in')
 }
 </script>

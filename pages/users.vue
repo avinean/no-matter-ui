@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { User } from '#types/entities';
+import type { User } from '#types/entities'
 
 const { data, pending, error, refresh } = useApi<User[]>('/users')
 </script>

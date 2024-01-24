@@ -1,7 +1,5 @@
-
 <script setup lang="ts">
 import type { Profile } from '#types/entities'
-import { ContactType } from '#types/enums'
 
 const { baseUrl } = useRuntimeConfig().public
 
@@ -11,19 +9,13 @@ const commandPaletteRef = ref()
 const isOpen = ref(false)
 const isEdit = ref(false)
 const selectedClient = ref<Profile>(null)
-const emails = computed(() => selectedClient.value?.contacts
-  .filter(({ type }) => type === ContactType.Email)
-  .map(({ value }) => value)
-)
-const phones = computed(() => selectedClient.value?.contacts
-  .filter(({ type }) => type === ContactType.Phone)
-  .map(({ value }) => value)
-)
 
 const groups = computed(() => [{
   key: 'users',
-  commands: [...newClients.value, ...(data.value || [])].map((client) => ({
-    id: client.id, label: `${client.firstName} ${client.lastName}`, client,
+  commands: [...newClients.value, ...(data.value || [])].map(client => ({
+    id: client.id,
+    label: `${client.firstName} ${client.lastName}`,
+    client,
     avatar: { src: `${baseUrl}/${client.image}`, loading: 'lazy' },
   })),
 }])
@@ -32,9 +24,16 @@ function onSelect({ client }) {
   selectedClient.value = client
 }
 
-function onProfileAdded(profile: Profile) {
-  newClients.value.push(profile)
+function onProfileAddedOrEdited(profile: Profile) {
+  if (isEdit.value) {
+    const index = newClients.value.findIndex(client => client.id === profile.id)
+    newClients.value.splice(index, 1, profile)
+  }
+  else {
+    newClients.value.push(profile)
+  }
   isOpen.value = false
+  isEdit.value = false
 }
 </script>
 
@@ -65,12 +64,20 @@ function onProfileAdded(profile: Profile) {
           </div>
         </template>
       </UCommandPalette>
-      
-      <modal-client
+
+      <UModal
         v-model="isOpen"
-        :preset="isEdit ? selectedClient : null"
-        @submit="onProfileAdded"
-      />
+        :ui="{
+          width: 'sm:max-w-4xl',
+        }"
+      >
+        <modal-client
+          v-if="isOpen"
+          :preset="isEdit ? selectedClient : null"
+          @submit="onProfileAddedOrEdited"
+          @close="isOpen = false; isEdit = false"
+        />
+      </UModal>
     </div>
     <div class="w-full flex items-start gap-2 pl-2">
       <template v-if="selectedClient">
@@ -83,24 +90,28 @@ function onProfileAdded(profile: Profile) {
               width="200"
               height="300"
             />
-          </UCard>  
+          </UCard>
           <UCard class="lg:col-span-2">
-            <h1 class="font-bold text-xl">
+            <h1 class="flex justify-between font-bold text-xl">
               {{ selectedClient.firstName }} {{ selectedClient.lastName }}
+              <UButton
+                icon="i-heroicons-pencil-square"
+                @click="isEdit = true; isOpen = true"
+              />
             </h1>
             <div class="grid grid-cols-[150px,1fr] items-center">
               <span class="font-bold">Phones:</span><span><UBadge
-                v-for="phone in phones"
-                :key="phone"
+                v-for="phone in selectedClient.phones"
+                :key="phone.value"
                 color="white"
                 variant="solid"
-              >{{ phone }}</UBadge></span>
+              >{{ phone.value }}</UBadge></span>
               <span class="font-bold">Emails:</span><span><UBadge
-                v-for="email in emails"
-                :key="email"
+                v-for="email in selectedClient.emails"
+                :key="email.value"
                 color="white"
                 variant="solid"
-              >{{ email }}</UBadge></span>
+              >{{ email.value }}</UBadge></span>
               <span class="font-bold">Sex:</span><span>{{ selectedClient.sex }}</span>
               <span class="font-bold">Birthday:</span><span><base-datetime :date="selectedClient.birthday" /></span>
               <span class="font-bold">Source:</span><span>{{ selectedClient.source }}</span>
@@ -114,4 +125,3 @@ function onProfileAdded(profile: Profile) {
     </div>
   </div>
 </template>
-

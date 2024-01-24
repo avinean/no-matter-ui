@@ -3,15 +3,15 @@ const model = defineModel<string[]>({ default: () => [] })
 const value = ref('')
 
 function add() {
-  if (!value.value || model.value.includes(value.value)) {
+  if (!value.value || model.value.includes(value.value))
     return value.value = ''
-  }
+
   model.value = [...model.value, value.value]
   value.value = ''
 }
 
 function remove(item: string) {
-  model.value = model.value.filter((i) => i !== item)
+  model.value = model.value.filter(i => i !== item)
 }
 </script>
 

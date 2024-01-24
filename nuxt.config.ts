@@ -7,7 +7,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       baseUrl: process.env.API_BASE_URL || '/',
-    }
+    },
   },
   modules: ['@nuxt/ui', '@pinia/nuxt'],
   pinia: {

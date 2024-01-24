@@ -1,5 +1,4 @@
 <script setup>
-
 const links = [
   [
     {
@@ -79,7 +78,7 @@ const links = [
           />
         </NuxtLink>
         <div
-          v-if="key < links.length -1"
+          v-if="key < links.length - 1"
           class="flex-1"
         />
       </template>
@@ -88,6 +87,6 @@ const links = [
       <div class="p-2 bg-white h-full rounded-xl">
         <slot />
       </div>
-    </div>  
+    </div>
   </div>
 </template>

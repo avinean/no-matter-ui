@@ -1,14 +1,14 @@
-type Suggestion = {
+interface Suggestion {
   label: string
   value: string
 }
 
-type Key =  'contactTypes'
-  |'materialTransactionTypes'
-  |'roles'
-  |'sexes'
+type Key = 'contactTypes'
+  | 'materialTransactionTypes'
+  | 'roles'
+  | 'sexes'
   | 'profileConnectionTypes'
-  
+
 const endpoints = {
   contactTypes: '/suggestions/contact-types',
   materialTransactionTypes: '/suggestions/material-transaction-types',
@@ -18,7 +18,6 @@ const endpoints = {
 }
 
 export const useSuggestionsStore = defineStore('suggestions', () => {
-
   const suggestions = ref<Record<Key, Suggestion[]>>({
     contactTypes: [],
     materialTransactionTypes: [],
@@ -36,9 +35,9 @@ export const useSuggestionsStore = defineStore('suggestions', () => {
   })
 
   function get(suggestion: Key) {
-    if (suggestions.value[suggestion].length) {
+    if (suggestions.value[suggestion].length)
       return
-    }
+
     loading.value[suggestion] = true
     $api<Suggestion[]>(endpoints[suggestion]).then((data) => {
       suggestions.value[suggestion] = data
