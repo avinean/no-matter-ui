@@ -39,7 +39,7 @@ function remove(item: string) {
       @click="remove(item)"
     >
       {{ item }}
-      <UIcon name="i-heroicons-x-mark" />
+      <UIcon  name="i-heroicons-x-mark" />
     </UBadge>
   </div>
 </template>

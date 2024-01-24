@@ -4,12 +4,10 @@ export default defineNuxtRouteMiddleware(async (to) => {
     if (!auth.user) {
       try {
         await auth.getUser()
-      }
-      catch (_e) {
+      } catch (_e) {
         return navigateTo('/auth/sign-in')
       }
     }
-    if (!auth.user)
-      return navigateTo('/auth/sign-in')
+    if (!auth.user) return navigateTo('/auth/sign-in')
   }
 })
