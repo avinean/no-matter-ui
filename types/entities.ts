@@ -37,6 +37,7 @@ export interface Profile extends Entity {
   birthday: Date
   source: string
   balance: number
+  status: boolean
   cardId: number
   image: string
 }
