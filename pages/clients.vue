@@ -2,6 +2,7 @@
 import type { Profile } from '#types/entities'
 
 const { baseUrl } = useRuntimeConfig().public
+const toast = useToast()
 
 const { data } = useApi<Profile[]>('/profiles')
 const newClients = ref<Profile[]>([])
@@ -32,6 +33,24 @@ function onProfileAddedOrEdited(profile: Profile) {
 
   isOpen.value = false
   isEdit.value = false
+}
+
+function updateStatus(status: boolean) {
+  $api(`/profiles/${selectedClient.value!.id}/status`, {
+    method: 'PUT',
+    body: { status },
+  }).then(() => {
+    selectedClient.value!.status = status
+    toast.add({
+      title: 'Вдалося!',
+      description: 'Статус успішно змінено',
+    })
+  }).catch(() => {
+    toast.add({
+      title: 'Помилка!',
+      description: 'Не вдалось змінити статус',
+    })
+  })
 }
 </script>
 
@@ -85,10 +104,18 @@ function onProfileAddedOrEdited(profile: Profile) {
             <base-image
               :src="selectedClient.image"
               alt="users photo"
-              class="w-full"
+              class="w-full mb-4"
               width="200"
               height="300"
             />
+            <UFormGroup label="Статус">
+              <UToggle
+                on-icon="i-heroicons-check-20-solid"
+                off-icon="i-heroicons-x-mark-20-solid"
+                :model-value="selectedClient.status"
+                @update:model-value="updateStatus"
+              />
+            </UFormGroup>
           </UCard>
           <UCard class="lg:col-span-2">
             <h1 class="flex justify-between font-bold text-xl">

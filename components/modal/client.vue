@@ -38,11 +38,12 @@ async function onCreateOrUpdate() {
         method: 'POST',
         body,
       })
+      photo.value = null
     }
     catch (e) {
       toast.add({
         title: 'Error',
-        description: 'An error occured while uploading photo',
+        description: 'Не вдалось завантажити фото',
       })
     }
   }

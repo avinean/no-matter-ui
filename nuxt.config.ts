@@ -1,4 +1,5 @@
 import path from 'node:path'
+import { getIconCollections } from '@egoist/tailwindcss-icons'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -8,6 +9,14 @@ export default defineNuxtConfig({
     public: {
       baseUrl: process.env.API_BASE_URL || '/',
     },
+  },
+  modules: ['@nuxt/ui', '@pinia/nuxt'],
+  ui: {
+    icons: {
+      collections: {
+        ...getIconCollections(['ic']),
+      }
+    }
   },
   modules: ['@nuxt/ui', '@pinia/nuxt', '@nuxtjs/google-fonts', '@nuxtjs/color-mode'],
   googleFonts: {

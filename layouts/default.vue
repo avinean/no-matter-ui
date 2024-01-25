@@ -3,49 +3,54 @@ const links = [
   [
     {
       label: 'Dashboard',
-      icon: 'i-heroicons-presentation-chart-bar',
+      icon: 'i-ic-baseline-arrow-right',
       to: '/',
     },
     {
-      label: 'Clients',
-      icon: 'i-heroicons-identification',
+      label: 'Клієнти',
+      icon: 'i-ic-baseline-people',
       to: '/clients',
     },
     {
       label: 'Записи',
-      icon: 'i-heroicons-identification',
+      icon: 'i-ic-baseline-arrow-right',
       to: '/entries',
     },
     {
-      label: 'Users',
-      icon: 'i-heroicons-user-group',
+      label: 'Працівники',
+      icon: 'i-ic-baseline-arrow-right',
       to: '/users',
     },
     {
-      label: 'Materials',
-      icon: 'i-heroicons-cube',
+      label: 'Матеріали',
+      icon: 'i-ic-baseline-arrow-right',
       to: '/materials',
     },
     {
-      label: 'Services',
-      icon: 'i-heroicons-scissors',
+      label: 'Послуги',
+      icon: 'i-ic-baseline-design-services',
       to: '/services',
     },
     {
+      label: 'Товари',
+      icon: 'i-ic-twotone-production-quantity-limits',
+      to: '/products',
+    },
+    {
       label: 'Sign in',
-      icon: 'i-heroicons-arrow-left-circle',
+      icon: 'i-ic-baseline-arrow-right',
       to: '/auth/sign-in',
     },
   ],
   [
     {
       label: 'Examples',
-      icon: 'i-heroicons-light-bulb',
+      icon: 'i-ic-baseline-help',
       to: '/examples',
     },
     {
       label: 'Help',
-      icon: 'i-heroicons-question-mark-circle',
+      icon: 'i-ic-baseline-arrow-right',
       to: '/help',
     },
   ],

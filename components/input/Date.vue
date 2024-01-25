@@ -30,10 +30,7 @@ const datePickerMode = ref(props.mode || 'date')
           class="w-full"
           disabled
         />
-        <UButton
-          icon="i-heroicons-calendar"
-          color="gray"
-        />
+        <UButton icon="i-ic-baseline-calendar-month" color="gray" />
       </UButtonGroup>
     </slot>
     <template #panel="{ close }">
