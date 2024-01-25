@@ -36,28 +36,28 @@ const pickerMode = ref('dateTime')
       :state="event"
       class="grid grid-cols-1  gap-y-2"
     >
-      <div class='flex items-center gap-2'>
+      <div class="flex items-center gap-2">
         <UFormGroup
-            label="Прізвище"
-            name="lastName"
-            required
-            class="w-full"
+          label="Прізвище"
+          name="lastName"
+          required
+          class="w-full"
         >
           <UInput v-model="event.lastName" />
         </UFormGroup>
         <UFormGroup
-            label="Ім'я"
-            name="firstName"
-            required
-            class="w-full"
+          label="Ім'я"
+          name="firstName"
+          required
+          class="w-full"
         >
           <UInput v-model="event.firstName" />
         </UFormGroup>
       </div>
       <UFormGroup
-          label="Телефон"
-          name="phone"
-          required
+        label="Телефон"
+        name="phone"
+        required
       >
         <UInput v-model="event.phone" type="tel" />
       </UFormGroup>
@@ -76,13 +76,12 @@ const pickerMode = ref('dateTime')
         <input-date v-model="event.end" :mode="pickerMode" />
       </UFormGroup>
       <UFormGroup
-          label="Заголовок"
-          name="title"
-          required
+        label="Заголовок"
+        name="title"
+        required
       >
         <UInput v-model="event.title" />
       </UFormGroup>
-
 
       <UFormGroup
         label="Нотатки"
@@ -92,37 +91,37 @@ const pickerMode = ref('dateTime')
         <UTextarea v-model="event.description" />
       </UFormGroup>
       <UFormGroup
-          label="Підтверджено"
-          name="approved"
+        label="Підтверджено"
+        name="approved"
       >
         <UToggle
-            :disabled="event.beenPaid && event.approved"
-            v-model="event.approved" color="lime" />
+          v-model="event.approved"
+          :disabled="event.beenPaid && event.approved" color="lime"
+        />
       </UFormGroup>
     </UForm>
-    <template #footer >
-      <div class="flex justify-end gap-2" v-if="!event.approved || !event.beenPaid">
+    <template #footer>
+      <div v-if="!event.approved || !event.beenPaid" class="flex justify-end gap-2">
         <UButton
-            color="red"
-            :loading
-            @click="$refs.form.submit()"
+          color="red"
+          :loading
+          @click="$refs.form.submit()"
         >
           Видалити запис
         </UButton>
         <UButton
-            color="lime"
-            :loading
-            @click="$refs.form.submit()"
+          color="lime"
+          :loading
+          @click="$refs.form.submit()"
         >
           Оплата
         </UButton>
         <UButton
-            :loading
-            @click="$refs.form.submit()"
+          :loading
+          @click="$refs.form.submit()"
         >
           Зберегти
         </UButton>
-
       </div>
     </template>
   </UCard>

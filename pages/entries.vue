@@ -19,7 +19,7 @@ function getEventStyle(event: boolean) {
           ? '#D66359'
           : event.approved && event.beenPaid
             ? '#4FB1B0'
-            : 'white'
+            : 'white',
   }
 }
 const calendarRef = ref()
@@ -46,7 +46,6 @@ function handleEventClick(clickInfo: any) {
 
 function handleDateClick(clickInfo: any) {
 }
-
 
 const options = {
   plugins: [interactionPlugin, timeGridPlugin, dayGridPlugin],
@@ -104,7 +103,6 @@ function goToSelectedDate(val: Date) {
 function changeView(view: string) {
   calendarRef?.value.getApi().changeView(view)
 }
-
 </script>
 
 <template>
@@ -161,7 +159,7 @@ function changeView(view: string) {
           </div>
         </div>
       </div>
-      <div class='flex gap-2'>
+      <div class="flex gap-2">
         <UButton
           :color="currentCalendarView === 'dayGridMonth' ? 'lime' : 'gray'"
           @click="calendarRef?.calendar.changeView('dayGridMonth')"
@@ -180,16 +178,17 @@ function changeView(view: string) {
     <FullCalendar ref="calendarRef" :options="options" class="syns_calendar">
       <template #eventContent="arg">
         <div
-            class="w-full
+          class="w-full
             rounded
                 h-full
                 text-xs
                 overflow-hidden px-2 py-1"
-            :style="getEventStyle(arg.event.extendedProps)"
+          :style="getEventStyle(arg.event.extendedProps)"
         >
           <div class="truncate">
-            <base-datetime :date="arg.event.start"  :time-style="'short'" />
-            {{ arg.event.title }}</div>
+            <base-datetime :date="arg.event.start" time-style="short" />
+            {{ arg.event.title }}
+          </div>
         </div>
       </template>
     </FullCalendar>

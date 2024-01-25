@@ -19,7 +19,8 @@ export const useEntriesStore = defineStore('entries', () => {
       beenPaid: false,
       createdAt: '20/10/2024',
       updatedAt: '20/10/2024',
-    }, {
+    },
+    {
       id: 1,
       title: 'Ботокс в сраку багато',
       start: startOfToday.toISOString(),
@@ -32,7 +33,8 @@ export const useEntriesStore = defineStore('entries', () => {
       beenPaid: false,
       createdAt: '20/10/2024',
       updatedAt: '20/10/2024',
-    }, {
+    },
+    {
       id: 1,
       title: 'Ботокс в сраку багато',
       start: startOfToday.toISOString(),
@@ -45,7 +47,8 @@ export const useEntriesStore = defineStore('entries', () => {
       beenPaid: false,
       createdAt: '20/10/2024',
       updatedAt: '20/10/2024',
-    }, {
+    },
+    {
       id: 1,
       title: 'Ботокс в сраку багато',
       start: startOfToday.toISOString(),
@@ -58,8 +61,9 @@ export const useEntriesStore = defineStore('entries', () => {
       beenPaid: false,
       createdAt: '20/10/2024',
       updatedAt: '20/10/2024',
-      allDay: true
-    }, {
+      allDay: true,
+    },
+    {
       id: 1,
       title: 'Ботокс в сраку багато',
       start: startOfToday.toISOString(),
