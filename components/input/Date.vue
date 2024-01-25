@@ -2,26 +2,36 @@
 import { DatePicker as VCalendarDatePicker } from 'v-calendar'
 import 'v-calendar/dist/style.css'
 
+const props = defineProps(['mode'])
 const model = defineModel<Date>()
-const label = computed(() => model.value?.toLocaleDateString?.('uk-ua', { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' }))
+const label = computed(() => model.value?.toLocaleDateString?.('uk-ua', {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric',
+  hour12: false,
+}))
+const datePickerMode = ref(props.mode || 'date')
 </script>
 
 <template>
   <UPopover :popper="{ placement: 'bottom-start' }">
     <slot>
       <UButtonGroup
-          class="w-full"
-          size="sm"
-          orientation="horizontal"
+        class="w-full"
+        size="sm"
+        orientation="horizontal"
       >
         <UInput
-            v-model="label"
-            class="w-full"
-            disabled
+          v-model="label"
+          class="w-full"
+          disabled
         />
         <UButton
-            icon="i-heroicons-calendar"
-            color="gray"
+          icon="i-heroicons-calendar"
+          color="gray"
         />
       </UButtonGroup>
     </slot>
@@ -30,6 +40,7 @@ const label = computed(() => model.value?.toLocaleDateString?.('uk-ua', { weekda
         v-model="model"
         locale="uk-UA"
         expanded
+        :mode="datePickerMode"
         :attributes="[{
           key: 'today',
           dates: new Date(),

@@ -1,38 +1,52 @@
 <script setup lang="ts">
- // definePageMeta({
- //       colorMode: 'light',
- // })
-import {getCurrentDayName} from "~/utils/dates";
+// definePageMeta({
+//       colorMode: 'light',
+// })
 
- const store = useEntriesStore()
 import FullCalendar from '@fullcalendar/vue3'
 import interactionPlugin from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import dayGridPlugin from '@fullcalendar/daygrid'
-import { ref, onMounted, watch } from 'vue';
-import type {CalendarOptions} from "@fullcalendar/core";
+import type { CalendarOptions } from '@fullcalendar/core'
 
-const todayButtonText = computed(() => `${new Date().toLocaleDateString()}`);
+const store = useEntriesStore()
 
-const getEventStyle = (event: boolean) => ({
-  'background-color': event.approved && !event.beenPaid ? '#D2DA4C' :
-      !event.approved && !event.beenPaid ? '#D66359' :
-          event.approved && event.beenPaid ? '#4FB1B0' :
-              'white',
-  'height': '100%',
-  'padding': '7px',
-  'pointer-events': event.approved && event.beenPaid ? 'none' : '',
-  'width': '100%'
-});
-const calendarRef = ref()
- const selectedCalendarDay = ref()
- const currentCalendarView = ref();
-const handleEventClick = (clickInfo: any) => {
-  // console.log(clickInfo, 'clickInfo')
-  // console.log(clickInfo.event.extendedProps, 'all props without title')
-  // console.log(clickInfo.event.title, 'event title')
-  // clickInfo.event.remove()
+function getEventStyle(event: boolean) {
+  return {
+    'background-color': event.approved && !event.beenPaid
+      ? '#D2DA4C'
+      : !event.approved && !event.beenPaid
+          ? '#D66359'
+          : event.approved && event.beenPaid
+            ? '#4FB1B0'
+            : 'white'
+  }
 }
+const calendarRef = ref()
+const currentCalendarView = ref()
+const eventDetails = ref()
+const isOpenEvent = ref(false)
+function handleEventClick(clickInfo: any) {
+  isOpenEvent.value = true
+  console.log(clickInfo, 'clickInfo')
+  eventDetails.value = {
+    id: clickInfo.event.id,
+    price: clickInfo.event.extendedProps.price,
+    title: clickInfo.event.title,
+    description: clickInfo.event.extendedProps.description,
+    phone: clickInfo.event.extendedProps.phone,
+    lastName: clickInfo.event.extendedProps.lastName,
+    firstName: clickInfo.event.extendedProps.firstName,
+    start: clickInfo.event.start,
+    end: clickInfo.event.end,
+    approved: clickInfo.event.extendedProps.approved,
+    beenPaid: clickInfo.event.extendedProps.beenPaid,
+  }
+}
+
+function handleDateClick(clickInfo: any) {
+}
+
 
 const options = {
   plugins: [interactionPlugin, timeGridPlugin, dayGridPlugin],
@@ -43,159 +57,141 @@ const options = {
   droppable: true,
   locale: 'UK',
   viewDidMount: (viewInfo) => {
-    // Update the currentView variable
-    currentCalendarView.value = viewInfo.view.type;
+    currentCalendarView.value = viewInfo.view.type
+  },
+  viewWillUnmount: (viewInfo) => {
+    currentCalendarView.value = viewInfo.view.type
   },
   timeZone: 'local',
   events: store.events,
   eventColor: 'transparent',
   eventTextColor: '#000000',
-  allDayText: '',
+  allDayText: 'Wait-list',
+  eventDragStop: (ev) => {
+    console.log(ev, 'drag stop') /// when we change positon of event or drag to area Wait
+  },
   eventClick: handleEventClick,
+  dateClick: handleDateClick,
+  forceEventDuration: true,
   buttonText: {
-    today: todayButtonText.value,
+    today: new Date().toLocaleDateString(),
     month: 'Місяць',
     week: 'Тиждень',
-    day: 'День'
+    day: 'День',
   },
+  // expandRows: true,
   slotLabelFormat: {
     hour: 'numeric',
     minute: '2-digit',
   },
   eventTimeFormat: {
-    hour: "numeric",
-    minute: "2-digit",
-    meridiem: "short"
+    hour: 'numeric',
+    minute: '2-digit',
+    meridiem: 'short',
   },
   dayHeaderContent: '',
   headerToolbar: {
     start: '', // Change the placement of buttons
+    // center: 'title',
     end: '', // Change the placement of buttons
   },
 } satisfies CalendarOptions
 
-
-
- // Function to update the selectedDate variable
-
-onMounted(() => {
-  if (calendarRef.value) {
-    calendarRef.value = calendarRef.value.getApi();
-    selectedCalendarDay.value = calendarRef.value.getDate();
-  }
-});
-const goToPrev = () => {
-  calendarRef?.value.prev();
-  // selectedCalendarDay.value = calendarRef.value.getDate()
-};
-
-const goToToday = () => {
-  calendarRef?.value.today();
-};
-
-const goToSelectedDate = (val: Date) => {
-  calendarRef?.value.gotoDate(val);
+function goToSelectedDate(val: Date) {
+  calendarRef?.value.getApi().gotoDate(val)
 }
 
-const goToNext = () => {
-  calendarRef?.value.next();
-};
+function changeView(view: string) {
+  calendarRef?.value.getApi().changeView(view)
+}
 
-const changeView = (view: string) => {
-  calendarRef?.value?.changeView(view);
-};
- console.log(currentCalendarView, 'currentCalendarView')
 </script>
 
 <template>
-
-
+  <UModal
+    v-model="isOpenEvent"
+    :ui="{
+      width: 'sm:max-w-lg',
+    }"
+    @close="isOpenEvent = false"
+  >
+    <modal-event
+      v-if="isOpenEvent"
+      :preset="eventDetails"
+      @close="isOpenEvent = false"
+    />
+  </UModal>
   <div class="p-8 bg-gray-100 rounded-xl">
     <div class="flex items-center justify-between ">
       <div class="flex items-center border-4 border-gray-200 rounded-md text-sm font-normal  text-black">
         <div>
           <div
-              class="px-6 py-3 flex items-center cursor-pointer"
-              @click="goToPrev"
+            class="px-6 py-3 flex items-center cursor-pointer"
+            @click="calendarRef?.calendar.prev()"
           >
-            <UIcon   name="i-heroicons-chevron-left" class="text-xl text-gray-900"  />
+            <UIcon name="i-heroicons-chevron-left" class="text-xl text-gray-900" />
           </div>
         </div>
         <div
-            class="px-6 py-3 border-l-4  cursor-pointer"
-            @click="goToToday"
+          class="px-6 py-3 border-l-4  cursor-pointer"
+          @click="calendarRef?.calendar.today()"
         >
           Сьогодні
         </div>
         <div class="flex items-center gap-4 px-6 py-2 border-l-4 border-r-4">
-          {{todayButtonText}}
-          {{currentCalendarView}}
-<!--          <base-datetime v-if="selectedCalendarDay" :date="selectedCalendarDay"  :date-style="'medium'" />-->
+          <!--          {{currentCalendarView}} -->
+          <!--          {{calendarRef?.calendar.view.type}} -->
+          <base-datetime v-if="calendarRef?.calendar.getDate()" :date="calendarRef?.calendar.getDate()" date-style="medium" />
           <input-date
-              @update:model-value="goToSelectedDate"
+            @update:model-value="goToSelectedDate"
           >
             <UButton
-                size="xs"
-                icon="i-heroicons-calendar-days-solid"
-                color="gray"
-             />
+              size="xs"
+              icon="i-heroicons-calendar-days-solid"
+              color="gray"
+            />
           </input-date>
         </div>
         <div class="px-4 py-3 border-r-4">
-          {{getCurrentDayName()}}
+          {{ getCurrentDayName() }}
         </div>
         <div>
-          <div @click="goToNext" class="px-6 py-3 flex items-center cursor-pointer" >
-            <UIcon  name="i-heroicons-chevron-right" class="text-gray-900 text-xl" />
+          <div class="px-6 py-3 flex items-center cursor-pointer" @click="calendarRef?.calendar.next()">
+            <UIcon name="i-heroicons-chevron-right" class="text-gray-900 text-xl" />
           </div>
         </div>
       </div>
-      <div>
+      <div class='flex gap-2'>
         <UButton
-            color="gray"
-            @click="changeView('dayGridMonth')">Місяць</UButton>
+          :color="currentCalendarView === 'dayGridMonth' ? 'lime' : 'gray'"
+          @click="calendarRef?.calendar.changeView('dayGridMonth')"
+        >
+          Місяць
+        </UButton>
         <UButton
-            color="gray"
-            @click="changeView('timeGridWeek')">Тиждень</UButton>
-        <UButton
-            color="gray"
-            @click="changeView('timeGridDay')">День</UButton>
+          :color="currentCalendarView === 'timeGridDay' ? 'lime' : 'gray'"
+          @click="calendarRef?.calendar.changeView('timeGridDay')"
+        >
+          День
+        </UButton>
       </div>
     </div>
 
-
-    <FullCalendar   :options="options" ref="calendarRef" class="syns_calendar">
-      <template v-slot:eventContent="arg">
-
-        <UPopover
-            :ui="{trigger: 'h-full'}"
-            class="h-full" mode="hover" :popper="{ placement: 'top', trigger: 'h-full'   }">
-
-          <div
-              :style="getEventStyle(arg.event.extendedProps)"
-          >
-            <!-- Content inside the event div -->
-            <div>{{ arg.event.title }}</div>
-            <div>{{ arg.event.extendedProps.userName }}</div>
-          </div>
-          <template #panel >
-            <div class="rounded-md bg-gray-300 p-2"
-            >
-                <span>
-                  <base-datetime :date="arg.event.start"  :time-style="'short'" />
-                  -
-                  <base-datetime :date="arg.event.end"  :time-style="'short'" />
-                </span><br>
-              <span>{{ arg.event.title }}</span><br>
-              <span>{{ arg.event.extendedProps.userName }}</span><br>
-              <span>{{ arg.event.extendedProps.phone }}</span><br>
-              <span>{{ arg.event.extendedProps.description }}</span><br>
-            </div>
-          </template>
-
-        </UPopover>
+    <FullCalendar ref="calendarRef" :options="options" class="syns_calendar">
+      <template #eventContent="arg">
+        <div
+            class="w-full
+            rounded
+                h-full
+                text-xs
+                overflow-hidden px-2 py-1"
+            :style="getEventStyle(arg.event.extendedProps)"
+        >
+          <div class="truncate">
+            <base-datetime :date="arg.event.start"  :time-style="'short'" />
+            {{ arg.event.title }}</div>
+        </div>
       </template>
     </FullCalendar>
   </div>
 </template>
-

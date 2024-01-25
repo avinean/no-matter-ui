@@ -12,8 +12,8 @@ export default defineNuxtConfig({
   modules: ['@nuxt/ui', '@pinia/nuxt', '@nuxtjs/google-fonts', '@nuxtjs/color-mode'],
   googleFonts: {
     families: {
-      Raleway: true
-    }
+      Raleway: true,
+    },
   },
 
   colorMode: {
@@ -24,10 +24,10 @@ export default defineNuxtConfig({
     componentName: 'ColorScheme',
     classPrefix: '',
     classSuffix: '-mode',
-    storageKey: 'nuxt-color-mode'
+    storageKey: 'nuxt-color-mode',
   },
   css: [
-      '@/assets/global.css',
+    '@/assets/global.css',
   ],
   pinia: {
     storesDirs: ['./stores/**'],

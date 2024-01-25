@@ -23,8 +23,8 @@ const timeStyle = ref()
     </div>
     <div>
       base-datetime
-      <USelect v-model="dateStyle" :options="['full', 'long','medium','short']"/>
-      <USelect v-model="timeStyle" :options="['full', 'long','medium','short']"/>
+      <USelect v-model="dateStyle" :options="['full', 'long', 'medium', 'short']" />
+      <USelect v-model="timeStyle" :options="['full', 'long', 'medium', 'short']" />
       <div><base-datetime :date="Date()" :date-style="dateStyle" :time-style="timeStyle" /></div>
     </div>
   </div>

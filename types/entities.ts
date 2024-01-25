@@ -41,3 +41,18 @@ export interface Profile extends Entity {
   emails: Contact[]
   phones: Contact[]
 }
+
+export interface Event extends Entity {
+  id: number
+  price?: number
+  title?: string
+  description?: string
+  phone?: string
+  lastName: string
+  firstName: string
+  start?: Date | string
+  end?: Date | string
+  approved?: boolean
+  beenPaid?: boolean
+  allDay?: boolean
+}
