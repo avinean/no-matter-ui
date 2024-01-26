@@ -97,7 +97,7 @@ async function onChangeStatus(item: ServiceProduct) {
 
   <UCard v-if="data">
     <h2>{{ props.type === 'product' ? 'Товари' : 'Послуги' }}</h2>
-    <UTable :rows="data" :columns="columns" :loading="pending">
+    <UTable :rows="data" :columns="columns">
       <template #createdAt-data="{ row }">
         <base-datetime :date="row.createdAt" />
       </template>
