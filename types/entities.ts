@@ -41,3 +41,13 @@ export interface Profile extends Entity {
   cardId: number
   image: string
 }
+
+export interface ServiceProduct extends Entity {
+  name: string
+  description: string
+  type: string
+  price: number
+  duration: number
+  discount: number
+  status: boolean
+}

@@ -1,137 +1,131 @@
 <script lang="ts" setup>
-withDefaults(defineProps<{
+import type { ServiceProduct } from '~/types/entities'
+
+const props = withDefaults(defineProps<{
   type?: 'product' | 'service'
 }>(), {
   type: 'service',
 })
+
+const { data, pending, refresh } = useApi<ServiceProduct[]>(`/services/${props.type}`)
+const modalStore = useModalStore()
+const AddEditModal = resolveComponent('modal-service-product')
+
+const columns = [
+  { key: 'name', label: 'Назва' },
+  { key: 'description', label: 'Опис' },
+  { key: 'price', label: 'Ціна' },
+  props.type === 'service' ? { key: 'duration', label: 'Тривалість послуги' } : undefined,
+  { key: 'discount', label: 'Знижка' },
+  { key: 'status', label: 'Статус' },
+  { key: 'createdAt', label: 'Створено' },
+  { key: 'updatedAt', label: 'Змінено' },
+  { key: 'actions' },
+].filter(Boolean)
+
+function menu(item: ServiceProduct) {
+  return [
+    [{
+      label: 'Edit',
+      icon: 'i-ic-baseline-edit',
+      click: () => callModal(item),
+    }, {
+      label: 'Duplicate',
+      icon: 'i-ic-baseline-content-copy',
+      click: () => onDuplicate(item),
+    }],
+    [{
+      label: item.status ? 'Archive' : 'Unarchive',
+      icon: item.status ? 'i-ic-baseline-archive' : 'i-ic-baseline-unarchive',
+      click: () => onChangeStatus(item),
+    }],
+  ]
+}
+
+function callModal(preset?: ServiceProduct) {
+  modalStore.open(AddEditModal, {
+    preset,
+    type: props.type,
+    ui: {
+      width: 'sm:max-w-4xl',
+    },
+    onSubmit() {
+      refresh()
+    },
+  })
+}
+
+async function onDuplicate(item: ServiceProduct) {
+  await $api<ServiceProduct>(`/services/${props.type}`, {
+    method: 'POST',
+    body: {
+      name: `${item.name} (копія ${new Date().toLocaleString()})`,
+      description: item.description,
+      type: item.type,
+      price: item.price,
+      duration: item.duration,
+      discount: item.discount,
+      status: item.status,
+    },
+  })
+  refresh()
+}
+
+async function onChangeStatus(item: ServiceProduct) {
+  await $api<ServiceProduct>(`/services/${props.type}/${item.id}`, {
+    method: 'PUT',
+    body: {
+      status: !item.status,
+    },
+  })
+  refresh()
+}
 </script>
 
 <template>
   <div class="flex justify-end gap-2 p-2">
     <UButton
-      icon="i-heroicons-circle-stack"
+      :icon="type === 'service' ? 'i-ic-baseline-design-services' : 'i-ic-twotone-production-quantity-limits'"
       size="sm"
       color="primary"
       square
       variant="solid"
-      label="Create Material"
-      @click="createMaterial = true"
-    />
-    <UButton
-      icon="i-heroicons-document-plus"
-      size="sm"
-      color="primary"
-      square
-      variant="solid"
-      label="Add Material"
-      @click="addTransaction = true"
+      :label="`Додати ${type === 'service' ? 'послугу' : 'товар'}`"
+      @click="callModal()"
     />
   </div>
 
-  <UModal v-model="createMaterial">
-    <div class="p-4">
-      <h2 class="mb-4">
-        Create Material
-      </h2>
-      <UForm
-        :validate="validate"
-        :state="material"
-        class="space-y-4 w-full"
-        @submit="onAddMaterial"
-      >
-        <UFormGroup
-          label="Name"
-          name="name"
-        >
-          <UInput v-model="material.name" />
-        </UFormGroup>
-
-        <UFormGroup
-          label="Description"
-          name="description"
-        >
-          <UInput v-model="material.description" />
-        </UFormGroup>
-
-        <UFormGroup
-          label="Unit"
-          name="unit"
-        >
-          <UInput v-model="material.unit" />
-        </UFormGroup>
-
-        <UFormGroup
-          label="Critical quantity"
-          name="criticalQuantity"
-        >
-          <UInput v-model="material.criticalQuantity" />
-        </UFormGroup>
-
-        <UButton type="submit">
-          Submit
-        </UButton>
-      </UForm>
-    </div>
-  </UModal>
-
-  <UModal v-model="addTransaction">
-    <div class="p-4">
-      <h2 class="mb-4">
-        Update Material data
-      </h2>
-      <UForm
-        :validate="validate"
-        :state="transaction"
-        class="space-y-4 w-full"
-        @submit="onCreateTransaction"
-      >
-        <UFormGroup
-          label="Material"
-          name="materialId"
-        >
-          <USelect
-            v-model="transaction.materialId"
-            :options="items.map(item => ({ label: item.name, value: item.id }))"
-          />
-        </UFormGroup>
-
-        <UFormGroup
-          label="Quantity"
-          name="quantity"
-        >
-          <UInput v-model="transaction.quantity" />
-        </UFormGroup>
-
-        <UFormGroup
-          label="Type"
-          name="type"
-        >
-          <USelect
-            v-model.number="transaction.type"
-            :options="[{ label: 'Income', value: 0 }, { label: 'Outcome', value: 1 }]"
-          />
-        </UFormGroup>
-
-        <UFormGroup
-          label="Description"
-          name="description"
-        >
-          <UInput v-model="transaction.description" />
-        </UFormGroup>
-
-        <UButton type="submit">
-          Submit
-        </UButton>
-      </UForm>
-    </div>
-  </UModal>
-
-  <UCard>
-    <h2>Materials</h2>
-    <UTable :rows="items" />
-  </UCard>
-  <UCard class="mt-4">
-    <h2>Transactions</h2>
-    <UTable :rows="transactions" />
+  <UCard v-if="data">
+    <h2>{{ props.type === 'product' ? 'Товари' : 'Послуги' }}</h2>
+    <UTable :rows="data" :columns="columns" :loading="pending">
+      <template #createdAt-data="{ row }">
+        <base-datetime :date="row.createdAt" />
+      </template>
+      <template #updatedAt-data="{ row }">
+        <base-datetime :date="row.createdAt" />
+      </template>
+      <template #status-data="{ row }">
+        <UBadge v-if="row.status" color="green" variant="solid">
+          активний
+        </UBadge>
+        <UBadge v-else color="gray" variant="solid">
+          неактивний
+        </UBadge>
+      </template>
+      <template #discount-data="{ row }">
+        {{ row.discount }}%
+      </template>
+      <template #price-data="{ row }">
+        {{ row.price }} грн
+      </template>
+      <template #duration-data="{ row }">
+        {{ row.duration }} год
+      </template>
+      <template #actions-data="{ row }">
+        <UDropdown :items="menu(row)">
+          <UButton color="gray" variant="ghost" icon="i-ic-outline-more-horiz" />
+        </UDropdown>
+      </template>
+    </UTable>
   </UCard>
 </template>
