@@ -56,3 +56,13 @@ export interface Event extends Entity {
   beenPaid?: boolean
   allDay?: boolean
 }
+
+export interface ServiceProduct extends Entity {
+  name: string
+  description: string
+  type: string
+  price: number
+  duration: number
+  discount: number
+  status: boolean
+}

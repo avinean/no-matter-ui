@@ -4,7 +4,7 @@ import type { Profile } from '#types/entities'
 const { baseUrl } = useRuntimeConfig().public
 const toast = useToast()
 const modalStore = useModalStore()
-const ModalClient = resolveComponent('modal-client')
+const ModalClient = resolveComponent('modal-stuff')
 
 const { data, refresh } = useApi<Profile[]>('/profiles')
 const commandPaletteRef = ref()

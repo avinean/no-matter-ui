@@ -28,7 +28,7 @@ function remove(item: string) {
         class="w-full"
       />
       <UButton
-        icon="i-heroicons-plus"
+        icon="i-ic-baseline-plus"
         color="gray"
         @click="add"
       />
@@ -39,7 +39,7 @@ function remove(item: string) {
       @click="remove(item)"
     >
       {{ item }}
-      <UIcon name="i-heroicons-x-mark" />
+      <UIcon name="i-ic-baseline-cancel" />
     </UBadge>
   </div>
 </template>

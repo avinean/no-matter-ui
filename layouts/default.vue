@@ -18,7 +18,7 @@ const links = [
     },
     {
       label: 'Працівники',
-      icon: 'i-ic-baseline-arrow-right',
+      icon: 'i-ic-sharp-groups',
       to: '/users',
     },
     {
