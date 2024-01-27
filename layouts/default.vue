@@ -13,7 +13,7 @@ const links = [
     },
     {
       label: 'Записи',
-      icon: 'i-ic-baseline-arrow-right',
+      icon: 'i-ic-baseline-auto-stories',
       to: '/entries',
     },
     {

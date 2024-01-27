@@ -10,15 +10,14 @@ export default defineNuxtConfig({
       baseUrl: process.env.API_BASE_URL || '/',
     },
   },
-  modules: ['@nuxt/ui', '@pinia/nuxt'],
+  modules: ['@nuxt/ui', '@pinia/nuxt', '@nuxtjs/google-fonts', '@nuxtjs/color-mode'],
   ui: {
     icons: {
       collections: {
         ...getIconCollections(['ic']),
-      }
-    }
+      },
+    },
   },
-  modules: ['@nuxt/ui', '@pinia/nuxt', '@nuxtjs/google-fonts', '@nuxtjs/color-mode'],
   googleFonts: {
     families: {
       Raleway: true,

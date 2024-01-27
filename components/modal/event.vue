@@ -2,21 +2,21 @@
 import type { Event } from '#types/entities'
 
 const props = defineProps<{
-  preset: Event
+  preset?: Event | null
 }>()
 
 const event: Partial<Event> = reactive({
-  id: props.preset.id,
-  price: props.preset.price,
-  title: props.preset.title,
-  description: props.preset.description,
-  phone: props.preset.phone,
-  firstName: props.preset.firstName,
-  lastName: props.preset.lastName,
-  start: props.preset.start,
-  end: props.preset.end,
-  approved: props.preset.approved,
-  beenPaid: props.preset.beenPaid,
+  id: props.preset?.id,
+  price: props.preset?.price,
+  title: props.preset?.title,
+  description: props.preset?.description,
+  phone: props.preset?.phone,
+  firstName: props.preset?.firstName,
+  lastName: props.preset?.lastName,
+  start: props.preset?.start,
+  end: props.preset?.end,
+  approved: props.preset?.approved,
+  beenPaid: props.preset?.beenPaid,
 })
 const pickerMode = ref('dateTime')
 </script>
@@ -28,7 +28,7 @@ const pickerMode = ref('dateTime')
   >
     <template #header>
       <h1 class="text-3xl font-bold">
-        {{ props.preset.title }}
+        {{ props.preset?.title || 'Новий запис' }}
       </h1>
     </template>
     <UForm

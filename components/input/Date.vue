@@ -14,7 +14,6 @@ const label = computed(() => model.value?.toLocaleDateString?.('uk-ua', {
   hour12: false,
 }))
 const datePickerMode = ref(props.mode || 'date')
-
 </script>
 
 <template>

@@ -25,10 +25,10 @@ function getEventStyle(event: boolean) {
 const calendarRef = ref()
 const currentCalendarView = ref()
 const eventDetails = ref()
+const eventLimit = ref(true)
 const isOpenEvent = ref(false)
 function handleEventClick(clickInfo: any) {
   isOpenEvent.value = true
-  console.log(clickInfo, 'clickInfo')
   eventDetails.value = {
     id: clickInfo.event.id,
     price: clickInfo.event.extendedProps.price,
@@ -45,7 +45,12 @@ function handleEventClick(clickInfo: any) {
 }
 
 function handleDateClick(clickInfo: any) {
+  eventDetails.value = null
+  isOpenEvent.value = true
+
 }
+
+
 
 const options = {
   plugins: [interactionPlugin, timeGridPlugin, dayGridPlugin],
@@ -57,13 +62,18 @@ const options = {
   locale: 'UK',
   viewDidMount: (viewInfo) => {
     currentCalendarView.value = viewInfo.view.type
+    console.log('View type:', viewInfo.view.type);
+
   },
   viewWillUnmount: (viewInfo) => {
     currentCalendarView.value = viewInfo.view.type
   },
   timeZone: 'local',
   events: store.events,
+  dayMaxEvents: 3,
   eventColor: 'transparent',
+  moreLinkContent: 'більше...',
+  moreLinkText: '3',
   eventTextColor: '#000000',
   allDayText: 'Wait-list',
   eventDragStop: (ev) => {
@@ -71,13 +81,13 @@ const options = {
   },
   eventClick: handleEventClick,
   dateClick: handleDateClick,
-  forceEventDuration: true,
   buttonText: {
     today: new Date().toLocaleDateString(),
     month: 'Місяць',
     week: 'Тиждень',
     day: 'День',
   },
+  allDaySlot: false,
   // expandRows: true,
   slotLabelFormat: {
     hour: 'numeric',
@@ -94,31 +104,28 @@ const options = {
     // center: 'title',
     end: '', // Change the placement of buttons
   },
+
 } satisfies CalendarOptions
 
 function goToSelectedDate(val: Date) {
   calendarRef?.value.getApi().gotoDate(val)
 }
 
-function changeView(view: string) {
-  calendarRef?.value.getApi().changeView(view)
-}
+
 </script>
 
 <template>
-  <UModal
+  <USlideover
+      :overlay="false"
     v-model="isOpenEvent"
-    :ui="{
-      width: 'sm:max-w-lg',
-    }"
     @close="isOpenEvent = false"
   >
     <modal-event
       v-if="isOpenEvent"
-      :preset="eventDetails"
+      :preset="eventDetails || null"
       @close="isOpenEvent = false"
     />
-  </UModal>
+  </USlideover>
   <div class="p-8 bg-gray-100 rounded-xl">
     <div class="flex items-center justify-between ">
       <div class="flex items-center border-4 border-gray-200 rounded-md text-sm font-normal  text-black">
@@ -127,7 +134,7 @@ function changeView(view: string) {
             class="px-6 py-3 flex items-center cursor-pointer"
             @click="calendarRef?.calendar.prev()"
           >
-            <UIcon name="i-heroicons-chevron-left" class="text-xl text-gray-900" />
+            <UIcon name="i-ic-baseline-chevron-left" class="text-xl text-gray-900" />
           </div>
         </div>
         <div
@@ -137,15 +144,13 @@ function changeView(view: string) {
           Сьогодні
         </div>
         <div class="flex items-center gap-4 px-6 py-2 border-l-4 border-r-4">
-          <!--          {{currentCalendarView}} -->
-          <!--          {{calendarRef?.calendar.view.type}} -->
           <base-datetime v-if="calendarRef?.calendar.getDate()" :date="calendarRef?.calendar.getDate()" date-style="medium" />
           <input-date
             @update:model-value="goToSelectedDate"
           >
             <UButton
               size="xs"
-              icon="i-heroicons-calendar-days-solid"
+              icon="i-ic-baseline-event-note"
               color="gray"
             />
           </input-date>
@@ -155,7 +160,7 @@ function changeView(view: string) {
         </div>
         <div>
           <div class="px-6 py-3 flex items-center cursor-pointer" @click="calendarRef?.calendar.next()">
-            <UIcon name="i-heroicons-chevron-right" class="text-gray-900 text-xl" />
+            <UIcon name="i-ic-baseline-chevron-right" class="text-gray-900 text-xl" />
           </div>
         </div>
       </div>
@@ -175,7 +180,8 @@ function changeView(view: string) {
       </div>
     </div>
 
-    <FullCalendar ref="calendarRef" :options="options" class="syns_calendar">
+    <FullCalendar
+        ref="calendarRef" :options="options" class="syns_calendar">
       <template #eventContent="arg">
         <div
           class="w-full
