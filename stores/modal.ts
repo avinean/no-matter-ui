@@ -1,20 +1,24 @@
 export const useModalStore = defineStore('modal', () => {
-  const props = ref()
+  const contentProps = ref()
+  const wrapperProps = ref()
   const component = ref('')
 
-  function open(_component: any, _props: any) {
+  function open(_component: any, _contentProps: any, _wrapperProps: any) {
     component.value = _component
 
-    props.value = _props
+    contentProps.value = _contentProps
+    wrapperProps.value = _wrapperProps
   }
 
   function close() {
-    props.value = null
+    contentProps.value = null
+    wrapperProps.value = null
     component.value = ''
   }
 
   return {
-    props,
+    contentProps,
+    wrapperProps,
     component,
     open,
     close,

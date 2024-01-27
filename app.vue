@@ -8,11 +8,15 @@ const modalStore = useModalStore()
       <NuxtPage />
     </NuxtLayout>
     <UNotifications />
-    <UModal :model-value="!!modalStore.component" @close="modalStore.close">
+    <UModal
+      :model-value="!!modalStore.component"
+      v-bind="modalStore.wrapperProps"
+      @close="modalStore.close"
+    >
       <component
         :is="modalStore.component"
         v-if="modalStore.component"
-        v-bind="modalStore.props"
+        v-bind="modalStore.contentProps"
         @submit="modalStore.close"
       />
     </UModal>

@@ -18,8 +18,8 @@ const links = [
     },
     {
       label: 'Працівники',
-      icon: 'i-ic-baseline-arrow-right',
-      to: '/users',
+      icon: 'i-ic-sharp-groups',
+      to: '/stuff',
     },
     {
       label: 'Матеріали',

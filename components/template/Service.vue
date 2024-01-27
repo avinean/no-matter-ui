@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ServiceProduct } from '~/types/entities'
+import type { ServiceProduct } from '#types/entities'
 
 const props = withDefaults(defineProps<{
   type?: 'product' | 'service'
