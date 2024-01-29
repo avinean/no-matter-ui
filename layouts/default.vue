@@ -19,7 +19,7 @@ const links = [
     {
       label: 'Працівники',
       icon: 'i-ic-sharp-groups',
-      to: '/stuff',
+      to: '/employees',
     },
     {
       label: 'Матеріали',

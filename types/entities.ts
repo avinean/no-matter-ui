@@ -6,7 +6,14 @@ export interface Entity {
 }
 
 export interface User extends Entity {
+  firstName: string
+  lastName: string
+  sex: string
+  birthday: Date
+  image: string
   email: string
+  phone: string
+  roles: string[]
 }
 
 export interface Material extends Entity {

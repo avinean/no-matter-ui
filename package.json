@@ -12,12 +12,13 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
+    "@iconify-json/ic": "^1.1.17",
     "@nuxt/ui": "^2.12.0",
     "@pinia/nuxt": "^0.5.1",
     "@popperjs/core": "^2.11.8",
+    "@vueuse/nuxt": "^10.7.2",
     "pinia": "^2.1.7",
-    "v-calendar": "^3.1.2",
-    "@iconify-json/ic": "^1.1.17"
+    "v-calendar": "^3.1.2"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.6.3",

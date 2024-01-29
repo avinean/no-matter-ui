@@ -10,7 +10,7 @@ export default defineNuxtConfig({
       baseUrl: process.env.API_BASE_URL || '/',
     },
   },
-  modules: ['@nuxt/ui', '@pinia/nuxt'],
+  modules: ['@nuxt/ui', '@pinia/nuxt', '@vueuse/nuxt'],
   ui: {
     icons: {
       collections: {
