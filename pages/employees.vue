@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Profile } from '#types/entities'
+import type { Profile, User } from '#types/entities'
 
 const { baseUrl } = useRuntimeConfig().public
 const toast = useToast()
@@ -7,7 +7,7 @@ const modalStore = useModalStore()
 const ModalEmployee = resolveComponent('modal-employee')
 const EmailPassAlert = resolveComponent('modal-email-pass-alert')
 
-const { data, refresh } = useApi<Profile[]>('/users')
+const { data, refresh } = useApi<User[]>('/users')
 const commandPaletteRef = ref()
 const selectedId = ref<number | null>(null)
 const selectedProfile = computed(() => data.value?.find(profile => profile.id === selectedId.value))
@@ -46,14 +46,16 @@ function updateStatus(status: boolean) {
   })
 }
 
-function callModal(preset?: Profile) {
+function callModal(preset?: User) {
   modalStore.open(ModalEmployee, {
     preset,
     onSubmit(user) {
       refresh()
-      nextTick(() => {
-        modalStore.open(EmailPassAlert, { user })
-      })
+      if (!preset) {
+        nextTick(() => {
+          modalStore.open(EmailPassAlert, { user })
+        })
+      }
     },
   }, {
     ui: {
@@ -121,10 +123,15 @@ function callModal(preset?: Profile) {
               <span class="font-bold">Номер телефону:</span><span>{{ selectedProfile.phone }}</span>
               <span class="font-bold">Стать:</span><span>{{ selectedProfile.sex }}</span>
               <span class="font-bold">День народжння:</span><span><base-datetime :date="selectedProfile.birthday" /></span>
-              <span class="font-bold">Баланс:</span><span>{{ selectedProfile.balance || 0 }}</span>
-              <span class="font-bold">Номер картки:</span><span>{{ selectedProfile.cardId || `${selectedProfile.id}`.padStart(4, '0') }}</span>
-              <span class="font-bold">Source:</span><span>{{ selectedProfile.source }}</span>
               <span class="font-bold">Created at:</span><span><base-datetime :date="selectedProfile.createdAt" /></span>
+              <span class="font-bold">Ролі:</span>
+              <span class="flex gap-2 flex-wrap mt-2">
+                <UBadge v-for="role in selectedProfile.roles.split(',')" :key="role" :label="role" />
+              </span>
+              <span class="font-bold">Послуги:</span>
+              <span class="flex gap-2 flex-wrap mt-2">
+                <UBadge v-for="role in selectedProfile.services" :key="role.name" :label="role.name" />
+              </span>
             </div>
           </UCard>
         </div>

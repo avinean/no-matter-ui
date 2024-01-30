@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { User } from '#types/entities'
+import type { ServiceProduct, User } from '#types/entities'
 
 const props = withDefaults(defineProps<{
   preset?: User | null
@@ -15,6 +15,8 @@ const toast = useToast()
 const store = useSuggestionsStore()
 store.get(['sexes', 'roles'])
 
+const { data: services } = useApi<ServiceProduct[]>(`/services/service`)
+
 const loading = ref(false)
 const user: Partial<User> = reactive({
   firstName: props.preset?.firstName,
@@ -23,7 +25,12 @@ const user: Partial<User> = reactive({
   phone: props.preset?.phone,
   birthday: props.preset?.birthday,
   sex: props.preset?.sex,
-  roles: props.preset?.roles || [],
+  roles: props.preset?.roles.split(',') || [],
+  services: props.preset?.services || [],
+})
+
+whenever(services, () => {
+  user.services = user.services?.map(service => services.value.find(({ id }) => id === service.id)) || []
 })
 
 async function onCreateOrUpdate() {
@@ -35,7 +42,10 @@ async function onCreateOrUpdate() {
 
     const data = await $api<{ user: { email: string, password: string } }>(endpoint, {
       method,
-      body: user,
+      body: {
+        ...user,
+        roles: user.roles.join(','),
+      },
     })
 
     emit('submit', data.user)
@@ -137,13 +147,29 @@ async function onCreateOrUpdate() {
           <UBadge v-for="role in user.roles" :key="role" :label="role" />
         </div>
       </UFormGroup>
+
+      <UFormGroup
+        v-if="services"
+        label="Які послуги може надавати спеціаліст"
+        name="role"
+        required
+      >
+        <USelectMenu
+          v-model="user.services"
+          :options="services"
+          option-attribute="name"
+          multiple
+          selected-icon="i-ic-round-check"
+          placeholder="Оберіть послуги"
+        />
+        <div class="flex gap-2 flex-wrap mt-2">
+          <UBadge v-for="service in user.services" :key="service.name" :label="service.name" />
+        </div>
+      </UFormGroup>
     </UForm>
     <template #footer>
       <div class="flex justify-end">
-        <UButton
-          :loading
-          @click="$refs.form.submit()"
-        >
+        <UButton @click="$refs.form.submit()">
           Submit
         </UButton>
       </div>

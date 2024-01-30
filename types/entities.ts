@@ -13,7 +13,8 @@ export interface User extends Entity {
   image: string
   email: string
   phone: string
-  roles: string[]
+  roles: string
+  services: ServiceProduct[]
 }
 
 export interface Material extends Entity {
