@@ -34,14 +34,16 @@ export const useSuggestionsStore = defineStore('suggestions', () => {
     profileConnectionTypes: false,
   })
 
-  function get(suggestion: Key) {
-    if (suggestions.value[suggestion].length)
-      return
+  function get(s: Key | Key[]) {
+    [s].flat().forEach((suggestion) => {
+      if (suggestions.value[suggestion].length)
+        return
 
-    loading.value[suggestion] = true
-    $api<Suggestion[]>(endpoints[suggestion]).then((data) => {
-      suggestions.value[suggestion] = data
-      loading.value[suggestion] = false
+      loading.value[suggestion] = true
+      $api<Suggestion[]>(endpoints[suggestion]).then((data) => {
+        suggestions.value[suggestion] = data
+        loading.value[suggestion] = false
+      })
     })
   }
 

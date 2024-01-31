@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import type { Profile } from '#types/entities'
+import type { Profile, User } from '#types/entities'
 
 const { baseUrl } = useRuntimeConfig().public
 const toast = useToast()
 const modalStore = useModalStore()
-const ModalClient = resolveComponent('modal-stuff')
+const ModalEmployee = resolveComponent('modal-employee')
+const EmailPassAlert = resolveComponent('modal-email-pass-alert')
 
-const { data, refresh } = useApi<Profile[]>('/profiles')
+const { data, refresh } = useApi<User[]>('/users')
 const commandPaletteRef = ref()
 const selectedId = ref<number | null>(null)
-const selectedClient = computed(() => data.value?.find(client => client.id === selectedId.value))
+const selectedProfile = computed(() => data.value?.find(profile => profile.id === selectedId.value))
 
 const groups = computed(() => [{
   key: 'users',
@@ -21,8 +22,14 @@ const groups = computed(() => [{
   })),
 }])
 
+const actions = [
+  { tooltip: 'Редагувати профіль', icon: 'i-ic-baseline-edit', onClick: () => callModal(selectedProfile.value) },
+  { tooltip: 'Копіювати поточний пароль', icon: 'i-ic-baseline-content-copy' },
+  { tooltip: 'Перегенерувати пароль', icon: 'i-ic-round-security' },
+]
+
 function updateStatus(status: boolean) {
-  $api(`/profiles/${selectedClient.value!.id}/status`, {
+  $api(`/profiles/${selectedProfile.value!.id}/status`, {
     method: 'PUT',
     body: { status },
   }).then(() => {
@@ -39,11 +46,16 @@ function updateStatus(status: boolean) {
   })
 }
 
-function callModal(preset?: Profile) {
-  modalStore.open(ModalClient, {
+function callModal(preset?: User) {
+  modalStore.open(ModalEmployee, {
     preset,
-    onSubmit() {
+    onSubmit(user) {
       refresh()
+      if (!preset) {
+        nextTick(() => {
+          modalStore.open(EmailPassAlert, { user })
+        })
+      }
     },
   }, {
     ui: {
@@ -82,11 +94,11 @@ function callModal(preset?: Profile) {
       </UCommandPalette>
     </div>
     <div class="w-full flex items-start gap-2 pl-2">
-      <template v-if="selectedClient">
+      <template v-if="selectedProfile">
         <div class="grid lg:grid-cols-3 gap-2 w-full">
           <UCard>
             <base-image
-              :src="selectedClient.image"
+              :src="selectedProfile.image"
               alt="users photo"
               class="w-full mb-4"
               width="200"
@@ -96,27 +108,30 @@ function callModal(preset?: Profile) {
               <UToggle
                 on-icon="i-ic-baseline-check-circle-outline"
                 off-icon="i-outline-cancel"
-                :model-value="selectedClient.status"
+                :model-value="selectedProfile.status"
                 @update:model-value="updateStatus"
               />
             </UFormGroup>
           </UCard>
           <UCard class="lg:col-span-2">
             <h1 class="flex justify-between font-bold text-xl">
-              {{ selectedClient.firstName }} {{ selectedClient.lastName }}
-              <UButton
-                icon="i-ic-baseline-edit"
-                @click="callModal(selectedClient)"
-              />
+              {{ selectedProfile.firstName }} {{ selectedProfile.lastName }}
+
+              <base-action-bar :items="actions" />
             </h1>
             <div class="grid grid-cols-[150px,1fr] items-center">
-              <span class="font-bold">Номер телефону:</span><span>{{ selectedClient.phone }}</span>
-              <span class="font-bold">Стать:</span><span>{{ selectedClient.sex }}</span>
-              <span class="font-bold">День народжння:</span><span><base-datetime :date="selectedClient.birthday" /></span>
-              <span class="font-bold">Баланс:</span><span>{{ selectedClient.balance || 0 }}</span>
-              <span class="font-bold">Номер картки:</span><span>{{ selectedClient.cardId || `${selectedClient.id}`.padStart(4, '0') }}</span>
-              <span class="font-bold">Source:</span><span>{{ selectedClient.source }}</span>
-              <span class="font-bold">Created at:</span><span><base-datetime :date="selectedClient.createdAt" /></span>
+              <span class="font-bold">Номер телефону:</span><span>{{ selectedProfile.phone }}</span>
+              <span class="font-bold">Стать:</span><span>{{ selectedProfile.sex }}</span>
+              <span class="font-bold">День народжння:</span><span><base-datetime :date="selectedProfile.birthday" /></span>
+              <span class="font-bold">Created at:</span><span><base-datetime :date="selectedProfile.createdAt" /></span>
+              <span class="font-bold">Ролі:</span>
+              <span class="flex gap-2 flex-wrap mt-2">
+                <UBadge v-for="role in selectedProfile.roles.split(',')" :key="role" :label="role" />
+              </span>
+              <span class="font-bold">Послуги:</span>
+              <span class="flex gap-2 flex-wrap mt-2">
+                <UBadge v-for="role in selectedProfile.services" :key="role.name" :label="role.name" />
+              </span>
             </div>
           </UCard>
         </div>

@@ -3,7 +3,7 @@ export const useModalStore = defineStore('modal', () => {
   const wrapperProps = ref()
   const component = ref('')
 
-  function open(_component: any, _contentProps: any, _wrapperProps: any) {
+  function open(_component: any, _contentProps?: any, _wrapperProps?: any) {
     component.value = _component
 
     contentProps.value = _contentProps
