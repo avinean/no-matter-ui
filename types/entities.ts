@@ -55,6 +55,9 @@ export interface Event extends Entity {
   approved?: boolean
   beenPaid?: boolean
   allDay?: boolean
+  service?: object[]
+  specialist?: string
+  timeSlots?: object
 }
 
 export interface ServiceProduct extends Entity {

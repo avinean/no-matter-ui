@@ -25,33 +25,50 @@ function getEventStyle(event: boolean) {
 const calendarRef = ref()
 const currentCalendarView = ref()
 const eventDetails = ref()
-const eventLimit = ref(true)
 const isOpenEvent = ref(false)
+const selectedTab = ref()
 function handleEventClick(clickInfo: any) {
+  console.log(clickInfo, 'clickInfo')
+
   isOpenEvent.value = true
   eventDetails.value = {
-    id: clickInfo.event.id,
-    price: clickInfo.event.extendedProps.price,
-    title: clickInfo.event.title,
-    description: clickInfo.event.extendedProps.description,
-    phone: clickInfo.event.extendedProps.phone,
-    lastName: clickInfo.event.extendedProps.lastName,
-    firstName: clickInfo.event.extendedProps.firstName,
-    start: clickInfo.event.start,
-    end: clickInfo.event.end,
-    approved: clickInfo.event.extendedProps.approved,
-    beenPaid: clickInfo.event.extendedProps.beenPaid,
+    isEdit: true,
+    eventInfo: {
+      id: clickInfo.event.id,
+      price: clickInfo.event.extendedProps.price,
+      title: clickInfo.event.title,
+      description: clickInfo.event.extendedProps.description,
+      phone: clickInfo.event.extendedProps.phone,
+      lastName: clickInfo.event.extendedProps.lastName,
+      firstName: clickInfo.event.extendedProps.firstName,
+      start: clickInfo.event.start,
+      end: clickInfo.event.end,
+      approved: clickInfo.event.extendedProps.approved,
+      beenPaid: clickInfo.event.extendedProps.beenPaid,
+    },
   }
 }
 
-function handleDateClick(clickInfo: any) {
-  eventDetails.value = null
+function addNewEvent() {
+  eventDetails.value = {
+    isEdit: false,
+    eventInfo: {
+      start: new Date(),
+    },
+  }
   isOpenEvent.value = true
-
 }
 
-
-
+function handleDateClick(clickInfo: any) {
+  console.log(clickInfo, 'clickInfo')
+  eventDetails.value = {
+    isEdit: false,
+    eventInfo: {
+      start: clickInfo.date,
+    },
+  }
+  isOpenEvent.value = true
+}
 const options = {
   plugins: [interactionPlugin, timeGridPlugin, dayGridPlugin],
   initialView: 'timeGridDay',
@@ -62,8 +79,6 @@ const options = {
   locale: 'UK',
   viewDidMount: (viewInfo) => {
     currentCalendarView.value = viewInfo.view.type
-    console.log('View type:', viewInfo.view.type);
-
   },
   viewWillUnmount: (viewInfo) => {
     currentCalendarView.value = viewInfo.view.type
@@ -110,14 +125,32 @@ const options = {
 function goToSelectedDate(val: Date) {
   calendarRef?.value.getApi().gotoDate(val)
 }
+const tabItems = [
+  { label: 'Tab1', id: 1, name: 'Марина Олешко', jobTitle: 'Анестезіолог'
+  },{ label: 'Tab1', id: 10, name: 'Марина Олешко', jobTitle: 'Анестезіолог'
+  },{ label: 'Tab1', id: 9, name: 'Марина Олешко', jobTitle: 'Анестезіолог'
+  },{ label: 'Tab1', id: 8, name: 'Марина Олешко', jobTitle: 'Анестезіолог'
+  },
+  { label: 'Tab2', id: 2, name: 'Олена Зірина', jobTitle: 'дерматовенеролог'
+  },
+  { label: 'Tab3', id: 3, name: 'Дарина Головко', jobTitle: 'косметолог  '
+  }, { label: 'Tab3', id: 4, name: 'Дарина Головко', jobTitle: 'косметолог  '
+  }, { label: 'Tab3', id: 5, name: 'Дарина Головко', jobTitle: 'косметолог  '
+  }, { label: 'Tab3', id: 6, name: 'Дарина Головко', jobTitle: 'косметолог  '
+  },{ label: 'Tab3', id: 7, name: 'Дарина Головко', jobTitle: 'косметолог  '
+  },
+]
 
-
+function handleTabChange(id: number) {
+  console.log(id, 'id')
+  selectedTab.value = id
+}
 </script>
 
 <template>
   <USlideover
-      :overlay="false"
     v-model="isOpenEvent"
+    :overlay="false"
     @close="isOpenEvent = false"
   >
     <modal-event
@@ -177,11 +210,34 @@ function goToSelectedDate(val: Date) {
         >
           День
         </UButton>
+        <UButton
+          color="gray"
+          @click="addNewEvent"
+        >
+          Додати запис
+        </UButton>
       </div>
     </div>
-
+    <div class="mt-6 mb-2">
+      <div class="flex flex-nowrap gap-2 overflow-x-scroll w-full pb-4 scroll-smooth">
+        <div v-for="(tab, index) in tabItems" :key="index" :class="{ 'w-2/6': true, 'bg-white rounded-md': tab.id === selectedTab }" @click="handleTabChange(tab.id)">
+          <div class="flex items-center gap-2 p-4 cursor-pointer" >
+            <UAvatar
+                size="lg"
+                src="https://avatars.githubusercontent.com/u/739984?v=4"
+                alt="Avatar"
+            />
+            <div class="grid text-start text-nowrap">
+              <span class="text-black"> {{ tab.name }}</span>
+              <span class="text-gray-400"> {{ tab.jobTitle }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <FullCalendar
-        ref="calendarRef" :options="options" class="syns_calendar">
+      ref="calendarRef" :options="options" class="syns_calendar"
+    >
       <template #eventContent="arg">
         <div
           class="w-full

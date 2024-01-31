@@ -2,23 +2,53 @@
 import type { Event } from '#types/entities'
 
 const props = defineProps<{
-  preset?: Event | null
+  preset?: {
+    eventInfo: Event | null
+    isEdit: boolean
+  }
 }>()
 
-const event: Partial<Event> = reactive({
-  id: props.preset?.id,
-  price: props.preset?.price,
-  title: props.preset?.title,
-  description: props.preset?.description,
-  phone: props.preset?.phone,
-  firstName: props.preset?.firstName,
-  lastName: props.preset?.lastName,
-  start: props.preset?.start,
-  end: props.preset?.end,
-  approved: props.preset?.approved,
-  beenPaid: props.preset?.beenPaid,
-})
 const pickerMode = ref('dateTime')
+
+const event: Partial<Event> = reactive({
+  id: props.preset?.eventInfo?.id,
+  price: props.preset?.eventInfo?.price,
+  title: props.preset?.eventInfo?.title,
+  description: props.preset?.eventInfo?.description,
+  phone: props.preset?.eventInfo?.phone,
+  firstName: props.preset?.eventInfo?.firstName,
+  lastName: props.preset?.eventInfo?.lastName,
+  start: props.preset?.eventInfo?.start || '',
+  end: props.preset?.eventInfo?.end,
+  approved: props.preset?.eventInfo?.approved,
+  beenPaid: props.preset?.eventInfo?.beenPaid,
+  service: props?.preset?.eventInfo?.service || [],
+  specialist: props?.preset?.eventInfo?.specialist,
+  timeSlots: props?.preset?.eventInfo?.timeSlots || {},
+})
+
+const services = [
+  { name: 'Стрижка', time: '2' },
+  { name: 'Миття голови', time: '1' },
+  { name: 'Покраска', time: '4' },
+]
+const specialistList = [
+  { name: 'таня', id: '2' },
+  { name: 'Галя', id: '1' },
+  { name: 'Оксана', id: '4' },
+]
+
+const timeSlotsArray = [
+  { from: '12:00', to: '15:00' },
+  { from: '16:00', to: '18:00' },
+]
+function removeSelectedService(item: object) {
+  event.service = event?.service?.filter(i => i?.name !== item?.name)
+}
+
+function addTimeSlot(item: object) {
+  event.timeSlots = item
+}
 </script>
 
 <template>
@@ -28,7 +58,7 @@ const pickerMode = ref('dateTime')
   >
     <template #header>
       <h1 class="text-3xl font-bold">
-        {{ props.preset?.title || 'Новий запис' }}
+        {{ props.preset.isEdit ? props.preset?.eventInfo?.title : 'Новий запис' }}
       </h1>
     </template>
     <UForm
@@ -36,6 +66,71 @@ const pickerMode = ref('dateTime')
       :state="event"
       class="grid grid-cols-1  gap-y-2"
     >
+      <UFormGroup
+        label="Виберіть послугу"
+        name="service"
+        required
+      >
+        <USelectMenu v-model="event.service" searchable :options="services" multiple option-attribute="name">
+          <template #label>
+            <UBadge
+              v-for="item in event.service"
+              :key="item"
+              class="gap-2"
+              @click="removeSelectedService(item)"
+            >
+              {{ item.name }}
+              <UIcon name="i-ic-baseline-cancel" />
+            </UBadge>
+          </template>
+        </USelectMenu>
+      </UFormGroup>
+      <UFormGroup
+        v-if="event.service?.length"
+        label="Виберіть спеціаліста"
+        name="specialist"
+        required
+      >
+        <USelect
+          v-model="event.specialist"
+          option-attribute="name"
+          value-attribute="id"
+          :options="specialistList"
+        />
+      </UFormGroup>
+      <UFormGroup
+        v-if="event.service?.length"
+        label="~Загальна к-сть годин~"
+      >
+        <UBadge>
+          {{ event?.service?.reduce((acc, service) => acc + parseInt(service.time, 10), 0) }}
+        </UBadge>
+      </UFormGroup>
+      <UFormGroup
+        label="Дата"
+        name="start"
+        required
+      >
+        <input-date v-model="event.start" :mode="pickerMode" :full-date="false" />
+      </UFormGroup>
+      <UFormGroup
+        v-if="event.start"
+        label="Виберіть вільні слоти спеціаліста на вибрану дату"
+      >
+        <div class="flex gap-2 items-center">
+          <UBadge
+            v-for="slot in timeSlotsArray"
+            :key="`${slot.from}-${slot.to}`"
+            class="cursor-pointer"
+            :variant="event?.timeSlots?.from === slot?.from && event?.timeSlots?.to === slot?.to ? 'solid' : 'outline'"
+            @click="addTimeSlot(slot)"
+          >
+            {{ slot.from }}
+            -
+            {{ slot.to }}
+          </UBadge>
+        </div>
+      </UFormGroup>
       <div class="flex items-center gap-2">
         <UFormGroup
           label="Прізвище"
@@ -61,26 +156,14 @@ const pickerMode = ref('dateTime')
       >
         <UInput v-model="event.phone" type="tel" />
       </UFormGroup>
-      <UFormGroup
-        label="Дата від"
-        name="start"
-        required
-      >
-        <input-date v-model="event.start" :mode="pickerMode" />
-      </UFormGroup>
-      <UFormGroup
-        label="Дата до"
-        name="end"
-        required
-      >
-        <input-date v-model="event.end" :mode="pickerMode" />
-      </UFormGroup>
+
       <UFormGroup
         label="Заголовок"
+        placeholder="123"
         name="title"
         required
       >
-        <UInput v-model="event.title" />
+        <UInput v-model="event.title" placeholder="Стрижка + фарбування" />
       </UFormGroup>
 
       <UFormGroup
@@ -91,6 +174,7 @@ const pickerMode = ref('dateTime')
         <UTextarea v-model="event.description" />
       </UFormGroup>
       <UFormGroup
+        v-if="props.preset.isEdit"
         label="Підтверджено"
         name="approved"
       >
@@ -103,6 +187,7 @@ const pickerMode = ref('dateTime')
     <template #footer>
       <div v-if="!event.approved || !event.beenPaid" class="flex justify-end gap-2">
         <UButton
+          v-if="props.preset.isEdit"
           color="red"
           :loading
           @click="$refs.form.submit()"
@@ -110,6 +195,7 @@ const pickerMode = ref('dateTime')
           Видалити запис
         </UButton>
         <UButton
+          v-if="props.preset.isEdit"
           color="lime"
           :loading
           @click="$refs.form.submit()"

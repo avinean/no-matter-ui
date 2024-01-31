@@ -2,17 +2,33 @@
 import { DatePicker as VCalendarDatePicker } from 'v-calendar'
 import 'v-calendar/dist/style.css'
 
-const props = defineProps(['mode'])
+const props = defineProps({
+  mode: String,
+  fullDate: {
+    type: Boolean,
+    default: true, // Set the default value to true
+  },
+})
 const model = defineModel<Date | string>()
-const label = computed(() => model.value?.toLocaleDateString?.('uk-ua', {
-  weekday: 'long',
-  year: 'numeric',
-  month: 'short',
-  day: 'numeric',
-  hour: 'numeric',
-  minute: 'numeric',
-  hour12: false,
-}))
+console.log(model, 'model')
+const label = computed(() => {
+  const options = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: false,
+  }
+  if (props.fullDate) {
+    return model?.value?.toLocaleDateString?.('uk-ua', options)
+  }
+  else {
+    const { hour, minute, ...dateOptions } = options
+    return model?.value?.toLocaleDateString('uk-ua', dateOptions)
+  }
+})
 const datePickerMode = ref(props.mode || 'date')
 </script>
 
