@@ -6,7 +6,7 @@ const toast = useToast()
 const modalStore = useModalStore()
 const ModalClient = resolveComponent('modal-client')
 
-const { data, refresh } = useApi<Profile[]>('/profiles')
+const { data, refresh } = useApi<Profile[]>('/clients')
 const commandPaletteRef = ref()
 const selectedId = ref<number | null>(null)
 const selectedClient = computed(() => data.value?.find(client => client.id === selectedId.value))

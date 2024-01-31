@@ -11,6 +11,9 @@ export default defineNuxtConfig({
     },
   },
   modules: ['@nuxt/ui', '@pinia/nuxt','@vueuse/nuxt', '@nuxtjs/google-fonts', '@nuxtjs/color-mode'],
+  app: {
+    pageTransition: { name: 'page', mode: 'out-in' },
+  },
   ui: {
     icons: {
       collections: {

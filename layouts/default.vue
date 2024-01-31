@@ -23,8 +23,13 @@ const links = [
     },
     {
       label: 'Матеріали',
-      icon: 'i-ic-baseline-arrow-right',
+      icon: 'i-ic-sharp-tune',
       to: '/materials',
+    },
+    {
+      label: 'Приклад бронювання',
+      icon: 'i-ic-baseline-calendar-month',
+      to: '/booking-example',
     },
     {
       label: 'Послуги',
