@@ -10,13 +10,16 @@ export default defineNuxtConfig({
       baseUrl: process.env.API_BASE_URL || '/',
     },
   },
+  app: {
+    pageTransition: { name: 'page', mode: 'out-in' },
+  },
   modules: ['@nuxt/ui', '@pinia/nuxt', '@vueuse/nuxt'],
   ui: {
     icons: {
       collections: {
         ...getIconCollections(['ic']),
-      }
-    }
+      },
+    },
   },
   pinia: {
     storesDirs: ['./stores/**'],

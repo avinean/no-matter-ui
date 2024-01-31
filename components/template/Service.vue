@@ -83,49 +83,51 @@ async function onChangeStatus(item: ServiceProduct) {
 </script>
 
 <template>
-  <div class="flex justify-end gap-2 p-2">
-    <UButton
-      :icon="type === 'service' ? 'i-ic-baseline-design-services' : 'i-ic-twotone-production-quantity-limits'"
-      size="sm"
-      color="primary"
-      square
-      variant="solid"
-      :label="`Додати ${type === 'service' ? 'послугу' : 'товар'}`"
-      @click="callModal()"
-    />
-  </div>
+  <div>
+    <div class="flex justify-end gap-2 p-2">
+      <UButton
+        :icon="type === 'service' ? 'i-ic-baseline-design-services' : 'i-ic-twotone-production-quantity-limits'"
+        size="sm"
+        color="primary"
+        square
+        variant="solid"
+        :label="`Додати ${type === 'service' ? 'послугу' : 'товар'}`"
+        @click="callModal()"
+      />
+    </div>
 
-  <UCard v-if="data">
-    <h2>{{ props.type === 'product' ? 'Товари' : 'Послуги' }}</h2>
-    <UTable :rows="data" :columns="columns">
-      <template #createdAt-data="{ row }">
-        <base-datetime :date="row.createdAt" />
-      </template>
-      <template #updatedAt-data="{ row }">
-        <base-datetime :date="row.createdAt" />
-      </template>
-      <template #status-data="{ row }">
-        <UBadge v-if="row.status" color="green" variant="solid">
-          активний
-        </UBadge>
-        <UBadge v-else color="gray" variant="solid">
-          неактивний
-        </UBadge>
-      </template>
-      <template #discount-data="{ row }">
-        {{ row.discount }}%
-      </template>
-      <template #price-data="{ row }">
-        {{ row.price }} грн
-      </template>
-      <template #duration-data="{ row }">
-        {{ row.duration }} год
-      </template>
-      <template #actions-data="{ row }">
-        <UDropdown :items="menu(row)">
-          <UButton color="gray" variant="ghost" icon="i-ic-outline-more-horiz" />
-        </UDropdown>
-      </template>
-    </UTable>
-  </UCard>
+    <UCard v-if="data">
+      <h2>{{ props.type === 'product' ? 'Товари' : 'Послуги' }}</h2>
+      <UTable :rows="data" :columns="columns">
+        <template #createdAt-data="{ row }">
+          <base-datetime :date="row.createdAt" />
+        </template>
+        <template #updatedAt-data="{ row }">
+          <base-datetime :date="row.createdAt" />
+        </template>
+        <template #status-data="{ row }">
+          <UBadge v-if="row.status" color="green" variant="solid">
+            активний
+          </UBadge>
+          <UBadge v-else color="gray" variant="solid">
+            неактивний
+          </UBadge>
+        </template>
+        <template #discount-data="{ row }">
+          {{ row.discount }}%
+        </template>
+        <template #price-data="{ row }">
+          {{ row.price }} грн
+        </template>
+        <template #duration-data="{ row }">
+          {{ row.duration }} год
+        </template>
+        <template #actions-data="{ row }">
+          <UDropdown :items="menu(row)">
+            <UButton color="gray" variant="ghost" icon="i-ic-outline-more-horiz" />
+          </UDropdown>
+        </template>
+      </UTable>
+    </UCard>
+  </div>
 </template>

@@ -23,7 +23,7 @@
   "devDependencies": {
     "@antfu/eslint-config": "^2.6.3",
     "eslint": "^8.56.0",
-    "nuxt": "^3.9.1",
+    "nuxt": "^3.10.0",
     "ohmyfetch": "^0.4.21",
     "vue": "^3.4.10",
     "vue-router": "^4.2.5"
