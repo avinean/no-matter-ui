@@ -2,58 +2,40 @@
 import { DatePicker as VCalendarDatePicker } from 'v-calendar'
 import 'v-calendar/dist/style.css'
 
-const props = defineProps({
-  mode: String,
-  fullDate: {
-    type: Boolean,
-    default: true, // Set the default value to true
-  },
-})
-const model = defineModel<Date | string>()
-console.log(model, 'model')
-const label = computed(() => {
-  const options = {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    hour12: false,
-  }
-  if (props.fullDate) {
-    return model?.value?.toLocaleDateString?.('uk-ua', options)
-  }
-  else {
-    const { hour, minute, ...dateOptions } = options
-    return model?.value?.toLocaleDateString('uk-ua', dateOptions)
-  }
-})
-const datePickerMode = ref(props.mode || 'date')
+defineProps<{
+  mode: string
+}>()
+
+defineSlots<{
+  default(props: { date: Date | string }): any
+  display(props: { date: Date | string }): any
+}>()
+
+const date = defineModel<Date | string>({ default: new Date() })
 </script>
 
 <template>
   <UPopover :popper="{ placement: 'bottom-start' }">
-    <slot>
+    <slot :date="date">
       <UButtonGroup
         class="w-full"
         size="sm"
         orientation="horizontal"
       >
-        <UInput
-          v-model="label"
-          class="w-full"
-          disabled
-        />
+        <UButton color="gray" class="flex-1">
+          <slot name="display" :date="date">
+            <base-datetime :date="date" date-style="full" time-style="medium" />
+          </slot>
+        </UButton>
         <UButton icon="i-ic-baseline-calendar-month" color="gray" />
       </UButtonGroup>
     </slot>
     <template #panel="{ close }">
       <VCalendarDatePicker
-        v-model="model"
+        v-model.string="date"
         locale="uk-UA"
         expanded
-        :mode="datePickerMode"
+        :mode="mode"
         :attributes="[{
           key: 'today',
           dates: new Date(),

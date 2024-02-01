@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { Profile } from '#types/entities'
+import type { Client } from '#types/entities'
 
 const { baseUrl } = useRuntimeConfig().public
 const toast = useToast()
 const modalStore = useModalStore()
 const ModalClient = resolveComponent('modal-client')
 
-const { data, refresh } = useApi<Profile[]>('/clients')
+const { data, refresh } = useApi<Client[]>('/clients')
 const commandPaletteRef = ref()
 const selectedId = ref<number | null>(null)
 const selectedClient = computed(() => data.value?.find(client => client.id === selectedId.value))
@@ -39,7 +39,7 @@ function updateStatus(status: boolean) {
   })
 }
 
-function callModal(preset?: Profile) {
+function callModal(preset?: Client) {
   modalStore.open(ModalClient, {
     preset,
     onSubmit() {

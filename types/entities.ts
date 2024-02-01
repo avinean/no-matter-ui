@@ -37,7 +37,7 @@ export interface Contact extends Entity {
   value: string
 }
 
-export interface Profile extends Entity {
+export interface Client extends Entity {
   firstName: string
   lastName: string
   phone: string
@@ -76,4 +76,13 @@ export interface ServiceProduct extends Entity {
   duration: number
   discount: number
   status: boolean
+}
+
+export interface Booking extends Entity {
+  client: Client
+  profile: User
+  services: ServiceProduct[]
+  date: Date
+  status: boolean
+  duration: number
 }
