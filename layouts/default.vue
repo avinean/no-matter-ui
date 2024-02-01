@@ -41,22 +41,12 @@ const links = [
       icon: 'i-ic-twotone-production-quantity-limits',
       to: '/products',
     },
-    {
-      label: 'Sign in',
-      icon: 'i-ic-baseline-arrow-right',
-      to: '/auth/sign-in',
-    },
   ],
   [
     {
-      label: 'Examples',
-      icon: 'i-ic-baseline-help',
-      to: '/examples',
-    },
-    {
-      label: 'Help',
-      icon: 'i-ic-baseline-arrow-right',
-      to: '/help',
+      label: 'Аккаунт',
+      icon: 'i-ic-baseline-room-preferences',
+      to: '/account/info',
     },
   ],
 ]

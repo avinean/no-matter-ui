@@ -7,12 +7,14 @@ const search: {
   services: ServiceProduct[]
   date: Date
   duration: number
+  comment: string
 } = reactive({
   profile: undefined,
   client: undefined,
   services: [],
   date: new Date().setHours(0, 0, 0, 0),
   duration: 0,
+  comment: '',
 })
 
 const selectedSlot = ref<string | null>(null)
@@ -142,6 +144,13 @@ function selectTimeslot(timeslot: string) {
       </div>
 
       <UFormGroup
+        label="Коментар"
+        name="comment"
+      >
+        <UTextarea v-model="search.comment" />
+      </UFormGroup>
+
+      <UFormGroup
         label="Замовник"
         name="client"
         required
@@ -190,7 +199,7 @@ function selectTimeslot(timeslot: string) {
         </template>
         <template #services-data="{ row }">
           <template v-for="service in row.services" :key="service.id">
-            {{ service.name }}, 
+            {{ service.name }},
           </template>
         </template>
         <template #profile-data="{ row }">

@@ -3,8 +3,8 @@ defineProps<{
   src: string
   srcset?: string
   loading?: 'lazy' | 'eager'
-  width?: number | string
-  height?: number | string
+  width: number | string
+  height: number | string
 }>()
 
 const { baseUrl } = useRuntimeConfig().public

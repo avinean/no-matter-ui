@@ -1,7 +1,7 @@
 import type { FetchOptions } from 'ohmyfetch'
 
 export function $api<T>(url: string, opts?: FetchOptions) {
-  const token = useCookie('sraka')
+  const token = useCookie(process.env.KOOKEY)
 
   const headers: HeadersInit = {
     ...(opts?.headers || {}),
