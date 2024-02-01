@@ -2,29 +2,33 @@
 import { DatePicker as VCalendarDatePicker } from 'v-calendar'
 import 'v-calendar/dist/style.css'
 
-const model = defineModel<Date | string>()
-const label = computed(() => new Date(model.value)?.toLocaleDateString?.('uk-ua', { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' }))
+defineSlots<{
+  default(props: { date: Date | string }): any
+  display(props: { date: Date | string }): any
+}>()
+
+const date = defineModel<Date | string>({ default: new Date() })
 </script>
 
 <template>
   <UPopover :popper="{ placement: 'bottom-start' }">
-    <slot>
+    <slot :date="date">
       <UButtonGroup
         class="w-full"
         size="sm"
         orientation="horizontal"
       >
-        <UInput
-          v-model="label"
-          class="w-full"
-          disabled
-        />
+        <UButton color="gray" class="flex-1">
+          <slot name="display" :date="date">
+            <base-datetime :date="date" date-style="full" time-style="medium" />
+          </slot>
+        </UButton>
         <UButton icon="i-ic-baseline-calendar-month" color="gray" />
       </UButtonGroup>
     </slot>
     <template #panel="{ close }">
       <VCalendarDatePicker
-        v-model="model"
+        v-model.string="date"
         locale="uk-UA"
         expanded
         :attributes="[{
