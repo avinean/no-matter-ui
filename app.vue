@@ -3,10 +3,8 @@ const modalStore = useModalStore()
 </script>
 
 <template>
-  <div>
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
+  <NuxtLayout>
+    <NuxtPage />
     <UNotifications />
     <UModal
       :model-value="!!modalStore.component"
@@ -20,7 +18,7 @@ const modalStore = useModalStore()
         @submit="modalStore.close"
       />
     </UModal>
-  </div>
+  </NuxtLayout>
 </template>
 
 <style>

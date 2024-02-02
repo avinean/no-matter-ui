@@ -2,7 +2,7 @@ import type { User } from '#types/entities'
 
 export const useGlobalStore = defineStore('global', () => {
   const user = ref<User | null>(null)
-  const cookie = useCookie(process.env.KOOKEY)
+  const cookie = useCookie('sraka')
 
   async function login(body: { email: string, password: string }) {
     const data = await $api<{ access_token: string }>('/auth/login', {
@@ -18,7 +18,7 @@ export const useGlobalStore = defineStore('global', () => {
   function logout() {
     cookie.value = ''
     user.value = null
-    useRouter().push('/auth/signin')
+    useRouter().push('/auth/sign-in')
   }
 
   async function getUser() {

@@ -12,7 +12,7 @@ const search: {
   profile: undefined,
   client: undefined,
   services: [],
-  date: new Date().setHours(0, 0, 0, 0),
+  date: new Date(new Date().setHours(0, 0, 0, 0)),
   duration: 0,
   comment: '',
 })
@@ -40,13 +40,11 @@ const { data: timeslots } = useApi<any[]>(
 function create() {
   $api('/booking', {
     method: 'POST',
-    body: search,
+    body: {
+      ...search,
+      date: selectedSlot.value.time,
+    },
   })
-}
-
-function selectTimeslot(timeslot: string) {
-  selectedSlot.value = timeslot
-  search.date = new Date(timeslot)
 }
 </script>
 
@@ -118,11 +116,7 @@ function selectTimeslot(timeslot: string) {
         name="date"
         required
       >
-        <input-date v-model="search.date">
-          <template #display="props">
-            <base-datetime v-bind="props" date-style="full" time-style="short" />
-          </template>
-        </input-date>
+        <input-date v-model="search.date" />
       </UFormGroup>
 
       <UFormGroup
@@ -137,9 +131,12 @@ function selectTimeslot(timeslot: string) {
           v-for="timeslot in timeslots"
           :key="timeslot" size="2xs"
           :color="selectedSlot === timeslot ? 'primary' : 'gray'"
-          @click="selectTimeslot(timeslot)"
+          @click="selectedSlot = timeslot"
         >
-          <base-datetime :date="timeslot" time-style="short" />
+          <base-datetime :date="timeslot.time" time-style="short" />
+          <UTooltip v-if="timeslot.booked" :text="`${timeslot.booked.comment} ${timeslot.booked.date}`">
+            <span>booked</span>
+          </UTooltip>
         </UButton>
       </div>
 
@@ -181,7 +178,7 @@ function selectTimeslot(timeslot: string) {
     <div v-if="bookings" class="py-4">
       <UTable :rows="bookings">
         <template #date-data="{ row }">
-          <base-datetime :date="row.date" />
+          <base-datetime :date="row.date" date-style="long" time-style="short" />
         </template>
         <template #createdAt-data="{ row }">
           <base-datetime :date="row.createdAt" />

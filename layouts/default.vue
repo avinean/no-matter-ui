@@ -54,7 +54,7 @@ const links = [
 
 <template>
   <div class="flex min-h-screen">
-    <div class="w-384 max-h-screen bg-slate-800 flex flex-col items-center sticky top-0">
+    <div class="w-384 max-h-screen bg-slate-800 flex flex-col items-center sticky top-0 left-0 z-50">
       <div class="p-4">
         <img
           src="/logo.svg"
