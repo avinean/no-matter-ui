@@ -4,7 +4,7 @@ export const useGlobalStore = defineStore('global', () => {
   const user = ref<User | null>(null)
   const cookie = useCookie('sraka')
 
-  async function login(body: { email: string, password: string }) {
+  async function login(body: { phone: string, password: string }) {
     const data = await $api<{ access_token: string }>('/auth/login', {
       method: 'POST',
       body,
@@ -13,6 +13,15 @@ export const useGlobalStore = defineStore('global', () => {
     cookie.value = data?.access_token
     getUser()
     useRouter().push('/')
+  }
+
+  async function signup(body: { firstName: string, lastName: string, phone: string }) {
+    await $api<{ access_token: string }>('/auth/signup', {
+      method: 'POST',
+      body,
+    })
+
+    useRouter().push('/auth/sign-in')
   }
 
   function logout() {
@@ -31,6 +40,7 @@ export const useGlobalStore = defineStore('global', () => {
   return {
     user,
     login,
+    signup,
     logout,
     getUser,
   }
