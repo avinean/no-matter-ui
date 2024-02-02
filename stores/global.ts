@@ -1,7 +1,9 @@
-import type { User } from '#types/entities'
+import type { Bussiness, BussinessObject, User } from '#types/entities'
 
 export const useGlobalStore = defineStore('global', () => {
   const user = ref<User | null>(null)
+  const bussiness = ref<Bussiness>()
+  const object = ref<BussinessObject>()
   const config = ref<{
     /**
      * this is temporal config or testing purposes
@@ -49,11 +51,15 @@ export const useGlobalStore = defineStore('global', () => {
 
     const response = await $api<{ profile: User, config: any }>('/users/me')
     user.value = response?.profile
+    bussiness.value = response?.profile?.bussinesses?.[0]
+    object.value = response?.profile?.bussinesses?.[0]?.objects?.[0]
     config.value = response?.config
   }
 
   return {
     user,
+    bussiness,
+    object,
     config,
     login,
     signup,

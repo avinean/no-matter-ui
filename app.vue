@@ -1,10 +1,11 @@
 <script setup lang="ts">
+const globalStore = useGlobalStore()
 const modalStore = useModalStore()
 </script>
 
 <template>
   <NuxtLayout>
-    <NuxtPage />
+    <NuxtPage :key="globalStore.object?.name" />
     <UNotifications />
     <UModal
       :model-value="!!modalStore.component"

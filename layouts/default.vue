@@ -1,56 +1,55 @@
 <script setup>
 const store = useGlobalStore()
 
-const links = computed(() => [
-  [
-    {
-      label: 'Dashboard',
-      icon: 'i-ic-baseline-arrow-right',
-      to: '/',
-    },
-    {
-      label: 'Клієнти',
-      icon: 'i-ic-baseline-people',
-      to: '/clients',
-    },
-    {
-      label: 'Записи',
-      icon: 'i-ic-baseline-arrow-right',
-      to: '/entries',
-    },
-    {
-      label: 'Працівники',
-      icon: 'i-ic-sharp-groups',
-      to: '/employees',
-    },
-    store.config.allowSeeMaterails && {
-      label: 'Матеріали',
-      icon: 'i-ic-sharp-tune',
-      to: '/materials',
-    },
-    {
-      label: 'Приклад бронювання',
-      icon: 'i-ic-baseline-calendar-month',
-      to: '/booking-example',
-    },
-    store.config.allowSeeServices && {
-      label: 'Послуги',
-      icon: 'i-ic-baseline-design-services',
-      to: '/services',
-    },
-    store.config.allowSeeProducts && {
-      label: 'Товари',
-      icon: 'i-ic-twotone-production-quantity-limits',
-      to: '/products',
-    },
-  ],
-  [
-    {
-      label: 'Аккаунт',
-      icon: 'i-ic-baseline-room-preferences',
-      to: '/account/info',
-    },
-  ],
+const primarylinks = computed(() => [
+  {
+    label: 'Dashboard',
+    icon: 'i-ic-baseline-arrow-right',
+    to: '/',
+  },
+  {
+    label: 'Клієнти',
+    icon: 'i-ic-baseline-people',
+    to: '/clients',
+  },
+  {
+    label: 'Записи',
+    icon: 'i-ic-baseline-arrow-right',
+    to: '/entries',
+  },
+  {
+    label: 'Працівники',
+    icon: 'i-ic-sharp-groups',
+    to: '/employees',
+  },
+  store.config.allowSeeMaterails && {
+    label: 'Матеріали',
+    icon: 'i-ic-sharp-tune',
+    to: '/materials',
+  },
+  {
+    label: 'Приклад бронювання',
+    icon: 'i-ic-baseline-calendar-month',
+    to: '/booking-example',
+  },
+  store.config.allowSeeServices && {
+    label: 'Послуги',
+    icon: 'i-ic-baseline-design-services',
+    to: '/services',
+  },
+  store.config.allowSeeProducts && {
+    label: 'Товари',
+    icon: 'i-ic-twotone-production-quantity-limits',
+    to: '/products',
+  },
+])
+
+const secondaryLinks = computed(() => [
+  {
+    label: 'Аккаунт',
+    icon: 'i-ic-baseline-room-preferences',
+    to: '/account/info',
+  },
 ])
 </script>
 
@@ -67,28 +66,34 @@ const links = computed(() => [
         >
       </div>
 
-      <template
-        v-for="group, key in links"
-        :key
+      <NuxtLink
+        v-for="link in primarylinks"
+        :key="link.to"
+        :to="link.to"
+        :aria-label="link.label"
+        class="flex itens-center justify-center w-full py-5 text-gray-100 transition hover:bg-gray-100 hover:text-slate-800"
+        active-class="bg-gray-100 text-slate-800"
       >
-        <NuxtLink
-          v-for="link in group"
-          :key="link.to"
-          :to="link.to"
-          :aria-label="link.label"
-          class="flex itens-center justify-center w-full py-5 text-gray-100 transition hover:bg-gray-100 hover:text-slate-800"
-          active-class="bg-gray-100 text-slate-800"
-        >
-          <UIcon
-            :name="link.icon"
-            class="text-3xl"
-          />
-        </NuxtLink>
-        <div
-          v-if="key < links.length - 1"
-          class="flex-1"
+        <UIcon
+          :name="link.icon"
+          class="text-3xl"
         />
-      </template>
+      </NuxtLink>
+      <div class="flex-1" />
+      <use-bussiness-select class="flex flex-col gap-2 py-2" />
+      <NuxtLink
+        v-for="link in secondaryLinks"
+        :key="link.to"
+        :to="link.to"
+        :aria-label="link.label"
+        class="flex itens-center justify-center w-full py-5 text-gray-100 transition hover:bg-gray-100 hover:text-slate-800"
+        active-class="bg-gray-100 text-slate-800"
+      >
+        <UIcon
+          :name="link.icon"
+          class="text-3xl"
+        />
+      </NuxtLink>
     </div>
     <div class="w-full p-4 bg-gray-100">
       <div class="p-2 bg-white h-full rounded-xl">
