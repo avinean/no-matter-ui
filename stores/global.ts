@@ -45,6 +45,10 @@ export const useGlobalStore = defineStore('global', () => {
     useRouter().push('/auth/sign-in')
   }
 
+  async function getBussinesses() {
+    user.value!.bussinesses = await $api<Bussiness[]>(`/bussiness/${user.value?.id}`)
+  }
+
   async function getUser() {
     if (user.value)
       return
@@ -65,5 +69,6 @@ export const useGlobalStore = defineStore('global', () => {
     signup,
     logout,
     getUser,
+    getBussinesses,
   }
 })

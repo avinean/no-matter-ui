@@ -6,7 +6,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  submit: [profile: Client]
+  submit: [client: Client]
 }>()
 
 const { baseUrl } = useRuntimeConfig().public
@@ -16,7 +16,7 @@ store.get('sexes')
 
 const loading = ref(false)
 const photo = ref()
-const profile: Partial<Client> = reactive({
+const state: Partial<Client> = reactive({
   firstName: props.preset?.firstName,
   lastName: props.preset?.lastName,
   phone: props.preset?.phone,
@@ -26,6 +26,24 @@ const profile: Partial<Client> = reactive({
   image: props.preset?.image,
 })
 
+function validate(state: Client) {
+  const errors = []
+  if (!state.firstName)
+    errors.push({ path: 'firstName', message: 'Поле обовʼязкове' })
+  if (!state.lastName)
+    errors.push({ path: 'lastName', message: 'Поле обовʼязкове' })
+  if (!state.phone)
+    errors.push({ path: 'phone', message: 'Поле обовʼязкове' })
+  if (!state.sex)
+    errors.push({ path: 'sex', message: 'Поле обовʼязкове' })
+  if (!state.birthday)
+    errors.push({ path: 'birthday', message: 'Поле обовʼязкове' })
+  if (!state.source)
+    errors.push({ path: 'source', message: 'Поле обовʼязкове' })
+
+  return errors
+}
+
 async function onCreateOrUpdate() {
   loading.value = true
   let image
@@ -33,9 +51,11 @@ async function onCreateOrUpdate() {
     try {
       const body = new FormData()
       body.append('photo', photo.value)
+      const endpoint = props.preset?.id ? `/utils/photo/${state.image}` : '/utils/photo'
+      const method = props.preset?.id ? 'PUT' : 'POST'
 
-      image = await $api<Client>('/clients/photo', {
-        method: 'POST',
+      image = await $api<string>(endpoint, {
+        method,
         body,
       })
       photo.value = null
@@ -55,8 +75,8 @@ async function onCreateOrUpdate() {
     const data = await $api<Client>(endpoint, {
       method,
       body: {
-        ...profile,
-        birthday: new Date(profile.birthday!).toISOString(),
+        ...state,
+        birthday: new Date(state.birthday!).toISOString(),
         image,
       },
     })
@@ -64,6 +84,7 @@ async function onCreateOrUpdate() {
     emit('submit', data)
   }
   catch (e) {
+    console.dir(e)
     toast.add({
       title: 'Error',
       description: 'Користувача з таким номером телефону вже зареєстровано',
@@ -82,19 +103,20 @@ async function onCreateOrUpdate() {
   >
     <template #header>
       <h1 class="text-3xl font-bold">
-        Add profile
+        Створити профіль клієнта
       </h1>
     </template>
 
     <UForm
       ref="form"
-      :state="profile"
+      :state="state"
+      :validate="validate"
       class="grid grid-cols-2 gap-x-4 gap-y-2"
       @submit="onCreateOrUpdate"
     >
       <input-file
         class="row-span-6"
-        :src="profile.image ? `${baseUrl}/${profile.image}` : null"
+        :src="state.image ? `${baseUrl}/${state.image}` : null"
         @change="photo = $event"
       />
 
@@ -103,7 +125,7 @@ async function onCreateOrUpdate() {
         name="firstName"
         required
       >
-        <UInput v-model="profile.firstName" />
+        <UInput v-model="state.firstName" />
       </UFormGroup>
 
       <UFormGroup
@@ -111,7 +133,7 @@ async function onCreateOrUpdate() {
         name="lastName"
         required
       >
-        <UInput v-model="profile.lastName" />
+        <UInput v-model="state.lastName" />
       </UFormGroup>
 
       <UFormGroup
@@ -119,7 +141,7 @@ async function onCreateOrUpdate() {
         name="phone"
         required
       >
-        <UInput v-model="profile.phone" />
+        <UInput v-model="state.phone" />
       </UFormGroup>
 
       <UFormGroup
@@ -128,7 +150,7 @@ async function onCreateOrUpdate() {
         required
       >
         <USelect
-          v-model="profile.sex"
+          v-model="state.sex"
           :options="store.suggestions.sexes"
         />
       </UFormGroup>
@@ -138,7 +160,7 @@ async function onCreateOrUpdate() {
         name="birthday"
         required
       >
-        <input-date v-model="profile.birthday" />
+        <input-date v-model="state.birthday" />
       </UFormGroup>
 
       <UFormGroup
@@ -146,7 +168,7 @@ async function onCreateOrUpdate() {
         name="source"
         required
       >
-        <UInput v-model="profile.source" />
+        <UInput v-model="state.source" />
       </UFormGroup>
     </UForm>
     <template #footer>

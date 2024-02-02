@@ -20,11 +20,15 @@ export interface User extends Entity {
 
 export interface Bussiness extends Entity {
   name: string
+  description: string
+  image: string
   objects?: BussinessObject[]
 }
 
 export interface BussinessObject extends Entity {
   name: string
+  description: string
+  image: string
 }
 
 export interface Material extends Entity {

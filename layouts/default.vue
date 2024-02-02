@@ -55,12 +55,12 @@ const secondaryLinks = computed(() => [
 
 <template>
   <div class="flex min-h-screen">
-    <div class="w-384 max-h-screen bg-slate-800 flex flex-col items-center sticky top-0 left-0 z-50">
+    <div class="w-16 max-h-screen bg-slate-800 flex flex-col items-center sticky top-0 left-0 z-50">
       <div class="p-4">
         <img
           src="/logo.svg"
           alt="Syns"
-          class="min-w-16"
+          class="min-w-12"
           width="70"
           height="70"
         >

@@ -1,6 +1,10 @@
 <script setup lang="ts">
-const store = useGlobalStore()
+const globalStore = useGlobalStore()
+const modalStore = useModalStore()
 const toast = useToast()
+
+const ModalBussiness = resolveComponent('modal-bussiness')
+const ModalObject = resolveComponent('modal-object')
 
 const bussinesses = computed(() => [
   [
@@ -9,15 +13,15 @@ const bussinesses = computed(() => [
       disabled: true,
     },
   ],
-  store.user?.bussinesses?.map(_bussiness => ({
+  globalStore.user?.bussinesses?.map(_bussiness => ({
     label: _bussiness.name,
     avatar: {
-      src: 'https://avatars.githubusercontent.com/u/739984?v=4',
+      src: _bussiness.image,
     },
-    class: store.bussiness === _bussiness ? 'bg-gray-100' : '',
+    class: globalStore.bussiness === _bussiness ? 'bg-gray-100' : '',
     click: () => {
-      store.bussiness = _bussiness
-      store.object = _bussiness.objects?.[0]
+      globalStore.bussiness = _bussiness
+      globalStore.object = _bussiness.objects?.[0]
     },
   })) || [],
   [
@@ -25,9 +29,14 @@ const bussinesses = computed(() => [
       label: 'Додати новий бізнес',
       icon: 'i-ic-outline-business-center',
       click: () => {
-        toast.add({
-          title: 'Помилка',
-          description: 'Цей функціонал ще не доступний',
+        modalStore.open(ModalBussiness, {
+          onSubmit() {
+            globalStore.getBussinesses()
+          },
+        }, {
+          ui: {
+            width: 'sm:max-w-4xl',
+          },
         })
       },
     },
@@ -41,14 +50,14 @@ const objects = computed(() => [
       disabled: true,
     },
   ],
-  store.bussiness?.objects?.map(_object => ({
+  globalStore.bussiness?.objects?.map(_object => ({
     label: _object.name,
     avatar: {
-      src: 'https://avatars.githubusercontent.com/u/739984?v=4',
+      src: _object.image,
     },
-    class: store.object === _object ? 'bg-gray-100' : '',
+    class: globalStore.object === _object ? 'bg-gray-100' : '',
     click: () => {
-      store.object = _object
+      globalStore.object = _object
     },
   })) || [],
   [
@@ -56,9 +65,14 @@ const objects = computed(() => [
       label: 'Додати новий обʼєкт бізнесу',
       icon: 'i-ic-baseline-business',
       click: () => {
-        toast.add({
-          title: 'Помилка',
-          description: 'Цей функціонал ще не доступний',
+        modalStore.open(ModalObject, {
+          onSubmit() {
+            globalStore.getBussinesses()
+          },
+        }, {
+          ui: {
+            width: 'sm:max-w-4xl',
+          },
         })
       },
     },
@@ -69,10 +83,10 @@ const objects = computed(() => [
 <template>
   <div>
     <UDropdown :items="bussinesses" :popper="{ placement: 'bottom-start' }">
-      <UAvatar :alt="store.bussiness?.name" size="md" />
+      <UAvatar :alt="globalStore.bussiness?.name" size="md" />
     </UDropdown>
     <UDropdown :items="objects" :popper="{ placement: 'bottom-start' }">
-      <UAvatar :alt="store.object?.name" size="md" />
+      <UAvatar :alt="globalStore.object?.name" size="md" />
     </UDropdown>
   </div>
 </template>

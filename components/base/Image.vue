@@ -13,6 +13,6 @@ const { baseUrl } = useRuntimeConfig().public
 <template>
   <img
     v-bind="$props"
-    :src="`${baseUrl}/${src}`"
+    :src="`${baseUrl}/${src}?${new Date().getTime()}`"
   >
 </template>
