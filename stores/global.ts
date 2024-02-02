@@ -2,6 +2,19 @@ import type { User } from '#types/entities'
 
 export const useGlobalStore = defineStore('global', () => {
   const user = ref<User | null>(null)
+  const config = ref<{
+    /**
+     * this is temporal config or testing purposes
+     * it's not a final solution
+     * it will be changed in the future
+     */
+    allowSeeProducts?: boolean
+    allowSeeServices?: boolean
+    allowSeeBussiness?: boolean
+    allowSeeUsers?: boolean
+    allowSeeProfile?: boolean
+    allowSeeMaterails?: boolean
+  }>({})
   const cookie = useCookie('sraka')
 
   async function login(body: { phone: string, password: string }) {
@@ -34,11 +47,14 @@ export const useGlobalStore = defineStore('global', () => {
     if (user.value)
       return
 
-    user.value = await $api<User>('/users/me')
+    const response = await $api<{ profile: User, config: any }>('/users/me')
+    user.value = response?.profile
+    config.value = response?.config
   }
 
   return {
     user,
+    config,
     login,
     signup,
     logout,

@@ -1,5 +1,7 @@
 <script setup>
-const links = [
+const store = useGlobalStore()
+
+const links = computed(() => [
   [
     {
       label: 'Dashboard',
@@ -21,7 +23,7 @@ const links = [
       icon: 'i-ic-sharp-groups',
       to: '/employees',
     },
-    {
+    store.config.allowSeeMaterails && {
       label: 'Матеріали',
       icon: 'i-ic-sharp-tune',
       to: '/materials',
@@ -31,12 +33,12 @@ const links = [
       icon: 'i-ic-baseline-calendar-month',
       to: '/booking-example',
     },
-    {
+    store.config.allowSeeServices && {
       label: 'Послуги',
       icon: 'i-ic-baseline-design-services',
       to: '/services',
     },
-    {
+    store.config.allowSeeProducts && {
       label: 'Товари',
       icon: 'i-ic-twotone-production-quantity-limits',
       to: '/products',
@@ -49,7 +51,7 @@ const links = [
       to: '/account/info',
     },
   ],
-]
+])
 </script>
 
 <template>
