@@ -9,7 +9,7 @@ export default defineNuxtConfig({
       baseUrl: process.env.API_BASE_URL || '/',
     },
   },
-  modules: ['@nuxt/ui', '@pinia/nuxt', '@vueuse/nuxt', '@nuxtjs/google-fonts', '@nuxtjs/color-mode'],
+  modules: ['@nuxt/ui', '@pinia/nuxt', '@vueuse/nuxt', '@nuxtjs/google-fonts', '@nuxtjs/color-mode', '@nuxtjs/i18n'],
   app: {
     pageTransition: { name: 'page', mode: 'out-in' },
   },

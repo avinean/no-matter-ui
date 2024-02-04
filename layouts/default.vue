@@ -42,7 +42,7 @@ const primarylinks = computed(() => [
     icon: 'i-ic-twotone-production-quantity-limits',
     to: '/products',
   },
-])
+].filter(Boolean))
 
 const secondaryLinks = computed(() => [
   {
