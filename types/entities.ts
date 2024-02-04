@@ -64,6 +64,24 @@ export interface Client extends Entity {
   image: string
 }
 
+export interface Event extends Entity {
+  id: number
+  price?: number
+  title?: string
+  description?: string
+  phone?: string
+  lastName: string
+  firstName: string
+  start?: Date | string
+  end?: Date | string
+  approved?: boolean
+  beenPaid?: boolean
+  allDay?: boolean
+  service?: object[]
+  specialist?: string
+  timeSlots?: object
+}
+
 export interface ServiceProduct extends Entity {
   name: string
   description: string

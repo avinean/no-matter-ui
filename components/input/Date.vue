@@ -2,6 +2,10 @@
 import { DatePicker as VCalendarDatePicker } from 'v-calendar'
 import 'v-calendar/dist/style.css'
 
+defineProps<{
+  mode: string
+}>()
+
 defineSlots<{
   default(props: { date: Date | string }): any
   display(props: { date: Date | string }): any
@@ -31,6 +35,7 @@ const date = defineModel<Date | string>({ default: new Date() })
         v-model.string="date"
         locale="uk-UA"
         expanded
+        :mode="mode"
         :attributes="[{
           key: 'today',
           dates: new Date(),
