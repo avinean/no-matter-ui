@@ -8,5 +8,6 @@ export function $api<T>(url: string, opts?: FetchOptions) {
     ...(token && { Authorization: `Bearer ${token.value}` }),
   }
 
+  console.log('fetching', `[${opts?.method || 'GET'}]`, url)
   return $fetch<T>(`/api${url}`, { ...opts, headers })
 }

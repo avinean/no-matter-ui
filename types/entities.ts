@@ -15,6 +15,20 @@ export interface User extends Entity {
   phone: string
   roles: string
   services: ServiceProduct[]
+  bussinesses?: Bussiness[]
+}
+
+export interface Bussiness extends Entity {
+  name: string
+  description: string
+  image: string
+  objects?: BussinessObject[]
+}
+
+export interface BussinessObject extends Entity {
+  name: string
+  description: string
+  image: string
 }
 
 export interface Material extends Entity {

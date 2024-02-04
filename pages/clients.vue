@@ -6,7 +6,7 @@ const toast = useToast()
 const modalStore = useModalStore()
 const ModalClient = resolveComponent('modal-client')
 
-const { data, refresh } = useApi<Client[]>('/clients')
+const { data, refresh, status } = useApi<Client[]>('/clients')
 const commandPaletteRef = ref()
 const selectedId = ref<number | null>(null)
 const selectedClient = computed(() => data.value?.find(client => client.id === selectedId.value))
@@ -86,6 +86,7 @@ function callModal(preset?: Client) {
         <div class="grid lg:grid-cols-3 gap-2 w-full">
           <UCard>
             <base-image
+              :key="status"
               :src="selectedClient.image"
               alt="users photo"
               class="w-full mb-4"

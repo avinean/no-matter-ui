@@ -24,7 +24,7 @@ const date = defineModel<Date | string>({ default: new Date() })
       >
         <UButton color="gray" class="flex-1">
           <slot name="display" :date="date">
-            <base-datetime :date="date" date-style="full" time-style="medium" />
+            <base-datetime :date="date" date-style="full"/>
           </slot>
         </UButton>
         <UButton icon="i-ic-baseline-calendar-month" color="gray" />
