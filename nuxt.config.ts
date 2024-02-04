@@ -12,7 +12,7 @@ export default defineNuxtConfig({
   app: {
     pageTransition: { name: 'page', mode: 'out-in' },
   },
-  modules: ['@nuxt/ui', '@pinia/nuxt', '@vueuse/nuxt'],
+  modules: ['@nuxt/ui', '@pinia/nuxt', '@vueuse/nuxt', '@nuxtjs/i18n'],
   ui: {
     icons: {
       collections: {

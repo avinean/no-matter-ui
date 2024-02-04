@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.6.3",
+    "@nuxtjs/i18n": "^8.0.1",
     "eslint": "^8.56.0",
     "nuxt": "^3.10.0",
     "ohmyfetch": "^0.4.21",
