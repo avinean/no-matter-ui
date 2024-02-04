@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import type { Profile } from '#types/entities'
+import type { Client } from '#types/entities'
 
 const props = defineProps<{
-  preset?: Profile | null
+  preset?: Client | null
 }>()
 
 const emit = defineEmits<{
-  submit: [profile: Profile]
+  submit: [profile: Client]
 }>()
 
 const { baseUrl } = useRuntimeConfig().public
@@ -16,7 +16,7 @@ store.get('sexes')
 
 const loading = ref(false)
 const photo = ref()
-const profile: Partial<Profile> = reactive({
+const profile: Partial<Client> = reactive({
   firstName: props.preset?.firstName,
   lastName: props.preset?.lastName,
   phone: props.preset?.phone,
@@ -34,7 +34,7 @@ async function onCreateOrUpdate() {
       const body = new FormData()
       body.append('photo', photo.value)
 
-      image = await $api<Profile>('/profiles/photo', {
+      image = await $api<Client>('/clients/photo', {
         method: 'POST',
         body,
       })
@@ -49,10 +49,10 @@ async function onCreateOrUpdate() {
   }
 
   try {
-    const endpoint = props.preset?.id ? `/profiles/${props.preset.id}` : '/profiles'
+    const endpoint = props.preset?.id ? `/clients/${props.preset.id}` : '/clients'
     const method = props.preset?.id ? 'PUT' : 'POST'
 
-    const data = await $api<Profile>(endpoint, {
+    const data = await $api<Client>(endpoint, {
       method,
       body: {
         ...profile,

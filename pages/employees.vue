@@ -123,7 +123,7 @@ function callModal(preset?: User) {
               <span class="font-bold">Номер телефону:</span><span>{{ selectedProfile.phone }}</span>
               <span class="font-bold">Стать:</span><span>{{ selectedProfile.sex }}</span>
               <span class="font-bold">День народжння:</span><span><base-datetime :date="selectedProfile.birthday" /></span>
-              <span class="font-bold">Created at:</span><span><base-datetime :date="selectedProfile.createdAt" /></span>
+              <span class="font-bold">Created at:</span><span><base-datetime :date="selectedProfile.createdAt" date-style="full" time-style="full" /></span>
               <span class="font-bold">Ролі:</span>
               <span class="flex gap-2 flex-wrap mt-2">
                 <UBadge v-for="role in selectedProfile.roles.split(',')" :key="role" :label="role" />
