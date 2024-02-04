@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Profile, User } from '#types/entities'
+import type { User } from '#types/entities'
 
 const { baseUrl } = useRuntimeConfig().public
 const toast = useToast()

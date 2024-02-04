@@ -5,6 +5,6 @@ export function useApi<T>(url: string, opts?: FetchOptions, apiOptions?: AsyncDa
   return useAsyncData(
     url,
     () => $api<T>(url, opts),
-    apiOptions
+    apiOptions,
   )
 }

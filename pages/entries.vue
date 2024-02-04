@@ -8,7 +8,7 @@ import interactionPlugin from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import type { CalendarOptions } from '@fullcalendar/core'
-
+const { baseUrl } = useRuntimeConfig().public
 const store = useEntriesStore()
 
 function getEventStyle(event: boolean) {
@@ -23,12 +23,47 @@ function getEventStyle(event: boolean) {
   }
 }
 const calendarRef = ref()
+const commandPaletteRef = ref()
 const currentCalendarView = ref()
 const eventDetails = ref()
 const isOpenEvent = ref(false)
-const selectedTab = ref()
+const selectedId = ref()
+const tabItems = [
+  { label: 'Tab1', id: 1, lastName: 'Марина',firstName: 'Олешко', jobTitle: 'Анестезіолог',
+  },
+  { label: 'Tab1', id: 10, lastName: 'Марина',firstName: 'Олешко', jobTitle: 'Анестезіолог',
+  },
+  { label: 'Tab1', id: 9, lastName: 'Марина',firstName: 'Олешко', jobTitle: 'Анестезіолог',
+  },
+  { label: 'Tab1', id: 8, lastName: 'Марина',firstName: 'Олешко', jobTitle: 'Анестезіолог',
+  },
+  { label: 'Tab2', id: 2, lastName: 'Олена',firstName: 'Зірина', jobTitle: 'дерматовенеролог',
+  },
+  { label: 'Tab3', id: 3, lastName: 'Дарина',firstName: 'Головко', jobTitle: 'косметолог  ',
+  },
+  { label: 'Tab3', id: 4, lastName: 'Дарина',firstName: 'Головко', jobTitle: 'косметолог  ',
+  },
+  { label: 'Tab3', id: 5, lastName: 'Дарина',firstName: 'Головко', jobTitle: 'косметолог  ',
+  },
+  { label: 'Tab3', id: 6, lastName: 'Дарина',firstName: 'Головко', jobTitle: 'косметолог  ',
+  },
+  { label: 'Tab3', id: 7, lastName: 'Дарина', firstName: 'Головко', jobTitle: 'косметолог  ',
+  },
+]
+
+const groups = computed(() => [{
+  key: 'users',
+  commands: (tabItems || []).map(client => ({
+    id: client.id,
+    label: `${client.firstName} ${client.lastName}`,
+    suffix: client.jobTitle,
+    client,
+    avatar: { src: `${baseUrl}/${client.image || ''}`, loading: 'lazy' },
+  })),
+}])
+const selectedProfile = computed(() => tabItems?.find(profile => profile.id === selectedId.value))
+
 function handleEventClick(clickInfo: any) {
-  console.log(clickInfo, 'clickInfo')
 
   isOpenEvent.value = true
   eventDetails.value = {
@@ -60,7 +95,6 @@ function addNewEvent() {
 }
 
 function handleDateClick(clickInfo: any) {
-  console.log(clickInfo, 'clickInfo')
   eventDetails.value = {
     isEdit: false,
     eventInfo: {
@@ -125,134 +159,132 @@ const options = {
 function goToSelectedDate(val: Date) {
   calendarRef?.value.getApi().gotoDate(val)
 }
-const tabItems = [
-  { label: 'Tab1', id: 1, name: 'Марина Олешко', jobTitle: 'Анестезіолог'
-  },{ label: 'Tab1', id: 10, name: 'Марина Олешко', jobTitle: 'Анестезіолог'
-  },{ label: 'Tab1', id: 9, name: 'Марина Олешко', jobTitle: 'Анестезіолог'
-  },{ label: 'Tab1', id: 8, name: 'Марина Олешко', jobTitle: 'Анестезіолог'
-  },
-  { label: 'Tab2', id: 2, name: 'Олена Зірина', jobTitle: 'дерматовенеролог'
-  },
-  { label: 'Tab3', id: 3, name: 'Дарина Головко', jobTitle: 'косметолог  '
-  }, { label: 'Tab3', id: 4, name: 'Дарина Головко', jobTitle: 'косметолог  '
-  }, { label: 'Tab3', id: 5, name: 'Дарина Головко', jobTitle: 'косметолог  '
-  }, { label: 'Tab3', id: 6, name: 'Дарина Головко', jobTitle: 'косметолог  '
-  },{ label: 'Tab3', id: 7, name: 'Дарина Головко', jobTitle: 'косметолог  '
-  },
-]
+
 
 function handleTabChange(id: number) {
-  console.log(id, 'id')
-  selectedTab.value = id
+  selectedId.value = id
 }
 </script>
 
 <template>
-  <USlideover
-    v-model="isOpenEvent"
-    :overlay="false"
-    @close="isOpenEvent = false"
-  >
-    <modal-event
-      v-if="isOpenEvent"
-      :preset="eventDetails || null"
+  <div>
+    <USlideover
+      v-model="isOpenEvent"
+      :overlay="false"
       @close="isOpenEvent = false"
-    />
-  </USlideover>
-  <div class="p-8 bg-gray-100 rounded-xl">
-    <div class="flex items-center justify-between ">
-      <div class="flex items-center border-4 border-gray-200 rounded-md text-sm font-normal  text-black">
+    >
+      <modal-event
+        v-if="isOpenEvent"
+        :preset="eventDetails || null"
+        @close="isOpenEvent = false"
+      />
+    </USlideover>
+    <div class="p-8  rounded-xl">
+      <div class="grid md:grid-cols-[200px,1fr] gap-2 divide-x min-h-full">
+        <UCommandPalette
+            ref="commandPaletteRef"
+            :groups="groups"
+            :autoselect="false"
+            @update:model-value="selectedId = $event.client.id"
+            :ui="{
+              input: {
+                base: 'border-1 border-gray-200 rounded-md',
+                height: 'h-8'
+              },
+              group: {
+                command: {
+                  active: 'text-gray-900',
+                  label: 'grid gap-0'
+                }
+              }
+            }"
+        >
+          <template #empty-state>
+            <div class="flex flex-col items-center justify-center py-6 gap-3">
+              <span class="italic text-sm">Nothing here!</span>
+            </div>
+          </template>
+        </UCommandPalette>
         <div>
-          <div
-            class="px-6 py-3 flex items-center cursor-pointer"
-            @click="calendarRef?.calendar.prev()"
-          >
-            <UIcon name="i-ic-baseline-chevron-left" class="text-xl text-gray-900" />
-          </div>
-        </div>
-        <div
-          class="px-6 py-3 border-l-4  cursor-pointer"
-          @click="calendarRef?.calendar.today()"
-        >
-          Сьогодні
-        </div>
-        <div class="flex items-center gap-4 px-6 py-2 border-l-4 border-r-4">
-          <base-datetime v-if="calendarRef?.calendar.getDate()" :date="calendarRef?.calendar.getDate()" date-style="medium" />
-          <input-date
-            @update:model-value="goToSelectedDate"
-          >
-            <UButton
-              size="xs"
-              icon="i-ic-baseline-event-note"
-              color="gray"
-            />
-          </input-date>
-        </div>
-        <div class="px-4 py-3 border-r-4">
-          {{ getCurrentDayName() }}
-        </div>
-        <div>
-          <div class="px-6 py-3 flex items-center cursor-pointer" @click="calendarRef?.calendar.next()">
-            <UIcon name="i-ic-baseline-chevron-right" class="text-gray-900 text-xl" />
-          </div>
-        </div>
-      </div>
-      <div class="flex gap-2">
-        <UButton
-          :color="currentCalendarView === 'dayGridMonth' ? 'lime' : 'gray'"
-          @click="calendarRef?.calendar.changeView('dayGridMonth')"
-        >
-          Місяць
-        </UButton>
-        <UButton
-          :color="currentCalendarView === 'timeGridDay' ? 'lime' : 'gray'"
-          @click="calendarRef?.calendar.changeView('timeGridDay')"
-        >
-          День
-        </UButton>
-        <UButton
-          color="gray"
-          @click="addNewEvent"
-        >
-          Додати запис
-        </UButton>
-      </div>
-    </div>
-    <div class="mt-6 mb-2">
-      <div class="flex flex-nowrap gap-2 overflow-x-scroll w-full pb-4 scroll-smooth">
-        <div v-for="(tab, index) in tabItems" :key="index" :class="{ 'w-2/6': true, 'bg-white rounded-md': tab.id === selectedTab }" @click="handleTabChange(tab.id)">
-          <div class="flex items-center gap-2 p-4 cursor-pointer" >
-            <UAvatar
-                size="lg"
-                src="https://avatars.githubusercontent.com/u/739984?v=4"
-                alt="Avatar"
-            />
-            <div class="grid text-start text-nowrap">
-              <span class="text-black"> {{ tab.name }}</span>
-              <span class="text-gray-400"> {{ tab.jobTitle }}</span>
+          <div class="flex items-center justify-between ">
+            <div class="flex items-center border-4 border-gray-200 rounded-md text-sm font-normal  text-black">
+              <div>
+                <div
+                    class="px-6 py-3 flex items-center cursor-pointer"
+                    @click="calendarRef?.calendar.prev()"
+                >
+                  <UIcon name="i-ic-baseline-chevron-left" class="text-xl text-gray-900" />
+                </div>
+              </div>
+              <div
+                  class="px-6 py-3 border-l-4  cursor-pointer"
+                  @click="calendarRef?.calendar.today()"
+              >
+                Сьогодні
+              </div>
+              <div class="flex items-center gap-4 px-6 py-2 border-l-4 border-r-4">
+                <base-datetime v-if="calendarRef?.calendar.getDate()" :date="calendarRef?.calendar.getDate()" date-style="medium" />
+                <input-date
+                    @update:model-value="goToSelectedDate"
+                >
+                  <UButton
+                      size="xs"
+                      icon="i-ic-baseline-event-note"
+                      color="gray"
+                  />
+                </input-date>
+              </div>
+              <div class="px-4 py-3 border-r-4">
+                {{ getCurrentDayName() }}
+              </div>
+              <div>
+                <div class="px-6 py-3 flex items-center cursor-pointer" @click="calendarRef?.calendar.next()">
+                  <UIcon name="i-ic-baseline-chevron-right" class="text-gray-900 text-xl" />
+                </div>
+              </div>
+            </div>
+            <div class="flex gap-2">
+              <UButton
+                  :color="currentCalendarView === 'dayGridMonth' ? 'lime' : 'gray'"
+                  @click="calendarRef?.calendar.changeView('dayGridMonth')"
+              >
+                Місяць
+              </UButton>
+              <UButton
+                  :color="currentCalendarView === 'timeGridDay' ? 'lime' : 'gray'"
+                  @click="calendarRef?.calendar.changeView('timeGridDay')"
+              >
+                День
+              </UButton>
+              <UButton
+                  color="gray"
+                  @click="addNewEvent"
+              >
+                Додати запис
+              </UButton>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-    <FullCalendar
-      ref="calendarRef" :options="options" class="syns_calendar"
-    >
-      <template #eventContent="arg">
-        <div
-          class="w-full
+          <FullCalendar
+              ref="calendarRef" :options="options" class="syns_calendar"
+          >
+            <template #eventContent="arg">
+              <div
+                  class="w-full
             rounded
                 h-full
                 text-xs
                 overflow-hidden px-2 py-1"
-          :style="getEventStyle(arg.event.extendedProps)"
-        >
-          <div class="truncate">
-            <base-datetime :date="arg.event.start" time-style="short" />
-            {{ arg.event.title }}
-          </div>
+                  :style="getEventStyle(arg.event.extendedProps)"
+              >
+                <div class="truncate">
+                  <base-datetime :date="arg.event.start" time-style="short" />
+                  {{ arg.event.title }}
+                </div>
+              </div>
+            </template>
+          </FullCalendar>
         </div>
-      </template>
-    </FullCalendar>
+      </div>
+    </div>
   </div>
 </template>

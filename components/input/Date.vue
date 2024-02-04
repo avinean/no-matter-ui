@@ -2,15 +2,14 @@
 import { DatePicker as VCalendarDatePicker } from 'v-calendar'
 import 'v-calendar/dist/style.css'
 
-const props = defineProps({
-  mode: String,
-  fullDate: {
-    type: Boolean,
-    default: true, // Set the default value to true
-  },
+const props = withDefaults(defineProps<{
+  mode?: string
+  fullDate?: boolean
+}>(), {
+  mode: 'date',
+  fullDate: true,
 })
 const model = defineModel<Date | string>()
-console.log(model, 'model')
 const label = computed(() => {
   const options = {
     weekday: 'long',
@@ -29,7 +28,6 @@ const label = computed(() => {
     return model?.value?.toLocaleDateString('uk-ua', dateOptions)
   }
 })
-const datePickerMode = ref(props.mode || 'date')
 </script>
 
 <template>
@@ -53,7 +51,7 @@ const datePickerMode = ref(props.mode || 'date')
         v-model="model"
         locale="uk-UA"
         expanded
-        :mode="datePickerMode"
+        :mode="mode"
         :attributes="[{
           key: 'today',
           dates: new Date(),
