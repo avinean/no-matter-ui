@@ -3,9 +3,9 @@ import type { FormError, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types'
 import type { Material, MaterialTransaction } from '#types/entities'
 
 const items = ref()
-items.value = await $api<Material[]>('/materials')
+items.value = await $api<Material[]>('/material')
 const transactions = ref()
-transactions.value = await $api<MaterialTransaction[]>('/materials/transactions')
+transactions.value = await $api<MaterialTransaction[]>('/material/transactions')
 
 const createMaterial = ref(false)
 const addTransaction = ref(false)
@@ -34,7 +34,7 @@ function validate(state: any): FormError[] {
 }
 
 async function onAddMaterial(event: FormSubmitEvent<Partial<Material>>) {
-  await $api<Material>('/materials', {
+  await $api<Material>('/material', {
     method: 'POST',
     body: event.data,
   })
@@ -42,7 +42,7 @@ async function onAddMaterial(event: FormSubmitEvent<Partial<Material>>) {
 }
 
 async function onCreateTransaction(event: FormSubmitEvent<Partial<MaterialTransaction>>) {
-  const response = await $api<MaterialTransaction>('/materials/transactions', {
+  const response = await $api<MaterialTransaction>('/material/transactions', {
     method: 'POST',
     body: event.data,
   })

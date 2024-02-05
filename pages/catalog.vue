@@ -6,17 +6,17 @@ const store = useGlobalStore()
   <div>
     <UHorizontalNavigation
       :links="[
-        store.config.allowSeeServices && {
+        {
           label: 'Послуги',
           icon: 'i-ic-outline-design-services',
           to: '/catalog/services',
         },
-        store.config.allowSeeProducts && {
+        {
           label: 'Продукти',
           icon: 'i-ic-baseline-fastfood',
           to: '/catalog/products',
         },
-        store.config.allowSeeMaterails && {
+        {
           label: 'Матеріали',
           icon: 'i-ic-baseline-format-paint',
           to: '/catalog/materials',

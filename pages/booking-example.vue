@@ -25,7 +25,7 @@ const { data: profiles } = useApi<User[]>(
   { method: 'POST', body: search },
   { watch: [() => search.services] },
 )
-const { data: clients } = useApi<Client[]>('/clients')
+const { data: clients } = useApi<Client[]>('/client')
 const { data: services } = useApi<ServiceProduct[]>(
   '/booking/services',
   { method: 'POST', body: search },

@@ -17,7 +17,7 @@ const primarylinks = computed(() => [
     icon: 'i-ic-baseline-arrow-right',
     to: '/entries',
   },
-  {
+  store.config.allowSeeEmployees && {
     label: 'Працівники',
     icon: 'i-ic-sharp-groups',
     to: '/employees',
@@ -27,7 +27,7 @@ const primarylinks = computed(() => [
     icon: 'i-ic-baseline-calendar-month',
     to: '/booking-example',
   },
-  store.config.allowSeeCatalog && {
+  {
     label: 'Каталог',
     icon: 'i-ic-baseline-design-services',
     to: '/catalog/services',

@@ -10,11 +10,11 @@ type Key = 'contactTypes'
   | 'profileConnectionTypes'
 
 const endpoints = {
-  contactTypes: '/suggestions/contact-types',
-  materialTransactionTypes: '/suggestions/material-transaction-types',
-  roles: '/suggestions/roles',
-  sexes: '/suggestions/sexes',
-  profileConnectionTypes: '/suggestions/profile-connection-types',
+  contactTypes: '/suggestion/contact-types',
+  materialTransactionTypes: '/suggestion/material-transaction-types',
+  roles: '/suggestion/roles',
+  sexes: '/suggestion/sexes',
+  profileConnectionTypes: '/suggestion/profile-connection-types',
 }
 
 export const useSuggestionsStore = defineStore('suggestions', () => {

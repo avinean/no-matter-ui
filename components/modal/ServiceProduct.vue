@@ -30,7 +30,7 @@ async function onCreateOrUpdate() {
   loading.value = true
 
   try {
-    const endpoint = props.preset?.id ? `/services/${props.type}/${props.preset.id}` : `/services/${props.type}`
+    const endpoint = props.preset?.id ? `/service/${props.type}/${props.preset.id}` : `/service/${props.type}`
     const method = props.preset?.id ? 'PUT' : 'POST'
 
     const data = await $api<ServiceProduct>(endpoint, {

@@ -7,7 +7,7 @@ const props = withDefaults(defineProps<{
   type: 'service',
 })
 
-const { data, pending, refresh } = useApi<ServiceProduct[]>(`/services/${props.type}`)
+const { data, pending, refresh } = useApi<ServiceProduct[]>(`/service/${props.type}`)
 const modalStore = useModalStore()
 const AddEditModal = resolveComponent('modal-service-product')
 
@@ -56,7 +56,7 @@ function callModal(preset?: ServiceProduct) {
 }
 
 async function onDuplicate(item: ServiceProduct) {
-  await $api<ServiceProduct>(`/services/${props.type}`, {
+  await $api<ServiceProduct>(`/service/${props.type}`, {
     method: 'POST',
     body: {
       name: `${item.name} (копія ${new Date().toLocaleString()})`,
@@ -72,7 +72,7 @@ async function onDuplicate(item: ServiceProduct) {
 }
 
 async function onChangeStatus(item: ServiceProduct) {
-  await $api<ServiceProduct>(`/services/${props.type}/${item.id}`, {
+  await $api<ServiceProduct>(`/service/${props.type}/${item.id}`, {
     method: 'PUT',
     body: {
       status: !item.status,

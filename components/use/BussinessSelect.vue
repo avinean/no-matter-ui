@@ -1,7 +1,6 @@
 <script setup lang="ts">
 const globalStore = useGlobalStore()
 const modalStore = useModalStore()
-const toast = useToast()
 
 const ModalBussiness = resolveComponent('modal-bussiness')
 const ModalObject = resolveComponent('modal-object')
@@ -82,10 +81,10 @@ const objects = computed(() => [
 
 <template>
   <div>
-    <UDropdown :items="bussinesses" :popper="{ placement: 'bottom-start' }">
+    <UDropdown v-if="globalStore.config.allowSeeBussinessSelector" :items="bussinesses" :popper="{ placement: 'bottom-start' }">
       <UAvatar :alt="globalStore.bussiness?.name" size="md" />
     </UDropdown>
-    <UDropdown :items="objects" :popper="{ placement: 'bottom-start' }">
+    <UDropdown v-if="globalStore.config.allowSeeObjectSelector" :items="objects" :popper="{ placement: 'bottom-start' }">
       <UAvatar :alt="globalStore.object?.name" size="md" />
     </UDropdown>
   </div>

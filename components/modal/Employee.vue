@@ -16,7 +16,7 @@ const toast = useToast()
 const suggestionsStore = useSuggestionsStore()
 suggestionsStore.get(['sexes', 'roles'])
 
-const { data: services } = useApi<ServiceProduct[]>(`/services/service`)
+const { data: services } = useApi<ServiceProduct[]>(`/service/service`)
 
 const loading = ref(false)
 const user: Partial<User> = reactive({
@@ -38,7 +38,7 @@ async function onCreateOrUpdate() {
   loading.value = true
 
   try {
-    const endpoint = props.preset?.id ? `/users/${globalStore.object?.id}/${props.preset.id}` : `/users/${globalStore.object?.id}`
+    const endpoint = props.preset?.id ? `/user/${globalStore.object?.id}/${props.preset.id}` : `/user/${globalStore.object?.id}`
     const method = props.preset?.id ? 'PUT' : 'POST'
 
     const data = await $api<{ user: { email: string, password: string } }>(endpoint, {

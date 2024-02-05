@@ -51,7 +51,7 @@ async function onCreateOrUpdate() {
     try {
       const body = new FormData()
       body.append('photo', photo.value)
-      const endpoint = props.preset?.id ? `/utils/photo/${state.image}` : '/utils/photo'
+      const endpoint = props.preset?.id ? `/util/photo/${state.image}` : '/util/photo'
       const method = props.preset?.id ? 'PUT' : 'POST'
 
       image = await $api<string>(endpoint, {
@@ -69,7 +69,7 @@ async function onCreateOrUpdate() {
   }
 
   try {
-    const endpoint = props.preset?.id ? `/clients/${props.preset.id}` : '/clients'
+    const endpoint = props.preset?.id ? `/client/${props.preset.id}` : '/client'
     const method = props.preset?.id ? 'PUT' : 'POST'
 
     const data = await $api<Client>(endpoint, {
