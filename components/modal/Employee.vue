@@ -19,7 +19,8 @@ suggestionsStore.get(['sexes', 'roles'])
 const { data: services } = useApi<ServiceProduct[]>(`/service/service`)
 
 const loading = ref(false)
-const user: Partial<User> = reactive({
+const photo = ref()
+const state: Partial<User> = reactive({
   firstName: props.preset?.firstName,
   lastName: props.preset?.lastName,
   email: props.preset?.email,
@@ -31,11 +32,32 @@ const user: Partial<User> = reactive({
 })
 
 whenever(services, () => {
-  user.services = user.services?.map(service => services.value.find(({ id }) => id === service.id)) || []
+  state.services = state.services?.map(service => services.value.find(({ id }) => id === service.id)) || []
 })
 
 async function onCreateOrUpdate() {
   loading.value = true
+  let image
+  if (photo.value) {
+    try {
+      const body = new FormData()
+      body.append('photo', photo.value)
+      const endpoint = state.image ? `/util/photo/${state.image}` : '/util/photo'
+      const method = state.image ? 'PUT' : 'POST'
+
+      image = await $api<string>(endpoint, {
+        method,
+        body,
+      })
+      photo.value = null
+    }
+    catch (e) {
+      toast.add({
+        title: 'Error',
+        description: 'Не вдалось завантажити фото',
+      })
+    }
+  }
 
   try {
     const endpoint = props.preset?.id ? `/user/${globalStore.object?.id}/${props.preset.id}` : `/user/${globalStore.object?.id}`
@@ -44,8 +66,9 @@ async function onCreateOrUpdate() {
     const data = await $api<{ user: { email: string, password: string } }>(endpoint, {
       method,
       body: {
-        ...user,
-        roles: user.roles.join(','),
+        ...state,
+        image,
+        roles: state.roles?.join(','),
       },
     })
 
@@ -80,12 +103,18 @@ async function onCreateOrUpdate() {
       class="grid grid-cols-2 gap-x-4 gap-y-2"
       @submit="onCreateOrUpdate"
     >
+      <input-file
+        class="row-span-6"
+        :src="state.image ? `assets/${state.image}` : null"
+        @change="photo = $event"
+      />
+
       <UFormGroup
         label="First name"
         name="firstName"
         required
       >
-        <UInput v-model="user.firstName" />
+        <UInput v-model="state.firstName" />
       </UFormGroup>
 
       <UFormGroup
@@ -93,7 +122,7 @@ async function onCreateOrUpdate() {
         name="lastName"
         required
       >
-        <UInput v-model="user.lastName" />
+        <UInput v-model="state.lastName" />
       </UFormGroup>
 
       <UFormGroup
@@ -101,7 +130,7 @@ async function onCreateOrUpdate() {
         name="email"
         required
       >
-        <UInput v-model="user.email" />
+        <UInput v-model="state.email" />
       </UFormGroup>
 
       <UFormGroup
@@ -109,7 +138,7 @@ async function onCreateOrUpdate() {
         name="phone"
         required
       >
-        <UInput v-model="user.phone" />
+        <UInput v-model="state.phone" />
       </UFormGroup>
 
       <UFormGroup
@@ -117,7 +146,7 @@ async function onCreateOrUpdate() {
         name="birthday"
         required
       >
-        <InputDate v-model="user.birthday" />
+        <InputDate v-model="state.birthday" />
       </UFormGroup>
 
       <UFormGroup
@@ -126,7 +155,7 @@ async function onCreateOrUpdate() {
         required
       >
         <USelect
-          v-model="user.sex"
+          v-model="state.sex"
           :options="suggestionsStore.suggestions.sexes"
         />
       </UFormGroup>
@@ -137,7 +166,7 @@ async function onCreateOrUpdate() {
         required
       >
         <USelectMenu
-          v-model="user.roles"
+          v-model="state.roles"
           :options="suggestionsStore.suggestions.roles"
           value-attribute="value"
           multiple
@@ -145,7 +174,7 @@ async function onCreateOrUpdate() {
           placeholder="Оберіть ролі"
         />
         <div class="flex gap-2 flex-wrap mt-2">
-          <UBadge v-for="role in user.roles" :key="role" :label="role" />
+          <UBadge v-for="role in state.roles" :key="role" :label="role" />
         </div>
       </UFormGroup>
 
@@ -156,7 +185,7 @@ async function onCreateOrUpdate() {
         required
       >
         <USelectMenu
-          v-model="user.services"
+          v-model="state.services"
           :options="services"
           option-attribute="name"
           multiple
@@ -164,7 +193,7 @@ async function onCreateOrUpdate() {
           placeholder="Оберіть послуги"
         />
         <div class="flex gap-2 flex-wrap mt-2">
-          <UBadge v-for="service in user.services" :key="service.name" :label="service.name" />
+          <UBadge v-for="service in state.services" :key="service.name" :label="service.name" />
         </div>
       </UFormGroup>
     </UForm>

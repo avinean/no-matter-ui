@@ -51,8 +51,8 @@ async function onCreateOrUpdate() {
     try {
       const body = new FormData()
       body.append('photo', photo.value)
-      const endpoint = props.preset?.id ? `/util/photo/${state.image}` : '/util/photo'
-      const method = props.preset?.id ? 'PUT' : 'POST'
+      const endpoint = state.image ? `/util/photo/${state.image}` : '/util/photo'
+      const method = state.image ? 'PUT' : 'POST'
 
       image = await $api<string>(endpoint, {
         method,
@@ -116,7 +116,7 @@ async function onCreateOrUpdate() {
     >
       <input-file
         class="row-span-6"
-        :src="state.image ? `${baseUrl}/${state.image}` : null"
+        :src="state.image ? `assets/${state.image}` : null"
         @change="photo = $event"
       />
 
