@@ -3,11 +3,12 @@ import type { User } from '#types/entities'
 
 const { baseUrl } = useRuntimeConfig().public
 const toast = useToast()
+const globalStore = useGlobalStore()
 const modalStore = useModalStore()
 const ModalEmployee = resolveComponent('modal-employee')
 const EmailPassAlert = resolveComponent('modal-email-pass-alert')
 
-const { data, refresh } = useApi<User[]>('/users')
+const { data, refresh } = useApi<User[]>(`/users/${globalStore.object?.id}`)
 const commandPaletteRef = ref()
 const selectedId = ref<number | null>(null)
 const selectedProfile = computed(() => data.value?.find(profile => profile.id === selectedId.value))

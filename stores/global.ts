@@ -16,6 +16,7 @@ export const useGlobalStore = defineStore('global', () => {
     allowSeeUsers?: boolean
     allowSeeProfile?: boolean
     allowSeeMaterails?: boolean
+    allowSeeCatalog?: boolean
   }>({})
   const cookie = useCookie('sraka')
 

@@ -11,9 +11,10 @@ const emit = defineEmits<{
   submit: [user: { email: string, password: string }]
 }>()
 
+const globalStore = useGlobalStore()
 const toast = useToast()
-const store = useSuggestionsStore()
-store.get(['sexes', 'roles'])
+const suggestionsStore = useSuggestionsStore()
+suggestionsStore.get(['sexes', 'roles'])
 
 const { data: services } = useApi<ServiceProduct[]>(`/services/service`)
 
@@ -37,7 +38,7 @@ async function onCreateOrUpdate() {
   loading.value = true
 
   try {
-    const endpoint = props.preset?.id ? `/users/${props.preset.id}` : `/users`
+    const endpoint = props.preset?.id ? `/users/${globalStore.object?.id}/${props.preset.id}` : `/users/${globalStore.object?.id}`
     const method = props.preset?.id ? 'PUT' : 'POST'
 
     const data = await $api<{ user: { email: string, password: string } }>(endpoint, {
@@ -126,7 +127,7 @@ async function onCreateOrUpdate() {
       >
         <USelect
           v-model="user.sex"
-          :options="store.suggestions.sexes"
+          :options="suggestionsStore.suggestions.sexes"
         />
       </UFormGroup>
 
@@ -137,7 +138,7 @@ async function onCreateOrUpdate() {
       >
         <USelectMenu
           v-model="user.roles"
-          :options="store.suggestions.roles"
+          :options="suggestionsStore.suggestions.roles"
           value-attribute="value"
           multiple
           selected-icon="i-ic-round-check"
