@@ -27,7 +27,7 @@ const state: Partial<User> = reactive({
   phone: props.preset?.phone,
   birthday: props.preset?.birthday,
   sex: props.preset?.sex,
-  roles: props.preset?.roles.split(',') || [],
+  roles: props.preset?.roles || [],
   services: props.preset?.services || [],
 })
 
@@ -68,7 +68,6 @@ async function onCreateOrUpdate() {
       body: {
         ...state,
         image,
-        roles: state.roles?.join(','),
       },
     })
 
@@ -168,13 +167,12 @@ async function onCreateOrUpdate() {
         <USelectMenu
           v-model="state.roles"
           :options="suggestionsStore.suggestions.roles"
-          value-attribute="value"
           multiple
           selected-icon="i-ic-round-check"
           placeholder="Оберіть ролі"
         />
         <div class="flex gap-2 flex-wrap mt-2">
-          <UBadge v-for="role in state.roles" :key="role" :label="role" />
+          <UBadge v-for="role in state.roles" :key="role.name" :label="role.name" />
         </div>
       </UFormGroup>
 

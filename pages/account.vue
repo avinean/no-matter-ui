@@ -19,6 +19,11 @@ const store = useGlobalStore()
           to: '/account/settings',
         },
         {
+          label: 'Дозволи',
+          icon: 'i-ic-baseline-security',
+          to: '/account/permissions',
+        },
+        {
           label: 'Вихід',
           icon: 'i-ic-sharp-power-settings-new',
           click: () => {
