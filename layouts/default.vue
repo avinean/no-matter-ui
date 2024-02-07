@@ -1,5 +1,5 @@
 <script setup>
-const store = useGlobalStore()
+const { hasPermission } = useGlobalStore()
 
 const primarylinks = computed(() => [
   {
@@ -7,27 +7,27 @@ const primarylinks = computed(() => [
     icon: 'i-ic-outline-dashboard',
     to: '/',
   },
-  {
+  hasPermission('client:read') && {
     label: 'Клієнти',
     icon: 'i-ic-baseline-people',
     to: '/clients',
   },
-  {
+  hasPermission('booking:read') && {
     label: 'Записи',
     icon: 'i-ic-baseline-arrow-right',
     to: '/entries',
   },
-  store.config.allowSeeEmployees && {
+  hasPermission('profile:read') && {
     label: 'Працівники',
     icon: 'i-ic-sharp-groups',
     to: '/employees',
   },
-  {
+  hasPermission('booking:read') && {
     label: 'Бронювання',
     icon: 'i-ic-baseline-calendar-month',
     to: '/booking-example',
   },
-  {
+  hasPermission(['material:read', 'service:read'], 'some') && {
     label: 'Каталог',
     icon: 'i-ic-baseline-design-services',
     to: '/catalog/services',

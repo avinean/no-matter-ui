@@ -37,6 +37,9 @@ const state: Partial<User> = reactive({
 whenever(services, () => {
   state.services = state.services?.map(service => services.value.find(({ id }) => id === service.id)) || []
 })
+whenever(roles, () => {
+  state.roles = state.roles?.map(role => roles.value.find(({ id }) => id === role.id)) || []
+})
 
 function addRole() {
   modalStore.open(ModalRole, {
@@ -80,7 +83,7 @@ async function onCreateOrUpdate() {
   }
 
   try {
-    const endpoint = props.preset?.id ? `/user/${globalStore.object?.id}/${props.preset.id}` : `/user/${globalStore.object?.id}`
+    const endpoint = props.preset?.id ? `/profile/${globalStore.object?.id}/${props.preset.id}` : `/profile/${globalStore.object?.id}`
     const method = props.preset?.id ? 'PUT' : 'POST'
 
     const data = await $api<{ user: { email: string, password: string } }>(endpoint, {

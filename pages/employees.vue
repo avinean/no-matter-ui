@@ -8,7 +8,7 @@ const modalStore = useModalStore()
 const ModalEmployee = resolveComponent('modal-employee')
 const EmailPassAlert = resolveComponent('modal-email-pass-alert')
 
-const { data, refresh } = useApi<User[]>(`/user/${globalStore.object?.id}`)
+const { data, refresh } = useApi<User[]>(`/profile/${globalStore.object?.id}`)
 const commandPaletteRef = ref()
 const selectedId = ref<number | null>(null)
 const selectedProfile = computed(() => data.value?.find(profile => profile.id === selectedId.value))
@@ -66,7 +66,6 @@ function callModal(preset?: User) {
   <div class="grid md:grid-cols-[200px,1fr] gap-2 divide-x min-h-full">
     <div>
       <UButton
-        v-if="globalStore.config.allowAddEmployee"
         label="Add item"
         icon="i-ic-outline-contact-phone"
         class="w-full"
@@ -82,7 +81,6 @@ function callModal(preset?: User) {
           <div class="flex flex-col items-center justify-center py-6 gap-3">
             <span class="italic text-sm">Nothing here!</span>
             <UButton
-              v-if="globalStore.config.allowAddEmployee"
               label="Add item"
               color="gray"
               icon="i-ic-outline-contact-phone"

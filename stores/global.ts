@@ -1,14 +1,24 @@
 import type { Bussiness, BussinessObject, User } from '#types/entities'
-import type { ProfileConfig } from '#types/profileConfig'
+import type { Permission } from '#types/permissions'
 
 export const useGlobalStore = defineStore('global', () => {
+  const router = useRouter()
+
   const user = ref<User | null>(null)
   const bussiness = ref<Bussiness>()
   const object = ref<BussinessObject>()
-  const config = ref<ProfileConfig>({})
   const cookie = useCookie('sraka')
 
   const isAdmnin = computed(() => user.value?.roles.some(role => role.name === 'admin'))
+  const permissions = computed(() => user.value?.roles.flatMap(
+    role => role.permissions.map(
+      permission => `${permission.resource}:${permission.action}` as unknown as Permission,
+    ),
+  ))
+
+  function hasPermission(permission: Permission | Permission[], mode: 'every' | 'some' = 'every') {
+    return [permission].flat()[mode](p => permissions.value?.includes(p))
+  }
 
   async function login(body: { phone: string, password: string }) {
     const data = await $api<{ access_token: string }>('/auth/login', {
@@ -17,8 +27,9 @@ export const useGlobalStore = defineStore('global', () => {
     })
 
     cookie.value = data?.access_token
-    getUser()
-    useRouter().push('/')
+    await getUser()
+    console.log()
+    router.push('/')
   }
 
   async function signup(body: { firstName: string, lastName: string, phone: string }) {
@@ -27,13 +38,13 @@ export const useGlobalStore = defineStore('global', () => {
       body,
     })
 
-    useRouter().push('/auth/sign-in')
+    router.push('/auth/sign-in')
   }
 
   function logout() {
     cookie.value = ''
     user.value = null
-    useRouter().push('/auth/sign-in')
+    router.push('/auth/sign-in')
   }
 
   async function getBussinesses() {
@@ -44,11 +55,10 @@ export const useGlobalStore = defineStore('global', () => {
     if (user.value)
       return
 
-    const response = await $api<{ profile: User, config: any }>('/user/me')
-    user.value = response?.profile
-    bussiness.value = response?.profile?.bussinesses?.[0]
-    object.value = response?.profile?.bussinesses?.[0]?.objects?.[0]
-    config.value = response?.config
+    const profile = await $api<User>('/profile/me')
+    user.value = profile
+    bussiness.value = profile?.bussinesses?.[0]
+    object.value = profile?.bussinesses?.[0]?.objects?.[0]
   }
 
   return {
@@ -56,11 +66,11 @@ export const useGlobalStore = defineStore('global', () => {
     isAdmnin,
     bussiness,
     object,
-    config,
     login,
     signup,
     logout,
     getUser,
     getBussinesses,
+    hasPermission,
   }
 })

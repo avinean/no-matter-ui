@@ -73,10 +73,10 @@ const objects = computed(() => [
 
 <template>
   <div>
-    <UDropdown v-if="globalStore.config.allowSeeBussinessSelector" :items="bussinesses" :popper="{ placement: 'bottom-start' }">
+    <UDropdown :items="bussinesses" :popper="{ placement: 'bottom-start' }">
       <UAvatar :alt="globalStore.bussiness?.name" size="md" />
     </UDropdown>
-    <UDropdown v-if="globalStore.config.allowSeeObjectSelector" :items="objects" :popper="{ placement: 'bottom-start' }">
+    <UDropdown :items="objects" :popper="{ placement: 'bottom-start' }">
       <UAvatar :alt="globalStore.object?.name" size="md" />
     </UDropdown>
   </div>

@@ -1,3 +1,5 @@
+import type { Action, Resource } from './permissions'
+
 export interface Entity {
   id: number
   createdAt: string
@@ -5,8 +7,8 @@ export interface Entity {
 }
 
 export interface Permission extends Entity {
-  resource: string
-  action: 'read' | 'add' | 'edit' | 'delete'
+  resource: Resource
+  action: Action
 }
 
 export interface Role extends Entity {
