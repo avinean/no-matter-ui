@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Role, ServiceProduct, User } from '#types/entities'
-import { ModalRole } from '#components'
+import { ModalRole, ModalServiceProduct } from '#components'
 
 const props = withDefaults(defineProps<{
   preset?: User | null
@@ -19,7 +19,7 @@ const suggestionsStore = useSuggestionsStore()
 suggestionsStore.get(['sexes'])
 
 const { data: roles, refresh: refreshRoles } = useApi<Role[]>(`/role/${globalStore.bussiness?.id}`)
-const { data: services } = useApi<ServiceProduct[]>(`/service/service`)
+const { data: services, refresh: refreshServices } = useApi<ServiceProduct[]>(`/service/service`)
 
 const loading = ref(false)
 const photo = ref()
@@ -38,11 +38,19 @@ whenever(services, () => {
   state.services = state.services?.map(service => services.value.find(({ id }) => id === service.id)) || []
 })
 
-function callModal(preset?: Role) {
+function addRole() {
   modalStore.open(ModalRole, {
-    preset,
     onSubmit() {
       refreshRoles()
+    },
+  })
+}
+
+function addService() {
+  modalStore.open(ModalServiceProduct, {
+    type: 'service',
+    onSubmit() {
+      refreshServices()
     },
   })
 }
@@ -185,7 +193,7 @@ async function onCreateOrUpdate() {
           color="primary"
           square
           variant="solid"
-          @click="callModal()"
+          @click="addRole()"
         />
       </div>
       <div class="flex gap-2 flex-wrap mt-2">
@@ -199,14 +207,25 @@ async function onCreateOrUpdate() {
       name="services"
       required
     >
-      <USelectMenu
-        v-model="state.services"
-        :options="services"
-        option-attribute="name"
-        multiple
-        selected-icon="i-ic-round-check"
-        placeholder="Оберіть послуги"
-      />
+      <div class="flex gap-1">
+        <USelectMenu
+          v-model="state.services"
+          :options="services"
+          option-attribute="name"
+          multiple
+          selected-icon="i-ic-round-check"
+          placeholder="Оберіть послуги"
+          class="flex-1"
+        />
+        <UButton
+          icon="i-ic-baseline-medical-services"
+          size="sm"
+          color="primary"
+          square
+          variant="solid"
+          @click="addService()"
+        />
+      </div>
       <div class="flex gap-2 flex-wrap mt-2">
         <UBadge v-for="service in state.services" :key="service.name" :label="service.name" />
       </div>
