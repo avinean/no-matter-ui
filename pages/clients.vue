@@ -45,10 +45,6 @@ function callModal(preset?: Client) {
     onSubmit() {
       refresh()
     },
-  }, {
-    ui: {
-      width: 'sm:max-w-4xl',
-    },
   })
 }
 </script>

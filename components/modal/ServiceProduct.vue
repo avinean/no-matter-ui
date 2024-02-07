@@ -53,69 +53,58 @@ async function onCreateOrUpdate() {
 </script>
 
 <template>
-  <UCard
-    class="flex flex-col flex-1"
-    :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"
+  <UForm
+    ref="form"
+    :state="serviceProduct"
+    class="grid grid-cols-2 gap-x-4 gap-y-2"
+    @submit="onCreateOrUpdate"
   >
-    <template #header>
-      <h1 class="text-3xl font-bold">
-        Додати {{ props.type === 'product' ? 'товар' : 'послугу' }}
-      </h1>
-    </template>
-
-    <UForm
-      ref="form"
-      :state="serviceProduct"
-      class="grid grid-cols-2 gap-x-4 gap-y-2"
-      @submit="onCreateOrUpdate"
+    <h1 class="text-3xl font-bold">
+      Додати {{ props.type === 'product' ? 'товар' : 'послугу' }}
+    </h1>
+    <UFormGroup
+      label="Назва"
+      name="name"
+      required
     >
-      <UFormGroup
-        label="Назва"
-        name="name"
-        required
-      >
-        <UInput v-model="serviceProduct.name" />
-      </UFormGroup>
+      <UInput v-model="serviceProduct.name" />
+    </UFormGroup>
 
-      <UFormGroup
-        label="Опис"
-        name="description"
-      >
-        <UTextarea v-model="serviceProduct.description" />
-      </UFormGroup>
+    <UFormGroup
+      label="Опис"
+      name="description"
+    >
+      <UTextarea v-model="serviceProduct.description" />
+    </UFormGroup>
 
-      <UFormGroup
-        label="Ціна"
-        name="price"
-        required
-      >
-        <UInput v-model="serviceProduct.price" type="number" />
-      </UFormGroup>
+    <UFormGroup
+      label="Ціна"
+      name="price"
+      required
+    >
+      <UInput v-model="serviceProduct.price" type="number" />
+    </UFormGroup>
 
-      <UFormGroup
-        label="Тривалість"
-        name="duration"
-        required
-      >
-        <UInput v-model="serviceProduct.duration" type="number" />
-      </UFormGroup>
+    <UFormGroup
+      label="Тривалість"
+      name="duration"
+      required
+    >
+      <UInput v-model="serviceProduct.duration" type="number" />
+    </UFormGroup>
 
-      <UFormGroup
-        label="Знижка"
-        name="discount"
-      >
-        <UInput v-model="serviceProduct.discount" type="number" />
-      </UFormGroup>
-    </UForm>
-    <template #footer>
-      <div class="flex justify-end">
-        <UButton
-          :loading
-          @click="$refs.form.submit()"
-        >
-          Submit
-        </UButton>
-      </div>
-    </template>
-  </UCard>
+    <UFormGroup
+      label="Знижка"
+      name="discount"
+    >
+      <UInput v-model="serviceProduct.discount" type="number" />
+    </UFormGroup>
+
+    <UButton
+      :loading
+      type="submit"
+    >
+      Submit
+    </UButton>
+  </UForm>
 </template>

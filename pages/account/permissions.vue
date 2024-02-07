@@ -32,10 +32,6 @@ function callModal(preset?: Role) {
     onSubmit() {
       refresh()
     },
-  }, {
-    ui: {
-      width: 'sm:max-w-4xl',
-    },
   })
 }
 

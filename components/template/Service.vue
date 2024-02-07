@@ -46,9 +46,6 @@ function callModal(preset?: ServiceProduct) {
   modalStore.open(AddEditModal, {
     preset,
     type: props.type,
-    ui: {
-      width: 'sm:max-w-4xl',
-    },
     onSubmit() {
       refresh()
     },

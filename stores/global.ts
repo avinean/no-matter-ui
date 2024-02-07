@@ -1,5 +1,5 @@
 import type { Bussiness, BussinessObject, User } from '#types/entities'
-import type { ProfileConfig } from '~/types/profileConfig'
+import type { ProfileConfig } from '#types/profileConfig'
 
 export const useGlobalStore = defineStore('global', () => {
   const user = ref<User | null>(null)
@@ -7,6 +7,8 @@ export const useGlobalStore = defineStore('global', () => {
   const object = ref<BussinessObject>()
   const config = ref<ProfileConfig>({})
   const cookie = useCookie('sraka')
+
+  const isAdmnin = computed(() => user.value?.roles.some(role => role.name === 'admin'))
 
   async function login(body: { phone: string, password: string }) {
     const data = await $api<{ access_token: string }>('/auth/login', {
@@ -51,6 +53,7 @@ export const useGlobalStore = defineStore('global', () => {
 
   return {
     user,
+    isAdmnin,
     bussiness,
     object,
     config,

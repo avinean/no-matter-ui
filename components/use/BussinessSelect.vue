@@ -32,10 +32,6 @@ const bussinesses = computed(() => [
           onSubmit() {
             globalStore.getBussinesses()
           },
-        }, {
-          ui: {
-            width: 'sm:max-w-4xl',
-          },
         })
       },
     },
@@ -67,10 +63,6 @@ const objects = computed(() => [
         modalStore.open(ModalObject, {
           onSubmit() {
             globalStore.getBussinesses()
-          },
-        }, {
-          ui: {
-            width: 'sm:max-w-4xl',
           },
         })
       },

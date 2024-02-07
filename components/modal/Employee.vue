@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import type { ServiceProduct, User } from '#types/entities'
+import type { Role, ServiceProduct, User } from '#types/entities'
+import { ModalRole } from '#components'
 
 const props = withDefaults(defineProps<{
   preset?: User | null
@@ -11,11 +12,13 @@ const emit = defineEmits<{
   submit: [user: { email: string, password: string }]
 }>()
 
+const modalStore = useModalStore()
 const globalStore = useGlobalStore()
 const toast = useToast()
 const suggestionsStore = useSuggestionsStore()
-suggestionsStore.get(['sexes', 'roles'])
+suggestionsStore.get(['sexes'])
 
+const { data: roles, refresh: refreshRoles } = useApi<Role[]>(`/role/${globalStore.bussiness?.id}`)
 const { data: services } = useApi<ServiceProduct[]>(`/service/service`)
 
 const loading = ref(false)
@@ -34,6 +37,15 @@ const state: Partial<User> = reactive({
 whenever(services, () => {
   state.services = state.services?.map(service => services.value.find(({ id }) => id === service.id)) || []
 })
+
+function callModal(preset?: Role) {
+  modalStore.open(ModalRole, {
+    preset,
+    onSubmit() {
+      refreshRoles()
+    },
+  })
+}
 
 async function onCreateOrUpdate() {
   loading.value = true
@@ -86,121 +98,122 @@ async function onCreateOrUpdate() {
 </script>
 
 <template>
-  <UCard
-    class="flex flex-col flex-1"
-    :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"
+  <UForm
+    :state="state"
+    class="grid grid-cols-2 gap-x-4 gap-y-2"
+    @submit="onCreateOrUpdate"
   >
-    <template #header>
-      <h1 class="text-3xl font-bold">
-        Додати профіль працівника
-      </h1>
-    </template>
+    <h1 class="text-3xl font-bold">
+      Додати профіль працівника
+    </h1>
+    <input-file
+      class="row-span-6"
+      :src="state.image ? `assets/${state.image}` : null"
+      @change="photo = $event"
+    />
 
-    <UForm
-      ref="form"
-      :state="user"
-      class="grid grid-cols-2 gap-x-4 gap-y-2"
-      @submit="onCreateOrUpdate"
+    <UFormGroup
+      label="First name"
+      name="firstName"
+      required
     >
-      <input-file
-        class="row-span-6"
-        :src="state.image ? `assets/${state.image}` : null"
-        @change="photo = $event"
+      <UInput v-model="state.firstName" />
+    </UFormGroup>
+
+    <UFormGroup
+      label="Last name"
+      name="lastName"
+      required
+    >
+      <UInput v-model="state.lastName" />
+    </UFormGroup>
+
+    <UFormGroup
+      label="Email"
+      name="email"
+      required
+    >
+      <UInput v-model="state.email" />
+    </UFormGroup>
+
+    <UFormGroup
+      label="Phone"
+      name="phone"
+      required
+    >
+      <UInput v-model="state.phone" />
+    </UFormGroup>
+
+    <UFormGroup
+      label="Birthday"
+      name="birthday"
+      required
+    >
+      <InputDate v-model="state.birthday" />
+    </UFormGroup>
+
+    <UFormGroup
+      label="Sex"
+      name="sex"
+      required
+    >
+      <USelect
+        v-model="state.sex"
+        :options="suggestionsStore.suggestions.sexes"
       />
+    </UFormGroup>
 
-      <UFormGroup
-        label="First name"
-        name="firstName"
-        required
-      >
-        <UInput v-model="state.firstName" />
-      </UFormGroup>
-
-      <UFormGroup
-        label="Last name"
-        name="lastName"
-        required
-      >
-        <UInput v-model="state.lastName" />
-      </UFormGroup>
-
-      <UFormGroup
-        label="Email"
-        name="email"
-        required
-      >
-        <UInput v-model="state.email" />
-      </UFormGroup>
-
-      <UFormGroup
-        label="Phone"
-        name="phone"
-        required
-      >
-        <UInput v-model="state.phone" />
-      </UFormGroup>
-
-      <UFormGroup
-        label="Birthday"
-        name="birthday"
-        required
-      >
-        <InputDate v-model="state.birthday" />
-      </UFormGroup>
-
-      <UFormGroup
-        label="Sex"
-        name="sex"
-        required
-      >
-        <USelect
-          v-model="state.sex"
-          :options="suggestionsStore.suggestions.sexes"
-        />
-      </UFormGroup>
-
-      <UFormGroup
-        label="Role"
-        name="role"
-        required
-      >
+    <UFormGroup
+      label="Role"
+      name="role"
+      required
+    >
+      <div class="flex gap-1">
         <USelectMenu
           v-model="state.roles"
-          :options="suggestionsStore.suggestions.roles"
-          multiple
-          selected-icon="i-ic-round-check"
-          placeholder="Оберіть ролі"
-        />
-        <div class="flex gap-2 flex-wrap mt-2">
-          <UBadge v-for="role in state.roles" :key="role.name" :label="role.name" />
-        </div>
-      </UFormGroup>
-
-      <UFormGroup
-        v-if="services"
-        label="Які послуги може надавати спеціаліст"
-        name="role"
-        required
-      >
-        <USelectMenu
-          v-model="state.services"
-          :options="services"
+          :options="roles"
           option-attribute="name"
           multiple
           selected-icon="i-ic-round-check"
-          placeholder="Оберіть послуги"
+          placeholder="Оберіть ролі"
+          creatable
+          class="flex-1"
         />
-        <div class="flex gap-2 flex-wrap mt-2">
-          <UBadge v-for="service in state.services" :key="service.name" :label="service.name" />
-        </div>
-      </UFormGroup>
-    </UForm>
-    <template #footer>
-      <div class="flex justify-end">
-        <UButton @click="$refs.form.submit()">
-          Submit
-        </UButton>
+        <UButton
+          icon="i-ic-outline-add-moderator"
+          size="sm"
+          color="primary"
+          square
+          variant="solid"
+          @click="callModal()"
+        />
       </div>
-    </template>
-  </UCard>
+      <div class="flex gap-2 flex-wrap mt-2">
+        <UBadge v-for="role in state.roles" :key="role.name" :label="role.name" />
+      </div>
+    </UFormGroup>
+
+    <UFormGroup
+      v-if="services"
+      label="Які послуги може надавати спеціаліст"
+      name="services"
+      required
+    >
+      <USelectMenu
+        v-model="state.services"
+        :options="services"
+        option-attribute="name"
+        multiple
+        selected-icon="i-ic-round-check"
+        placeholder="Оберіть послуги"
+      />
+      <div class="flex gap-2 flex-wrap mt-2">
+        <UBadge v-for="service in state.services" :key="service.name" :label="service.name" />
+      </div>
+    </UFormGroup>
+
+    <UButton type="submit">
+      Submit
+    </UButton>
+  </UForm>
 </template>

@@ -58,10 +58,6 @@ function callModal(preset?: User) {
         })
       }
     },
-  }, {
-    ui: {
-      width: 'sm:max-w-4xl',
-    },
   })
 }
 </script>
