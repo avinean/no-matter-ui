@@ -9,14 +9,13 @@ const emit = defineEmits<{
   submit: []
 }>()
 
-const toast = useToast()
 const store = useSuggestionsStore()
 store.get('sexes')
 
 const { add, edit } = useClientRepository()
+const { photo, add: addPhoto } = usePhoto(props.preset?.image)
 
 const loading = ref(false)
-const photo = ref()
 const state: Partial<Client> = reactive({
   firstName: props.preset?.firstName,
   lastName: props.preset?.lastName,
@@ -47,27 +46,7 @@ function validate(state: Client) {
 
 async function onCreateOrUpdate() {
   loading.value = true
-  let image
-  if (photo.value) {
-    try {
-      const body = new FormData()
-      body.append('photo', photo.value)
-      const endpoint = state.image ? `/util/photo/${state.image}` : '/util/photo'
-      const method = state.image ? 'PUT' : 'POST'
-
-      image = await $api<string>(endpoint, {
-        method,
-        body,
-      })
-      photo.value = null
-    }
-    catch (e) {
-      toast.add({
-        title: 'Error',
-        description: 'Не вдалось завантажити фото',
-      })
-    }
-  }
+  const image = await addPhoto()
 
   const data = {
     ...state,

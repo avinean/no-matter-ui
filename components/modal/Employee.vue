@@ -14,16 +14,15 @@ const emit = defineEmits<{
 
 const modalStore = useModalStore()
 const globalStore = useGlobalStore()
-const toast = useToast()
 const suggestionsStore = useSuggestionsStore()
 const { add, edit } = useProfileRepository()
+const { photo, add: addPhoto } = usePhoto(props.preset?.image)
 
 suggestionsStore.get(['sexes'])
 const { data: roles, refresh: refreshRoles } = useApi<Role[]>(`/role/${globalStore.bussiness?.id}`)
 const { data: services, refresh: refreshServices } = useApi<ServiceProduct[]>(`/service/service`)
 
 const loading = ref(false)
-const photo = ref()
 const state: Partial<User> = reactive({
   firstName: props.preset?.firstName,
   lastName: props.preset?.lastName,
@@ -62,27 +61,8 @@ function addService() {
 
 async function onCreateOrUpdate() {
   loading.value = true
-  let image
-  if (photo.value) {
-    try {
-      const body = new FormData()
-      body.append('photo', photo.value)
-      const endpoint = state.image ? `/util/photo/${state.image}` : '/util/photo'
-      const method = state.image ? 'PUT' : 'POST'
 
-      image = await $api<string>(endpoint, {
-        method,
-        body,
-      })
-      photo.value = null
-    }
-    catch (e) {
-      toast.add({
-        title: 'Error',
-        description: 'Не вдалось завантажити фото',
-      })
-    }
-  }
+  const image = await addPhoto()
 
   const user = await (props.preset?.id
     ? edit(props.preset?.id, { ...state, image })

@@ -13,8 +13,9 @@ const store = useGlobalStore()
 const { baseUrl } = useRuntimeConfig().public
 const toast = useToast()
 
+const { photo, add: addPhoto } = usePhoto(props.preset?.image)
+
 const loading = ref(false)
-const photo = ref()
 const state: Partial<Bussiness> = reactive({
   name: props.preset?.name,
   description: props.preset?.description,
@@ -23,32 +24,12 @@ const state: Partial<Bussiness> = reactive({
 
 async function onCreateOrUpdate() {
   loading.value = true
-  let image
-  if (photo.value) {
-    try {
-      const body = new FormData()
-      body.append('photo', photo.value)
-      const endpoint = props.preset?.image ? `/util/photo/${state.image}` : '/util/photo'
-      const method = props.preset?.id ? 'PUT' : 'POST'
-
-      image = await $api<string>(endpoint, {
-        method,
-        body,
-      })
-      photo.value = null
-    }
-    catch (e) {
-      toast.add({
-        title: 'Error',
-        description: 'Не вдалось завантажити фото',
-      })
-    }
-  }
+  const image = await addPhoto()
 
   try {
     const endpoint = props.preset?.id ? `/bussiness/${store.user?.id}/${props.preset.id}` : `/bussiness/${store.user?.id}`
     const method = props.preset?.id ? 'PUT' : 'POST'
-    console.log('before api call')
+
     await $api(endpoint, {
       method,
       body: {
@@ -56,7 +37,6 @@ async function onCreateOrUpdate() {
         image,
       },
     })
-    console.log('after api call')
 
     emit('submit')
   }
