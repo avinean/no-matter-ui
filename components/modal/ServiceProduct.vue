@@ -10,11 +10,12 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  submit: [serviceProduct: ServiceProduct]
+  submit: []
 }>()
 
-const { baseUrl } = useRuntimeConfig().public
-const toast = useToast()
+const { add, edit } = props.type === 'product'
+  ? useProductRepository()
+  : useServiceRepository()
 
 const loading = ref(false)
 const serviceProduct: Partial<ServiceProduct> = reactive({
@@ -27,34 +28,17 @@ const serviceProduct: Partial<ServiceProduct> = reactive({
 })
 
 async function onCreateOrUpdate() {
-  loading.value = true
+  if (props.preset?.id)
+    await edit(props.preset.id, serviceProduct)
+  else
+    await add(serviceProduct)
 
-  try {
-    const endpoint = props.preset?.id ? `/service/${props.type}/${props.preset.id}` : `/service/${props.type}`
-    const method = props.preset?.id ? 'PUT' : 'POST'
-
-    const data = await $api<ServiceProduct>(endpoint, {
-      method,
-      body: serviceProduct,
-    })
-
-    emit('submit', data)
-  }
-  catch (e) {
-    toast.add({
-      title: 'Error',
-      description: `${props.type === 'product' ? 'Продукт' : 'Послугу'} з такою назвою вже додано`,
-    })
-  }
-  finally {
-    loading.value = false
-  }
+  emit('submit')
 }
 </script>
 
 <template>
   <UForm
-    ref="form"
     :state="serviceProduct"
     class="grid grid-cols-2 gap-x-4 gap-y-2"
     @submit="onCreateOrUpdate"

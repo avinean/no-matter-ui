@@ -2,19 +2,19 @@
 import type { User } from '#types/entities'
 
 const { baseUrl } = useRuntimeConfig().public
-const globalStore = useGlobalStore()
+const { hasPermission } = useGlobalStore()
 const modalStore = useModalStore()
 const ModalEmployee = resolveComponent('modal-employee')
 const EmailPassAlert = resolveComponent('modal-email-pass-alert')
-const { profiles, get } = useProfileRepository()
+const { data, get } = useProfileRepository()
 get()
 const commandPaletteRef = ref()
 const selectedId = ref<number | null>(null)
-const selectedProfile = computed(() => profiles.value?.find(profile => profile.id === selectedId.value))
+const selectedProfile = computed(() => data.value?.find(profile => profile.id === selectedId.value))
 
 const groups = computed(() => [{
   key: 'users',
-  commands: (profiles.value || []).map(client => ({
+  commands: (data.value || []).map(client => ({
     id: client.id,
     label: `${client.firstName} ${client.lastName}`,
     client,
@@ -47,7 +47,7 @@ function callModal(preset?: User) {
   <div class="grid md:grid-cols-[200px,1fr] gap-2 divide-x min-h-full">
     <div>
       <UButton
-        v-if="globalStore.hasPermission('profile:add')"
+        v-if="hasPermission('profile:add')"
         label="Add item"
         icon="i-ic-outline-contact-phone"
         class="w-full"
@@ -63,7 +63,7 @@ function callModal(preset?: User) {
           <div class="flex flex-col items-center justify-center py-6 gap-3">
             <span class="italic text-sm">Nothing here!</span>
             <UButton
-              v-if="globalStore.hasPermission('profile:add')"w
+              v-if="hasPermission('profile:add')"w
               label="Add item"
               color="gray"
               icon="i-ic-outline-contact-phone"

@@ -11,7 +11,11 @@ const props = withDefaults(defineProps<{
 const { hasPermission } = useGlobalStore()
 const modalStore = useModalStore()
 
-const { data, refresh } = useApi<ServiceProduct[]>(`/service/${props.type}`)
+const { data, get, add } = props.type === 'product'
+  ? useProductRepository()
+  : useServiceRepository()
+
+get()
 
 const columns = [
   { key: 'name', label: 'Назва' },
@@ -39,7 +43,7 @@ function menu(item: ServiceProduct) {
     [{
       label: item.status ? 'Archive' : 'Unarchive',
       icon: item.status ? 'i-ic-baseline-archive' : 'i-ic-baseline-unarchive',
-      click: () => onChangeStatus(item),
+      // click: () => onChangeStatus(item),
     }],
   ]
 }
@@ -49,35 +53,22 @@ function callModal(preset?: ServiceProduct) {
     preset,
     type: props.type,
     onSubmit() {
-      refresh()
+      get()
     },
   })
 }
 
 async function onDuplicate(item: ServiceProduct) {
-  await $api<ServiceProduct>(`/service/${props.type}`, {
-    method: 'POST',
-    body: {
-      name: `${item.name} (копія ${new Date().toLocaleString()})`,
-      description: item.description,
-      type: item.type,
-      price: item.price,
-      duration: item.duration,
-      discount: item.discount,
-      status: item.status,
-    },
+  await add({
+    name: `${item.name} (копія ${new Date().toLocaleString()})`,
+    description: item.description,
+    type: item.type,
+    price: item.price,
+    duration: item.duration,
+    discount: item.discount,
+    status: item.status,
   })
-  refresh()
-}
-
-async function onChangeStatus(item: ServiceProduct) {
-  await $api<ServiceProduct>(`/service/${props.type}/${item.id}`, {
-    method: 'PUT',
-    body: {
-      status: !item.status,
-    },
-  })
-  refresh()
+  get()
 }
 </script>
 

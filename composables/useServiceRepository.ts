@@ -1,23 +1,21 @@
-import type { User } from '#types/entities'
+import type { ServiceProduct } from '#types/entities'
 
-export const useProfileRepository = createGlobalState(() => {
+export const useServiceRepository = createGlobalState(() => {
   const globalStore = useGlobalStore()
   const toast = useToast()
 
-  const data = ref<User[]>([])
+  const data = ref<ServiceProduct[]>([])
 
   async function get() {
-    data.value = await $api<User[]>(`/profile/${globalStore.object?.id || globalStore.user?.employers[0]?.id}`)
+    data.value = await $api<ServiceProduct[]>(`/service/service/${globalStore.object?.id || globalStore.user?.employers[0]?.id}`)
   }
 
-  async function add(body: Partial<User>) {
+  function add(body: Partial<ServiceProduct>) {
     try {
-      const data = await $api<{ user: { email: string, password: string } }>(`/profile/${globalStore.object?.id}`, {
+      return $api(`/service/service/${globalStore.object?.id}`, {
         method: 'POST',
         body,
       })
-
-      return data.user
     }
     catch (e) {
       toast.add({
@@ -27,9 +25,9 @@ export const useProfileRepository = createGlobalState(() => {
     }
   }
 
-  async function edit(id: number, body: Partial<User>) {
+  function edit(id: number, body: Partial<ServiceProduct>) {
     try {
-      await $api(`/profile/${globalStore.object?.id}/${id}`, {
+      return $api(`/service/service/${globalStore.object?.id}/${id}`, {
         method: 'PUT',
         body,
       })
