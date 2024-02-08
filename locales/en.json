@@ -1,0 +1,17 @@
+{
+    "welcome": "Hello",
+    "settings": {
+        "form": {
+            "labels": {
+                "password": "Current password",
+                "newPassword": "New password",
+                "confirmNewPassword": "Confirm new password",
+                "submit": "Submit"
+            }
+        },
+        "titles": {
+            "loginOptions": "Change login options",
+            "generalOptions": "General settings"
+        }
+    }
+}

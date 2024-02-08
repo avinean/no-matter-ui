@@ -3,13 +3,10 @@ import ua from './locales/ua.json'
 
 export default {
     legacy: false,
-    locale: 'en',
+    locale: "uk-UK",
+    locales: ['uk-UK', 'en-US'],
     messages: {
-        en: {
-            welcome: 'Welcome'
-        },
-        fr: {
-            welcome: 'Bienvenue'
-        }
+        "en-US": en,
+        "uk-UK": ua
     }
 }
