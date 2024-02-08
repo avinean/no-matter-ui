@@ -23,8 +23,8 @@ export default defineNuxtConfig({
   },
   image: {
     providers: {
-      myProvider: {
-        provider: '~/providers/my-provider.ts',
+      upload: {
+        provider: '~/providers/upload.ts',
       },
     },
   },

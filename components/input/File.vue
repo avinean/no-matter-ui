@@ -4,7 +4,7 @@ defineProps < {
 } > ()
 
 const emit = defineEmits<{
-  'change': [file: File]
+  change: [file: File]
 }>()
 
 const imageUrl = ref('')
@@ -23,10 +23,7 @@ function handleFileChange(event: Event) {
 </script>
 
 <template>
-  <label
-    :style="{ backgroundImage: `url(${imageUrl || src || '/placeholder.jpg'})` }"
-    class="bg-cover bg-size bg-center cursor-pointer"
-  >
+  <label class="cursor-pointer">
     <input
       type="file"
       hidden
@@ -36,7 +33,14 @@ function handleFileChange(event: Event) {
       v-if="imageUrl"
       :src="imageUrl"
       alt="Preview"
-      style="max-width: 100%;"
+      width="100%"
+      height="100%"
     >
+    <base-image
+      v-else
+      :src="src"
+      width="100%"
+      height="100%"
+    />
   </label>
 </template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineProps<{
-  src: string
+  src?: string
   srcset?: string
   loading?: 'lazy' | 'eager'
   width: number | string
@@ -9,6 +9,6 @@ defineProps<{
 </script>
 
 <template>
-  <nuxt-img v-if="src" v-bind="$props" />
+  <nuxt-img v-if="src" v-bind="$props" provider="upload" />
   <nuxt-img v-else v-bind="$props" src="/placeholder.jpg" />
 </template>

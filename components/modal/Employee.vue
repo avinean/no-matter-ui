@@ -29,6 +29,7 @@ const state: Partial<User> = reactive({
   lastName: props.preset?.lastName,
   email: props.preset?.email,
   phone: props.preset?.phone,
+  image: props.preset?.image,
   birthday: props.preset?.birthday,
   sex: props.preset?.sex,
   roles: props.preset?.roles || [],
@@ -83,13 +84,11 @@ async function onCreateOrUpdate() {
     }
   }
 
-  if (props.preset?.id) {
-    edit(props.preset?.id, { ...state, image })
-  }
-  else {
-    const user = await add({ ...state, image })
-    emit('submit', user!)
-  }
+  const user = await (props.preset?.id
+    ? edit(props.preset?.id, { ...state, image })
+    : add({ ...state, image }))
+
+  emit('submit', user!)
 }
 </script>
 
@@ -104,7 +103,7 @@ async function onCreateOrUpdate() {
     </h1>
     <input-file
       class="row-span-6"
-      :src="state.image ? `assets/${state.image}` : null"
+      :src="state.image"
       @change="photo = $event"
     />
 

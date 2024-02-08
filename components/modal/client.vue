@@ -97,7 +97,7 @@ async function onCreateOrUpdate() {
 
     <input-file
       class="row-span-6"
-      :src="state.image ? `assets/${state.image}` : null"
+      :src="state.image"
       @change="photo = $event"
     />
 
