@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const { locale, setLocale, availableLocales } = useI18n();
+const { locale, setLocale, availableLocales, setLocaleCookie, getLocaleCookie } = useI18n();
 const toast = useToast()
 const password = reactive({
   password: undefined,
@@ -37,7 +37,6 @@ async function onUpdatePassword() {
     password[key] = undefined
 }
 
-console.log(availableLocales)
 </script>
 
 <template>
