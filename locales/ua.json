@@ -1,0 +1,17 @@
+{
+    "welcome": "Ласкаво просимо",
+    "settings": {
+        "form": {
+            "labels": {
+                "password": "Поточний пароль",
+                "newPassword": "Новий пароль",
+                "confirmNewPassword": "Підтвердження пароля",
+                "submit": "Зберегти"
+            }
+        },
+        "titles": {
+            "loginOptions": "Зміна параметрів входу",
+            "generalOptions": "Загальні налаштування"
+        }
+    }
+}
