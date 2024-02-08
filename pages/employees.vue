@@ -2,20 +2,19 @@
 import type { User } from '#types/entities'
 
 const { baseUrl } = useRuntimeConfig().public
-const toast = useToast()
 const globalStore = useGlobalStore()
 const modalStore = useModalStore()
 const ModalEmployee = resolveComponent('modal-employee')
 const EmailPassAlert = resolveComponent('modal-email-pass-alert')
-
-const { data, refresh } = useApi<User[]>(`/profile/${globalStore.object?.id}`)
+const { profiles, get } = useProfileRepository()
+get()
 const commandPaletteRef = ref()
 const selectedId = ref<number | null>(null)
-const selectedProfile = computed(() => data.value?.find(profile => profile.id === selectedId.value))
+const selectedProfile = computed(() => profiles.value?.find(profile => profile.id === selectedId.value))
 
 const groups = computed(() => [{
   key: 'users',
-  commands: (data.value || []).map(client => ({
+  commands: (profiles.value || []).map(client => ({
     id: client.id,
     label: `${client.firstName} ${client.lastName}`,
     client,
@@ -29,29 +28,11 @@ const actions = [
   { tooltip: 'Перегенерувати пароль', icon: 'i-ic-round-security' },
 ]
 
-function updateStatus(status: boolean) {
-  $api(`/profile/${selectedProfile.value!.id}/status`, {
-    method: 'PUT',
-    body: { status },
-  }).then(() => {
-    refresh()
-    toast.add({
-      title: 'Вдалося!',
-      description: 'Статус успішно змінено',
-    })
-  }).catch(() => {
-    toast.add({
-      title: 'Помилка!',
-      description: 'Не вдалось змінити статус',
-    })
-  })
-}
-
 function callModal(preset?: User) {
   modalStore.open(ModalEmployee, {
     preset,
     onSubmit(user) {
-      refresh()
+      get()
       if (!preset) {
         nextTick(() => {
           modalStore.open(EmailPassAlert, { user })
@@ -66,6 +47,7 @@ function callModal(preset?: User) {
   <div class="grid md:grid-cols-[200px,1fr] gap-2 divide-x min-h-full">
     <div>
       <UButton
+        v-if="globalStore.hasPermission('profile:add')"
         label="Add item"
         icon="i-ic-outline-contact-phone"
         class="w-full"
@@ -81,6 +63,7 @@ function callModal(preset?: User) {
           <div class="flex flex-col items-center justify-center py-6 gap-3">
             <span class="italic text-sm">Nothing here!</span>
             <UButton
+              v-if="globalStore.hasPermission('profile:add')"w
               label="Add item"
               color="gray"
               icon="i-ic-outline-contact-phone"
@@ -105,8 +88,6 @@ function callModal(preset?: User) {
               <UToggle
                 on-icon="i-ic-baseline-check-circle-outline"
                 off-icon="i-outline-cancel"
-                :model-value="selectedProfile.status"
-                @update:model-value="updateStatus"
               />
             </UFormGroup>
           </UCard>

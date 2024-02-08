@@ -21,12 +21,13 @@ export interface User extends Entity {
   lastName: string
   sex: string
   birthday: Date
-  image: string
+  image?: string
   email: string
   phone: string
   roles: Role[]
   services: ServiceProduct[]
   bussinesses?: Bussiness[]
+  employers: BussinessObject[]
 }
 
 export interface Bussiness extends Entity {

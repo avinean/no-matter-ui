@@ -16,8 +16,9 @@ const modalStore = useModalStore()
 const globalStore = useGlobalStore()
 const toast = useToast()
 const suggestionsStore = useSuggestionsStore()
-suggestionsStore.get(['sexes'])
+const { add, edit } = useProfileRepository()
 
+suggestionsStore.get(['sexes'])
 const { data: roles, refresh: refreshRoles } = useApi<Role[]>(`/role/${globalStore.bussiness?.id}`)
 const { data: services, refresh: refreshServices } = useApi<ServiceProduct[]>(`/service/service`)
 
@@ -82,28 +83,12 @@ async function onCreateOrUpdate() {
     }
   }
 
-  try {
-    const endpoint = props.preset?.id ? `/profile/${globalStore.object?.id}/${props.preset.id}` : `/profile/${globalStore.object?.id}`
-    const method = props.preset?.id ? 'PUT' : 'POST'
-
-    const data = await $api<{ user: { email: string, password: string } }>(endpoint, {
-      method,
-      body: {
-        ...state,
-        image,
-      },
-    })
-
-    emit('submit', data.user)
+  if (props.preset?.id) {
+    edit(props.preset?.id, { ...state, image })
   }
-  catch (e) {
-    toast.add({
-      title: 'Error',
-      description: `Перевірте дані та спробуйте ще раз. Можливо користувач з таким email або телефоном вже існує`,
-    })
-  }
-  finally {
-    loading.value = false
+  else {
+    const user = await add({ ...state, image })
+    emit('submit', user!)
   }
 }
 </script>

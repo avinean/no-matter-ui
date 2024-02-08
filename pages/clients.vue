@@ -2,7 +2,6 @@
 import type { Client } from '#types/entities'
 
 const { baseUrl } = useRuntimeConfig().public
-const toast = useToast()
 const modalStore = useModalStore()
 const ModalClient = resolveComponent('modal-client')
 
@@ -20,24 +19,6 @@ const groups = computed(() => [{
     avatar: { src: `${baseUrl}/${client.image}`, loading: 'lazy' },
   })),
 }])
-
-function updateStatus(status: boolean) {
-  $api(`/profile/${selectedClient.value!.id}/status`, {
-    method: 'PUT',
-    body: { status },
-  }).then(() => {
-    refresh()
-    toast.add({
-      title: 'Вдалося!',
-      description: 'Статус успішно змінено',
-    })
-  }).catch(() => {
-    toast.add({
-      title: 'Помилка!',
-      description: 'Не вдалось змінити статус',
-    })
-  })
-}
 
 function callModal(preset?: Client) {
   modalStore.open(ModalClient, {
@@ -93,8 +74,6 @@ function callModal(preset?: Client) {
               <UToggle
                 on-icon="i-ic-baseline-check-circle-outline"
                 off-icon="i-outline-cancel"
-                :model-value="selectedClient.status"
-                @update:model-value="updateStatus"
               />
             </UFormGroup>
           </UCard>
