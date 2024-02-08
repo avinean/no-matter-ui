@@ -8,30 +8,38 @@ type Key = 'contactTypes'
   | 'roles'
   | 'sexes'
   | 'profileConnectionTypes'
+  | 'resources'
+  | 'actions'
 
 const endpoints = {
-  contactTypes: '/suggestions/contact-types',
-  materialTransactionTypes: '/suggestions/material-transaction-types',
-  roles: '/suggestions/roles',
-  sexes: '/suggestions/sexes',
-  profileConnectionTypes: '/suggestions/profile-connection-types',
+  contactTypes: '/suggestion/contact-types',
+  materialTransactionTypes: '/suggestion/material-transaction-types',
+  sexes: '/suggestion/sexes',
+  profileConnectionTypes: '/suggestion/profile-connection-types',
+  roles: '/suggestion/roles',
+  resources: '/suggestion/resources',
+  actions: '/suggestion/actions',
 }
 
 export const useSuggestionsStore = defineStore('suggestions', () => {
   const suggestions = ref<Record<Key, Suggestion[]>>({
     contactTypes: [],
     materialTransactionTypes: [],
-    roles: [],
     sexes: [],
     profileConnectionTypes: [],
+    roles: [],
+    resources: [],
+    actions: [],
   })
 
   const loading = ref({
     contactTypes: false,
     materialTransactionTypes: false,
-    roles: false,
     sexes: false,
     profileConnectionTypes: false,
+    roles: false,
+    resources: false,
+    actions: false,
   })
 
   function get(s: Key | Key[]) {

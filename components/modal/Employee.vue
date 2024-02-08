@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import type { ServiceProduct, User } from '#types/entities'
+import type { Role, ServiceProduct, User } from '#types/entities'
+import { ModalRole, ModalServiceProduct } from '#components'
 
 const props = withDefaults(defineProps<{
   preset?: User | null
@@ -11,40 +12,85 @@ const emit = defineEmits<{
   submit: [user: { email: string, password: string }]
 }>()
 
+const modalStore = useModalStore()
+const globalStore = useGlobalStore()
 const toast = useToast()
-const store = useSuggestionsStore()
-store.get(['sexes', 'roles'])
+const suggestionsStore = useSuggestionsStore()
+suggestionsStore.get(['sexes'])
 
-const { data: services } = useApi<ServiceProduct[]>(`/services/service`)
+const { data: roles, refresh: refreshRoles } = useApi<Role[]>(`/role/${globalStore.bussiness?.id}`)
+const { data: services, refresh: refreshServices } = useApi<ServiceProduct[]>(`/service/service`)
 
 const loading = ref(false)
-const user: Partial<User> = reactive({
+const photo = ref()
+const state: Partial<User> = reactive({
   firstName: props.preset?.firstName,
   lastName: props.preset?.lastName,
   email: props.preset?.email,
   phone: props.preset?.phone,
   birthday: props.preset?.birthday,
   sex: props.preset?.sex,
-  roles: props.preset?.roles.split(',') || [],
+  roles: props.preset?.roles || [],
   services: props.preset?.services || [],
 })
 
 whenever(services, () => {
-  user.services = user.services?.map(service => services.value.find(({ id }) => id === service.id)) || []
+  state.services = state.services?.map(service => services.value.find(({ id }) => id === service.id)) || []
 })
+whenever(roles, () => {
+  state.roles = state.roles?.map(role => roles.value.find(({ id }) => id === role.id)) || []
+})
+
+function addRole() {
+  modalStore.open(ModalRole, {
+    onSubmit() {
+      refreshRoles()
+    },
+  })
+}
+
+function addService() {
+  modalStore.open(ModalServiceProduct, {
+    type: 'service',
+    onSubmit() {
+      refreshServices()
+    },
+  })
+}
 
 async function onCreateOrUpdate() {
   loading.value = true
+  let image
+  if (photo.value) {
+    try {
+      const body = new FormData()
+      body.append('photo', photo.value)
+      const endpoint = state.image ? `/util/photo/${state.image}` : '/util/photo'
+      const method = state.image ? 'PUT' : 'POST'
+
+      image = await $api<string>(endpoint, {
+        method,
+        body,
+      })
+      photo.value = null
+    }
+    catch (e) {
+      toast.add({
+        title: 'Error',
+        description: 'Не вдалось завантажити фото',
+      })
+    }
+  }
 
   try {
-    const endpoint = props.preset?.id ? `/users/${props.preset.id}` : `/users`
+    const endpoint = props.preset?.id ? `/profile/${globalStore.object?.id}/${props.preset.id}` : `/profile/${globalStore.object?.id}`
     const method = props.preset?.id ? 'PUT' : 'POST'
 
     const data = await $api<{ user: { email: string, password: string } }>(endpoint, {
       method,
       body: {
-        ...user,
-        roles: user.roles.join(','),
+        ...state,
+        image,
       },
     })
 
@@ -63,116 +109,133 @@ async function onCreateOrUpdate() {
 </script>
 
 <template>
-  <UCard
-    class="flex flex-col flex-1"
-    :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"
+  <UForm
+    :state="state"
+    class="grid grid-cols-2 gap-x-4 gap-y-2"
+    @submit="onCreateOrUpdate"
   >
-    <template #header>
-      <h1 class="text-3xl font-bold">
-        Додати профіль працівника
-      </h1>
-    </template>
+    <h1 class="text-3xl font-bold">
+      Додати профіль працівника
+    </h1>
+    <input-file
+      class="row-span-6"
+      :src="state.image ? `assets/${state.image}` : null"
+      @change="photo = $event"
+    />
 
-    <UForm
-      ref="form"
-      :state="user"
-      class="grid grid-cols-2 gap-x-4 gap-y-2"
-      @submit="onCreateOrUpdate"
+    <UFormGroup
+      label="First name"
+      name="firstName"
+      required
     >
-      <UFormGroup
-        label="First name"
-        name="firstName"
-        required
-      >
-        <UInput v-model="user.firstName" />
-      </UFormGroup>
+      <UInput v-model="state.firstName" />
+    </UFormGroup>
 
-      <UFormGroup
-        label="Last name"
-        name="lastName"
-        required
-      >
-        <UInput v-model="user.lastName" />
-      </UFormGroup>
+    <UFormGroup
+      label="Last name"
+      name="lastName"
+      required
+    >
+      <UInput v-model="state.lastName" />
+    </UFormGroup>
 
-      <UFormGroup
-        label="Email"
-        name="email"
-        required
-      >
-        <UInput v-model="user.email" />
-      </UFormGroup>
+    <UFormGroup
+      label="Email"
+      name="email"
+      required
+    >
+      <UInput v-model="state.email" />
+    </UFormGroup>
 
-      <UFormGroup
-        label="Phone"
-        name="phone"
-        required
-      >
-        <UInput v-model="user.phone" />
-      </UFormGroup>
+    <UFormGroup
+      label="Phone"
+      name="phone"
+      required
+    >
+      <UInput v-model="state.phone" />
+    </UFormGroup>
 
-      <UFormGroup
-        label="Birthday"
-        name="birthday"
-        required
-      >
-        <InputDate v-model="user.birthday" />
-      </UFormGroup>
+    <UFormGroup
+      label="Birthday"
+      name="birthday"
+      required
+    >
+      <InputDate v-model="state.birthday" />
+    </UFormGroup>
 
-      <UFormGroup
-        label="Sex"
-        name="sex"
-        required
-      >
-        <USelect
-          v-model="user.sex"
-          :options="store.suggestions.sexes"
-        />
-      </UFormGroup>
+    <UFormGroup
+      label="Sex"
+      name="sex"
+      required
+    >
+      <USelect
+        v-model="state.sex"
+        :options="suggestionsStore.suggestions.sexes"
+      />
+    </UFormGroup>
 
-      <UFormGroup
-        label="Role"
-        name="role"
-        required
-      >
+    <UFormGroup
+      label="Role"
+      name="role"
+      required
+    >
+      <div class="flex gap-1">
         <USelectMenu
-          v-model="user.roles"
-          :options="store.suggestions.roles"
-          value-attribute="value"
+          v-model="state.roles"
+          :options="roles"
+          option-attribute="name"
           multiple
           selected-icon="i-ic-round-check"
           placeholder="Оберіть ролі"
+          creatable
+          class="flex-1"
         />
-        <div class="flex gap-2 flex-wrap mt-2">
-          <UBadge v-for="role in user.roles" :key="role" :label="role" />
-        </div>
-      </UFormGroup>
+        <UButton
+          icon="i-ic-outline-add-moderator"
+          size="sm"
+          color="primary"
+          square
+          variant="solid"
+          @click="addRole()"
+        />
+      </div>
+      <div class="flex gap-2 flex-wrap mt-2">
+        <UBadge v-for="role in state.roles" :key="role.name" :label="role.name" />
+      </div>
+    </UFormGroup>
 
-      <UFormGroup
-        v-if="services"
-        label="Які послуги може надавати спеціаліст"
-        name="role"
-        required
-      >
+    <UFormGroup
+      v-if="services"
+      label="Які послуги може надавати спеціаліст"
+      name="services"
+      required
+    >
+      <div class="flex gap-1">
         <USelectMenu
-          v-model="user.services"
+          v-model="state.services"
           :options="services"
           option-attribute="name"
           multiple
           selected-icon="i-ic-round-check"
           placeholder="Оберіть послуги"
+          class="flex-1"
         />
-        <div class="flex gap-2 flex-wrap mt-2">
-          <UBadge v-for="service in user.services" :key="service.name" :label="service.name" />
-        </div>
-      </UFormGroup>
-    </UForm>
-    <template #footer>
-      <div class="flex justify-end">
-        <UButton @click="$refs.form.submit()">
-          Submit
-        </UButton>
+        <UButton
+          icon="i-ic-baseline-medical-services"
+          size="sm"
+          color="primary"
+          square
+          variant="solid"
+          @click="addService()"
+        />
       </div>
-    </template>
-  </UCard>
+      <div class="flex gap-2 flex-wrap mt-2">
+        <UBadge v-for="service in state.services" :key="service.name" :label="service.name" />
+      </div>
+    </UFormGroup>
+
+    <UButton type="submit">
+      Submit
+    </UButton>
+  </UForm>
 </template>

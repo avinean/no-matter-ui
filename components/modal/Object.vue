@@ -28,7 +28,7 @@ async function onCreateOrUpdate() {
     try {
       const body = new FormData()
       body.append('photo', photo.value)
-      const endpoint = props.preset?.id ? `/utils/photo/${state.image}` : '/utils/photo'
+      const endpoint = props.preset?.id ? `/util/photo/${state.image}` : '/util/photo'
       const method = props.preset?.id ? 'PUT' : 'POST'
 
       image = await $api<string>(endpoint, {
@@ -74,53 +74,41 @@ async function onCreateOrUpdate() {
 </script>
 
 <template>
-  <UCard
-    class="flex flex-col flex-1"
-    :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"
+  <UForm
+    ref="form"
+    :state="state"
+    class="grid grid-cols-2 gap-x-4 gap-y-2"
+    @submit="onCreateOrUpdate"
   >
-    <template #header>
-      <h1 class="text-3xl font-bold">
-        Створити бізнес
-      </h1>
-    </template>
+    <h1 class="text-3xl font-bold">
+      Створити бізнес
+    </h1>
+    <input-file
+      class="row-span-6"
+      :src="`${baseUrl}/${state.image}`"
+      @change="photo = $event"
+    />
 
-    <UForm
-      ref="form"
-      :state="state"
-      class="grid grid-cols-2 gap-x-4 gap-y-2"
-      @submit="onCreateOrUpdate"
+    <UFormGroup
+      label="Назва"
+      name="name"
+      required
     >
-      <input-file
-        class="row-span-6"
-        :src="`${baseUrl}/${state.image}`"
-        @change="photo = $event"
-      />
+      <UInput v-model="state.name" />
+    </UFormGroup>
 
-      <UFormGroup
-        label="Назва"
-        name="name"
-        required
-      >
-        <UInput v-model="state.name" />
-      </UFormGroup>
+    <UFormGroup
+      label="Опис"
+      name="description"
+      required
+    >
+      <UInput v-model="state.description" />
+    </UFormGroup>
 
-      <UFormGroup
-        label="Опис"
-        name="description"
-        required
-      >
-        <UInput v-model="state.description" />
-      </UFormGroup>
-    </UForm>
-    <template #footer>
-      <div class="flex justify-end">
-        <UButton
-          :loading
-          @click="$refs.form.submit()"
-        >
-          Submit
-        </UButton>
-      </div>
-    </template>
-  </UCard>
+    <UButton
+      type="submit"
+    >
+      Submit
+    </UButton>
+  </UForm>
 </template>

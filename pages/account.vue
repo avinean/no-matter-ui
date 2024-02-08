@@ -18,6 +18,11 @@ const store = useGlobalStore()
           icon: 'i-ic-sharp-build',
           to: '/account/settings',
         },
+        store.isAdmnin && {
+          label: 'Дозволи',
+          icon: 'i-ic-baseline-security',
+          to: '/account/permissions',
+        },
         {
           label: 'Вихід',
           icon: 'i-ic-sharp-power-settings-new',
@@ -25,7 +30,7 @@ const store = useGlobalStore()
             store.logout()
           },
         },
-      ]" class="border-b border-gray-200 dark:border-gray-800"
+      ].filter(Boolean)" class="border-b border-gray-200 dark:border-gray-800"
     />
     <NuxtPage />
   </div>

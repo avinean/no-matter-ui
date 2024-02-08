@@ -51,8 +51,8 @@ async function onCreateOrUpdate() {
     try {
       const body = new FormData()
       body.append('photo', photo.value)
-      const endpoint = props.preset?.id ? `/utils/photo/${state.image}` : '/utils/photo'
-      const method = props.preset?.id ? 'PUT' : 'POST'
+      const endpoint = state.image ? `/util/photo/${state.image}` : '/util/photo'
+      const method = state.image ? 'PUT' : 'POST'
 
       image = await $api<string>(endpoint, {
         method,
@@ -69,7 +69,7 @@ async function onCreateOrUpdate() {
   }
 
   try {
-    const endpoint = props.preset?.id ? `/clients/${props.preset.id}` : '/clients'
+    const endpoint = props.preset?.id ? `/client/${props.preset.id}` : '/client'
     const method = props.preset?.id ? 'PUT' : 'POST'
 
     const data = await $api<Client>(endpoint, {
@@ -97,89 +97,77 @@ async function onCreateOrUpdate() {
 </script>
 
 <template>
-  <UCard
-    class="flex flex-col flex-1"
-    :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"
+  <UForm
+    ref="form"
+    :state="state"
+    :validate="validate"
+    class="grid grid-cols-2 gap-x-4 gap-y-2"
+    @submit="onCreateOrUpdate"
   >
-    <template #header>
-      <h1 class="text-3xl font-bold">
-        Створити профіль клієнта
-      </h1>
-    </template>
+    <h1 class="text-3xl font-bold">
+      Створити профіль клієнта
+    </h1>
 
-    <UForm
-      ref="form"
-      :state="state"
-      :validate="validate"
-      class="grid grid-cols-2 gap-x-4 gap-y-2"
-      @submit="onCreateOrUpdate"
+    <input-file
+      class="row-span-6"
+      :src="state.image ? `assets/${state.image}` : null"
+      @change="photo = $event"
+    />
+
+    <UFormGroup
+      label="First name"
+      name="firstName"
+      required
     >
-      <input-file
-        class="row-span-6"
-        :src="state.image ? `${baseUrl}/${state.image}` : null"
-        @change="photo = $event"
+      <UInput v-model="state.firstName" />
+    </UFormGroup>
+
+    <UFormGroup
+      label="Last name"
+      name="lastName"
+      required
+    >
+      <UInput v-model="state.lastName" />
+    </UFormGroup>
+
+    <UFormGroup
+      label="Phone number"
+      name="phone"
+      required
+    >
+      <UInput v-model="state.phone" />
+    </UFormGroup>
+
+    <UFormGroup
+      label="Sex"
+      name="sex"
+      required
+    >
+      <USelect
+        v-model="state.sex"
+        :options="store.suggestions.sexes"
       />
+    </UFormGroup>
 
-      <UFormGroup
-        label="First name"
-        name="firstName"
-        required
-      >
-        <UInput v-model="state.firstName" />
-      </UFormGroup>
+    <UFormGroup
+      label="Birthday"
+      name="birthday"
+      required
+    >
+      <input-date v-model="state.birthday" />
+    </UFormGroup>
 
-      <UFormGroup
-        label="Last name"
-        name="lastName"
-        required
-      >
-        <UInput v-model="state.lastName" />
-      </UFormGroup>
-
-      <UFormGroup
-        label="Phone number"
-        name="phone"
-        required
-      >
-        <UInput v-model="state.phone" />
-      </UFormGroup>
-
-      <UFormGroup
-        label="Sex"
-        name="sex"
-        required
-      >
-        <USelect
-          v-model="state.sex"
-          :options="store.suggestions.sexes"
-        />
-      </UFormGroup>
-
-      <UFormGroup
-        label="Birthday"
-        name="birthday"
-        required
-      >
-        <input-date v-model="state.birthday" />
-      </UFormGroup>
-
-      <UFormGroup
-        label="Source"
-        name="source"
-        required
-      >
-        <UInput v-model="state.source" />
-      </UFormGroup>
-    </UForm>
-    <template #footer>
-      <div class="flex justify-end">
-        <UButton
-          :loading
-          @click="$refs.form.submit()"
-        >
-          Submit
-        </UButton>
-      </div>
-    </template>
-  </UCard>
+    <UFormGroup
+      label="Source"
+      name="source"
+      required
+    >
+      <UInput v-model="state.source" />
+    </UFormGroup>
+    <UButton
+      type="submit"
+    >
+      Submit
+    </UButton>
+  </UForm>
 </template>

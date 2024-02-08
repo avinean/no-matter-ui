@@ -6,7 +6,7 @@ const toast = useToast()
 const modalStore = useModalStore()
 const ModalClient = resolveComponent('modal-client')
 
-const { data, refresh, status } = useApi<Client[]>('/clients')
+const { data, refresh, status } = useApi<Client[]>('/client')
 const commandPaletteRef = ref()
 const selectedId = ref<number | null>(null)
 const selectedClient = computed(() => data.value?.find(client => client.id === selectedId.value))
@@ -22,7 +22,7 @@ const groups = computed(() => [{
 }])
 
 function updateStatus(status: boolean) {
-  $api(`/profiles/${selectedClient.value!.id}/status`, {
+  $api(`/profile/${selectedClient.value!.id}/status`, {
     method: 'PUT',
     body: { status },
   }).then(() => {
@@ -44,10 +44,6 @@ function callModal(preset?: Client) {
     preset,
     onSubmit() {
       refresh()
-    },
-  }, {
-    ui: {
-      width: 'sm:max-w-4xl',
     },
   })
 }

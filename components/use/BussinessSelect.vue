@@ -1,7 +1,6 @@
 <script setup lang="ts">
 const globalStore = useGlobalStore()
 const modalStore = useModalStore()
-const toast = useToast()
 
 const ModalBussiness = resolveComponent('modal-bussiness')
 const ModalObject = resolveComponent('modal-object')
@@ -32,10 +31,6 @@ const bussinesses = computed(() => [
         modalStore.open(ModalBussiness, {
           onSubmit() {
             globalStore.getBussinesses()
-          },
-        }, {
-          ui: {
-            width: 'sm:max-w-4xl',
           },
         })
       },
@@ -68,10 +63,6 @@ const objects = computed(() => [
         modalStore.open(ModalObject, {
           onSubmit() {
             globalStore.getBussinesses()
-          },
-        }, {
-          ui: {
-            width: 'sm:max-w-4xl',
           },
         })
       },

@@ -24,7 +24,7 @@ function validate(state) {
 }
 
 async function onUpdatePassword() {
-  await $api('/users/password', {
+  await $api('/user/password', {
     method: 'PUT',
     body: password,
   })

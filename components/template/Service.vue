@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { ServiceProduct } from '#types/entities'
+import { ModalServiceProduct } from '#components'
 
 const props = withDefaults(defineProps<{
   type?: 'product' | 'service'
@@ -7,9 +8,10 @@ const props = withDefaults(defineProps<{
   type: 'service',
 })
 
-const { data, pending, refresh } = useApi<ServiceProduct[]>(`/services/${props.type}`)
+const { hasPermission } = useGlobalStore()
 const modalStore = useModalStore()
-const AddEditModal = resolveComponent('modal-service-product')
+
+const { data, refresh } = useApi<ServiceProduct[]>(`/service/${props.type}`)
 
 const columns = [
   { key: 'name', label: 'Назва' },
@@ -43,12 +45,9 @@ function menu(item: ServiceProduct) {
 }
 
 function callModal(preset?: ServiceProduct) {
-  modalStore.open(AddEditModal, {
+  modalStore.open(ModalServiceProduct, {
     preset,
     type: props.type,
-    ui: {
-      width: 'sm:max-w-4xl',
-    },
     onSubmit() {
       refresh()
     },
@@ -56,7 +55,7 @@ function callModal(preset?: ServiceProduct) {
 }
 
 async function onDuplicate(item: ServiceProduct) {
-  await $api<ServiceProduct>(`/services/${props.type}`, {
+  await $api<ServiceProduct>(`/service/${props.type}`, {
     method: 'POST',
     body: {
       name: `${item.name} (копія ${new Date().toLocaleString()})`,
@@ -72,7 +71,7 @@ async function onDuplicate(item: ServiceProduct) {
 }
 
 async function onChangeStatus(item: ServiceProduct) {
-  await $api<ServiceProduct>(`/services/${props.type}/${item.id}`, {
+  await $api<ServiceProduct>(`/service/${props.type}/${item.id}`, {
     method: 'PUT',
     body: {
       status: !item.status,
@@ -84,7 +83,7 @@ async function onChangeStatus(item: ServiceProduct) {
 
 <template>
   <div>
-    <div class="flex justify-end gap-2 p-2">
+    <div v-if="hasPermission('service:add')" class="flex justify-end gap-2 p-2">
       <UButton
         :icon="type === 'service' ? 'i-ic-baseline-design-services' : 'i-ic-twotone-production-quantity-limits'"
         size="sm"

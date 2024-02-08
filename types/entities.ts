@@ -1,8 +1,19 @@
+import type { Action, Resource } from './permissions'
+
 export interface Entity {
   id: number
   createdAt: string
   updatedAt: string
+}
 
+export interface Permission extends Entity {
+  resource: Resource
+  action: Action
+}
+
+export interface Role extends Entity {
+  name: string
+  permissions: Permission[]
 }
 
 export interface User extends Entity {
@@ -13,7 +24,7 @@ export interface User extends Entity {
   image: string
   email: string
   phone: string
-  roles: string
+  roles: Role[]
   services: ServiceProduct[]
   bussinesses?: Bussiness[]
 }

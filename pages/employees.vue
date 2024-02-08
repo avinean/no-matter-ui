@@ -3,11 +3,12 @@ import type { User } from '#types/entities'
 
 const { baseUrl } = useRuntimeConfig().public
 const toast = useToast()
+const globalStore = useGlobalStore()
 const modalStore = useModalStore()
 const ModalEmployee = resolveComponent('modal-employee')
 const EmailPassAlert = resolveComponent('modal-email-pass-alert')
 
-const { data, refresh } = useApi<User[]>('/users')
+const { data, refresh } = useApi<User[]>(`/profile/${globalStore.object?.id}`)
 const commandPaletteRef = ref()
 const selectedId = ref<number | null>(null)
 const selectedProfile = computed(() => data.value?.find(profile => profile.id === selectedId.value))
@@ -29,7 +30,7 @@ const actions = [
 ]
 
 function updateStatus(status: boolean) {
-  $api(`/profiles/${selectedProfile.value!.id}/status`, {
+  $api(`/profile/${selectedProfile.value!.id}/status`, {
     method: 'PUT',
     body: { status },
   }).then(() => {
@@ -56,10 +57,6 @@ function callModal(preset?: User) {
           modalStore.open(EmailPassAlert, { user })
         })
       }
-    },
-  }, {
-    ui: {
-      width: 'sm:max-w-4xl',
     },
   })
 }
@@ -126,11 +123,11 @@ function callModal(preset?: User) {
               <span class="font-bold">Created at:</span><span><base-datetime :date="selectedProfile.createdAt" date-style="full" time-style="full" /></span>
               <span class="font-bold">Ролі:</span>
               <span class="flex gap-2 flex-wrap mt-2">
-                <UBadge v-for="role in selectedProfile.roles.split(',')" :key="role" :label="role" />
+                <UBadge v-for="role in selectedProfile.roles" :key="role.name" :label="role.name" />
               </span>
               <span class="font-bold">Послуги:</span>
               <span class="flex gap-2 flex-wrap mt-2">
-                <UBadge v-for="role in selectedProfile.services" :key="role.name" :label="role.name" />
+                <UBadge v-for="service in selectedProfile.services" :key="service.name" :label="service.name" />
               </span>
             </div>
           </UCard>
