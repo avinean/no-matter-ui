@@ -9,9 +9,24 @@ export default defineNuxtConfig({
       baseUrl: process.env.API_BASE_URL || '/',
     },
   },
-  modules: ['@nuxt/ui', '@pinia/nuxt', '@vueuse/nuxt', '@nuxtjs/google-fonts', '@nuxtjs/color-mode', '@nuxtjs/i18n'],
+  modules: [
+    '@nuxt/ui',
+    '@pinia/nuxt',
+    '@vueuse/nuxt',
+    '@nuxtjs/google-fonts',
+    '@nuxtjs/color-mode',
+    '@nuxtjs/i18n',
+    '@nuxt/image',
+  ],
   app: {
     pageTransition: { name: 'page', mode: 'out-in' },
+  },
+  image: {
+    providers: {
+      myProvider: {
+        provider: '~/providers/my-provider.ts',
+      },
+    },
   },
   ui: {
     icons: {

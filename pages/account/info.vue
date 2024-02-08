@@ -3,10 +3,18 @@ const store = useGlobalStore()
 </script>
 
 <template>
-  <div class="space-y-2">
-    <div class="flex gap-2">
+  <UCard
+    :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"
+  >
+    <template #header>
+      <h1 class="text-3xl font-bold">
+        {{ $t('settings.titles.loginOptions') }}
+      </h1>
+    </template>
+
+    <div class="space-y-2">
       <base-image :src="store.user?.image" width="200" height="200" />
-    </div>
+   
     <div class="flex gap-2">
       <div class="font-bold min-w-40">
         Імʼя:
@@ -41,5 +49,6 @@ const store = useGlobalStore()
         <UBadge v-for="service in store.user?.services" :key="service.name" :label="service" />
       </div>
     </div>
-  </div>
+     </div>
+  </UCard>
 </template>

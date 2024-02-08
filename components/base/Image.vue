@@ -6,13 +6,9 @@ defineProps<{
   width: number | string
   height: number | string
 }>()
-
-const { baseUrl } = useRuntimeConfig().public
 </script>
 
 <template>
-  <img
-    v-bind="$props"
-    :src="`${baseUrl}/${src}?${new Date().getTime()}`"
-  >
+  <nuxt-img v-if="src" v-bind="$props" />
+  <nuxt-img v-else v-bind="$props" src="/placeholder.jpg" />
 </template>
