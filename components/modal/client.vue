@@ -6,13 +6,14 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  submit: [client: Client]
+  submit: []
 }>()
 
-const { baseUrl } = useRuntimeConfig().public
 const toast = useToast()
 const store = useSuggestionsStore()
 store.get('sexes')
+
+const { add, edit } = useClientRepository()
 
 const loading = ref(false)
 const photo = ref()
@@ -68,37 +69,23 @@ async function onCreateOrUpdate() {
     }
   }
 
-  try {
-    const endpoint = props.preset?.id ? `/client/${props.preset.id}` : '/client'
-    const method = props.preset?.id ? 'PUT' : 'POST'
+  const data = {
+    ...state,
+    birthday: new Date(state.birthday!).toISOString(),
+    image,
+  }
 
-    const data = await $api<Client>(endpoint, {
-      method,
-      body: {
-        ...state,
-        birthday: new Date(state.birthday!).toISOString(),
-        image,
-      },
-    })
+  if (props.preset?.id)
+    await edit(props.preset.id, data)
+  else
+    await add(data)
 
-    emit('submit', data)
-  }
-  catch (e) {
-    console.dir(e)
-    toast.add({
-      title: 'Error',
-      description: 'Користувача з таким номером телефону вже зареєстровано',
-    })
-  }
-  finally {
-    loading.value = false
-  }
+  emit('submit')
 }
 </script>
 
 <template>
   <UForm
-    ref="form"
     :state="state"
     :validate="validate"
     class="grid grid-cols-2 gap-x-4 gap-y-2"

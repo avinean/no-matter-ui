@@ -5,7 +5,9 @@ const { baseUrl } = useRuntimeConfig().public
 const modalStore = useModalStore()
 const ModalClient = resolveComponent('modal-client')
 
-const { data, refresh, status } = useApi<Client[]>('/client')
+const { data, get } = useClientRepository()
+get()
+
 const commandPaletteRef = ref()
 const selectedId = ref<number | null>(null)
 const selectedClient = computed(() => data.value?.find(client => client.id === selectedId.value))
@@ -24,7 +26,7 @@ function callModal(preset?: Client) {
   modalStore.open(ModalClient, {
     preset,
     onSubmit() {
-      refresh()
+      get()
     },
   })
 }

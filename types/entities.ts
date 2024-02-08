@@ -68,7 +68,7 @@ export interface Client extends Entity {
   lastName: string
   phone: string
   sex: string
-  birthday: Date
+  birthday: string
   source: string
   balance: number
   status: boolean
