@@ -1,69 +1,27 @@
-import path from 'node:path'
-import { getIconCollections } from '@egoist/tailwindcss-icons'
+import ui from './config/ui'
+import colorMode from './config/colorMode'
+import modules from './config/modules'
+import image from './config/image'
+import app from './config/app'
+import runtimeConfig from './config/runtimeConfig'
+import googleFonts from './config/googleFonts'
+import css from './config/css'
+import pinia from './config/pinia'
+import alias from './config/alias'
+import routeRules from './config/routeRules'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  ui,
+  colorMode,
+  modules,
+  image,
+  app,
+  runtimeConfig,
   devtools: { enabled: true },
-  runtimeConfig: {
-    public: {
-      baseUrl: process.env.API_BASE_URL || '/',
-    },
-  },
-  modules: [
-    '@nuxt/ui',
-    '@pinia/nuxt',
-    '@vueuse/nuxt',
-    '@nuxtjs/google-fonts',
-    '@nuxtjs/color-mode',
-    '@nuxtjs/i18n',
-    '@nuxt/image',
-  ],
-  app: {
-    pageTransition: { name: 'page', mode: 'out-in' },
-  },
-  image: {
-    providers: {
-      upload: {
-        provider: '~/providers/upload.ts',
-      },
-    },
-  },
-  ui: {
-    icons: {
-      collections: {
-        ...getIconCollections(['ic']),
-      },
-    },
-  },
-  googleFonts: {
-    families: {
-      Raleway: true,
-    },
-  },
-
-  colorMode: {
-    preference: 'light', // default value of $colorMode.preference
-    fallback: 'light', // fallback value if not system preference found
-    hid: 'nuxt-color-mode-script',
-    globalName: '__NUXT_COLOR_MODE__',
-    componentName: 'ColorScheme',
-    classPrefix: '',
-    classSuffix: '-mode',
-    storageKey: 'nuxt-color-mode',
-  },
-  css: [
-    '@/assets/global.css',
-  ],
-  pinia: {
-    storesDirs: ['./stores/**'],
-  },
-  alias: {
-    '#root': __dirname,
-    '#types': path.resolve(__dirname, 'types'),
-  },
-  routeRules: {
-    '/api/**': {
-      proxy: 'http://localhost:5050/api/**',
-    },
-  },
+  googleFonts,
+  css,
+  pinia,
+  alias,
+  routeRules,
 })
