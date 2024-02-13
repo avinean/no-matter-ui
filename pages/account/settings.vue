@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const { locale, setLocale, availableLocales, setLocaleCookie, getLocaleCookie } = useI18n();
+const { locale, setLocale, availableLocales, setLocaleCookie, getLocaleCookie } = useI18n()
 const toast = useToast()
 const password = reactive({
   password: undefined,
@@ -7,11 +7,19 @@ const password = reactive({
   confirmPassword: undefined,
 })
 
+const locales = [
+  {
+    locale: 'uk-UK',
+    label: 'Українська',
+    avatar: { src: '/flag/uk.png' },
+  },
+  {
+    locale: 'en-US',
+    label: 'English',
+    avatar: { src: '/flag/gb.png' },
+  },
+]
 
-const localesTitle = {
-  'uk-UK': 'Українська',
-  'en-US': 'English',
-}
 function validate(state) {
   const errors = []
   if (!state.password)
@@ -36,79 +44,78 @@ async function onUpdatePassword() {
   for (const key in password)
     password[key] = undefined
 }
-
 </script>
 
 <template>
   <div class="grid md:grid-cols-[1fr,1fr] gap-2">
     <UCard
-        class="flex flex-col flex-1"
-        :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"
+      class="flex flex-col flex-1"
+      :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"
     >
       <template #header>
         <h1 class="text-3xl font-bold">
-          {{$t('settings.titles.loginOptions')}}
+          {{ $t('settings.titles.loginOptions') }}
         </h1>
       </template>
       <UForm
-          :state="password"
-          :validate="validate"
-          class="space-y-2 w-full"
-          @submit="onUpdatePassword"
+        :state="password"
+        :validate="validate"
+        class="space-y-2 w-full"
+        @submit="onUpdatePassword"
       >
         <UFormGroup
-            :label="$t('settings.form.labels.password')"
-            name="password"
-            required
+          :label="$t('settings.form.labels.password')"
+          name="password"
+          required
         >
           <UInput v-model="password.password" />
         </UFormGroup>
         <UFormGroup
-            :label="$t('settings.form.labels.newPassword')"
-            name="newPassword"
-            required
+          :label="$t('settings.form.labels.newPassword')"
+          name="newPassword"
+          required
         >
           <UInput v-model="password.newPassword" />
         </UFormGroup>
         <UFormGroup
-            :label="$t('settings.form.labels.confirmNewPassword')"
-            name="confirmPassword"
-            required
+          :label="$t('settings.form.labels.confirmNewPassword')"
+          name="confirmPassword"
+          required
         >
           <UInput v-model="password.confirmPassword" />
         </UFormGroup>
 
         <UButton
-            :loading
-            type="submit"
+          :loading
+          type="submit"
         >
-          {{$t('settings.form.labels.submit')}}
+          {{ $t('settings.form.labels.submit') }}
         </UButton>
       </UForm>
     </UCard>
     <UCard
-        class="flex flex-col flex-1"
-        :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"
+      class="flex flex-col flex-1"
+      :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"
     >
       <template #header>
         <h1 class="text-3xl font-bold">
-          {{$t('settings.titles.generalOptions')}}
+          {{ $t('settings.titles.generalOptions') }}
         </h1>
       </template>
-      <USelectMenu
-          class="w-32"
-          v-model="locale"
-          :options="availableLocales"
-          trailingIcon="i-ic-baseline-keyboard-arrow-down"
+      <UFormGroup
+        :label="$t('settings.form.labels.confirmNewPassword')"
       >
-        <template #label>
-            {{ localesTitle[locale] }}
-        </template>
-        <template #option="{ option }">
-          {{ localesTitle[option] }}
-        </template>
-      </USelectMenu>
+        <USelectMenu
+          v-model="locale"
+          :options="locales"
+          value-attribute="locale"
+          trailing-icon="i-ic-baseline-keyboard-arrow-down"
+        >
+          <template #leading>
+            <UAvatar v-if="locale" :src="locales.find(_ => _.locale === locale)?.avatar.src" size="2xs" class="mx-0.5" />
+          </template>
+        </USelectMenu>
+      </UFormGroup>
     </UCard>
   </div>
-
 </template>

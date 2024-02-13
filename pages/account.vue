@@ -1,16 +1,17 @@
 <script setup lang="ts">
 const store = useGlobalStore()
+const { baseUrl } = useRuntimeConfig().public
 </script>
 
 <template>
-  <div>
+  <div class="space-y-2">
     <UHorizontalNavigation
       :links="[
         {
           label: 'Інформація',
           to: '/account/info',
           avatar: {
-            src: store.user?.image,
+            src: `${baseUrl}/${store.user?.image}`,
           },
         },
         {
