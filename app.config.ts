@@ -13,6 +13,9 @@ export default defineAppConfig({
           }
         }
       }
+    },
+    notifications: {
+      position: 'top-10 bottom-auto'
     }
   },
 })

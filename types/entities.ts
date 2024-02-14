@@ -52,10 +52,14 @@ export interface Material extends Entity {
 }
 
 export interface MaterialTransaction extends Entity {
-  materialId: number
   quantity: number
-  type: number
   description: string
+  type: string
+  material: Material
+  initiator: User
+  bussinessObject: BussinessObject
+  revertingTransaction?: MaterialTransaction
+  revertedTransaction?: MaterialTransaction
 }
 
 export interface Contact extends Entity {
