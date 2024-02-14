@@ -12,5 +12,34 @@
             "loginOptions": "Зміна параметрів входу",
             "generalOptions": "Загальні налаштування"
         }
+    },
+    "signIn": {
+        "form": {
+            "labels": {
+                "password": "Пароль",
+                "email": "E-mail",
+                "submit": "Увійти"
+            },
+            "title": "Авторизація",
+            "signUp": "Реєстрація",
+            "forgot": "Забули пароль?"
+        }
+    },
+    "signUp": {
+        "form": {
+            "labels": {
+                "firstName": "Ваше ім'я",
+                "lastName": "Ваше прізвище",
+                "email": "E-mail",
+                "submit": "Зареєструватися"
+            },
+            "title": "Реєстрація нового користувача",
+            "logIn": "Увійти",
+            "alreadyLogIn": "Вже зареєстровані?"
+        }
+    },
+    "formValidation": {
+        "required": "Поле обов'язкове",
+        "email": "Введіть валідну емейл адресу"
     }
 }

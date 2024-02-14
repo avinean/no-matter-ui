@@ -12,5 +12,36 @@
             "loginOptions": "Change login options",
             "generalOptions": "General settings"
         }
+    },
+    "signIn": {
+        "form": {
+            "labels": {
+                "password": "Password",
+                "email": "Email",
+                "submit": "Submit"
+            },
+            "title": "Log in",
+            "signUp": "Sign up",
+            "forgot": "Forgot your password?"
+        }
+    },
+    "signUp": {
+        "form": {
+            "labels": {
+                "firstName": "First name",
+                "lastName": "Last name",
+                "email": "E-mail",
+                "submit": "Sign in"
+            },
+            "title": "New user registration",
+            "logIn": "Sign up",
+            "alreadyLogIn": "Already registered?"
+
+        }
+    },
+    "formValidation": {
+        "required": "Field is required",
+        "email": "Enter a valid email address"
     }
+
 }
