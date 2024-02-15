@@ -20,7 +20,7 @@ const locales = [
   },
 ]
 
-function validate(state) {
+function validate(state: typeof password) {
   const errors = []
   if (!state.password)
     errors.push({ path: 'password', message: 'Поле обовʼязкове' })
@@ -42,6 +42,7 @@ async function onUpdatePassword() {
   })
 
   for (const key in password)
+  // @ts-expect-error to fix
     password[key] = undefined
 }
 </script>
@@ -86,7 +87,6 @@ async function onUpdatePassword() {
         </UFormGroup>
 
         <UButton
-          :loading
           type="submit"
         >
           {{ $t('settings.form.labels.submit') }}

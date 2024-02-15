@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { Role } from '#types/entities'
+import type { RoleEntity } from '~/types/entities';
 
 const props = withDefaults(defineProps<{
-  preset?: Role | null
+  preset?: RoleEntity | null
 }>(), {
   preset: null,
 })
@@ -14,7 +14,7 @@ const emit = defineEmits<{
 const toast = useToast()
 const globalStore = useGlobalStore()
 const loading = ref(false)
-const state: Partial<Role> = reactive({
+const state: Partial<RoleEntity> = reactive({
   name: props.preset?.name,
 })
 
@@ -22,7 +22,7 @@ async function onCreateOrUpdate() {
   loading.value = true
 
   try {
-    const endpoint = props.preset?.id ? `/role/${globalStore.bussiness?.id}/${props.preset.id}` : `/role/${globalStore.bussiness?.id}`
+    const endpoint = props.preset?.id ? `/role/${globalStore.business?.id}/${props.preset.id}` : `/role/${globalStore.business?.id}`
     const method = props.preset?.id ? 'PUT' : 'POST'
 
     await $api(endpoint, {

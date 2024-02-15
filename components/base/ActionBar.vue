@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import type { ButtonSize } from '@nuxt/ui/dist/runtime/types'
+import type { ButtonSize } from '#ui/types'
 
 defineProps<{
   size?: ButtonSize
   orientation?: 'horizontal' | 'vertical'
   items: {
     icon: string
-    label: string
+    label?: string
     tooltip?: string
-    onClick: () => void
+    onClick?: () => void
   }[]
 }>()
 </script>

@@ -15,7 +15,7 @@ export function getCurrentDayName(): string {
   }
 
   // Format the current date according to the specified options
-  const dayName = new Intl.DateTimeFormat(options.locale, options)
+  const dayName = new Intl.DateTimeFormat(options.locale, options as any)
     .formatToParts(now)
     .find(part => part.type === 'weekday')?.value
 

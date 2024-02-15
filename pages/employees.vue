@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { User } from '#types/entities'
+import type { ProfileEntity } from '~/types/entities'
 
 const { baseUrl } = useRuntimeConfig().public
 const { hasPermission } = useGlobalStore()
@@ -28,10 +28,10 @@ const actions = [
   { tooltip: 'Перегенерувати пароль', icon: 'i-ic-round-security' },
 ]
 
-function callModal(preset?: User) {
+function callModal(preset?: ProfileEntity) {
   modalStore.open(ModalEmployee, {
     preset,
-    onSubmit(user) {
+    onSubmit(user: ProfileEntity) {
       get()
       if (!preset) {
         nextTick(() => {
@@ -77,7 +77,7 @@ function callModal(preset?: User) {
       <template v-if="selectedProfile">
         <div class="grid lg:grid-cols-3 gap-2 w-full">
           <UCard>
-            <base-image :src="selectedProfile.image" />
+            <base-image :src="selectedProfile.image" width="200" height="200"/>
             <UFormGroup label="Статус">
               <UToggle
                 on-icon="i-ic-baseline-check-circle-outline"

@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import type { Client } from '#types/entities'
+import type { ClientEntity } from '~/types/entities';
+
 
 const props = defineProps<{
-  preset?: Client | null
+  preset?: ClientEntity | null
 }>()
 
 const emit = defineEmits<{
@@ -16,7 +17,7 @@ const { add, edit } = useClientRepository()
 const { photo, add: addPhoto } = usePhoto(props.preset?.image)
 
 const loading = ref(false)
-const state: Partial<Client> = reactive({
+const state: Partial<ClientEntity> = reactive({
   firstName: props.preset?.firstName,
   lastName: props.preset?.lastName,
   phone: props.preset?.phone,
@@ -26,7 +27,7 @@ const state: Partial<Client> = reactive({
   image: props.preset?.image,
 })
 
-function validate(state: Client) {
+function validate(state: ClientEntity) {
   const errors = []
   if (!state.firstName)
     errors.push({ path: 'firstName', message: 'Поле обовʼязкове' })
@@ -52,7 +53,7 @@ async function onCreateOrUpdate() {
     ...state,
     birthday: new Date(state.birthday!).toISOString(),
     image,
-  }
+  } as ClientEntity
 
   if (props.preset?.id)
     await edit(props.preset.id, data)

@@ -71,7 +71,7 @@ const secondaryLinks = computed(() => [
         {{ link.label }}
       </NuxtLink>
       <div class="flex-1" />
-      <use-bussiness-select class="flex gap-2 py-2" />
+      <use-business-select class="flex gap-2 py-2" />
       <NuxtLink
         v-for="link in secondaryLinks"
         :key="link.to"

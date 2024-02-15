@@ -12,7 +12,7 @@ import type { CalendarOptions } from '@fullcalendar/core'
 const { baseUrl } = useRuntimeConfig().public
 const store = useEntriesStore()
 
-function getEventStyle(event: boolean) {
+function getEventStyle(event: any) {
   return {
     'background-color': event.approved && !event.beenPaid
       ? '#D2DA4C'
@@ -59,7 +59,7 @@ const groups = computed(() => [{
     label: `${client.firstName} ${client.lastName}`,
     suffix: client.jobTitle,
     client,
-    avatar: { src: `${baseUrl}/${client.image || ''}`, loading: 'lazy' },
+    // avatar: { src: `${baseUrl}/${client.image || ''}`, loading: 'lazy' },
   })),
 }])
 const selectedProfile = computed(() => tabItems?.find(profile => profile.id === selectedId.value))
@@ -103,7 +103,7 @@ function handleDateClick(clickInfo: any) {
   }
   isOpenEvent.value = true
 }
-const options = {
+const options: any = {
   plugins: [interactionPlugin, timeGridPlugin, dayGridPlugin],
   initialView: 'timeGridDay',
   nowIndicator: true,
@@ -111,10 +111,10 @@ const options = {
   selectable: true,
   droppable: true,
   locale: 'UK',
-  viewDidMount: (viewInfo) => {
+  viewDidMount: (viewInfo: any) => {
     currentCalendarView.value = viewInfo.view.type
   },
-  viewWillUnmount: (viewInfo) => {
+  viewWillUnmount: (viewInfo: any) => {
     currentCalendarView.value = viewInfo.view.type
   },
   timeZone: 'local',
@@ -125,7 +125,7 @@ const options = {
   moreLinkText: '3',
   eventTextColor: '#000000',
   allDayText: 'Wait-list',
-  eventDragStop: (ev) => {
+  eventDragStop: (ev: any) => {
     console.log(ev, 'drag stop') /// when we change positon of event or drag to area Wait
   },
   eventClick: handleEventClick,
@@ -154,7 +154,7 @@ const options = {
     end: '', // Change the placement of buttons
   },
 
-} satisfies CalendarOptions
+}
 
 function goToSelectedDate(val: Date) {
   calendarRef?.value.getApi().gotoDate(val)

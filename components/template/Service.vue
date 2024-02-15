@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { ServiceProduct } from '#types/entities'
 import { ModalServiceProduct } from '#components'
+import type { ServiceEntity } from '~/types/entities';
 
 const props = withDefaults(defineProps<{
   type?: 'product' | 'service'
@@ -17,7 +17,7 @@ const { data, get, add } = props.type === 'product'
 
 get()
 
-const columns = [
+const columns: any = [
   { key: 'name', label: 'Назва' },
   { key: 'description', label: 'Опис' },
   { key: 'price', label: 'Ціна' },
@@ -29,7 +29,7 @@ const columns = [
   { key: 'actions' },
 ].filter(Boolean)
 
-function menu(item: ServiceProduct) {
+function menu(item: ServiceEntity) {
   return [
     [{
       label: 'Edit',
@@ -48,7 +48,7 @@ function menu(item: ServiceProduct) {
   ]
 }
 
-function callModal(preset?: ServiceProduct) {
+function callModal(preset?: ServiceEntity) {
   modalStore.open(ModalServiceProduct, {
     preset,
     type: props.type,
@@ -58,7 +58,7 @@ function callModal(preset?: ServiceProduct) {
   })
 }
 
-async function onDuplicate(item: ServiceProduct) {
+async function onDuplicate(item: ServiceEntity) {
   await add({
     name: `${item.name} (копія ${new Date().toLocaleString()})`,
     description: item.description,

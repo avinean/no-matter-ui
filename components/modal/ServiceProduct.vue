@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { ServiceProduct } from '#types/entities'
+import type { ServiceEntity } from '~/types/entities';
 
 const props = withDefaults(defineProps<{
-  preset?: ServiceProduct | null
+  preset?: ServiceEntity | null
   type: 'product' | 'service'
 }>(), {
   preset: null,
@@ -18,7 +18,7 @@ const { add, edit } = props.type === 'product'
   : useServiceRepository()
 
 const loading = ref(false)
-const serviceProduct: Partial<ServiceProduct> = reactive({
+const serviceProduct: Partial<ServiceEntity> = reactive({
   name: props.preset?.name,
   description: props.preset?.description,
   type: props.preset?.type,

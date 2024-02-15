@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import type { Booking, Client, ServiceProduct, User } from '#types/entities'
+import type { BookingEntity, ClientEntity, ProfileEntity, ServiceEntity } from '~/types/entities'
 
 const search: {
-  profile: User | undefined
-  client: Client | undefined
-  services: ServiceProduct[]
+  profile: ProfileEntity | undefined
+  client: ClientEntity | undefined
+  services: ServiceEntity[]
   date: Date
   duration: number
   comment: string
@@ -17,16 +17,16 @@ const search: {
   comment: '',
 })
 
-const selectedSlot = ref<string | null>(null)
+const selectedSlot = ref<{ time: string, booked: BookingEntity } | null>(null)
 
-const { data: bookings } = useApi<Booking[]>('/booking')
-const { data: profiles } = useApi<User[]>(
+const { data: bookings } = useApi<BookingEntity[]>('/booking')
+const { data: profiles } = useApi<ProfileEntity[]>(
   '/booking/profiles',
   { method: 'POST', body: search },
   { watch: [() => search.services] },
 )
-const { data: clients } = useApi<Client[]>('/client')
-const { data: services } = useApi<ServiceProduct[]>(
+const { data: clients } = useApi<ClientEntity[]>('/client')
+const { data: services } = useApi<ServiceEntity[]>(
   '/booking/services',
   { method: 'POST', body: search },
   { watch: [() => search.profile] },
@@ -42,7 +42,7 @@ function create() {
     method: 'POST',
     body: {
       ...search,
-      date: selectedSlot.value.time,
+      date: selectedSlot.value?.time,
     },
   })
 }

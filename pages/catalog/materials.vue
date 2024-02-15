@@ -1,63 +1,42 @@
 <script lang="ts" setup>
-import type { FormError, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types'
-import type { Material, MaterialTransaction } from '#types/entities'
+import { ModalMaterial, ModalMaterialTransaction, ModalMaterialTransactionRevert } from '#components'
+import type { MaterialTransactionEntity } from '~/types/entities'
+import type { DropdownItem } from '#ui/types'
 
-const items = ref()
-items.value = await $api<Material[]>('/material')
-const transactions = ref()
-transactions.value = await $api<MaterialTransaction[]>('/material/transactions')
+const modalStore = useModalStore()
+const materialRepository = useMaterialRepository()
+const materialTransactionRepository = useMaterialTransactionRepository()
 
-const createMaterial = ref(false)
-const addTransaction = ref(false)
+const { data: materials, refresh: refreshMaterials } = useAsyncData(() => materialRepository.get())
+const { data: materialTransactions, refresh: refreshMaterialTransactions } = useAsyncData(() => materialTransactionRepository.get())
 
-const material = reactive({
-  name: undefined,
-  description: undefined,
-  unit: undefined,
-  criticalQuantity: undefined,
-})
+const columns = [
+  { key: 'id', label: 'ID' },
+  { key: 'quantity', label: 'Кількість' },
+  { key: 'description', label: 'Опис' },
+  { key: 'type', label: 'Тип' },
+  { key: 'createdAt', label: 'Час' },
+  { key: 'initiator', label: 'Ініціатор' },
+  { key: 'actions' },
+]
 
-const transaction = reactive({
-  materialId: undefined,
-  quantity: undefined,
-  type: undefined,
-  description: undefined,
-})
-
-function validate(state: any): FormError[] {
-  const errors = []
-  for (const key in state) {
-    if (state[key] === undefined || state[key] === '')
-      errors.push({ path: key, message: 'Required' })
-  }
-  return errors
-}
-
-async function onAddMaterial(event: FormSubmitEvent<Partial<Material>>) {
-  await $api<Material>('/material', {
-    method: 'POST',
-    body: event.data,
-  })
-  createMaterial.value = false
-}
-
-async function onCreateTransaction(event: FormSubmitEvent<Partial<MaterialTransaction>>) {
-  const response = await $api<MaterialTransaction>('/material/transactions', {
-    method: 'POST',
-    body: event.data,
-  })
-  transactions.value.unshift(response)
-  items.value = items.value.map((item) => {
-    const _item = { ...item }
-    if (_item.id === event.data.materialId) {
-      if (!event.data.type)
-        _item.quantity += event.data.quantity
-      else
-        _item.quantity -= event.data.quantity
-    }
-    return _item
-  })
-  addTransaction.value = false
+function menu(item: MaterialTransactionEntity): DropdownItem[][] {
+  return [
+    [{
+      label: 'Відмінити',
+      icon: 'i-ic-round-event-repeat',
+      disabled: !!(item.reverted || item.reverting),
+      click: () => {
+        modalStore.open(ModalMaterialTransactionRevert, {
+          onSubmit() {
+            refreshMaterialTransactions()
+            refreshMaterials()
+          },
+          preset: item,
+        })
+      },
+    }],
+  ]
 }
 </script>
 
@@ -71,7 +50,7 @@ async function onCreateTransaction(event: FormSubmitEvent<Partial<MaterialTransa
         square
         variant="solid"
         label="Create Material"
-        @click="createMaterial = true"
+        @click="modalStore.open(ModalMaterial, { onSubmit: refreshMaterials })"
       />
       <UButton
         icon="i-heroicons-document-plus"
@@ -80,115 +59,35 @@ async function onCreateTransaction(event: FormSubmitEvent<Partial<MaterialTransa
         square
         variant="solid"
         label="Add Material"
-        @click="addTransaction = true"
+        @click="modalStore.open(ModalMaterialTransaction, {
+          onSubmit() {
+            refreshMaterialTransactions()
+            refreshMaterials()
+          },
+        })"
       />
     </div>
 
-    <UModal v-model="createMaterial">
-      <div class="p-4">
-        <h2 class="mb-4">
-          Create Material
-        </h2>
-        <UForm
-          :validate="validate"
-          :state="material"
-          class="space-y-4 w-full"
-          @submit="onAddMaterial"
-        >
-          <UFormGroup
-            label="Name"
-            name="name"
-          >
-            <UInput v-model="material.name" />
-          </UFormGroup>
-
-          <UFormGroup
-            label="Description"
-            name="description"
-          >
-            <UInput v-model="material.description" />
-          </UFormGroup>
-
-          <UFormGroup
-            label="Unit"
-            name="unit"
-          >
-            <UInput v-model="material.unit" />
-          </UFormGroup>
-
-          <UFormGroup
-            label="Critical quantity"
-            name="criticalQuantity"
-          >
-            <UInput v-model="material.criticalQuantity" />
-          </UFormGroup>
-
-          <UButton type="submit">
-            Submit
-          </UButton>
-        </UForm>
-      </div>
-    </UModal>
-
-    <UModal v-model="addTransaction">
-      <div class="p-4">
-        <h2 class="mb-4">
-          Update Material data
-        </h2>
-        <UForm
-          :validate="validate"
-          :state="transaction"
-          class="space-y-4 w-full"
-          @submit="onCreateTransaction"
-        >
-          <UFormGroup
-            label="Material"
-            name="materialId"
-          >
-            <USelect
-              v-model="transaction.materialId"
-              :options="items.map(item => ({ label: item.name, value: item.id }))"
-            />
-          </UFormGroup>
-
-          <UFormGroup
-            label="Quantity"
-            name="quantity"
-          >
-            <UInput v-model="transaction.quantity" />
-          </UFormGroup>
-
-          <UFormGroup
-            label="Type"
-            name="type"
-          >
-            <USelect
-              v-model.number="transaction.type"
-              :options="[{ label: 'Income', value: 0 }, { label: 'Outcome', value: 1 }]"
-            />
-          </UFormGroup>
-
-          <UFormGroup
-            label="Description"
-            name="description"
-          >
-            <UInput v-model="transaction.description" />
-          </UFormGroup>
-
-          <UButton type="submit">
-            Submit
-          </UButton>
-        </UForm>
-      </div>
-    </UModal>
-
-    <UCard>
-      <h2>Materials</h2>
-      <UTable :rows="items" />
-    </UCard>
-    <UCard class="mt-4">
-      <h2>Transactions</h2>
-      <UTable :rows="transactions" />
-    </UCard>
+    <h2>Materials</h2>
+    <UTable v-if="materials" :rows="materials" />
+    <h2>Transactions</h2>
+    <UTable v-if="materialTransactions" :rows="materialTransactions" :columns="columns">
+      <template #initiator-data="{ row }">
+        <span class="inline-flex items-center gap-2">
+          <base-image :src="row.initiator.image" width="32" height="32" />
+          <span>
+            {{ row.initiator.firstName }} {{ row.initiator.lastName }}
+          </span>
+        </span>
+      </template>
+      <template #createdAt-data="{ row }">
+        <base-datetime :date="row.createdAt" date-style="medium" time-style="medium"/>
+      </template>
+      <template #actions-data="{ row }">
+        <UDropdown :items="menu(row)">
+          <UButton color="gray" variant="ghost" icon="i-ic-outline-more-horiz" />
+        </UDropdown>
+      </template>
+    </UTable>
   </div>
 </template>

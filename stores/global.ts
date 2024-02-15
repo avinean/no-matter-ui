@@ -1,22 +1,18 @@
-import type { Bussiness, BussinessObject, User } from '#types/entities'
-import type { Permission } from '#types/permissions'
+import type { BusinessEntity, BusinessObjectEntity, ProfileEntity } from '~/types/entities'
+import type { Permission } from '~/types/permissions'
 
 export const useGlobalStore = defineStore('global', () => {
-  const loginError = useNuxtApp().$i18n.t('signIn.requestErrors.invalid.title')
-  console.log(loginError, 'loginError')
   const router = useRouter()
 
-  const toast = useToast()
-
-  const user = ref<User | null>(null)
-  const bussiness = ref<Bussiness>()
-  const object = ref<BussinessObject>()
+  const user = ref<ProfileEntity | null>(null)
+  const business = ref<BusinessEntity>()
+  const object = ref<BusinessObjectEntity>()
   const cookie = useCookie('sraka')
 
   const isAdmnin = computed(() => user.value?.roles.some(role => role.name === 'admin'))
   const permissions = computed(() => user.value?.roles.flatMap(
-    role => role.permissions.map(
-      permission => `${permission.resource}:${permission.action}` as unknown as Permission,
+    role => role.assignedPermissions.map(
+      permission => `${permission.resourceType}:${permission.actionType}` as unknown as Permission,
     ),
   ))
 
@@ -25,30 +21,14 @@ export const useGlobalStore = defineStore('global', () => {
   }
 
   async function login(body: { phone: string, password: string }) {
-    try {
-      const data = await $api<{ access_token: string }>('/auth/login', {
-        method: 'POST',
-        body,
-      })
-      cookie.value = data?.access_token
-      await getUser()
-      router.push('/')
-    }
-    catch (error: any) {
-      if(error.data?.statusCode === 401){
-      toast.add({
-          title: useNuxtApp().$i18n.t('signIn.requestErrors.invalid.title'),
-          description: useNuxtApp().$i18n.t('signIn.requestErrors.invalid.description'),
-          color: 'red',
-        })
-      }else{
-        toast.add({
-          title: useNuxtApp().$i18n.t('signIn.requestErrors.unknownError.title'),
-          description: useNuxtApp().$i18n.t('signIn.requestErrors.unknownError.description'),
-          color: 'red',
-        })
-      }
-    }
+    const data = await $api<{ access_token: string }>('/auth/login', {
+      method: 'POST',
+      body,
+    })
+
+    cookie.value = data?.access_token
+    await getUser()
+    router.push('/')
   }
 
   async function signup(body: { firstName: string, lastName: string, phone: string }) {
@@ -66,30 +46,27 @@ export const useGlobalStore = defineStore('global', () => {
     router.push('/auth/sign-in')
   }
 
-  async function getBussinesses() {
-    user.value!.bussinesses = await $api<Bussiness[]>(`/bussiness/${user.value?.id}`)
+  async function getBusinesses() {
+    user.value!.ownedBusinesses = await $api<BusinessEntity[]>(`/business/${user.value?.id}`)
   }
 
   async function getUser() {
-    if (user.value)
-      return
-
-    const profile = await $api<User>('/profile/me')
+    const profile = await $api<ProfileEntity>('/profile/me')
     user.value = profile
-    bussiness.value = profile?.bussinesses?.[0]
-    object.value = profile?.bussinesses?.[0]?.objects?.[0]
+    business.value = profile?.ownedBusinesses?.[0]
+    object.value = profile?.ownedBusinesses?.[0]?.businessObjects?.[0]
   }
 
   return {
     user,
     isAdmnin,
-    bussiness,
+    business,
     object,
     login,
     signup,
     logout,
     getUser,
-    getBussinesses,
+    getBusinesses,
     hasPermission,
   }
 })

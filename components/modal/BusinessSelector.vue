@@ -1,42 +1,42 @@
 <script setup>
-import { ModalBussiness, ModalObject } from '#components'
+import { ModalBusiness, ModalObject } from '#components'
 
 const { baseUrl } = useRuntimeConfig().public
 const globalStore = useGlobalStore()
 const modalStore = useModalStore()
 
-const bussinesses = computed(() => globalStore.user.bussinesses.map(bussiness => ({
-  id: bussiness.id,
-  label: bussiness.name,
-  avatar: { src: `${baseUrl}/${bussiness.image}`, loading: 'lazy' },
+const businesses = computed(() => globalStore.user.ownedBusinesses.map(business => ({
+  id: business.id,
+  label: business.name,
+  avatar: { src: `${baseUrl}/${business.image}`, loading: 'lazy' },
 })))
 
-const bussinessObjects = computed(() => (globalStore.bussiness?.objects || []).map(object => ({
+const businessObjects = computed(() => (globalStore.business?.objects || []).map(object => ({
   object,
   id: object.id,
   label: object.name,
   avatar: { src: `${baseUrl}/${object.image}`, loading: 'lazy' },
 })))
 
-const bussiness = computed({
+const business = computed({
   get() {
-    return bussinesses.value.find(b => b.id === globalStore.bussiness?.id)
+    return businesses.value.find(b => b.id === globalStore.business?.id)
   },
   set(value) {
     if (value.click)
       return value.click()
-    globalStore.bussiness = globalStore.user.bussinesses.find(b => b.id === value.id)
+    globalStore.business = globalStore.user.ownedBusinesses.find(b => b.id === value.id)
   },
 })
 
 const object = computed({
   get() {
-    return bussinessObjects.value.find(o => o.id === globalStore.object?.id)
+    return businessObjects.value.find(o => o.id === globalStore.object?.id)
   },
   set(value) {
     if (value.click)
       return value.click()
-    globalStore.object = globalStore.bussiness?.objects.find(o => o.id === value.id)
+    globalStore.object = globalStore.business?.businessObjects.find(o => o.id === value.id)
   },
 })
 </script>
@@ -44,20 +44,20 @@ const object = computed({
 <template>
   <div class="grid grid-cols-2 gap-2">
     <UCommandPalette
-      v-model="bussiness"
+      v-model="business"
       :searchable="false"
       :groups="[
         {
-          key: 'bussinesses',
+          key: 'businesses',
           label: 'Оберіть бізнес',
-          commands: bussinesses,
+          commands: businesses,
         },
         {
           key: 'actions',
           commands: [{
             label: 'Додати новий бізнес',
             icon: 'i-ic-outline-business-center',
-            click: () => modalStore.open(ModalBussiness),
+            click: () => modalStore.open(ModalBusiness),
           }],
         },
       ]"
@@ -67,9 +67,9 @@ const object = computed({
       :searchable="false"
       :groups="[
         {
-          key: 'bussinessObjects',
+          key: 'businessObjects',
           label: 'Оберіть обʼєкт бізнесу',
-          commands: bussinessObjects,
+          commands: businessObjects,
         },
         {
           key: 'objectActions',

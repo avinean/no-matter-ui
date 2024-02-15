@@ -1,19 +1,16 @@
-import type { ClientEntity } from '~/types/entities'
+import type { MaterialEntity } from '~/types/entities'
 
-
-export const useClientRepository = createGlobalState(() => {
+export const useMaterialRepository = createGlobalState(() => {
   const globalStore = useGlobalStore()
   const toast = useToast()
 
-  const data = ref<ClientEntity[]>([])
-
-  async function get() {
-    data.value = await $api<ClientEntity[]>(`/client/${globalStore.object?.id || globalStore.user?.employers[0]?.id}`)
+  function get() {
+    return $api<MaterialEntity[]>(`/material/${globalStore.object?.id || globalStore.user?.employers[0]?.id}`)
   }
 
-  function add(body: Partial<ClientEntity>) {
+  function add(body: Partial<MaterialEntity>) {
     try {
-      return $api(`/client/${globalStore.object?.id}`, {
+      return $api(`/material/${globalStore.object?.id}`, {
         method: 'POST',
         body,
       })
@@ -26,9 +23,9 @@ export const useClientRepository = createGlobalState(() => {
     }
   }
 
-  function edit(id: number, body: Partial<ClientEntity>) {
+  function edit(id: number, body: Partial<MaterialEntity>) {
     try {
-      return $api(`/client/${globalStore.object?.id}/${id}`, {
+      return $api(`/material/${globalStore.object?.id}/${id}`, {
         method: 'PUT',
         body,
       })
@@ -42,7 +39,6 @@ export const useClientRepository = createGlobalState(() => {
   }
 
   return {
-    data,
     get,
     add,
     edit,
