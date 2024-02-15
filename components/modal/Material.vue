@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { FormError, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types'
-import type { Material } from '~/types/entities'
+import type { FormError, FormSubmitEvent } from '#ui/types'
+import type { MaterialEntity } from '~/types/entities';
 
 const emit = defineEmits<{
   submit: []
@@ -24,7 +24,7 @@ function validate(state: any): FormError[] {
   return errors
 }
 
-async function onCreateOrUpdate(event: FormSubmitEvent<Partial<Material>>) {
+async function onCreateOrUpdate(event: FormSubmitEvent<Partial<MaterialEntity>>) {
   await add(event.data)
   emit('submit')
 }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Client } from '#types/entities'
+import type { ClientEntity } from '~/types/entities';
 
 const { baseUrl } = useRuntimeConfig().public
 const modalStore = useModalStore()
@@ -22,7 +22,7 @@ const groups = computed(() => [{
   })),
 }])
 
-function callModal(preset?: Client) {
+function callModal(preset?: ClientEntity) {
   modalStore.open(ModalClient, {
     preset,
     onSubmit() {
@@ -64,7 +64,7 @@ function callModal(preset?: Client) {
       <template v-if="selectedClient">
         <div class="grid lg:grid-cols-3 gap-2 w-full">
           <UCard>
-            <base-image :src="selectedClient.image" />
+            <base-image :src="selectedClient.image" width="200" height="200"/>
             <UFormGroup label="Статус">
               <UToggle
                 on-icon="i-ic-baseline-check-circle-outline"
@@ -85,7 +85,7 @@ function callModal(preset?: Client) {
               <span class="font-bold">Стать:</span><span>{{ selectedClient.sex }}</span>
               <span class="font-bold">День народжння:</span><span><base-datetime :date="selectedClient.birthday" /></span>
               <span class="font-bold">Баланс:</span><span>{{ selectedClient.balance || 0 }}</span>
-              <span class="font-bold">Номер картки:</span><span>{{ selectedClient.cardId || `${selectedClient.id}`.padStart(4, '0') }}</span>
+              <!-- <span class="font-bold">Номер картки:</span><span>{{ selectedClient.cardId || `${selectedClient.id}`.padStart(4, '0') }}</span> -->
               <span class="font-bold">Source:</span><span>{{ selectedClient.source }}</span>
               <span class="font-bold">Created at:</span><span><base-datetime :date="selectedClient.createdAt" /></span>
             </div>

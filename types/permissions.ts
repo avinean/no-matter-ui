@@ -9,6 +9,7 @@ export enum Resource {
   user = 'user',
   service = 'service',
   material = 'material',
+  materialTransaction = 'material-transaction',
   client = 'client',
   businessObject = 'business-object',
   business = 'business',

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { Role } from '#types/entities'
+import type { RoleEntity } from '~/types/entities';
 
 const props = withDefaults(defineProps<{
-  preset?: Role | null
+  preset?: RoleEntity | null
 }>(), {
   preset: null,
 })
@@ -14,7 +14,7 @@ const emit = defineEmits<{
 const toast = useToast()
 const globalStore = useGlobalStore()
 const loading = ref(false)
-const state: Partial<Role> = reactive({
+const state: Partial<RoleEntity> = reactive({
   name: props.preset?.name,
 })
 

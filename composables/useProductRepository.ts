@@ -1,16 +1,16 @@
-import type { ServiceProduct } from '#types/entities'
+import type { ClientEntity, ServiceEntity } from '~/types/entities'
 
 export const useProductRepository = createGlobalState(() => {
   const globalStore = useGlobalStore()
   const toast = useToast()
 
-  const data = ref<ServiceProduct[]>([])
+  const data = ref<ServiceEntity[]>([])
 
   async function get() {
-    data.value = await $api<ServiceProduct[]>(`/service/product/${globalStore.object?.id || globalStore.user?.employers[0]?.id}`)
+    data.value = await $api<ServiceEntity[]>(`/service/product/${globalStore.object?.id || globalStore.user?.employers[0]?.id}`)
   }
 
-  function add(body: Partial<ServiceProduct>) {
+  function add(body: Partial<ServiceEntity>) {
     try {
       return $api(`/service/product/${globalStore.object?.id}`, {
         method: 'POST',
@@ -25,7 +25,7 @@ export const useProductRepository = createGlobalState(() => {
     }
   }
 
-  function edit(id: number, body: Partial<ServiceProduct>) {
+  function edit(id: number, body: Partial<ServiceEntity>) {
     try {
       return $api(`/service/product/${globalStore.object?.id}/${id}`, {
         method: 'PUT',

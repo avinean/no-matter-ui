@@ -46,7 +46,7 @@ const store = useGlobalStore()
         Сервіси:
       </div>
       <div class="flex gap-2 flex-wrap">
-        <UBadge v-for="service in store.user?.services" :key="service.name" :label="service" />
+        <UBadge v-for="service in store.user?.services" :key="service.name" :label="service.name" />
       </div>
     </div>
      </div>

@@ -1,16 +1,16 @@
 <script lang="ts" setup>
-import type { Event } from '#types/entities'
+import type { EventEntity } from '~/types/entities';
 
 const props = defineProps<{
   preset?: {
-    eventInfo: Event | null
+    eventInfo: EventEntity | null
     isEdit: boolean
   }
 }>()
 
 const pickerMode = ref('dateTime')
 
-const event: Partial<Event> = reactive({
+const event: any = reactive({
   id: props.preset?.eventInfo?.id,
   price: props.preset?.eventInfo?.price,
   title: props.preset?.eventInfo?.title,
@@ -27,22 +27,23 @@ const event: Partial<Event> = reactive({
   timeSlots: props?.preset?.eventInfo?.timeSlots || {},
 })
 
-const services = [
+const services: any = [
   { name: 'Стрижка', time: '2' },
   { name: 'Миття голови', time: '1' },
   { name: 'Покраска', time: '4' },
 ]
-const specialistList = [
+const specialistList: any = [
   { name: 'таня', id: '2' },
   { name: 'Галя', id: '1' },
   { name: 'Оксана', id: '4' },
 ]
 
-const timeSlotsArray = [
+const timeSlotsArray: any = [
   { from: '12:00', to: '15:00' },
   { from: '16:00', to: '18:00' },
 ]
 function removeSelectedService(item: object) {
+  // @ts-expect-error to fix
   event.service = event?.service?.filter(i => i?.name !== item?.name)
 }
 
@@ -57,7 +58,7 @@ function addTimeSlot(item: object) {
     class="grid grid-cols-1  gap-y-2"
   >
     <h1 class="text-3xl font-bold">
-      {{ props.preset.isEdit ? props.preset?.eventInfo?.title : 'Новий запис' }}
+      {{ props.preset?.isEdit ? props.preset?.eventInfo?.title : 'Новий запис' }}
     </h1>
     <UFormGroup
       label="Виберіть послугу"
@@ -67,8 +68,8 @@ function addTimeSlot(item: object) {
       <USelectMenu v-model="event.service" searchable :options="services" multiple option-attribute="name">
         <template #label>
           <UBadge
-            v-for="item in event.service"
-            :key="item"
+            v-for="item, i in event.service"
+            :key="i"
             class="gap-2"
             @click="removeSelectedService(item)"
           >
@@ -96,7 +97,7 @@ function addTimeSlot(item: object) {
       label="~Загальна к-сть годин~"
     >
       <UBadge>
-        {{ event?.service?.reduce((acc, service) => acc + parseInt(service.time, 10), 0) }}
+        {{ event?.service?.reduce((acc: any, service: any) => acc + parseInt(service.time, 10), 0) }}
       </UBadge>
     </UFormGroup>
     <UFormGroup
@@ -167,7 +168,7 @@ function addTimeSlot(item: object) {
       <UTextarea v-model="event.description" />
     </UFormGroup>
     <UFormGroup
-      v-if="preset.isEdit"
+      v-if="preset?.isEdit"
       label="Підтверджено"
       name="approved"
     >
@@ -179,14 +180,14 @@ function addTimeSlot(item: object) {
 
     <div v-if="!event.approved || !event.beenPaid" class="flex justify-end gap-2">
       <UButton
-        v-if="preset.isEdit"
+        v-if="preset?.isEdit"
         color="red"
         type="submit"
       >
         Видалити запис
       </UButton>
       <UButton
-        v-if="preset.isEdit"
+        v-if="preset?.isEdit"
         color="lime"
         type="submit"
       >

@@ -7,11 +7,13 @@ import runtimeConfig from './config/runtimeConfig'
 import googleFonts from './config/googleFonts'
 import css from './config/css'
 import pinia from './config/pinia'
-import alias from './config/alias'
 import routeRules from './config/routeRules'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  typescript: {
+    typeCheck: true,
+  },
   ui,
   colorMode,
   modules,
@@ -22,6 +24,5 @@ export default defineNuxtConfig({
   googleFonts,
   css,
   pinia,
-  alias,
   routeRules,
 })

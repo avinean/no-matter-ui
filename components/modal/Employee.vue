@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import type { Role, ServiceProduct, User } from '#types/entities'
 import { ModalRole, ModalServiceProduct } from '#components'
+import type { ProfileEntity, RoleEntity, ServiceEntity } from '~/types/entities'
 
 const props = withDefaults(defineProps<{
-  preset?: User | null
+  preset?: ProfileEntity | null
 }>(), {
   preset: null,
 })
@@ -19,11 +19,11 @@ const { add, edit } = useProfileRepository()
 const { photo, add: addPhoto } = usePhoto(props.preset?.image)
 
 suggestionsStore.get(['sexes'])
-const { data: roles, refresh: refreshRoles } = useApi<Role[]>(`/role/${globalStore.business?.id}`)
-const { data: services, refresh: refreshServices } = useApi<ServiceProduct[]>(`/service/service`)
+const { data: roles, refresh: refreshRoles } = useApi<RoleEntity[]>(`/role/${globalStore.business?.id}`)
+const { data: services, refresh: refreshServices } = useApi<ServiceEntity[]>(`/service/service`)
 
 const loading = ref(false)
-const state: Partial<User> = reactive({
+const state: Partial<ProfileEntity> = reactive({
   firstName: props.preset?.firstName,
   lastName: props.preset?.lastName,
   email: props.preset?.email,
@@ -36,10 +36,12 @@ const state: Partial<User> = reactive({
 })
 
 whenever(services, () => {
-  state.services = state.services?.map(service => services.value.find(({ id }) => id === service.id)) || []
+  // @ts-expect-error to fix
+  state.services = state.services?.map(service => services.value?.find(({ id }) => id === service.id)) || []
 })
 whenever(roles, () => {
-  state.roles = state.roles?.map(role => roles.value.find(({ id }) => id === role.id)) || []
+  // @ts-expect-error to fix
+  state.roles = state.roles?.map(role => roles.value?.find(({ id }) => id === role.id)) || []
 })
 
 function addRole() {
@@ -145,6 +147,7 @@ async function onCreateOrUpdate() {
     >
       <div class="flex gap-1">
         <USelectMenu
+          v-if="roles"
           v-model="state.roles"
           :options="roles"
           option-attribute="name"

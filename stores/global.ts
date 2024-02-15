@@ -1,18 +1,18 @@
-import type { Business, BusinessObject, User } from '#types/entities'
-import type { Permission } from '#types/permissions'
+import type { BusinessEntity, BusinessObjectEntity, ProfileEntity } from '~/types/entities'
+import type { Permission } from '~/types/permissions'
 
 export const useGlobalStore = defineStore('global', () => {
   const router = useRouter()
 
-  const user = ref<User | null>(null)
-  const business = ref<Business>()
-  const object = ref<BusinessObject>()
+  const user = ref<ProfileEntity | null>(null)
+  const business = ref<BusinessEntity>()
+  const object = ref<BusinessObjectEntity>()
   const cookie = useCookie('sraka')
 
   const isAdmnin = computed(() => user.value?.roles.some(role => role.name === 'admin'))
   const permissions = computed(() => user.value?.roles.flatMap(
-    role => role.permissions.map(
-      permission => `${permission.resource}:${permission.action}` as unknown as Permission,
+    role => role.assignedPermissions.map(
+      permission => `${permission.resourceType}:${permission.actionType}` as unknown as Permission,
     ),
   ))
 
@@ -47,17 +47,17 @@ export const useGlobalStore = defineStore('global', () => {
   }
 
   async function getBusinesses() {
-    user.value!.businesses = await $api<Business[]>(`/business/${user.value?.id}`)
+    user.value!.ownedBusinesses = await $api<BusinessEntity[]>(`/business/${user.value?.id}`)
   }
 
   async function getUser() {
     if (user.value)
       return
 
-    const profile = await $api<User>('/profile/me')
+    const profile = await $api<ProfileEntity>('/profile/me')
     user.value = profile
-    business.value = profile?.businesses?.[0]
-    object.value = profile?.businesses?.[0]?.objects?.[0]
+    business.value = profile?.ownedBusinesses?.[0]
+    object.value = profile?.ownedBusinesses?.[0]?.businessObjects?.[0]
   }
 
   return {

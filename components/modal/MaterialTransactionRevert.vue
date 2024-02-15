@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import type { FormError, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types'
-import type { Material, MaterialTransaction } from '~/types/entities'
+import type { FormError, FormSubmitEvent } from '#ui/types'
+import type { MaterialTransactionEntity } from '~/types/entities';
 
 const { preset } = defineProps<{
-  preset: MaterialTransaction
+  preset: MaterialTransactionEntity
 }>()
 
 const emit = defineEmits<{
@@ -12,7 +12,7 @@ const emit = defineEmits<{
 
 const { revert } = useMaterialTransactionRepository()
 
-const state = reactive<Partial<MaterialTransaction>>({
+const state = reactive<Partial<MaterialTransactionEntity>>({
   description: undefined,
 })
 
@@ -35,8 +35,8 @@ async function onCreateOrUpdate() {
 
 <template>
   <UForm
-    :validate
-    :state
+    :validate="validate"
+    :state="state"
     class="space-y-4 w-full"
     @submit="onCreateOrUpdate"
   >

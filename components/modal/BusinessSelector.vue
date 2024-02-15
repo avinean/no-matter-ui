@@ -5,7 +5,7 @@ const { baseUrl } = useRuntimeConfig().public
 const globalStore = useGlobalStore()
 const modalStore = useModalStore()
 
-const businesses = computed(() => globalStore.user.businesses.map(business => ({
+const businesses = computed(() => globalStore.user.ownedBusinesses.map(business => ({
   id: business.id,
   label: business.name,
   avatar: { src: `${baseUrl}/${business.image}`, loading: 'lazy' },
@@ -25,7 +25,7 @@ const business = computed({
   set(value) {
     if (value.click)
       return value.click()
-    globalStore.business = globalStore.user.businesses.find(b => b.id === value.id)
+    globalStore.business = globalStore.user.ownedBusinesses.find(b => b.id === value.id)
   },
 })
 
@@ -36,7 +36,7 @@ const object = computed({
   set(value) {
     if (value.click)
       return value.click()
-    globalStore.object = globalStore.business?.objects.find(o => o.id === value.id)
+    globalStore.object = globalStore.business?.businessObjects.find(o => o.id === value.id)
   },
 })
 </script>

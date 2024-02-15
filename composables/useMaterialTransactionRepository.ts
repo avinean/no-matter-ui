@@ -1,14 +1,14 @@
-import type { MaterialTransaction } from '~/types/entities'
+import type { MaterialTransactionEntity } from '~/types/entities'
 
 export const useMaterialTransactionRepository = createGlobalState(() => {
   const globalStore = useGlobalStore()
   const toast = useToast()
 
   function get() {
-    return $api<MaterialTransaction[]>(`/material-transaction/${globalStore.object?.id || globalStore.user?.employers[0]?.id}`)
+    return $api<MaterialTransactionEntity[]>(`/material-transaction/${globalStore.object?.id || globalStore.user?.employers[0]?.id}`)
   }
 
-  function add(body: Partial<MaterialTransaction>) {
+  function add(body: Partial<MaterialTransactionEntity>) {
     try {
       return $api(`/material-transaction/${globalStore.object?.id}`, {
         method: 'POST',

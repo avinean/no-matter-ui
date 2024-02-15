@@ -12,7 +12,7 @@ const businesses = computed(() => [
       disabled: true,
     },
   ],
-  globalStore.user?.businesses?.map(_business => ({
+  globalStore.user?.ownedBusinesses?.map(_business => ({
     label: _business.name,
     avatar: {
       src: _business.image,
@@ -20,7 +20,7 @@ const businesses = computed(() => [
     class: globalStore.business === _business ? 'bg-gray-100' : '',
     click: () => {
       globalStore.business = _business
-      globalStore.object = _business.objects?.[0]
+      globalStore.object = _business.businessObjects?.[0]
     },
   })) || [],
   [
@@ -45,7 +45,7 @@ const objects = computed(() => [
       disabled: true,
     },
   ],
-  globalStore.business?.objects?.map(_object => ({
+  globalStore.business?.businessObjects?.map(_object => ({
     label: _object.name,
     avatar: {
       src: _object.image,

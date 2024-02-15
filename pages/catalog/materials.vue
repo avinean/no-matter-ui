@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { ModalMaterial, ModalMaterialTransaction, ModalMaterialTransactionRevert } from '#components'
-import type { MaterialTransaction } from '~/types/entities'
+import type { MaterialTransactionEntity } from '~/types/entities';
+import type { DropdownItem} from '#ui/types'
 
 const modalStore = useModalStore()
 const materialRepository = useMaterialRepository()
@@ -18,12 +19,12 @@ const columns = [
   { key: 'actions' },
 ]
 
-function menu(item: MaterialTransaction) {
+function menu(item: MaterialTransactionEntity): DropdownItem[][] {
   return [
     [{
       label: 'Відмінити',
       icon: 'i-ic-round-event-repeat',
-      disabled: item.revertedTransaction || item.revertingTransaction,
+      disabled: !!(item.reverted || item.reverting),
       click: () => {
         modalStore.open(ModalMaterialTransactionRevert, {
           onSubmit() {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { Role } from '#types/entities'
 import { ModalRole } from '#components'
+import type { RoleEntity } from '~/types/entities';
 
 const toast = useToast()
 const globalStore = useGlobalStore()
@@ -11,9 +11,9 @@ store.get('resources')
 store.get('actions')
 const loading = computed(() => store.loading.actions || store.loading.resources || store.loading.roles)
 
-const { data, refresh } = useApi<Role[]>(`/role/${globalStore.business?.id}`)
+const { data, refresh } = useApi<RoleEntity[]>(`/role/${globalStore.business?.id}`)
 
-const selected = ref<Role | null>(null)
+const selected = ref<RoleEntity | null>(null)
 
 const groups = computed(() => [{
   key: 'roles',
@@ -26,7 +26,7 @@ const groups = computed(() => [{
 
 const permissions = ref<string[]>([])
 
-function callModal(preset?: Role) {
+function callModal(preset?: RoleEntity) {
   modalStore.open(ModalRole, {
     preset,
     onSubmit() {
@@ -65,9 +65,9 @@ async function setPermissions() {
   }
 }
 
-function select(role: Role) {
+function select(role: RoleEntity) {
   selected.value = role
-  permissions.value = role.permissions.map(({ resource, action }) => `${role.name}:${resource}:${action}`) || []
+  permissions.value = role.assignedPermissions.map(({ resourceType, actionType }) => `${role.name}:${resourceType}:${actionType}`) || []
 }
 </script>
 
@@ -113,7 +113,7 @@ function select(role: Role) {
         ]"
         :rows="store.suggestions.resources"
       >
-        <template v-for="action, key in store.suggestions.actions" :key #[`${action.value}-data`]="{ row }">
+        <template v-for="action, key in store.suggestions.actions" :key="key" #[`${action.value}-data`]="{ row }">
           <UCheckbox
             v-model="permissions"
             :value="`${selected.name}:${row.value}:${action.value}`"
@@ -125,7 +125,6 @@ function select(role: Role) {
           color="gray"
           icon="i-ic-baseline-cancel"
           label="Відмінити зміни"
-          @click="init"
         />
         <UButton
           icon="i-ic-baseline-save"

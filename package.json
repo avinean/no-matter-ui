@@ -24,7 +24,8 @@
     "@vueuse/nuxt": "^10.7.2",
     "minidenticons": "^4.2.0",
     "pinia": "^2.1.7",
-    "v-calendar": "^3.1.2"
+    "v-calendar": "^3.1.2",
+    "vue-tsc": "^1.8.27"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.6.3",
@@ -37,9 +38,5 @@
     "ohmyfetch": "^0.4.21",
     "vue": "3.4.16",
     "vue-router": "^4.2.5"
-  },
-  "imports": {
-    "#root/*": "./*",
-    "#types/*": "./types/*"
   }
 }

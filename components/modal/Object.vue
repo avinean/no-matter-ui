@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import type { Business } from '#types/entities'
+import type { BusinessEntity } from '~/types/entities';
+
 
 const props = defineProps<{
-  preset?: Business | null
+  preset?: BusinessEntity | null
 }>()
 
 const emit = defineEmits<{
@@ -16,7 +17,7 @@ const globalStore = useGlobalStore()
 const { photo, add: addPhoto } = usePhoto(props.preset?.image)
 
 const loading = ref(false)
-const state: Partial<Business> = reactive({
+const state: Partial<BusinessEntity> = reactive({
   name: props.preset?.name,
   description: props.preset?.description,
   image: props.preset?.image,

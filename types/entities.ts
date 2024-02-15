@@ -1,86 +1,136 @@
 import type { Action, Resource } from './permissions'
+import type { ConfirmationStatus, ContactType, MaterialTransactionType, ServiceType, Sex } from './enums'
 
-export interface Entity {
+export interface PermissionEntity {
   id: number
-  createdAt: string
-  updatedAt: string
+  actionType: Action
+  resourceType: Resource
+  roles: RoleEntity[]
 }
 
-export interface Permission extends Entity {
-  resource: Resource
-  action: Action
-}
-
-export interface Role extends Entity {
+export interface RoleEntity {
+  id: number
   name: string
-  permissions: Permission[]
+  assignedPermissions: PermissionEntity[]
+  assignedProfiles: ProfileEntity[]
+  business: BusinessEntity
+  createdAt: Date | string
+  updatedAt: Date | string
 }
 
-export interface User extends Entity {
+export interface UserEntity {
+  id: number
+  phone: string
+  password: string
+  createdAt: Date | string
+  updatedAt: Date | string
+  associatedProfiles: ProfileEntity[]
+}
+
+export interface ProfileEntity {
+  id: number
   firstName: string
   lastName: string
-  sex: string
-  birthday: Date
-  image?: string
+  sex: Sex
+  birthday: Date | string
+  image: string
   email: string
   phone: string
-  roles: Role[]
-  services: ServiceProduct[]
-  businesses?: Business[]
-  employers: BusinessObject[]
+  status: boolean
+  createdAt: Date | string
+  updatedAt: Date | string
+  userId: number
+  user: UserEntity
+  roles: RoleEntity[]
+  services: ServiceEntity[]
+  bookings: BookingEntity[]
+  ownedBusinesses: BusinessEntity[]
+  ownedObjects: BusinessObjectEntity[]
+  employers: BusinessObjectEntity[]
+  initiatedMaterialTransactions: MaterialTransactionEntity[]
 }
 
-export interface Business extends Entity {
+export interface BusinessEntity {
+  id: number
   name: string
-  description: string
-  image: string
-  objects?: BusinessObject[]
+  description?: string
+  image?: string
+  createdAt: Date | string
+  updatedAt: Date | string
+  owner: ProfileEntity
+  businessObjects: BusinessObjectEntity[]
+  roles: RoleEntity[]
 }
 
-export interface BusinessObject extends Entity {
+export interface BusinessObjectEntity {
+  id: number
   name: string
-  description: string
-  image: string
+  description?: string
+  image?: string
+  createdAt: Date | string
+  updatedAt: Date | string
+  createdBy: ProfileEntity
+  business: BusinessEntity
+  employees: ProfileEntity[]
+  customers: ClientEntity[]
+  materialTransactions: MaterialTransactionEntity[]
+  materials: MaterialEntity[]
 }
 
-export interface Material extends Entity {
+export interface MaterialEntity {
+  id: number
   name: string
   description: string
   unit: string
   quantity: number
   criticalQuantity: number
+  createdAt: Date | string
+  updatedAt: Date | string
+  transactions: MaterialTransactionEntity[]
+  businessObject: BusinessObjectEntity
 }
 
-export interface MaterialTransaction extends Entity {
+export interface MaterialTransactionEntity {
+  id: number
   quantity: number
   description: string
-  type: string
-  material: Material
-  initiator: User
-  businessObject: BusinessObject
-  revertingTransaction?: MaterialTransaction
-  revertedTransaction?: MaterialTransaction
+  type: MaterialTransactionType
+  createdAt: Date | string
+  material: MaterialEntity
+  initiator: ProfileEntity
+  businessObject: BusinessObjectEntity
+  reverted: MaterialTransactionEntity | null
+  reverting: MaterialTransactionEntity | null
 }
 
-export interface Contact extends Entity {
-  type: 'email' | 'phone'
-  value: string
-}
-
-export interface Client extends Entity {
+export interface ClientEntity {
+  id: number
   firstName: string
   lastName: string
-  phone: string
-  sex: string
-  birthday: string
+  sex: Sex
+  birthday: Date | string
   source: string
-  balance: number
+  image?: string
+  email?: string
+  phone: string
   status: boolean
-  cardId: number
-  image: string
+  balance: number
+  discount: number
+  createdAt: Date | string
+  updatedAt: Date | string
+  contacts: ContactEntity[]
+  bookings: BookingEntity[]
+  businessObjects: BusinessObjectEntity[]
 }
 
-export interface Event extends Entity {
+export interface ContactEntity {
+  id: number
+  type: ContactType
+  value: string
+  verified: boolean
+}
+
+export interface EventEntity {
   id: number
   price?: number
   title?: string
@@ -93,26 +143,46 @@ export interface Event extends Entity {
   approved?: boolean
   beenPaid?: boolean
   allDay?: boolean
-  service?: object[]
+  service?: ServiceEntity[]
   specialist?: string
   timeSlots?: object
+  createdAt: Date | string
+  updatedAt: Date | string
 }
 
-export interface ServiceProduct extends Entity {
+export interface ServiceEntity {
+  id: number
   name: string
   description: string
-  type: string
+  type: ServiceType
   price: number
   duration: number
   discount: number
   status: boolean
+  createdAt: Date | string
+  updatedAt: Date | string
+  profiles: ProfileEntity[]
+  bookings: BookingEntity[]
+  relatedBusinessObjects: BusinessObjectEntity[]
+  orders: OrderEntity[]
 }
 
-export interface Booking extends Entity {
-  client: Client
-  profile: User
-  services: ServiceProduct[]
-  date: Date
-  status: boolean
+export interface OrderEntity {
+  id: number
+  booking: BookingEntity
+  products: ServiceEntity[]
+}
+
+export interface BookingEntity {
+  id: number
+  date: Date | string
   duration: number
+  status: ConfirmationStatus
+  comment: string
+  createdAt: Date | string
+  updatedAt: Date | string
+  profile: ProfileEntity
+  services: ServiceEntity[]
+  client: ClientEntity
+  order: OrderEntity
 }

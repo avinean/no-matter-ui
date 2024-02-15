@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const props = defineProps<{
-  date: Date | string
+  date?: Date | string
   dateStyle?: 'full' | 'long' | 'medium' | 'short'
   timeStyle?: 'full' | 'long' | 'medium' | 'short'
 }>()
@@ -8,7 +8,7 @@ const props = defineProps<{
 const formattedDate = computed(() => new Intl.DateTimeFormat('uk', {
   dateStyle: props.dateStyle,
   timeStyle: props.timeStyle,
-}).format(new Date(props.date)))
+}).format(props.date ? new Date(props.date) : new Date()))
 </script>
 
 <template>

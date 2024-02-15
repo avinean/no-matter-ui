@@ -1,5 +1,3 @@
-import type { Client, ServiceProduct } from '#types/entities'
-
 export function usePhoto(name?: string) {
   const toast = useToast()
   const photo = ref()
