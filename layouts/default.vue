@@ -1,5 +1,5 @@
 <script setup>
-import { ModalBussinessSelector } from '#components'
+import { ModalBusinessSelector } from '#components'
 
 const store = useGlobalStore()
 const modalStore = useModalStore()
@@ -42,16 +42,16 @@ const links = computed(() => [
     {
       label: 'Бізнес',
       avatar: {
-        src: `${baseUrl}/${store.bussiness?.image}`,
+        src: `${baseUrl}/${store.business?.image}`,
       },
-      click: () => modalStore.open(ModalBussinessSelector),
+      click: () => modalStore.open(ModalBusinessSelector),
     },
     {
       label: 'Обʼєкт',
       avatar: {
         src: `${baseUrl}/${store.object?.image}`,
       },
-      click: () => modalStore.open(ModalBussinessSelector),
+      click: () => modalStore.open(ModalBusinessSelector),
     },
   ],
   [
@@ -87,7 +87,7 @@ const links = computed(() => [
         }"
       />
 
-      <!-- <use-bussiness-select class="flex gap-2 py-2" /> -->
+      <!-- <use-business-select class="flex gap-2 py-2" /> -->
     </div>
     <div class="w-full p-2">
       <div class="p-2 bg-white h-full rounded-xl">

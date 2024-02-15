@@ -22,7 +22,7 @@ async function onCreateOrUpdate() {
   loading.value = true
 
   try {
-    const endpoint = props.preset?.id ? `/role/${globalStore.bussiness?.id}/${props.preset.id}` : `/role/${globalStore.bussiness?.id}`
+    const endpoint = props.preset?.id ? `/role/${globalStore.business?.id}/${props.preset.id}` : `/role/${globalStore.business?.id}`
     const method = props.preset?.id ? 'PUT' : 'POST'
 
     await $api(endpoint, {

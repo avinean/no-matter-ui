@@ -26,18 +26,18 @@ export interface User extends Entity {
   phone: string
   roles: Role[]
   services: ServiceProduct[]
-  bussinesses?: Bussiness[]
-  employers: BussinessObject[]
+  businesses?: Business[]
+  employers: BusinessObject[]
 }
 
-export interface Bussiness extends Entity {
+export interface Business extends Entity {
   name: string
   description: string
   image: string
-  objects?: BussinessObject[]
+  objects?: BusinessObject[]
 }
 
-export interface BussinessObject extends Entity {
+export interface BusinessObject extends Entity {
   name: string
   description: string
   image: string
@@ -57,7 +57,7 @@ export interface MaterialTransaction extends Entity {
   type: string
   material: Material
   initiator: User
-  bussinessObject: BussinessObject
+  businessObject: BusinessObject
   revertingTransaction?: MaterialTransaction
   revertedTransaction?: MaterialTransaction
 }

@@ -11,7 +11,7 @@ store.get('resources')
 store.get('actions')
 const loading = computed(() => store.loading.actions || store.loading.resources || store.loading.roles)
 
-const { data, refresh } = useApi<Role[]>(`/role/${globalStore.bussiness?.id}`)
+const { data, refresh } = useApi<Role[]>(`/role/${globalStore.business?.id}`)
 
 const selected = ref<Role | null>(null)
 
@@ -45,7 +45,7 @@ async function setPermissions() {
   }
 
   try {
-    await $api(`/role/${globalStore.bussiness?.id}/${role.id}`, {
+    await $api(`/role/${globalStore.business?.id}/${role.id}`, {
       method: 'PUT',
       body: role,
     }).then(() => {

@@ -19,7 +19,7 @@ const { add, edit } = useProfileRepository()
 const { photo, add: addPhoto } = usePhoto(props.preset?.image)
 
 suggestionsStore.get(['sexes'])
-const { data: roles, refresh: refreshRoles } = useApi<Role[]>(`/role/${globalStore.bussiness?.id}`)
+const { data: roles, refresh: refreshRoles } = useApi<Role[]>(`/role/${globalStore.business?.id}`)
 const { data: services, refresh: refreshServices } = useApi<ServiceProduct[]>(`/service/service`)
 
 const loading = ref(false)

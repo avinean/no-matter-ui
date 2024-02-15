@@ -1,12 +1,12 @@
-import type { Bussiness, BussinessObject, User } from '#types/entities'
+import type { Business, BusinessObject, User } from '#types/entities'
 import type { Permission } from '#types/permissions'
 
 export const useGlobalStore = defineStore('global', () => {
   const router = useRouter()
 
   const user = ref<User | null>(null)
-  const bussiness = ref<Bussiness>()
-  const object = ref<BussinessObject>()
+  const business = ref<Business>()
+  const object = ref<BusinessObject>()
   const cookie = useCookie('sraka')
 
   const isAdmnin = computed(() => user.value?.roles.some(role => role.name === 'admin'))
@@ -46,8 +46,8 @@ export const useGlobalStore = defineStore('global', () => {
     router.push('/auth/sign-in')
   }
 
-  async function getBussinesses() {
-    user.value!.bussinesses = await $api<Bussiness[]>(`/bussiness/${user.value?.id}`)
+  async function getBusinesses() {
+    user.value!.businesses = await $api<Business[]>(`/business/${user.value?.id}`)
   }
 
   async function getUser() {
@@ -56,20 +56,20 @@ export const useGlobalStore = defineStore('global', () => {
 
     const profile = await $api<User>('/profile/me')
     user.value = profile
-    bussiness.value = profile?.bussinesses?.[0]
-    object.value = profile?.bussinesses?.[0]?.objects?.[0]
+    business.value = profile?.businesses?.[0]
+    object.value = profile?.businesses?.[0]?.objects?.[0]
   }
 
   return {
     user,
     isAdmnin,
-    bussiness,
+    business,
     object,
     login,
     signup,
     logout,
     getUser,
-    getBussinesses,
+    getBusinesses,
     hasPermission,
   }
 })

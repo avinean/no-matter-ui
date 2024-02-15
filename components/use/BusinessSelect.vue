@@ -2,25 +2,25 @@
 const globalStore = useGlobalStore()
 const modalStore = useModalStore()
 
-const ModalBussiness = resolveComponent('modal-bussiness')
+const ModalBusiness = resolveComponent('modal-business')
 const ModalObject = resolveComponent('modal-object')
 
-const bussinesses = computed(() => [
+const businesses = computed(() => [
   [
     {
       label: 'Оберіть бізнес',
       disabled: true,
     },
   ],
-  globalStore.user?.bussinesses?.map(_bussiness => ({
-    label: _bussiness.name,
+  globalStore.user?.businesses?.map(_business => ({
+    label: _business.name,
     avatar: {
-      src: _bussiness.image,
+      src: _business.image,
     },
-    class: globalStore.bussiness === _bussiness ? 'bg-gray-100' : '',
+    class: globalStore.business === _business ? 'bg-gray-100' : '',
     click: () => {
-      globalStore.bussiness = _bussiness
-      globalStore.object = _bussiness.objects?.[0]
+      globalStore.business = _business
+      globalStore.object = _business.objects?.[0]
     },
   })) || [],
   [
@@ -28,9 +28,9 @@ const bussinesses = computed(() => [
       label: 'Додати новий бізнес',
       icon: 'i-ic-outline-business-center',
       click: () => {
-        modalStore.open(ModalBussiness, {
+        modalStore.open(ModalBusiness, {
           onSubmit() {
-            globalStore.getBussinesses()
+            globalStore.getBusinesses()
           },
         })
       },
@@ -45,7 +45,7 @@ const objects = computed(() => [
       disabled: true,
     },
   ],
-  globalStore.bussiness?.objects?.map(_object => ({
+  globalStore.business?.objects?.map(_object => ({
     label: _object.name,
     avatar: {
       src: _object.image,
@@ -62,7 +62,7 @@ const objects = computed(() => [
       click: () => {
         modalStore.open(ModalObject, {
           onSubmit() {
-            globalStore.getBussinesses()
+            globalStore.getBusinesses()
           },
         })
       },
@@ -73,8 +73,8 @@ const objects = computed(() => [
 
 <template>
   <div>
-    <UDropdown :items="bussinesses" :popper="{ placement: 'bottom-start' }">
-      <UAvatar :alt="globalStore.bussiness?.name" size="md" />
+    <UDropdown :items="businesses" :popper="{ placement: 'bottom-start' }">
+      <UAvatar :alt="globalStore.business?.name" size="md" />
     </UDropdown>
     <UDropdown :items="objects" :popper="{ placement: 'bottom-start' }">
       <UAvatar :alt="globalStore.object?.name" size="md" />

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { Bussiness } from '#types/entities'
+import type { Business } from '#types/entities'
 
 const props = defineProps<{
-  preset?: Bussiness | null
+  preset?: Business | null
 }>()
 
 const emit = defineEmits<{
@@ -16,7 +16,7 @@ const globalStore = useGlobalStore()
 const { photo, add: addPhoto } = usePhoto(props.preset?.image)
 
 const loading = ref(false)
-const state: Partial<Bussiness> = reactive({
+const state: Partial<Business> = reactive({
   name: props.preset?.name,
   description: props.preset?.description,
   image: props.preset?.image,
@@ -28,8 +28,8 @@ async function onCreateOrUpdate() {
 
   try {
     const endpoint = props.preset?.id
-      ? `/bussiness-object/${globalStore.user?.id}/${globalStore.bussiness?.id}/${props.preset.id}`
-      : `/bussiness-object/${globalStore.user?.id}/${globalStore.bussiness?.id}`
+      ? `/business-object/${globalStore.user?.id}/${globalStore.business?.id}/${props.preset.id}`
+      : `/business-object/${globalStore.user?.id}/${globalStore.business?.id}`
     const method = props.preset?.id ? 'PUT' : 'POST'
 
     await $api(endpoint, {
