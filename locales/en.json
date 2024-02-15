@@ -23,6 +23,16 @@
             "title": "Log in",
             "signUp": "Sign up",
             "forgot": "Forgot your password?"
+        },
+        "requestErrors": {
+            "invalid": {
+                "title": "Login error",
+                "description": "Check the data and try again"
+            },
+            "unknownError": {
+                "title": "Login error",
+                "description": "Contact the support service"
+            }
         }
     },
     "signUp": {

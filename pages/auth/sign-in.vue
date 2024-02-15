@@ -1,17 +1,18 @@
 <script setup lang="ts">
 import type { FormError, FormSubmitEvent } from '#ui/types'
+
 const store = useGlobalStore()
 const { t } = useI18n()
 
 const form = reactive({
-  phone: undefined,
+  email: undefined,
   password: undefined,
 })
 
 function validate(): FormError[] {
   const errors = []
-  if (!form.phone)
-    errors.push({ path: 'phone', message: t('formValidation.required') })
+  if (!form.email)
+    errors.push({ path: 'email', message: t('formValidation.required') })
   if (!form.password)
     errors.push({ path: 'password', message: t('formValidation.required') })
   return errors
@@ -20,7 +21,6 @@ function validate(): FormError[] {
 async function onSubmit(event: FormSubmitEvent<any>) {
   store.login(event.data)
 }
-
 </script>
 
 <template>
@@ -29,21 +29,21 @@ async function onSubmit(event: FormSubmitEvent<any>) {
       {{ $t('signIn.form.title') }}
     </h1>
     <UForm
-        :validate="validate"
+      :validate="validate"
       :state="form"
       class="space-y-4"
       @submit="onSubmit"
     >
       <UFormGroup
-          :label="$t('signIn.form.labels.email')"
+        :label="$t('signIn.form.labels.email')"
         name="email"
       >
-        <UInput v-model="form.phone" />
+        <UInput v-model="form.email" />
       </UFormGroup>
 
       <UFormGroup
-          :label="$t('signIn.form.labels.password')"
-          name="password"
+        :label="$t('signIn.form.labels.password')"
+        name="password"
       >
         <UInput
           v-model="form.password"
@@ -60,18 +60,17 @@ async function onSubmit(event: FormSubmitEvent<any>) {
     </UForm>
     <div class="flex align-center justify-between mt-4">
       <ULink
-          to="/auth/sign-up"
-          inactive-class="   hover:text-violet-400"
+        to="/auth/sign-up"
+        inactive-class="   hover:text-violet-400"
       >
         {{ $t('signIn.form.forgot') }}
       </ULink>
       <ULink
-          to="/auth/sign-up"
-          inactive-class=" hover:text-violet-400 "
+        to="/auth/sign-up"
+        inactive-class=" hover:text-violet-400 "
       >
         {{ $t('signIn.form.signUp') }}
       </ULink>
     </div>
-
   </div>
 </template>

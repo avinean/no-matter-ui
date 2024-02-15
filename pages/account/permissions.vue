@@ -52,12 +52,12 @@ async function setPermissions() {
       refresh()
     })
 
-
     toast.add({
       title: 'Вдалося!',
       description: `Дозволи успішно оновлено`,
     })
-  } catch (e) {
+  }
+  catch (e) {
     toast.add({
       title: 'Щось пішло не так',
       description: `Повторіть спробу та звʼяжіться зі службою підтримки`,
@@ -87,7 +87,9 @@ function select(role: Role) {
       />
     </div>
     <div v-if="selected && !loading" class="w-full p-2 space-y-2">
-      <h2 class="font-bold text-2xl">Роль {{ selected.name }}</h2>
+      <h2 class="font-bold text-2xl">
+        Роль {{ selected.name }}
+      </h2>
       <UTable
         :columns="[
           {

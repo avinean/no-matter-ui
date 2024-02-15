@@ -6,7 +6,7 @@
         alt="Syns"
       >
       <img
-          class="mt-2"
+        class="mt-2"
         src="/textLogo.svg"
         alt="Syns"
       >

@@ -64,7 +64,6 @@ const links = computed(() => [
     },
   ],
 ])
-
 </script>
 
 <template>

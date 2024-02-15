@@ -1,4 +1,4 @@
-import type { NuxtConfig } from 'nuxt/schema';
+import type { NuxtConfig } from 'nuxt/schema'
 
 export default {
   preference: 'light', // default value of $colorMode.preference

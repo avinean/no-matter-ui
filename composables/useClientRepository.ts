@@ -1,4 +1,4 @@
-import type { Client, ServiceProduct } from '#types/entities'
+import type { Client } from '#types/entities'
 
 export const useClientRepository = createGlobalState(() => {
   const globalStore = useGlobalStore()

@@ -8,6 +8,7 @@ import interactionPlugin from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import type { CalendarOptions } from '@fullcalendar/core'
+
 const { baseUrl } = useRuntimeConfig().public
 const store = useEntriesStore()
 
@@ -29,23 +30,23 @@ const eventDetails = ref()
 const isOpenEvent = ref(false)
 const selectedId = ref()
 const tabItems = [
-  { label: 'Tab1', id: 1, lastName: 'Марина',firstName: 'Олешко', jobTitle: 'Анестезіолог',
+  { label: 'Tab1', id: 1, lastName: 'Марина', firstName: 'Олешко', jobTitle: 'Анестезіолог',
   },
-  { label: 'Tab1', id: 10, lastName: 'Марина',firstName: 'Олешко', jobTitle: 'Анестезіолог',
+  { label: 'Tab1', id: 10, lastName: 'Марина', firstName: 'Олешко', jobTitle: 'Анестезіолог',
   },
-  { label: 'Tab1', id: 9, lastName: 'Марина',firstName: 'Олешко', jobTitle: 'Анестезіолог',
+  { label: 'Tab1', id: 9, lastName: 'Марина', firstName: 'Олешко', jobTitle: 'Анестезіолог',
   },
-  { label: 'Tab1', id: 8, lastName: 'Марина',firstName: 'Олешко', jobTitle: 'Анестезіолог',
+  { label: 'Tab1', id: 8, lastName: 'Марина', firstName: 'Олешко', jobTitle: 'Анестезіолог',
   },
-  { label: 'Tab2', id: 2, lastName: 'Олена',firstName: 'Зірина', jobTitle: 'дерматовенеролог',
+  { label: 'Tab2', id: 2, lastName: 'Олена', firstName: 'Зірина', jobTitle: 'дерматовенеролог',
   },
-  { label: 'Tab3', id: 3, lastName: 'Дарина',firstName: 'Головко', jobTitle: 'косметолог  ',
+  { label: 'Tab3', id: 3, lastName: 'Дарина', firstName: 'Головко', jobTitle: 'косметолог  ',
   },
-  { label: 'Tab3', id: 4, lastName: 'Дарина',firstName: 'Головко', jobTitle: 'косметолог  ',
+  { label: 'Tab3', id: 4, lastName: 'Дарина', firstName: 'Головко', jobTitle: 'косметолог  ',
   },
-  { label: 'Tab3', id: 5, lastName: 'Дарина',firstName: 'Головко', jobTitle: 'косметолог  ',
+  { label: 'Tab3', id: 5, lastName: 'Дарина', firstName: 'Головко', jobTitle: 'косметолог  ',
   },
-  { label: 'Tab3', id: 6, lastName: 'Дарина',firstName: 'Головко', jobTitle: 'косметолог  ',
+  { label: 'Tab3', id: 6, lastName: 'Дарина', firstName: 'Головко', jobTitle: 'косметолог  ',
   },
   { label: 'Tab3', id: 7, lastName: 'Дарина', firstName: 'Головко', jobTitle: 'косметолог  ',
   },
@@ -64,7 +65,6 @@ const groups = computed(() => [{
 const selectedProfile = computed(() => tabItems?.find(profile => profile.id === selectedId.value))
 
 function handleEventClick(clickInfo: any) {
-
   isOpenEvent.value = true
   eventDetails.value = {
     isEdit: true,
@@ -160,7 +160,6 @@ function goToSelectedDate(val: Date) {
   calendarRef?.value.getApi().gotoDate(val)
 }
 
-
 function handleTabChange(id: number) {
   selectedId.value = id
 }
@@ -182,22 +181,22 @@ function handleTabChange(id: number) {
     <div class="p-8  rounded-xl">
       <div class="grid md:grid-cols-[200px,1fr] gap-2 divide-x min-h-full">
         <UCommandPalette
-            ref="commandPaletteRef"
-            :groups="groups"
-            :autoselect="false"
-            @update:model-value="selectedId = $event.client.id"
-            :ui="{
-              input: {
-                base: 'border-1 border-gray-200 rounded-md',
-                height: 'h-8'
+          ref="commandPaletteRef"
+          :groups="groups"
+          :autoselect="false"
+          :ui="{
+            input: {
+              base: 'border-1 border-gray-200 rounded-md',
+              height: 'h-8',
+            },
+            group: {
+              command: {
+                active: 'text-gray-900',
+                label: 'grid gap-0',
               },
-              group: {
-                command: {
-                  active: 'text-gray-900',
-                  label: 'grid gap-0'
-                }
-              }
-            }"
+            },
+          }"
+          @update:model-value="selectedId = $event.client.id"
         >
           <template #empty-state>
             <div class="flex flex-col items-center justify-center py-6 gap-3">
@@ -210,27 +209,27 @@ function handleTabChange(id: number) {
             <div class="flex items-center border-4 border-gray-200 rounded-md text-sm font-normal  text-black">
               <div>
                 <div
-                    class="px-6 py-3 flex items-center cursor-pointer"
-                    @click="calendarRef?.calendar.prev()"
+                  class="px-6 py-3 flex items-center cursor-pointer"
+                  @click="calendarRef?.calendar.prev()"
                 >
                   <UIcon name="i-ic-baseline-chevron-left" class="text-xl text-gray-900" />
                 </div>
               </div>
               <div
-                  class="px-6 py-3 border-l-4  cursor-pointer"
-                  @click="calendarRef?.calendar.today()"
+                class="px-6 py-3 border-l-4  cursor-pointer"
+                @click="calendarRef?.calendar.today()"
               >
                 Сьогодні
               </div>
               <div class="flex items-center gap-4 px-6 py-2 border-l-4 border-r-4">
                 <base-datetime v-if="calendarRef?.calendar.getDate()" :date="calendarRef?.calendar.getDate()" date-style="medium" />
                 <input-date
-                    @update:model-value="goToSelectedDate"
+                  @update:model-value="goToSelectedDate"
                 >
                   <UButton
-                      size="xs"
-                      icon="i-ic-baseline-event-note"
-                      color="gray"
+                    size="xs"
+                    icon="i-ic-baseline-event-note"
+                    color="gray"
                   />
                 </input-date>
               </div>
@@ -245,36 +244,36 @@ function handleTabChange(id: number) {
             </div>
             <div class="flex gap-2">
               <UButton
-                  :color="currentCalendarView === 'dayGridMonth' ? 'lime' : 'gray'"
-                  @click="calendarRef?.calendar.changeView('dayGridMonth')"
+                :color="currentCalendarView === 'dayGridMonth' ? 'lime' : 'gray'"
+                @click="calendarRef?.calendar.changeView('dayGridMonth')"
               >
                 Місяць
               </UButton>
               <UButton
-                  :color="currentCalendarView === 'timeGridDay' ? 'lime' : 'gray'"
-                  @click="calendarRef?.calendar.changeView('timeGridDay')"
+                :color="currentCalendarView === 'timeGridDay' ? 'lime' : 'gray'"
+                @click="calendarRef?.calendar.changeView('timeGridDay')"
               >
                 День
               </UButton>
               <UButton
-                  color="gray"
-                  @click="addNewEvent"
+                color="gray"
+                @click="addNewEvent"
               >
                 Додати запис
               </UButton>
             </div>
           </div>
           <FullCalendar
-              ref="calendarRef" :options="options" class="syns_calendar"
+            ref="calendarRef" :options="options" class="syns_calendar"
           >
             <template #eventContent="arg">
               <div
-                  class="w-full
+                class="w-full
             rounded
                 h-full
                 text-xs
                 overflow-hidden px-2 py-1"
-                  :style="getEventStyle(arg.event.extendedProps)"
+                :style="getEventStyle(arg.event.extendedProps)"
               >
                 <div class="truncate">
                   <base-datetime :date="arg.event.start" time-style="short" />

@@ -3,16 +3,16 @@ export default defineAppConfig({
     primary: 'slate',
     icons: ['goole mat'],
     avatar: {
-      rounded: 'rounded-sm'
+      rounded: 'rounded-sm',
     },
     commandPalette: {
       group: {
         command: {
           avatar: {
-            size: 'sm'
-          }
-        }
-      }
-    }
+            size: 'sm',
+          },
+        },
+      },
+    },
   },
 })

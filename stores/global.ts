@@ -2,7 +2,11 @@ import type { Bussiness, BussinessObject, User } from '#types/entities'
 import type { Permission } from '#types/permissions'
 
 export const useGlobalStore = defineStore('global', () => {
+  const loginError = useNuxtApp().$i18n.t('signIn.requestErrors.invalid.title')
+  console.log(loginError, 'loginError')
   const router = useRouter()
+
+  const toast = useToast()
 
   const user = ref<User | null>(null)
   const bussiness = ref<Bussiness>()
@@ -21,14 +25,30 @@ export const useGlobalStore = defineStore('global', () => {
   }
 
   async function login(body: { phone: string, password: string }) {
-    const data = await $api<{ access_token: string }>('/auth/login', {
-      method: 'POST',
-      body,
-    })
-
-    cookie.value = data?.access_token
-    await getUser()
-    router.push('/')
+    try {
+      const data = await $api<{ access_token: string }>('/auth/login', {
+        method: 'POST',
+        body,
+      })
+      cookie.value = data?.access_token
+      await getUser()
+      router.push('/')
+    }
+    catch (error: any) {
+      if(error.data?.statusCode === 401){
+      toast.add({
+          title: useNuxtApp().$i18n.t('signIn.requestErrors.invalid.title'),
+          description: useNuxtApp().$i18n.t('signIn.requestErrors.invalid.description'),
+          color: 'red',
+        })
+      }else{
+        toast.add({
+          title: useNuxtApp().$i18n.t('signIn.requestErrors.unknownError.title'),
+          description: useNuxtApp().$i18n.t('signIn.requestErrors.unknownError.description'),
+          color: 'red',
+        })
+      }
+    }
   }
 
   async function signup(body: { firstName: string, lastName: string, phone: string }) {

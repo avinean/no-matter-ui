@@ -7,8 +7,8 @@ defineProps<{
 }>()
 
 defineSlots<{
-  default(props: { date: Date | string }): any
-  display(props: { date: Date | string }): any
+  default: (props: { date: Date | string }) => any
+  display: (props: { date: Date | string }) => any
 }>()
 
 const date = defineModel<Date | string>({ default: new Date() })
@@ -24,7 +24,7 @@ const date = defineModel<Date | string>({ default: new Date() })
       >
         <UButton color="gray" class="flex-1">
           <slot name="display" :date="date">
-            <base-datetime :date="date" date-style="full"/>
+            <base-datetime :date="date" date-style="full" />
           </slot>
         </UButton>
         <UButton icon="i-ic-baseline-calendar-month" color="gray" />

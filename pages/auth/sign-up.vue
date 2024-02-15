@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { FormError, FormSubmitEvent } from '#ui/types'
+
 const { t } = useI18n()
 
 const store = useGlobalStore()
@@ -16,8 +17,8 @@ function validate(state: any): FormError[] {
     errors.push({ path: 'firstName', message: t('formValidation.required') })
   if (!state.lastName)
     errors.push({ path: 'lastName', message: t('formValidation.required') })
-  if (!state.phone)
-    errors.push({ path: 'phone', message: t('formValidation.required') })
+  if (!state.email)
+    errors.push({ path: 'email', message: t('formValidation.required') })
   return errors
 }
 
@@ -38,22 +39,22 @@ async function onSubmit(event: FormSubmitEvent<any>) {
       @submit="onSubmit"
     >
       <UFormGroup
-          :label="$t('signUp.form.labels.firstName')"
-          name="firstName"
+        :label="$t('signUp.form.labels.firstName')"
+        name="firstName"
       >
         <UInput v-model="form.firstName" />
       </UFormGroup>
 
       <UFormGroup
-          :label="$t('signUp.form.labels.lastName')"
-          name="lastName"
+        :label="$t('signUp.form.labels.lastName')"
+        name="lastName"
       >
         <UInput v-model="form.lastName" />
       </UFormGroup>
 
       <UFormGroup
-          :label="$t('signUp.form.labels.email')"
-          name="email"
+        :label="$t('signUp.form.labels.email')"
+        name="email"
       >
         <UInput v-model="form.phone" />
       </UFormGroup>
@@ -70,8 +71,8 @@ async function onSubmit(event: FormSubmitEvent<any>) {
         {{ $t('signUp.form.alreadyLogIn') }}
       </span>
       <ULink
-          to="/auth/sign-in"
-          inactive-class="underline  hover:text-violet-400 "
+        to="/auth/sign-in"
+        inactive-class="underline  hover:text-violet-400 "
       >
         {{ $t('signUp.form.logIn') }}
       </ULink>

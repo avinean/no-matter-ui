@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const {hasPermission} = useGlobalStore()
+const { hasPermission } = useGlobalStore()
 </script>
 
 <template>
