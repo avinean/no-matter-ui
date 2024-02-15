@@ -36,12 +36,15 @@ const state: Partial<ProfileEntity> = reactive({
 })
 
 whenever(services, () => {
-  // @ts-expect-error to fix
-  state.services = state.services?.map(service => services.value?.find(({ id }) => id === service.id)) || []
+  state.services = state.services?.map(
+    service => services.value?.find(({ id }) => id === service.id),
+  ).filter<ServiceEntity>((value): value is ServiceEntity => Boolean(value)) || []
 })
 whenever(roles, () => {
-  // @ts-expect-error to fix
-  state.roles = state.roles?.map(role => roles.value?.find(({ id }) => id === role.id)) || []
+  state.roles
+    = state.roles
+      ?.map(role => role.name === 'admin' ? role : roles.value?.find(({ id }) => id === role.id))
+      .filter<RoleEntity>((value): value is RoleEntity => Boolean(value)) || []
 })
 
 function addRole() {

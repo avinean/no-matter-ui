@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ModalMaterial, ModalMaterialTransaction, ModalMaterialTransactionRevert } from '#components'
-import type { MaterialTransactionEntity } from '~/types/entities';
-import type { DropdownItem} from '#ui/types'
+import type { MaterialTransactionEntity } from '~/types/entities'
+import type { DropdownItem } from '#ui/types'
 
 const modalStore = useModalStore()
 const materialRepository = useMaterialRepository()
@@ -16,6 +16,7 @@ const columns = [
   { key: 'description', label: 'Опис' },
   { key: 'type', label: 'Тип' },
   { key: 'createdAt', label: 'Час' },
+  { key: 'initiator', label: 'Ініціатор' },
   { key: 'actions' },
 ]
 
@@ -71,6 +72,17 @@ function menu(item: MaterialTransactionEntity): DropdownItem[][] {
     <UTable v-if="materials" :rows="materials" />
     <h2>Transactions</h2>
     <UTable v-if="materialTransactions" :rows="materialTransactions" :columns="columns">
+      <template #initiator-data="{ row }">
+        <span class="inline-flex items-center gap-2">
+          <base-image :src="row.initiator.image" width="32" height="32" />
+          <span>
+            {{ row.initiator.firstName }} {{ row.initiator.lastName }}
+          </span>
+        </span>
+      </template>
+      <template #createdAt-data="{ row }">
+        <base-datetime :date="row.createdAt" date-style="medium" time-style="medium"/>
+      </template>
       <template #actions-data="{ row }">
         <UDropdown :items="menu(row)">
           <UButton color="gray" variant="ghost" icon="i-ic-outline-more-horiz" />

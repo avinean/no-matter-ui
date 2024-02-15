@@ -51,9 +51,6 @@ export const useGlobalStore = defineStore('global', () => {
   }
 
   async function getUser() {
-    if (user.value)
-      return
-
     const profile = await $api<ProfileEntity>('/profile/me')
     user.value = profile
     business.value = profile?.ownedBusinesses?.[0]
