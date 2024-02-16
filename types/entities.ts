@@ -88,6 +88,7 @@ export interface MaterialEntity {
   updatedAt: Date | string
   transactions: MaterialTransactionEntity[]
   businessObject: BusinessObjectEntity
+  spending: ServiceMaterialEntity[]
 }
 
 export interface MaterialTransactionEntity {
@@ -150,6 +151,13 @@ export interface EventEntity {
   updatedAt: Date | string
 }
 
+export interface ServiceMaterialEntity {
+  id?: number
+  quantity: number
+  service?: ServiceEntity
+  material: MaterialEntity
+}
+
 export interface ServiceEntity {
   id: number
   name: string
@@ -165,6 +173,7 @@ export interface ServiceEntity {
   bookings: BookingEntity[]
   relatedBusinessObjects: BusinessObjectEntity[]
   orders: OrderEntity[]
+  spending: ServiceMaterialEntity[]
 }
 
 export interface OrderEntity {
