@@ -60,7 +60,7 @@ async function onSubmit(event: FormSubmitEvent<any>) {
     </UForm>
     <div class="flex align-center justify-between mt-4">
       <ULink
-        to="/auth/sign-up"
+        to="/auth/reset-password"
         inactive-class="   hover:text-violet-400"
       >
         {{ $t('signIn.form.forgot') }}

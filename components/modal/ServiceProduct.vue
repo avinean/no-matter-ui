@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ServiceEntity } from '~/types/entities';
+import type { ServiceEntity } from '~/types/entities'
 
 const props = withDefaults(defineProps<{
   preset?: ServiceEntity | null

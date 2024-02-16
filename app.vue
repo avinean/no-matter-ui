@@ -14,7 +14,7 @@ const modalStore = useModalStore()
     >
       <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
         <template
-          v-for="modal, key in modalStore.modals"
+          v-for="(modal, key) in modalStore.modals"
           :key
         >
           <component

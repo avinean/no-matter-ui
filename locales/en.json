@@ -49,6 +49,18 @@
 
         }
     },
+    "resetPassword": {
+        "form": {
+            "labels": {
+                "email": "E-mail",
+                "submit": "Send a recovery link"
+            },
+            "title": "Password recovery",
+            "subTitle": "Password recovery instructions will be sent to your email",
+            "logIn": "Back to login"
+
+        }
+    },
     "formValidation": {
         "required": "Field is required",
         "email": "Enter a valid email address"

@@ -15,7 +15,7 @@ const links: any = [
     icon: 'i-ic-sharp-build',
     to: '/account/settings',
   },
-  store.isAdmnin && {
+  store.isAdmin && {
     label: 'Дозволи',
     icon: 'i-ic-baseline-security',
     to: '/account/permissions',

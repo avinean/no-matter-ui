@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import type { BusinessEntity } from '~/types/entities';
-
+import type { BusinessEntity } from '~/types/entities'
 
 const props = defineProps<{
   preset?: BusinessEntity | null

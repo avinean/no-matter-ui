@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type {HorizontalNavigationLink} from '#ui/types'
+import type { HorizontalNavigationLink } from '#ui/types'
+
 const { hasPermission } = useGlobalStore()
 const links = computed(() => [
   hasPermission('service:read') && {

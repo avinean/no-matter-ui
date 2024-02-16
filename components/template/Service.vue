@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ModalServiceProduct } from '#components'
-import type { ServiceEntity } from '~/types/entities';
+import type { ServiceEntity } from '~/types/entities'
 
 const props = withDefaults(defineProps<{
   type?: 'product' | 'service'

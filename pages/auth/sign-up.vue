@@ -8,7 +8,7 @@ const store = useGlobalStore()
 const form = reactive({
   firstName: undefined,
   lastName: undefined,
-  phone: undefined,
+  email: undefined,
 })
 
 function validate(state: any): FormError[] {
@@ -56,7 +56,7 @@ async function onSubmit(event: FormSubmitEvent<any>) {
         :label="$t('signUp.form.labels.email')"
         name="email"
       >
-        <UInput v-model="form.phone" />
+        <UInput v-model="form.email" />
       </UFormGroup>
 
       <UButton

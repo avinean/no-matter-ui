@@ -20,11 +20,11 @@ const actions = [
     </div>
     <div>
       input-date
-      <input-date :model-value="new dateStyle()" mode=""/>
+      <input-date :model-value="new dateStyle()" mode="" />
     </div>
     <div>
       base-image
-      <base-image src="''" width="100" height="100"/>
+      <base-image src="''" width="100" height="100" />
     </div>
     <div>
       base-datetime

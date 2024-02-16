@@ -7,7 +7,6 @@ import FullCalendar from '@fullcalendar/vue3'
 import interactionPlugin from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import dayGridPlugin from '@fullcalendar/daygrid'
-import type { CalendarOptions } from '@fullcalendar/core'
 
 const { baseUrl } = useRuntimeConfig().public
 const store = useEntriesStore()

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { RoleEntity } from '~/types/entities';
+import type { RoleEntity } from '~/types/entities'
 
 const props = withDefaults(defineProps<{
   preset?: RoleEntity | null

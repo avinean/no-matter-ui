@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ModalRole } from '#components'
-import type { RoleEntity } from '~/types/entities';
+import type { RoleEntity } from '~/types/entities'
 
 const toast = useToast()
 const globalStore = useGlobalStore()

@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import type { ClientEntity } from '~/types/entities';
-
+import type { ClientEntity } from '~/types/entities'
 
 const props = defineProps<{
   preset?: ClientEntity | null

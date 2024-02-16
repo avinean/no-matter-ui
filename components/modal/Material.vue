@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { FormError, FormSubmitEvent } from '#ui/types'
-import type { MaterialEntity } from '~/types/entities';
+import type { MaterialEntity } from '~/types/entities'
 
 const emit = defineEmits<{
   submit: []

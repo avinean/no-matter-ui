@@ -26,7 +26,7 @@ const actions = [
     <div class="space-y-2">
       <base-image :src="globalStore.user?.image" width="200" height="200" />
 
-    <base-action-bar :items="actions" />
+      <base-action-bar :items="actions" />
 
       <div class="flex gap-2">
         <div class="font-bold min-w-40">

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { FormError, FormSubmitEvent } from '#ui/types'
-import type { MaterialTransactionEntity } from '~/types/entities';
+import type { FormError } from '#ui/types'
+import type { MaterialTransactionEntity } from '~/types/entities'
 
 const { preset } = defineProps<{
   preset: MaterialTransactionEntity
