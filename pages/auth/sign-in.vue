@@ -5,14 +5,14 @@ const store = useGlobalStore()
 const { t } = useI18n()
 
 const form = reactive({
-  email: undefined,
+  phone: undefined,
   password: undefined,
 })
 
 function validate(): FormError[] {
   const errors = []
-  if (!form.email)
-    errors.push({ path: 'email', message: t('formValidation.required') })
+  if (!form.phone)
+    errors.push({ path: 'phone', message: t('formValidation.required') })
   if (!form.password)
     errors.push({ path: 'password', message: t('formValidation.required') })
   return errors
@@ -38,7 +38,7 @@ async function onSubmit(event: FormSubmitEvent<any>) {
         :label="$t('signIn.form.labels.email')"
         name="email"
       >
-        <UInput v-model="form.email" />
+        <UInput v-model="form.phone" />
       </UFormGroup>
 
       <UFormGroup

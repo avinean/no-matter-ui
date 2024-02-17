@@ -56,7 +56,7 @@
                 "submit": "Send a recovery link"
             },
             "title": "Password recovery",
-            "subTitle": "Password recovery instructions will be sent to your email",
+            "subTitle": "Password recovery instructions will be sent to your email.",
             "logIn": "Back to login"
 
         }

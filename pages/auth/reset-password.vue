@@ -30,34 +30,32 @@ async function onSubmit(event: FormSubmitEvent<any>) {
       {{ $t('resetPassword.form.subTitle') }}
     </h1>
     <UForm
-        :validate="validate"
-        :state="form"
-        class="space-y-4"
-        @submit="onSubmit"
+      :validate="validate"
+      :state="form"
+      class="space-y-4"
+      @submit="onSubmit"
     >
       <UFormGroup
-          :label="$t('resetPassword.form.labels.email')"
-          name="email"
-          required
+        :label="$t('resetPassword.form.labels.email')"
+        name="email"
+        required
       >
         <UInput v-model="form.email" />
       </UFormGroup>
       <div class="flex items-center gap-4 mt-4">
         <UButton
-            type="submit"
-            size="lg"
+          type="submit"
+          size="lg"
         >
           {{ $t('resetPassword.form.labels.submit') }}
         </UButton>
         <ULink
-            to="/auth/sign-in"
-            inactive-class="hover:text-violet-400 text-sm"
+          to="/auth/sign-in"
+          inactive-class="hover:text-violet-400 text-sm"
         >
           {{ $t('resetPassword.form.logIn') }}
         </ULink>
       </div>
-
     </UForm>
-
   </div>
 </template>

@@ -20,14 +20,14 @@ export const useGlobalStore = defineStore('global', () => {
     return [permission].flat()[mode](p => permissions.value?.includes(p))
   }
 
-  async function resetPassword(body: { email: string }){
+  async function resetPassword(body: { email: string }) {
     try {
       const data = await $api<{ message: string }>('/auth/reset-password', {
         method: 'POST',
         body,
       })
     }
-    catch (error: any){
+    catch (error: any) {
 
     }
   }
@@ -42,13 +42,14 @@ export const useGlobalStore = defineStore('global', () => {
       router.push('/')
     }
     catch (error: any) {
-      if(error.data?.statusCode === 401){
+      if (error.data?.statusCode === 401) {
         toast.add({
           title: useNuxtApp().$i18n.t('signIn.requestErrors.invalid.title'),
           description: useNuxtApp().$i18n.t('signIn.requestErrors.invalid.description'),
           color: 'red',
         })
-      }else{
+      }
+      else {
         toast.add({
           title: useNuxtApp().$i18n.t('signIn.requestErrors.unknownError.title'),
           description: useNuxtApp().$i18n.t('signIn.requestErrors.unknownError.description'),

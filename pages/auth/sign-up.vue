@@ -8,7 +8,7 @@ const store = useGlobalStore()
 const form = reactive({
   firstName: undefined,
   lastName: undefined,
-  email: undefined,
+  phone: undefined,
 })
 
 function validate(state: any): FormError[] {
@@ -17,8 +17,8 @@ function validate(state: any): FormError[] {
     errors.push({ path: 'firstName', message: t('formValidation.required') })
   if (!state.lastName)
     errors.push({ path: 'lastName', message: t('formValidation.required') })
-  if (!state.email)
-    errors.push({ path: 'email', message: t('formValidation.required') })
+  if (!state.phone)
+    errors.push({ path: 'phone', message: t('formValidation.required') })
   return errors
 }
 
@@ -56,7 +56,7 @@ async function onSubmit(event: FormSubmitEvent<any>) {
         :label="$t('signUp.form.labels.email')"
         name="email"
       >
-        <UInput v-model="form.email" />
+        <UInput v-model="form.phone" />
       </UFormGroup>
 
       <UButton
