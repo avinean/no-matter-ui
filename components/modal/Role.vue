@@ -48,22 +48,22 @@ async function onCreateOrUpdate() {
   <UForm
     ref="form"
     :state="state"
-    class="grid grid-cols-2 gap-x-4 gap-y-2"
+    class="w-full md:w-1/2 grid gap-x-4 gap-y-2   "
     @submit="onCreateOrUpdate"
   >
     <h1 class="text-3xl font-bold">
-      Додати нову роль
+      {{ $t('account.permissions.addNewRole') }}
     </h1>
 
     <UFormGroup
-      label="Назва ролі"
+      :label="$t('account.permissions.form.labels.roleName')"
       name="name"
       required
     >
       <UInput v-model="state.name" />
     </UFormGroup>
-    <UButton type="submit">
-      Submit
+    <UButton type="submit" class="flex justify-center w-32">
+      {{ $t('account.permissions.form.submit') }}
     </UButton>
   </UForm>
 </template>

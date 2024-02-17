@@ -1,18 +1,72 @@
 {
-    "settings": {
-        "form": {
-            "labels": {
-                "password": "Current password",
-                "newPassword": "New password",
-                "confirmNewPassword": "Confirm new password",
-                "submit": "Submit"
+    "account": {
+        "tabs": {
+            "info": "Information",
+            "settings": "Settings",
+            "access": "Permissions",
+            "exit": "Exit"
+        },
+        "settings": {
+            "form": {
+                "labels": {
+                    "password": "Current password",
+                    "newPassword": "New password",
+                    "confirmNewPassword": "Confirm new password",
+                    "submit": "Submit"
+                }
+            },
+            "titles": {
+                "loginOptions": "Change login options",
+                "generalOptions": {
+                    "generalTitle": "General settings",
+                    "localeLabel": "Application language",
+                    "locales": {
+                        "ua": "Ukrainian",
+                        "en": "English"
+                    }
+                }
             }
         },
-        "titles": {
-            "loginOptions": "Change login options",
-            "generalOptions": "General settings"
+        "info": {
+            "title": "Account information",
+            "userFields": {
+                "dob": "Birthday",
+                "name": "Name",
+                "contacts": "Contacts",
+                "roles": "Roles",
+                "services": "Services"
+            },
+            "actions": {
+                "tooltipText": "Edit profile"
+            }
+        },
+        "permissions": {
+            "role": "Role",
+            "addNewRole": "Add a new role",
+            "form": {
+                "labels": {
+                    "roleName":"Role name"
+                },
+                "submit": "Save",
+                "cancel": "Undo changes"
+            },
+            "rolesList": {
+                "searchPlaceholder": "Search...",
+                "emptyList": {
+                    "isEmptyBySearch": "We couldn't find any roles with that name. Please try another name or create new",
+                    "isEmpty": "We could not find any roles, please create a new one"
+                }
+            },
+            "permissionColumns": {
+                "value": "Resource",
+                "read": "View records",
+                "add": "Add records",
+                "edit": "Edit records",
+                "delete": "Delete records"
+            }
         }
     },
+
     "signIn": {
         "form": {
             "labels": {

@@ -1,16 +1,71 @@
 {
-    "settings": {
-        "form": {
-            "labels": {
-                "password": "Поточний пароль",
-                "newPassword": "Новий пароль",
-                "confirmNewPassword": "Підтвердження пароля",
-                "submit": "Зберегти"
+    "account": {
+        "tabs": {
+            "info": "Інформація",
+            "settings": "Налаштування",
+            "access": "Дозволи",
+            "exit": "Вихід"
+        },
+        "settings": {
+            "form": {
+                "labels": {
+                    "password": "Поточний пароль",
+                    "newPassword": "Новий пароль",
+                    "confirmNewPassword": "Підтвердження пароля",
+                    "submit": "Зберегти"
+                }
+            },
+            "titles": {
+                "loginOptions": "Зміна параметрів входу",
+                "generalOptions": {
+                    "generalTitle": "Загальні налаштування",
+                    "localeLabel": "Мова додатку",
+                    "locales": {
+                        "ua": "Українська",
+                        "en": "English"
+                    }
+
+                }
+            }
+
+        },
+        "info": {
+            "title": "Інформація про аккаунт",
+            "userFields": {
+                "dob": "День народження",
+                "name": "Імʼя",
+                "contacts": "Контакти",
+                "roles": "Ролі",
+                "services": "Сервіси"
+            },
+            "actions": {
+                "tooltipText": "Редагувати профіль"
             }
         },
-        "titles": {
-            "loginOptions": "Зміна параметрів входу",
-            "generalOptions": "Загальні налаштування"
+        "permissions": {
+            "role": "Роль",
+            "addNewRole": "Додати нову роль",
+            "form": {
+                "labels": {
+                    "roleName":"Назва ролі"
+                },
+                "submit": "Зберегти",
+                "cancel": "Відмінити зміни"
+            },
+            "rolesList": {
+                "searchPlaceholder": "Пошук...",
+                "emptyList": {
+                    "isEmptyBySearch": "Нам не вдалося знайти роль з такою назвою. Будь ласка, спробуйте іншу, або створіть нову",
+                    "isEmpty": "Нам не вдалося знайти жодної ролі, створіть нову"
+                }
+            },
+            "permissionColumns": {
+                "value": "Ресурс",
+                "read": "Переглядати записи",
+                "add": "Додавати записи",
+                "edit": "Редагувати записи",
+                "delete": "Видаляти записи"
+            }
         }
     },
     "signIn": {
