@@ -16,22 +16,58 @@ const emit = defineEmits<{
 const { add, edit } = props.type === 'product'
   ? useProductRepository()
   : useServiceRepository()
+const { get } = useMaterialRepository()
+const { data: materials } = useAsyncData(() => get())
 
-const loading = ref(false)
-const serviceProduct: Partial<ServiceEntity> = reactive({
+const state: Partial<ServiceEntity> = reactive({
   name: props.preset?.name,
   description: props.preset?.description,
   type: props.preset?.type,
   price: props.preset?.price,
   duration: props.preset?.duration,
   discount: props.preset?.discount,
+  spending: props.preset?.spending || [],
 })
+
+const serviceMaterials = computed({
+  get() {
+    return state.spending?.map(({ material }) => material.id)
+  },
+  set(ids) {
+    if (!materials.value)
+      return
+    state.spending = ids?.map<ServiceEntity['spending'][number]>(id => ({
+      // @ts-expect-error idk
+      material: materials.value?.find(({ id: materialId }) => materialId === id),
+      quantity: state.spending?.find(({ material }) => material.id === id)?.quantity || 1,
+    }))
+  },
+})
+
+const columns = [
+  {
+    key: 'name',
+    label: 'Назва',
+  },
+  {
+    key: 'description',
+    label: 'Опис',
+  },
+  {
+    key: 'unit',
+    label: 'Одиниці вимірювання',
+  },
+  {
+    key: 'quantity',
+    label: 'Кількість',
+  },
+]
 
 async function onCreateOrUpdate() {
   if (props.preset?.id)
-    await edit(props.preset.id, serviceProduct)
+    await edit(props.preset.id, state)
   else
-    await add(serviceProduct)
+    await add(state)
 
   emit('submit')
 }
@@ -39,8 +75,8 @@ async function onCreateOrUpdate() {
 
 <template>
   <UForm
-    :state="serviceProduct"
-    class="grid grid-cols-2 gap-x-4 gap-y-2"
+    :state="state"
+    class="grid gap-y-2"
     @submit="onCreateOrUpdate"
   >
     <h1 class="text-3xl font-bold">
@@ -51,14 +87,14 @@ async function onCreateOrUpdate() {
       name="name"
       required
     >
-      <UInput v-model="serviceProduct.name" />
+      <UInput v-model="state.name" />
     </UFormGroup>
 
     <UFormGroup
       label="Опис"
       name="description"
     >
-      <UTextarea v-model="serviceProduct.description" />
+      <UTextarea v-model="state.description" />
     </UFormGroup>
 
     <UFormGroup
@@ -66,7 +102,7 @@ async function onCreateOrUpdate() {
       name="price"
       required
     >
-      <UInput v-model="serviceProduct.price" type="number" />
+      <UInput v-model="state.price" type="number" />
     </UFormGroup>
 
     <UFormGroup
@@ -74,18 +110,48 @@ async function onCreateOrUpdate() {
       name="duration"
       required
     >
-      <UInput v-model="serviceProduct.duration" type="number" />
+      <UInput v-model="state.duration" type="number" />
     </UFormGroup>
 
     <UFormGroup
       label="Знижка"
       name="discount"
     >
-      <UInput v-model="serviceProduct.discount" type="number" />
+      <UInput v-model="state.discount" type="number" />
+    </UFormGroup>
+
+    <UFormGroup
+      label="Матеріали"
+      name="materials"
+    >
+      <USelectMenu
+        v-if="materials"
+        v-model="serviceMaterials"
+        :options="materials"
+        multiple
+        searchable
+        option-attribute="name"
+        value-attribute="id"
+        selected-icon="i-ic-round-check"
+      />
+
+      <UTable v-if="state.spending?.length" :rows="state.spending" :columns="columns">
+        <template #name-data="{ row }">
+          {{ row.material.name }}
+        </template>
+        <template #description-data="{ row }">
+          {{ row.material.description }}
+        </template>
+        <template #unit-data="{ row }">
+          {{ row.material.unit }}
+        </template>
+        <template #quantity-data="{ row }">
+          <UInput v-model="row.quantity" type="number" />
+        </template>
+      </UTable>
     </UFormGroup>
 
     <UButton
-      :loading
       type="submit"
     >
       Submit
