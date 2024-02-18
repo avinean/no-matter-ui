@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ClientEntity } from '~/types/entities';
+import type { ClientEntity } from '~/types/entities'
 
 const { baseUrl } = useRuntimeConfig().public
 const modalStore = useModalStore()
@@ -64,7 +64,7 @@ function callModal(preset?: ClientEntity) {
       <template v-if="selectedClient">
         <div class="grid lg:grid-cols-3 gap-2 w-full">
           <UCard>
-            <base-image :src="selectedClient.image" width="200" height="200"/>
+            <base-image :src="selectedClient.image" width="200" height="200" />
             <UFormGroup label="Статус">
               <UToggle
                 on-icon="i-ic-baseline-check-circle-outline"

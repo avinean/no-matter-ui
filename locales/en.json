@@ -1,16 +1,128 @@
 {
-    "settings": {
-        "form": {
-            "labels": {
-                "password": "Current password",
-                "newPassword": "New password",
-                "confirmNewPassword": "Confirm new password",
-                "submit": "Submit"
+    "account": {
+        "tabs": {
+            "info": "Information",
+            "settings": "Settings",
+            "access": "Permissions",
+            "exit": "Exit"
+        },
+        "settings": {
+            "form": {
+                "labels": {
+                    "password": "Current password",
+                    "newPassword": "New password",
+                    "confirmNewPassword": "Confirm new password",
+                    "submit": "Submit"
+                },
+                "requestMessages": {
+                    "successChangePassword": "Password changed successfully"
+                }
+            },
+            "titles": {
+                "loginOptions": "Change login options",
+                "generalOptions": {
+                    "generalTitle": "General settings",
+                    "localeLabel": "Application language",
+                    "locales": {
+                        "ua": "Ukrainian",
+                        "en": "English"
+                    }
+                }
             }
         },
-        "titles": {
-            "loginOptions": "Change login options",
-            "generalOptions": "General settings"
+        "info": {
+            "title": "Account information",
+            "userFields": {
+                "dob": "Birthday",
+                "name": "Name",
+                "contacts": "Contacts",
+                "roles": "Roles",
+                "services": "Services"
+            },
+            "actions": {
+                "tooltipText": "Edit profile"
+            }
+        },
+        "permissions": {
+            "role": "Role",
+            "addNewRole": "Add a new role",
+            "form": {
+                "labels": {
+                    "roleName":"Role name"
+                },
+                "submit": "Save",
+                "cancel": "Undo changes"
+            },
+            "rolesList": {
+                "searchPlaceholder": "Search...",
+                "emptyList": {
+                    "isEmptyBySearch": "We couldn't find any roles with that name. Please try another name or create new",
+                    "isEmpty": "We could not find any roles, please create a new one"
+                }
+            },
+            "permissionColumns": {
+                "value": "Resource",
+                "read": "View records",
+                "add": "Add records",
+                "edit": "Edit records",
+                "delete": "Delete records"
+            }
         }
+    },
+
+    "signIn": {
+        "form": {
+            "labels": {
+                "password": "Password",
+                "email": "Email",
+                "submit": "Submit"
+            },
+            "title": "Log in",
+            "signUp": "Sign up",
+            "forgot": "Forgot your password?"
+        },
+        "requestErrors": {
+            "invalid": {
+                "title": "Login error",
+                "description": "Check the data and try again"
+            },
+            "unknownError": {
+                "title": "Login error",
+                "description": "Contact the support service"
+            }
+        }
+    },
+    "signUp": {
+        "form": {
+            "labels": {
+                "firstName": "First name",
+                "lastName": "Last name",
+                "email": "E-mail",
+                "submit": "Sign in"
+            },
+            "title": "New user registration",
+            "logIn": "Sign up",
+            "alreadyLogIn": "Already registered?"
+
+        }
+    },
+    "resetPassword": {
+        "form": {
+            "labels": {
+                "email": "E-mail",
+                "submit": "Send a recovery link"
+            },
+            "title": "Password recovery",
+            "subTitle": "Password recovery instructions will be sent to your email.",
+            "logIn": "Back to login"
+
+        }
+    },
+    "formValidation": {
+        "required": "Field is required",
+        "email": "Enter a valid email address",
+        "confirmPassword": "Passwords must match"
+
     }
+
 }

@@ -77,7 +77,7 @@ function callModal(preset?: ProfileEntity) {
       <template v-if="selectedProfile">
         <div class="grid lg:grid-cols-3 gap-2 w-full">
           <UCard>
-            <base-image :src="selectedProfile.image" width="200" height="200"/>
+            <base-image :src="selectedProfile.image" width="200" height="200" />
             <UFormGroup label="Статус">
               <UToggle
                 on-icon="i-ic-baseline-check-circle-outline"

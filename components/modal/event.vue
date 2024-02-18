@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { EventEntity } from '~/types/entities';
+import type { EventEntity } from '~/types/entities'
 
 const props = defineProps<{
   preset?: {

@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { ModalEmployee } from '#components'
 
+const { t } = useI18n()
+
 const globalStore = useGlobalStore()
 const modalStore = useModalStore()
 const actions = [
-  { tooltip: 'Редагувати профіль', icon: 'i-ic-baseline-edit', onClick: () => modalStore.open(ModalEmployee, {
+  { tooltip:
+        t('account.info.actions.tooltipText'), icon: 'i-ic-baseline-edit', onClick: () => modalStore.open(ModalEmployee, {
     preset: globalStore.user,
     onSubmit() {
       globalStore.getUser()
@@ -19,36 +22,36 @@ const actions = [
   >
     <template #header>
       <h1 class="text-3xl font-bold">
-        {{ $t('settings.titles.loginOptions') }}
+        {{ $t('account.info.title') }}
       </h1>
     </template>
 
     <div class="space-y-2">
       <base-image :src="globalStore.user?.image" width="200" height="200" />
 
-    <base-action-bar :items="actions" />
+      <base-action-bar :items="actions" />
 
       <div class="flex gap-2">
         <div class="font-bold min-w-40">
-          Імʼя:
+          {{ $t('account.info.userFields.name') }}:
         </div>
         <div>{{ globalStore.user?.firstName }} {{ globalStore.user?.lastName }} ({{ globalStore.user?.sex }})</div>
       </div>
       <div class="flex gap-2">
         <div class="font-bold min-w-40">
-          День народження:
+          {{ $t('account.info.userFields.dob') }}:
         </div>
         <base-datetime :date="globalStore.user?.birthday" />
       </div>
       <div class="flex gap-2">
         <div class="font-bold min-w-40">
-          Контакти:
+          {{ $t('account.info.userFields.contacts') }}:
         </div>
         <div>{{ globalStore.user?.email }}, {{ globalStore.user?.phone }}</div>
       </div>
       <div class="flex gap-2">
         <div class="font-bold min-w-40">
-          Ролі:
+          {{ $t('account.info.userFields.roles') }}:
         </div>
         <div class="flex gap-2 flex-wrap">
           <UBadge v-for="role in globalStore.user?.roles" :key="role.name" :label="role.name" />
@@ -56,7 +59,7 @@ const actions = [
       </div>
       <div v-if="globalStore.user?.services" class="flex gap-2">
         <div class="font-bold min-w-40">
-          Сервіси:
+          {{ $t('account.info.userFields.services') }}:
         </div>
         <div class="flex gap-2 flex-wrap">
           <UBadge v-for="service in globalStore.user?.services" :key="service.name" :label="service.name" />

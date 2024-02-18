@@ -1,33 +1,35 @@
 <script setup lang="ts">
+import type { HorizontalNavigationLink } from '#ui/types'
 const store = useGlobalStore()
 const { baseUrl } = useRuntimeConfig().public
+const { t } = useI18n()
 
-const links: any = [
+const links = computed(() => [
   {
-    label: 'Інформація',
+    label: t('account.tabs.info'),
     to: '/account/info',
     avatar: {
       src: `${baseUrl}/${store.user?.image}`,
     },
   },
   {
-    label: 'Налаштування',
+    label: t('account.tabs.settings'),
     icon: 'i-ic-sharp-build',
     to: '/account/settings',
   },
-  store.isAdmnin && {
-    label: 'Дозволи',
+  store.isAdmin && {
+    label: t('account.tabs.access'),
     icon: 'i-ic-baseline-security',
     to: '/account/permissions',
   },
   {
-    label: 'Вихід',
+    label: t('account.tabs.exit'),
     icon: 'i-ic-sharp-power-settings-new',
     click: () => {
       store.logout()
     },
   },
-].filter(Boolean)
+].filter(Boolean) as HorizontalNavigationLink[])
 </script>
 
 <template>

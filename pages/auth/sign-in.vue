@@ -2,18 +2,19 @@
 import type { FormError, FormSubmitEvent } from '#ui/types'
 
 const store = useGlobalStore()
+const { t } = useI18n()
 
 const form = reactive({
   phone: undefined,
   password: undefined,
 })
 
-function validate(state: any): FormError[] {
+function validate(): FormError[] {
   const errors = []
-  if (!state.phone)
-    errors.push({ path: 'phone', message: 'Required' })
-  if (!state.password)
-    errors.push({ path: 'password', message: 'Required' })
+  if (!form.phone)
+    errors.push({ path: 'phone', message: t('formValidation.required') })
+  if (!form.password)
+    errors.push({ path: 'password', message: t('formValidation.required') })
   return errors
 }
 
@@ -25,7 +26,7 @@ async function onSubmit(event: FormSubmitEvent<any>) {
 <template>
   <div class="self-center w-full lg:w-1/2">
     <h1 class="text-2xl text-gray-700 mb-4">
-      Авторизуватись
+      {{ $t('signIn.form.title') }}
     </h1>
     <UForm
       :validate="validate"
@@ -34,14 +35,14 @@ async function onSubmit(event: FormSubmitEvent<any>) {
       @submit="onSubmit"
     >
       <UFormGroup
-        label="Phone"
-        name="phone"
+        :label="$t('signIn.form.labels.email')"
+        name="email"
       >
         <UInput v-model="form.phone" />
       </UFormGroup>
 
       <UFormGroup
-        label="Password"
+        :label="$t('signIn.form.labels.password')"
         name="password"
       >
         <UInput
@@ -54,8 +55,22 @@ async function onSubmit(event: FormSubmitEvent<any>) {
         type="submit"
         size="lg"
       >
-        Submit
+        {{ $t('signIn.form.labels.submit') }}
       </UButton>
     </UForm>
+    <div class="flex align-center justify-between mt-4">
+      <ULink
+        to="/auth/reset-password"
+        inactive-class="   hover:text-violet-400"
+      >
+        {{ $t('signIn.form.forgot') }}
+      </ULink>
+      <ULink
+        to="/auth/sign-up"
+        inactive-class=" hover:text-violet-400 "
+      >
+        {{ $t('signIn.form.signUp') }}
+      </ULink>
+    </div>
   </div>
 </template>

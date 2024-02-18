@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ModalRole } from '#components'
-import type { RoleEntity } from '~/types/entities';
+import type { RoleEntity } from '~/types/entities'
 
 const toast = useToast()
 const globalStore = useGlobalStore()
@@ -52,12 +52,12 @@ async function setPermissions() {
       refresh()
     })
 
-
     toast.add({
       title: 'Вдалося!',
       description: `Дозволи успішно оновлено`,
     })
-  } catch (e) {
+  }
+  catch (e) {
     toast.add({
       title: 'Щось пішло не так',
       description: `Повторіть спробу та звʼяжіться зі службою підтримки`,
@@ -75,60 +75,72 @@ function select(role: RoleEntity) {
   <div class="grid md:grid-cols-[200px,1fr] gap-2 divide-x min-h-full">
     <div class="p-2">
       <UButton
-        label="Додати нову роль"
+        :label="$t('account.permissions.addNewRole')"
         icon="i-ic-outline-contact-phone"
         class="w-full"
         @click="callModal()"
       />
       <UCommandPalette
+        :ui="{ emptyState: {
+          wrapper: 'px-2 py-4 sm:px-2',
+        } }"
         :groups="groups"
         :autoselect="false"
+        :placeholder="$t('account.permissions.rolesList.searchPlaceholder')"
+        :empty-state="{
+          icon: '',
+          queryLabel: $t('account.permissions.rolesList.emptyList.isEmptyBySearch'),
+          label: $t('account.permissions.rolesList.emptyList.isEmpty'),
+        }"
         @update:model-value="select($event.role)"
       />
     </div>
     <div v-if="selected && !loading" class="w-full p-2 space-y-2">
-      <h2 class="font-bold text-2xl">Роль {{ selected.name }}</h2>
+      <h2 class="font-bold text-2xl">
+        {{ $t('account.permissions.role') }}: {{ selected.name }}
+      </h2>
       <UTable
         :columns="[
           {
             key: 'value',
-            label: 'Ресурс',
+            label: $t('account.permissions.permissionColumns.value'),
           },
           {
             key: 'read',
-            label: 'Переглядати записи',
+            label: $t('account.permissions.permissionColumns.read'),
           },
           {
             key: 'add',
-            label: 'Додавати записи',
+            label: $t('account.permissions.permissionColumns.add'),
           },
           {
             key: 'edit',
-            label: 'Редагувати записи',
+            label: $t('account.permissions.permissionColumns.edit'),
           },
           {
             key: 'delete',
-            label: 'Видаляти записи',
+            label: $t('account.permissions.permissionColumns.delete'),
           },
         ]"
         :rows="store.suggestions.resources"
       >
-        <template v-for="action, key in store.suggestions.actions" :key="key" #[`${action.value}-data`]="{ row }">
+        <template v-for="(action, key) in store.suggestions.actions" :key="key" #[`${action.value}-data`]="{ row }">
           <UCheckbox
             v-model="permissions"
             :value="`${selected.name}:${row.value}:${action.value}`"
           />
         </template>
       </UTable>
-      <div clss="flex justify-end gap-2 p-2">
+      <div class="flex  gap-2 p-2">
         <UButton
           color="gray"
           icon="i-ic-baseline-cancel"
-          label="Відмінити зміни"
+          :label="$t('account.permissions.form.cancel') "
         />
         <UButton
           icon="i-ic-baseline-save"
-          label="Зберегти"
+          :label="$t('account.permissions.form.submit') "
+
           @click="setPermissions"
         />
       </div>

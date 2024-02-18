@@ -81,7 +81,7 @@ function menu(item: MaterialTransactionEntity): DropdownItem[][] {
         </span>
       </template>
       <template #createdAt-data="{ row }">
-        <base-datetime :date="row.createdAt" date-style="medium" time-style="medium"/>
+        <base-datetime :date="row.createdAt" date-style="medium" time-style="medium" />
       </template>
       <template #actions-data="{ row }">
         <UDropdown :items="menu(row)">

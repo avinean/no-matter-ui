@@ -195,3 +195,9 @@ export interface BookingEntity {
   client: ClientEntity
   order: OrderEntity
 }
+
+export interface LocaleEntity {
+  locale: string
+  label: string
+  avatar: { src: string }
+}

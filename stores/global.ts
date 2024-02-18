@@ -3,13 +3,13 @@ import type { Permission } from '~/types/permissions'
 
 export const useGlobalStore = defineStore('global', () => {
   const router = useRouter()
-
+  const toast = useToast()
   const user = ref<ProfileEntity | null>(null)
   const business = ref<BusinessEntity>()
   const object = ref<BusinessObjectEntity>()
   const cookie = useCookie('sraka')
 
-  const isAdmnin = computed(() => user.value?.roles.some(role => role.name === 'admin'))
+  const isAdmin = computed(() => user.value?.roles.some(role => role.name === 'admin'))
   const permissions = computed(() => user.value?.roles.flatMap(
     role => role.assignedPermissions.map(
       permission => `${permission.resourceType}:${permission.actionType}` as unknown as Permission,
@@ -20,15 +20,43 @@ export const useGlobalStore = defineStore('global', () => {
     return [permission].flat()[mode](p => permissions.value?.includes(p))
   }
 
-  async function login(body: { phone: string, password: string }) {
-    const data = await $api<{ access_token: string }>('/auth/login', {
-      method: 'POST',
-      body,
-    })
+  async function resetPassword(body: { email: string }) {
+    try {
+      const data = await $api<{ message: string }>('/auth/reset-password', {
+        method: 'POST',
+        body,
+      })
+    }
+    catch (error: any) {
 
-    cookie.value = data?.access_token
-    await getUser()
-    router.push('/')
+    }
+  }
+  async function login(body: { phone: string, password: string }) {
+    try {
+      const data = await $api<{ access_token: string }>('/auth/login', {
+        method: 'POST',
+        body,
+      })
+      cookie.value = data?.access_token
+      await getUser()
+      router.push('/')
+    }
+    catch (error: any) {
+      if (error.data?.statusCode === 401) {
+        toast.add({
+          title: useNuxtApp().$i18n.t('signIn.requestErrors.invalid.title'),
+          description: useNuxtApp().$i18n.t('signIn.requestErrors.invalid.description'),
+          color: 'red',
+        })
+      }
+      else {
+        toast.add({
+          title: useNuxtApp().$i18n.t('signIn.requestErrors.unknownError.title'),
+          description: useNuxtApp().$i18n.t('signIn.requestErrors.unknownError.description'),
+          color: 'red',
+        })
+      }
+    }
   }
 
   async function signup(body: { firstName: string, lastName: string, phone: string }) {
@@ -59,11 +87,12 @@ export const useGlobalStore = defineStore('global', () => {
 
   return {
     user,
-    isAdmnin,
+    isAdmin,
     business,
     object,
     login,
     signup,
+    resetPassword,
     logout,
     getUser,
     getBusinesses,

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { FormError, FormSubmitEvent } from '#ui/types'
 
+const { t } = useI18n()
+
 const store = useGlobalStore()
 
 const form = reactive({
@@ -12,11 +14,11 @@ const form = reactive({
 function validate(state: any): FormError[] {
   const errors = []
   if (!state.firstName)
-    errors.push({ path: 'firstName', message: 'Required' })
+    errors.push({ path: 'firstName', message: t('formValidation.required') })
   if (!state.lastName)
-    errors.push({ path: 'lastName', message: 'Required' })
+    errors.push({ path: 'lastName', message: t('formValidation.required') })
   if (!state.phone)
-    errors.push({ path: 'phone', message: 'Required' })
+    errors.push({ path: 'phone', message: t('formValidation.required') })
   return errors
 }
 
@@ -28,7 +30,7 @@ async function onSubmit(event: FormSubmitEvent<any>) {
 <template>
   <div class="self-center w-full lg:w-1/2">
     <h1 class="text-2xl text-gray-700 mb-4">
-      Зареєструватись
+      {{ $t('signUp.form.title') }}
     </h1>
     <UForm
       :validate="validate"
@@ -37,22 +39,22 @@ async function onSubmit(event: FormSubmitEvent<any>) {
       @submit="onSubmit"
     >
       <UFormGroup
-        label="First Name"
+        :label="$t('signUp.form.labels.firstName')"
         name="firstName"
       >
         <UInput v-model="form.firstName" />
       </UFormGroup>
 
       <UFormGroup
-        label="Last Name"
+        :label="$t('signUp.form.labels.lastName')"
         name="lastName"
       >
         <UInput v-model="form.lastName" />
       </UFormGroup>
 
       <UFormGroup
-        label="Phone"
-        name="phone"
+        :label="$t('signUp.form.labels.email')"
+        name="email"
       >
         <UInput v-model="form.phone" />
       </UFormGroup>
@@ -61,8 +63,19 @@ async function onSubmit(event: FormSubmitEvent<any>) {
         type="submit"
         size="lg"
       >
-        Submit
+        {{ $t('signUp.form.labels.submit') }}
       </UButton>
     </UForm>
+    <div class="flex align-center gap-1.5 mt-4">
+      <span class="">
+        {{ $t('signUp.form.alreadyLogIn') }}
+      </span>
+      <ULink
+        to="/auth/sign-in"
+        inactive-class="underline  hover:text-violet-400 "
+      >
+        {{ $t('signUp.form.logIn') }}
+      </ULink>
+    </div>
   </div>
 </template>

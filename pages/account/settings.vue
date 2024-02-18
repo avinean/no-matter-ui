@@ -1,33 +1,34 @@
 <script lang="ts" setup>
-const { locale, setLocale, availableLocales, setLocaleCookie, getLocaleCookie } = useI18n()
+import type { LocaleEntity } from '~/types/entities'
+
+const { t, locale } = useI18n()
 const toast = useToast()
 const password = reactive({
   password: undefined,
   newPassword: undefined,
   confirmPassword: undefined,
 })
-
-const locales = [
+const locales = computed<LocaleEntity[]>(() => [
   {
     locale: 'uk-UK',
-    label: 'Українська',
+    label: t('account.settings.titles.generalOptions.locales.ua'),
     avatar: { src: '/flag/uk.png' },
   },
   {
     locale: 'en-US',
-    label: 'English',
+    label: t('account.settings.titles.generalOptions.locales.en'),
     avatar: { src: '/flag/gb.png' },
   },
-]
+])
 
 function validate(state: typeof password) {
   const errors = []
   if (!state.password)
-    errors.push({ path: 'password', message: 'Поле обовʼязкове' })
+    errors.push({ path: 'password', message: t('formValidation.required') })
   if (!state.newPassword)
-    errors.push({ path: 'newPassword', message: 'Поле обовʼязкове' })
+    errors.push({ path: 'newPassword', message: t('formValidation.required') })
   if (state.confirmPassword !== state.newPassword)
-    errors.push({ path: 'confirmPassword', message: 'Паролі мають збігатись' })
+    errors.push({ path: 'confirmPassword', message: t('formValidation.confirmPassword') })
   return errors
 }
 
@@ -38,7 +39,7 @@ async function onUpdatePassword() {
   })
   toast.add({
     title: 'Success',
-    description: 'Пароль успішно змінено',
+    description: t('account.settings.form.requestMessages.successChangePassword'),
   })
 
   for (const key in password)
@@ -55,7 +56,7 @@ async function onUpdatePassword() {
     >
       <template #header>
         <h1 class="text-3xl font-bold">
-          {{ $t('settings.titles.loginOptions') }}
+          {{ $t('account.settings.titles.loginOptions') }}
         </h1>
       </template>
       <UForm
@@ -65,21 +66,21 @@ async function onUpdatePassword() {
         @submit="onUpdatePassword"
       >
         <UFormGroup
-          :label="$t('settings.form.labels.password')"
+          :label="$t('account.settings.form.labels.password')"
           name="password"
           required
         >
           <UInput v-model="password.password" />
         </UFormGroup>
         <UFormGroup
-          :label="$t('settings.form.labels.newPassword')"
+          :label="$t('account.settings.form.labels.newPassword')"
           name="newPassword"
           required
         >
           <UInput v-model="password.newPassword" />
         </UFormGroup>
         <UFormGroup
-          :label="$t('settings.form.labels.confirmNewPassword')"
+          :label="$t('account.settings.form.labels.confirmNewPassword')"
           name="confirmPassword"
           required
         >
@@ -89,7 +90,7 @@ async function onUpdatePassword() {
         <UButton
           type="submit"
         >
-          {{ $t('settings.form.labels.submit') }}
+          {{ $t('account.settings.form.labels.submit') }}
         </UButton>
       </UForm>
     </UCard>
@@ -99,11 +100,11 @@ async function onUpdatePassword() {
     >
       <template #header>
         <h1 class="text-3xl font-bold">
-          {{ $t('settings.titles.generalOptions') }}
+          {{ $t('account.settings.titles.generalOptions.generalTitle') }}
         </h1>
       </template>
       <UFormGroup
-        :label="$t('settings.form.labels.confirmNewPassword')"
+        :label="$t('account.settings.titles.generalOptions.localeLabel')"
       >
         <USelectMenu
           v-model="locale"

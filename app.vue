@@ -9,12 +9,12 @@ const modalStore = useModalStore()
     <UNotifications />
     <UModal
       :model-value="!!modalStore.modals.length"
-      :ui="{ width: 'sm:max-w-4xl', }"
+      :ui="{ width: 'sm:max-w-4xl' }"
       @close="modalStore.close"
     >
       <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
         <template
-          v-for="modal, key in modalStore.modals"
+          v-for="(modal, key) in modalStore.modals"
           :key
         >
           <component

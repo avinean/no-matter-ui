@@ -1,6 +1,5 @@
 import type { ProfileEntity } from '~/types/entities'
 
-
 export const useProfileRepository = createGlobalState(() => {
   const globalStore = useGlobalStore()
   const toast = useToast()

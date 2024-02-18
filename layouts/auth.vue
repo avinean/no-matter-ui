@@ -5,9 +5,11 @@
         src="/logo.svg"
         alt="Syns"
       >
-      <h1 class="text-primary-500 text-6xl">
-        Syns
-      </h1>
+      <img
+        class="mt-2"
+        src="/textLogo.svg"
+        alt="Syns"
+      >
     </div>
     <div class="w-full lg:w-2/3 p-4 flex">
       <slot />

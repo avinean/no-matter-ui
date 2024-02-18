@@ -84,7 +84,7 @@ async function onCreateOrUpdate() {
     @submit="onCreateOrUpdate"
   >
     <h1 class="text-3xl font-bold">
-      Додати профіль працівника
+      {{ props.preset?.id ? "Редагувати" : "Додати" }} профіль працівника
     </h1>
     <input-file
       class="row-span-6"
