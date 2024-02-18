@@ -13,6 +13,9 @@
                     "newPassword": "Новий пароль",
                     "confirmNewPassword": "Підтвердження пароля",
                     "submit": "Зберегти"
+                },
+                "requestMessages": {
+                    "successChangePassword": "Пароль успішно змінено"
                 }
             },
             "titles": {
@@ -117,6 +120,7 @@
     },
     "formValidation": {
         "required": "Поле обов'язкове",
-        "email": "Введіть валідну емейл адресу"
+        "email": "Введіть валідну емейл адресу",
+        "confirmPassword": "Паролі мають збігатись"
     }
 }

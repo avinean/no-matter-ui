@@ -13,6 +13,9 @@
                     "newPassword": "New password",
                     "confirmNewPassword": "Confirm new password",
                     "submit": "Submit"
+                },
+                "requestMessages": {
+                    "successChangePassword": "Password changed successfully"
                 }
             },
             "titles": {
@@ -117,7 +120,9 @@
     },
     "formValidation": {
         "required": "Field is required",
-        "email": "Enter a valid email address"
+        "email": "Enter a valid email address",
+        "confirmPassword": "Passwords must match"
+
     }
 
 }

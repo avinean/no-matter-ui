@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import type { LocaleEntity } from '~/types/entities'
+
 const { t, locale } = useI18n()
 const toast = useToast()
 const password = reactive({
@@ -6,34 +8,27 @@ const password = reactive({
   newPassword: undefined,
   confirmPassword: undefined,
 })
-const locales = ref<Array<{ locale: string, label: string, avatar: { src: string } }>>([])
-function updateLocales() {
-  locales.value = [
-    {
-      locale: 'uk-UK',
-      label: t('account.settings.titles.generalOptions.locales.ua'),
-      avatar: { src: '/flag/uk.png' },
-    },
-    {
-      locale: 'en-US',
-      label: t('account.settings.titles.generalOptions.locales.en'),
-      avatar: { src: '/flag/gb.png' },
-    },
-  ]
-}
-
-watch(locale, updateLocales)
-
-updateLocales()
+const locales = computed<LocaleEntity[]>(() => [
+  {
+    locale: 'uk-UK',
+    label: t('account.settings.titles.generalOptions.locales.ua'),
+    avatar: { src: '/flag/uk.png' },
+  },
+  {
+    locale: 'en-US',
+    label: t('account.settings.titles.generalOptions.locales.en'),
+    avatar: { src: '/flag/gb.png' },
+  },
+])
 
 function validate(state: typeof password) {
   const errors = []
   if (!state.password)
-    errors.push({ path: 'password', message: 'Поле обовʼязкове' })
+    errors.push({ path: 'password', message: t('formValidation.required') })
   if (!state.newPassword)
-    errors.push({ path: 'newPassword', message: 'Поле обовʼязкове' })
+    errors.push({ path: 'newPassword', message: t('formValidation.required') })
   if (state.confirmPassword !== state.newPassword)
-    errors.push({ path: 'confirmPassword', message: 'Паролі мають збігатись' })
+    errors.push({ path: 'confirmPassword', message: t('formValidation.confirmPassword') })
   return errors
 }
 
@@ -44,7 +39,7 @@ async function onUpdatePassword() {
   })
   toast.add({
     title: 'Success',
-    description: 'Пароль успішно змінено',
+    description: t('account.settings.form.requestMessages.successChangePassword'),
   })
 
   for (const key in password)
