@@ -19,31 +19,28 @@ const search: {
 
 const selectedSlot = ref<{ time: string, booked: BookingEntity } | null>(null)
 
-const { data: bookings } = useApi<BookingEntity[]>('/booking')
-const { data: profiles } = useApi<ProfileEntity[]>(
-  '/booking/profiles',
-  { method: 'POST', body: search },
+const bookingRepository = useBookingRepository()
+
+const { data: clients } = useAsyncData(() => useClientRepository().get())
+const { data: bookings } = useAsyncData(() => bookingRepository.get())
+const { data: profiles } = useAsyncData(
+  () => bookingRepository.profiles(search),
   { watch: [() => search.services] },
 )
-const { data: clients } = useApi<ClientEntity[]>('/client')
-const { data: services } = useApi<ServiceEntity[]>(
-  '/booking/services',
-  { method: 'POST', body: search },
+const { data: services } = useAsyncData(
+  () => bookingRepository.services(search),
   { watch: [() => search.profile] },
 )
-const { data: timeslots } = useApi<any[]>(
-  '/booking/timeslots',
-  { method: 'POST', body: search },
+const { data: timeslots } = useAsyncData(
+  () => bookingRepository.timeslots(search),
   { watch: [() => [search.profile, search.date, search.duration]] },
 )
 
 function create() {
-  $api('/booking', {
-    method: 'POST',
-    body: {
+  bookingRepository.add({
       ...search,
+      services: search.services.map((service, i) => ({ quantity: i, service })),
       date: selectedSlot.value?.time,
-    },
   })
 }
 </script>
@@ -153,8 +150,9 @@ function create() {
         required
       >
         <USelectMenu
+          v-if="clients"
           v-model="search.client"
-          :options="clients || []"
+          :options="clients"
           searchable
           searchable-placeholder="Шукайте за іменем"
           by="id"

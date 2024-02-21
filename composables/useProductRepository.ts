@@ -4,10 +4,8 @@ export const useProductRepository = createGlobalState(() => {
   const globalStore = useGlobalStore()
   const toast = useToast()
 
-  const data = ref<ServiceEntity[]>([])
-
-  async function get() {
-    data.value = await $api<ServiceEntity[]>(`/service/product/${globalStore.object?.id || globalStore.user?.employers[0]?.id}`)
+  function get() {
+    return $api<ServiceEntity[]>(`/service/product/${globalStore.object?.id || globalStore.user?.employers[0]?.id}`)
   }
 
   function add(body: Partial<ServiceEntity>) {
@@ -41,7 +39,6 @@ export const useProductRepository = createGlobalState(() => {
   }
 
   return {
-    data,
     get,
     add,
     edit,

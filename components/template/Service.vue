@@ -11,11 +11,11 @@ const props = withDefaults(defineProps<{
 const { hasPermission } = useGlobalStore()
 const modalStore = useModalStore()
 
-const { data, get, add } = props.type === 'product'
+const { get, add } = props.type === 'product'
   ? useProductRepository()
   : useServiceRepository()
 
-get()
+const { data } = useAsyncData(() => get())
 
 const columns: any = [
   { key: 'name', label: 'Назва' },

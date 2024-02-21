@@ -20,7 +20,7 @@ const { photo, add: addPhoto } = usePhoto(props.preset?.image)
 
 suggestionsStore.get(['sexes'])
 const { data: roles, refresh: refreshRoles } = useApi<RoleEntity[]>(`/role/${globalStore.business?.id}`)
-const { data: services, refresh: refreshServices } = useApi<ServiceEntity[]>(`/service/service`)
+const { data: services, refresh: refreshServices } = useAsyncData(() => useServiceRepository().get())
 
 const loading = ref(false)
 const state: Partial<ProfileEntity> = reactive({

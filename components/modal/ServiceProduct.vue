@@ -19,6 +19,7 @@ const { add, edit } = props.type === 'product'
 const { get } = useMaterialRepository()
 const { data: materials } = useAsyncData(() => get())
 
+
 const state: Partial<ServiceEntity> = reactive({
   name: props.preset?.name,
   description: props.preset?.description,
