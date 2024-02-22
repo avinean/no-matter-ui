@@ -15,6 +15,7 @@ export enum MaterialTransactionType {
 
 export enum ConfirmationStatus {
   new = 'new',
+  updated = 'updated',
   approved = 'approved',
   rejected = 'rejected',
 }

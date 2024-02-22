@@ -23,7 +23,6 @@ const selectedSlot = ref<{ time: string, booked: BookingEntity } | null>(null)
 const bookingRepository = useBookingRepository()
 
 const { data: clients } = useAsyncData(() => useClientRepository().get())
-const { data: bookings, refresh } = useAsyncData(() => bookingRepository.get())
 const { data: profiles } = useAsyncData(
   () => bookingRepository.profiles(search),
   { watch: [() => search.services] },
@@ -43,39 +42,7 @@ async function create() {
     services: search.services.map((service, i) => ({ quantity: i, service })),
     date: selectedSlot.value?.time,
   })
-
-  refresh()
 }
-
-function menu(item: BookingEntity) {
-  return [
-    [{
-      label: 'Підтвердити',
-      icon: 'i-ic-baseline-edit',
-      click: async () => {
-        await bookingRepository.confirm(item)
-        refresh()
-      },
-    }, {
-      label: 'Відмінити',
-      icon: 'i-ic-baseline-content-copy',
-      click: async () => {
-        await bookingRepository.cancel(item)
-        refresh()
-      },
-    }],
-  ]
-}
-
-const columns = [
-  { key: 'date', label: 'Час' },
-  { key: 'duration', label: 'Тривалість послуги' },
-  { key: 'status', label: 'Статус' },
-  { key: 'comment', label: 'Опис' },
-  { key: 'createdAt', label: 'Створено' },
-  { key: 'client', label: 'Замовник' },
-  { key: 'actions' },
-].filter(Boolean)
 </script>
 
 <template>
@@ -200,46 +167,5 @@ const columns = [
         Submit
       </UButton>
     </UForm>
-
-    <UTable v-if="bookings" :rows="bookings" :columns="columns">
-      <template #date-data="{ row }">
-        <base-datetime :date="row.date" date-style="long" time-style="short" />
-      </template>
-      <template #createdAt-data="{ row }">
-        <base-datetime :date="row.createdAt" />
-      </template>
-      <template #updatedAt-data="{ row }">
-        <base-datetime :date="row.createdAt" />
-      </template>
-      <template #status-data="{ row }">
-        <UBadge v-if="row.statuses.at(-1).status === ConfirmationStatus.new" color="gray" variant="solid">
-          новий
-        </UBadge>
-        <UBadge v-else-if="row.statuses.at(-1).status === ConfirmationStatus.approved" color="green" variant="solid">
-          підтверджений
-        </UBadge>
-        <UBadge v-else color="red" variant="solid">
-          відмінений
-        </UBadge>
-      </template>
-      <template #services-data="{ row }">
-        <template v-for="service in row.services" :key="service.id">
-          {{ service.name }},
-        </template>
-      </template>
-      <template #client-data="{ row }">
-        <span class="inline-flex items-center gap-2">
-          <base-image :src="row.client.image" width="32" height="32" />
-          <span>
-            {{ row.client.firstName }} {{ row.client.lastName }}
-          </span>
-        </span>
-      </template>
-      <template #actions-data="{ row }">
-        <UDropdown :items="menu(row)">
-          <UButton color="gray" variant="ghost" icon="i-ic-outline-more-horiz" />
-        </UDropdown>
-      </template>
-    </UTable>
   </div>
 </template>

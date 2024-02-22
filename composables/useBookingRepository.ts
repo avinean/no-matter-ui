@@ -38,19 +38,24 @@ export const useBookingRepository = createGlobalState(() => {
     }
   }
 
-  function profiles(body: any) { // TODO
+  function profiles(body: Partial<BookingEntity>) {
     return $api<ProfileEntity[]>(
       `/booking/${globalStore.object?.id}/profiles`,
-      { method: 'POST', body },
+      {
+        method: 'POST',
+        body: {
+          services: body.services?.map(({ service }) => service),
+        },
+      },
     )
   }
-  function services(body: any) { // TODO
+  function services(body: Partial<BookingEntity>) {
     return $api<ServiceEntity[]>(
       `/booking/${globalStore.object?.id}/services`,
       { method: 'POST', body },
     )
   }
-  function timeslots(body: any) { // TODO
+  function timeslots(body: Partial<BookingEntity>) {
     return $api<any[]>(
       `/booking/${globalStore.object?.id}/timeslots`,
       { method: 'POST', body },

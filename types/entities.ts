@@ -205,6 +205,7 @@ export interface BookingEntity {
   updatedAt: Date
   businessObject: BusinessObjectEntity
   client: ClientEntity
+  profile: ProfileEntity
   order: OrderEntity
   services: Partial<OrderProductsEntity>[]
   materialTransactions: MaterialTransactionEntity[]
