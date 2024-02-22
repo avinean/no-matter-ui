@@ -43,12 +43,11 @@ export interface ProfileEntity {
   user: UserEntity
   roles: RoleEntity[]
   services: ServiceEntity[]
-  bookings: BookingEntity[]
   ownedBusinesses: BusinessEntity[]
   ownedObjects: BusinessObjectEntity[]
   employers: BusinessObjectEntity[]
   initiatedMaterialTransactions: MaterialTransactionEntity[]
-  createdBookings: BookingEntity[]
+  orders: OrderEntity[]
 }
 
 export interface BusinessEntity {
@@ -178,37 +177,46 @@ export interface ServiceEntity {
   relatedBusinessObjects: BusinessObjectEntity[]
   orders: OrderEntity[]
   spending: ServiceMaterialEntity[]
-  booked: BookingServiceEntity[]
+  booked: OrderProductsEntity[]
 }
 
 export interface OrderEntity {
   id: number
   booking: BookingEntity
-  products: ServiceEntity[]
+  products: OrderProductsEntity[]
+  createdBy: ProfileEntity
+}
+
+export interface BookingStatusEntity {
+  id: number
+  status: ConfirmationStatus
+  comment: string
+  createdAt: Date
+  createdBy: ProfileEntity
+  booking: BookingEntity
 }
 
 export interface BookingEntity {
   id: number
   date: Date | string
   duration: number
-  status: ConfirmationStatus
   comment: string
   createdAt: Date
   updatedAt: Date
-  createdBy: ProfileEntity
-  profile: ProfileEntity
   businessObject: BusinessObjectEntity
   client: ClientEntity
   order: OrderEntity
-  services: Partial<BookingServiceEntity>[]
+  services: Partial<OrderProductsEntity>[]
   materialTransactions: MaterialTransactionEntity[]
+  statuses: BookingStatusEntity[]
 }
 
-export interface BookingServiceEntity {
+export interface OrderProductsEntity {
   id: number
   quantity: number
   service: ServiceEntity
   booking: BookingEntity
+  order: OrderEntity
 }
 
 export interface LocaleEntity {

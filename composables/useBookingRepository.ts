@@ -57,6 +57,18 @@ export const useBookingRepository = createGlobalState(() => {
     )
   }
 
+  function confirm({ id }: BookingEntity) {
+    return $api(`/booking/${globalStore.object?.id}/${id}/confirm`, {
+      method: 'PUT',
+    })
+  }
+
+  function cancel({ id }: BookingEntity) {
+    return $api(`/booking/${globalStore.object?.id}/${id}/cancel`, {
+      method: 'PUT',
+    })
+  }
+
   return {
     get,
     add,
@@ -64,5 +76,7 @@ export const useBookingRepository = createGlobalState(() => {
     profiles,
     services,
     timeslots,
+    confirm,
+    cancel,
   }
 })

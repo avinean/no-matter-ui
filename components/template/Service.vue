@@ -86,7 +86,7 @@ async function onDuplicate(item: ServiceEntity) {
       />
     </div>
 
-    <UCard v-if="data">
+    <template v-if="data">
       <h2>{{ props.type === 'product' ? 'Товари' : 'Послуги' }}</h2>
       <UTable :rows="data" :columns="columns">
         <template #createdAt-data="{ row }">
@@ -118,6 +118,6 @@ async function onDuplicate(item: ServiceEntity) {
           </UDropdown>
         </template>
       </UTable>
-    </UCard>
+    </template>
   </div>
 </template>
