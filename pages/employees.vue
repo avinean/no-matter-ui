@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import type { ProfileEntity } from '~/types/entities'
+import { ModalEmailPassAlert, ModalEmployee } from '#components'
 
 const { baseUrl } = useRuntimeConfig().public
 const { hasPermission } = useGlobalStore()
 const modalStore = useModalStore()
-const ModalEmployee = resolveComponent('modal-employee')
-const EmailPassAlert = resolveComponent('modal-email-pass-alert')
 const { data, get } = useProfileRepository()
 get()
 const commandPaletteRef = ref()
@@ -31,11 +30,11 @@ const actions = [
 function callModal(preset?: ProfileEntity) {
   modalStore.open(ModalEmployee, {
     preset,
-    onSubmit(user: ProfileEntity) {
+    onSubmit(user) {
       get()
       if (!preset) {
         nextTick(() => {
-          modalStore.open(EmailPassAlert, { user })
+          modalStore.open(ModalEmailPassAlert, { user })
         })
       }
     },

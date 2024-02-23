@@ -26,6 +26,8 @@ const modalStore = useModalStore()
         </template>
       </UCard>
     </UModal>
+
+    <UModals />
   </NuxtLayout>
 </template>
 

@@ -1,13 +1,20 @@
+import type { Component } from 'vue'
+
+type Props<T> =
+  T extends new () => { $props: infer P, $emit: infer E } ? NonNullable<P> & { [K in keyof NonNullable<E> as K extends 'submit' ? 'onSubmit' : K]: NonNullable<E>[K] } :
+    T extends (props: infer P, ctx: { slots: any, attrs: any, emit: infer E }, ...args: any) => any ? P & { [K in keyof NonNullable<E> as K extends 'submit' ? 'onSubmit' : K]: NonNullable<E>[K] } :
+        {}
+
 export const useModalStore = defineStore('modal', () => {
   const modals = ref<{
     component: any
     contentProps: any
   }[]>([])
 
-  function open(_component: any, _contentProps?: any, _wrapperProps?: any) {
+  function open<T extends Component>(_component: T, _props?: Props<T>) {
     modals.value.push({
       component: _component,
-      contentProps: _contentProps,
+      contentProps: _props,
     })
   }
 

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { ClientEntity } from '~/types/entities'
+import { ModalClient } from '#components';
 
 const { baseUrl } = useRuntimeConfig().public
 const modalStore = useModalStore()
-const ModalClient = resolveComponent('modal-client')
 
 const { get } = useClientRepository()
 const { data } = useAsyncData(() => get())

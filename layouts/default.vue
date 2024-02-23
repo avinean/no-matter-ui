@@ -28,11 +28,6 @@ const links = computed(() => [
       to: '/employees',
     },
     store.hasPermission('booking:read') && {
-      label: 'Приклад бронювання',
-      icon: 'i-ic-baseline-calendar-month',
-      to: '/booking-example',
-    },
-    store.hasPermission('booking:read') && {
       label: 'Бронювання',
       icon: 'i-ic-baseline-calendar-month',
       to: '/booking',
