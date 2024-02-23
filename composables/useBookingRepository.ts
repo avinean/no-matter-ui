@@ -1,4 +1,4 @@
-import type { BookingEntity, ProfileEntity, ServiceEntity } from '~/types/entities'
+import type { BookingEntity, OrderEntity, ProfileEntity, ServiceEntity } from '~/types/entities'
 
 export const useBookingRepository = createGlobalState(() => {
   const globalStore = useGlobalStore()
@@ -63,7 +63,7 @@ export const useBookingRepository = createGlobalState(() => {
   }
 
   function confirm({ id }: BookingEntity) {
-    return $api(`/booking/${globalStore.object?.id}/${id}/confirm`, {
+    return $api<OrderEntity>(`/booking/${globalStore.object?.id}/${id}/confirm`, {
       method: 'PUT',
     })
   }

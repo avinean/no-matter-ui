@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ModalBooking } from '#components'
+import { ModalBooking, ModalOrder } from '#components'
 import type { BookingEntity } from '~/types/entities'
 import { ConfirmationStatus } from '~/types/enums'
 
@@ -23,8 +23,12 @@ function menu(item: BookingEntity) {
       label: 'Виставити рахунок',
       icon: 'i-ic-outline-receipt-long',
       click: async () => {
-        await bookingRepository.confirm(item)
+        const order = await bookingRepository.confirm(item)
         refresh()
+
+        modalStore.open(ModalOrder, {
+          preset: order,
+        })
       },
     }, {
       label: 'Відмінити',

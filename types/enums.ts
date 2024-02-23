@@ -12,11 +12,17 @@ export enum MaterialTransactionType {
   adjust = 'adjust',
 }
 
-
 export enum ConfirmationStatus {
   new = 'new',
   updated = 'updated',
   approved = 'approved',
+  rejected = 'rejected',
+}
+
+export enum OrderStatus {
+  new = 'new',
+  partiallyPaid = 'partiallyPaid',
+  paid = 'paid',
   rejected = 'rejected',
 }
 

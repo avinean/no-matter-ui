@@ -1,5 +1,5 @@
 import type { Action, Resource } from './permissions'
-import type { ConfirmationStatus, ContactType, MaterialTransactionType, ServiceType, Sex } from './enums'
+import type { ConfirmationStatus, ContactType, MaterialTransactionType, OrderStatus, ServiceType, Sex } from './enums'
 
 export interface PermissionEntity {
   id: number
@@ -76,6 +76,7 @@ export interface BusinessObjectEntity {
   materialTransactions: MaterialTransactionEntity[]
   materials: MaterialEntity[]
   bookings: BookingEntity[]
+  orders: OrderEntity[]
 }
 
 export interface MaterialEntity {
@@ -182,9 +183,22 @@ export interface ServiceEntity {
 
 export interface OrderEntity {
   id: number
+  createdAt: Date
+  updatedAt: Date
+  statuses: OrderStatusEntity[]
   booking: BookingEntity
-  products: OrderProductsEntity[]
+  services: OrderProductsEntity[]
   createdBy: ProfileEntity
+  businessObject: ProfileEntity
+}
+
+export interface OrderStatusEntity {
+  id: number
+  status: OrderStatus
+  comment: string
+  createdAt: Date
+  createdBy: ProfileEntity
+  order: OrderEntity
 }
 
 export interface BookingStatusEntity {
