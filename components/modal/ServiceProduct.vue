@@ -1,10 +1,6 @@
 <script lang="ts" setup>
 import type { ServiceEntity } from '~/types/entities'
 
-defineOptions({
-  title: `Додати послугу / продукт`,
-})
-
 const props = withDefaults(defineProps<{
   preset?: ServiceEntity | null
   type: 'product' | 'service'
@@ -17,12 +13,15 @@ const emit = defineEmits<{
   submit: []
 }>()
 
+defineExpose({
+  title: computed(() => props.preset?.id ? 'Редагувати' : 'Створити'),
+})
+
 const { add, edit } = props.type === 'product'
   ? useProductRepository()
   : useServiceRepository()
 const { get } = useMaterialRepository()
 const { data: materials } = useAsyncData(() => get())
-
 
 const state: Partial<ServiceEntity> = reactive({
   name: props.preset?.name,

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 const globalStore = useGlobalStore()
 const modalStore = useModalStore()
+
+const modals = ref<{ title: string }[]>([])
 </script>
 
 <template>
@@ -19,7 +21,7 @@ const modalStore = useModalStore()
         <template #header>
           <div class="flex justify-between p-2">
             <h1 class="text-3xl font-bold">
-              {{ 'title' in modal.component && modal.component.title }}
+              {{ modals[key]?.title }}
             </h1>
             <UButton
               :padded="false"
@@ -32,6 +34,7 @@ const modalStore = useModalStore()
         </template>
         <component
           :is="modal.component"
+          ref="modals"
           v-bind="modal.props"
           @submit="modalStore.close"
         />

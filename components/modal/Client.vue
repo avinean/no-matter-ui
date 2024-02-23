@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { ClientEntity } from '~/types/entities'
 
-defineOptions({
+defineExpose({
   title: `Створити профіль клієнта`,
 })
 

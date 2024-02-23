@@ -2,7 +2,7 @@
 import type { FormError } from '#ui/types'
 import type { MaterialTransactionEntity } from '~/types/entities'
 
-defineOptions({
+defineExpose({
   title: `Відмінити транзакцію`,
 })
 

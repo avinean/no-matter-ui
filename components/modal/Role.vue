@@ -1,10 +1,6 @@
 <script lang="ts" setup>
 import type { RoleEntity } from '~/types/entities'
 
-defineOptions({
-  title: `Додати нову роль`,
-})
-
 const props = withDefaults(defineProps<{
   preset?: RoleEntity | null
 }>(), {
@@ -14,6 +10,12 @@ const props = withDefaults(defineProps<{
 const emit = defineEmits<{
   submit: []
 }>()
+
+const { t } = useI18n()
+
+defineExpose({
+  title: t('account.permissions.addNewRole'),
+})
 
 const toast = useToast()
 const globalStore = useGlobalStore()

@@ -2,10 +2,6 @@
 import { ModalRole, ModalServiceProduct } from '#components'
 import type { ProfileEntity, RoleEntity, ServiceEntity } from '~/types/entities'
 
-defineOptions({
-  title: `Профіль працівника`,
-})
-
 const props = withDefaults(defineProps<{
   preset?: ProfileEntity | null
 }>(), {
@@ -15,6 +11,10 @@ const props = withDefaults(defineProps<{
 const emit = defineEmits<{
   submit: [user: { email: string, password: string }]
 }>()
+
+defineExpose({
+  title: computed(() => `${props.preset?.id ? 'Редагувати' : 'Додати'} профіль працівника`),
+})
 
 const modalStore = useModalStore()
 const globalStore = useGlobalStore()

@@ -1,10 +1,6 @@
 <script lang="ts" setup>
 import type { BookingEntity, ClientEntity, OrderProductsEntity, ProfileEntity, ServiceEntity } from '~/types/entities'
 
-defineOptions({
-  title: `Забронювати`,
-})
-
 const props = defineProps<{
   preset?: BookingEntity | null
 }>()
@@ -12,6 +8,10 @@ const props = defineProps<{
 const emit = defineEmits<{
   submit: []
 }>()
+
+defineExpose({
+  title: `Забронювати`,
+})
 
 const search: Partial<BookingEntity> = reactive({
   profile: props.preset?.profile,

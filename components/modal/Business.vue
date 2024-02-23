@@ -1,10 +1,6 @@
 <script lang="ts" setup>
 import type { BusinessEntity } from '~/types/entities'
 
-defineOptions({
-  title: `Створити бізнес`,
-})
-
 const props = defineProps<{
   preset?: BusinessEntity | null
 }>()
@@ -12,6 +8,10 @@ const props = defineProps<{
 const emit = defineEmits<{
   submit: []
 }>()
+
+defineExpose({
+  title: `Створити бізнес`,
+})
 
 const store = useGlobalStore()
 const { baseUrl } = useRuntimeConfig().public
