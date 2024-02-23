@@ -9,7 +9,7 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  submit: [user: { email: string, password: string }]
+  submit: [user: { email: string, password: string }],
 }>()
 
 const modalStore = useModalStore()
