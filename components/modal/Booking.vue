@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import type { BookingEntity, ClientEntity, OrderProductsEntity, ProfileEntity, ServiceEntity } from '~/types/entities'
 
+defineOptions({
+  title: `Забронювати`,
+})
+
 const props = defineProps<{
   preset?: BookingEntity | null
 }>()
@@ -90,10 +94,6 @@ async function create() {
     class="grid gap-y-2"
     @submit="create"
   >
-    <h1 class="text-3xl font-bold">
-      Забронювати
-    </h1>
-
     <UFormGroup
       label="Послуги"
       name="services"

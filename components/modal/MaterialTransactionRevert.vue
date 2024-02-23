@@ -2,6 +2,10 @@
 import type { FormError } from '#ui/types'
 import type { MaterialTransactionEntity } from '~/types/entities'
 
+defineOptions({
+  title: `Відмінити транзакцію`,
+})
+
 const { preset } = defineProps<{
   preset: MaterialTransactionEntity
 }>()
@@ -40,10 +44,6 @@ async function onCreateOrUpdate() {
     class="space-y-4 w-full"
     @submit="onCreateOrUpdate"
   >
-    <h1 class="text-3xl font-bold">
-      Відмінити транзакцію
-    </h1>
-
     <UTable :rows="[preset]" />
 
     <UAlert

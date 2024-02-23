@@ -2,6 +2,10 @@
 import type { FormError, FormSubmitEvent } from '#ui/types'
 import type { MaterialEntity } from '~/types/entities'
 
+defineOptions({
+  title: `Додати матеріал`,
+})
+
 const emit = defineEmits<{
   submit: []
 }>()
@@ -37,10 +41,6 @@ async function onCreateOrUpdate(event: FormSubmitEvent<Partial<MaterialEntity>>)
     class="grid grid-cols-2 gap-x-4 gap-y-2"
     @submit="onCreateOrUpdate"
   >
-    <h1 class="text-3xl font-bold">
-      Додати матеріал
-    </h1>
-
     <UFormGroup
       label="Name"
       name="name"

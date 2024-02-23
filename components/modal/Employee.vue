@@ -2,6 +2,10 @@
 import { ModalRole, ModalServiceProduct } from '#components'
 import type { ProfileEntity, RoleEntity, ServiceEntity } from '~/types/entities'
 
+defineOptions({
+  title: `Профіль працівника`,
+})
+
 const props = withDefaults(defineProps<{
   preset?: ProfileEntity | null
 }>(), {
@@ -9,7 +13,7 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  submit: [user: { email: string, password: string }],
+  submit: [user: { email: string, password: string }]
 }>()
 
 const modalStore = useModalStore()
@@ -83,9 +87,6 @@ async function onCreateOrUpdate() {
     class="grid grid-cols-2 gap-x-4 gap-y-2"
     @submit="onCreateOrUpdate"
   >
-    <h1 class="text-3xl font-bold">
-      {{ props.preset?.id ? "Редагувати" : "Додати" }} профіль працівника
-    </h1>
     <input-file
       class="row-span-6"
       :src="state.image"

@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import type { RoleEntity } from '~/types/entities'
 
+defineOptions({
+  title: `Додати нову роль`,
+})
+
 const props = withDefaults(defineProps<{
   preset?: RoleEntity | null
 }>(), {
@@ -51,10 +55,6 @@ async function onCreateOrUpdate() {
     class="w-full md:w-1/2 grid gap-x-4 gap-y-2   "
     @submit="onCreateOrUpdate"
   >
-    <h1 class="text-3xl font-bold">
-      {{ $t('account.permissions.addNewRole') }}
-    </h1>
-
     <UFormGroup
       :label="$t('account.permissions.form.labels.roleName')"
       name="name"

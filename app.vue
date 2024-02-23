@@ -8,26 +8,35 @@ const modalStore = useModalStore()
     <NuxtPage :key="globalStore.object?.name" />
     <UNotifications />
     <UModal
-      :model-value="!!modalStore.modals.length"
+      v-for="(modal, key) in modalStore.configs"
+      :key="key"
+      :model-value="true"
       :ui="{ width: 'sm:max-w-4xl' }"
+      prevent-close
       @close="modalStore.close"
     >
       <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-        <template
-          v-for="(modal, key) in modalStore.modals"
-          :key
-        >
-          <component
-            :is="modal.component"
-            v-show="key === modalStore.modals.length - 1"
-            v-bind="modal.contentProps"
-            @submit="modalStore.close"
-          />
+        <template #header>
+          <div class="flex justify-between p-2">
+            <h1 class="text-3xl font-bold">
+              {{ 'title' in modal.component && modal.component.title }}
+            </h1>
+            <UButton
+              :padded="false"
+              color="gray"
+              variant="link"
+              icon="i-ic-twotone-close"
+              @click="modalStore.close"
+            />
+          </div>
         </template>
+        <component
+          :is="modal.component"
+          v-bind="modal.props"
+          @submit="modalStore.close"
+        />
       </UCard>
     </UModal>
-
-    <UModals />
   </NuxtLayout>
 </template>
 

@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import type { ClientEntity } from '~/types/entities'
 
+defineOptions({
+  title: `Створити профіль клієнта`,
+})
+
 const props = defineProps<{
   preset?: ClientEntity | null
 }>()
@@ -70,10 +74,6 @@ async function onCreateOrUpdate() {
     class="grid grid-cols-2 gap-x-4 gap-y-2"
     @submit="onCreateOrUpdate"
   >
-    <h1 class="text-3xl font-bold">
-      Створити профіль клієнта
-    </h1>
-
     <input-file
       class="row-span-6"
       :src="state.image"

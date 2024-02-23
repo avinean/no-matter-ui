@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import type { ServiceEntity } from '~/types/entities'
 
+defineOptions({
+  title: `Додати послугу / продукт`,
+})
+
 const props = withDefaults(defineProps<{
   preset?: ServiceEntity | null
   type: 'product' | 'service'
@@ -80,9 +84,6 @@ async function onCreateOrUpdate() {
     class="grid gap-y-2"
     @submit="onCreateOrUpdate"
   >
-    <h1 class="text-3xl font-bold">
-      Додати {{ props.type === 'product' ? 'товар' : 'послугу' }}
-    </h1>
     <UFormGroup
       label="Назва"
       name="name"
