@@ -94,7 +94,7 @@ function callModal(preset?: ProfileEntity) {
             <div class="grid grid-cols-[150px,1fr] items-center">
               <span class="font-bold">Номер телефону:</span><span>{{ selectedProfile.phone }}</span>
               <span class="font-bold">Стать:</span><span>{{ selectedProfile.sex }}</span>
-              <span class="font-bold">День народжння:</span><span><base-datetime :date="selectedProfile.birthday" /></span>
+              <span class="font-bold">День народження:</span><span><base-datetime :date="selectedProfile.birthday" /></span>
               <span class="font-bold">Created at:</span><span><base-datetime :date="selectedProfile.createdAt" date-style="full" time-style="full" /></span>
               <span class="font-bold">Ролі:</span>
               <span class="flex gap-2 flex-wrap mt-2">

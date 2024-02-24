@@ -1,6 +1,7 @@
 <script setup>
 import { ModalBusinessSelector } from '#components'
 
+const { t } = useI18n()
 const store = useGlobalStore()
 const modalStore = useModalStore()
 const { baseUrl } = useRuntimeConfig().public
@@ -8,46 +9,46 @@ const { baseUrl } = useRuntimeConfig().public
 const links = computed(() => [
   [
     {
-      label: 'Dashboard',
+      label: t('default.applicationLinks.dashboard'),
       icon: 'i-ic-outline-dashboard',
       to: '/',
     },
     store.hasPermission('client:read') && {
-      label: 'Клієнти',
+      label: t('default.applicationLinks.clients'),
       icon: 'i-ic-baseline-people',
       to: '/clients',
     },
     store.hasPermission('booking:read') && {
-      label: 'Записи',
+      label: t('default.applicationLinks.entries'),
       icon: 'i-ic-baseline-arrow-right',
       to: '/entries',
     },
     store.hasPermission('profile:read') && {
-      label: 'Працівники',
+      label: t('default.applicationLinks.employees'),
       icon: 'i-ic-sharp-groups',
       to: '/employees',
     },
     store.hasPermission('booking:read') && {
-      label: 'Бронювання',
+      label: t('default.applicationLinks.booking'),
       icon: 'i-ic-baseline-calendar-month',
       to: '/booking-example',
     },
     store.hasPermission(['material:read', 'service:read'], 'some') && {
-      label: 'Каталог',
+      label: t('default.applicationLinks.catalog'),
       icon: 'i-ic-baseline-design-services',
       to: '/catalog/services',
     },
   ].filter(Boolean),
   [
     {
-      label: 'Бізнес',
+      label: t('default.applicationLinks.business'),
       avatar: {
         src: `${baseUrl}/${store.business?.image}`,
       },
       click: () => modalStore.open(ModalBusinessSelector),
     },
     {
-      label: 'Обʼєкт',
+      label: t('default.applicationLinks.object'),
       avatar: {
         src: `${baseUrl}/${store.object?.image}`,
       },
@@ -56,7 +57,7 @@ const links = computed(() => [
   ],
   [
     {
-      label: 'Аккаунт',
+      label: t('default.applicationLinks.account'),
       to: '/account/info',
       avatar: {
         src: `${baseUrl}/${store.user?.image}`,

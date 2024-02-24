@@ -1,29 +1,32 @@
 <script setup lang="ts">
 import type { HorizontalNavigationLink } from '#ui/types'
+
+const { t } = useI18n({
+  useScope: 'local',
+})
 const store = useGlobalStore()
 const { baseUrl } = useRuntimeConfig().public
-const { t } = useI18n()
 
 const links = computed(() => [
   {
-    label: t('account.tabs.info'),
+    label: t('tabs.info'),
     to: '/account/info',
     avatar: {
       src: `${baseUrl}/${store.user?.image}`,
     },
   },
   {
-    label: t('account.tabs.settings'),
+    label: t('tabs.settings'),
     icon: 'i-ic-sharp-build',
     to: '/account/settings',
   },
   store.isAdmin && {
-    label: t('account.tabs.access'),
+    label: t('tabs.access'),
     icon: 'i-ic-baseline-security',
     to: '/account/permissions',
   },
   {
-    label: t('account.tabs.exit'),
+    label: t('tabs.exit'),
     icon: 'i-ic-sharp-power-settings-new',
     click: () => {
       store.logout()
@@ -40,3 +43,24 @@ const links = computed(() => [
     <NuxtPage />
   </div>
 </template>
+
+<i18n lang="json">
+{
+  "en-US": {
+    "tabs": {
+      "info": "Information",
+      "settings": "Settings",
+      "access": "Permissions",
+      "exit": "Exit"
+    }
+  },
+  "uk-UK": {
+    "tabs": {
+      "info": "Інформація",
+      "settings": "Налаштування",
+      "access": "Дозволи",
+      "exit": "Вихід"
+    }
+  }
+}
+</i18n>

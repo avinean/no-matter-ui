@@ -44,8 +44,8 @@ export const useGlobalStore = defineStore('global', () => {
     catch (error: any) {
       if (error.data?.statusCode === 401) {
         toast.add({
-          title: useNuxtApp().$i18n.t('signIn.requestErrors.invalid.title'),
-          description: useNuxtApp().$i18n.t('signIn.requestErrors.invalid.description'),
+          title: useNuxtApp().$i18n.t('requestErrors.signIn.invalid.title'),
+          description: useNuxtApp().$i18n.t('requestErrors.signIn.invalid.description'),
           color: 'red',
         })
       }

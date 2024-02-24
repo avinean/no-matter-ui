@@ -1,87 +1,50 @@
 {
-    "account": {
-        "tabs": {
-            "info": "Information",
-            "settings": "Settings",
-            "access": "Permissions",
-            "exit": "Exit"
+    "formValidation": {
+        "required": "Field is required",
+        "email": "Enter a valid email address",
+        "confirmPassword": "Passwords must match"
+
+    },
+    "default": {
+        "applicationLinks": {
+            "dashboard": "Home",
+            "clients": "Clients",
+            "entries": "Entries",
+            "employees": "Employees",
+            "booking": "Booking",
+            "catalog": "Catalog",
+            "business": "Business",
+            "object": "Object",
+            "account": "Account"
         },
-        "settings": {
-            "form": {
-                "labels": {
-                    "password": "Current password",
-                    "newPassword": "New password",
-                    "confirmNewPassword": "Confirm new password",
-                    "submit": "Submit"
-                },
-                "requestMessages": {
-                    "successChangePassword": "Password changed successfully"
-                }
-            },
-            "titles": {
-                "loginOptions": "Change login options",
-                "generalOptions": {
-                    "generalTitle": "General settings",
-                    "localeLabel": "Application language",
-                    "locales": {
-                        "ua": "Ukrainian",
-                        "en": "English"
-                    }
-                }
-            }
-        },
-        "info": {
-            "title": "Account information",
-            "userFields": {
-                "dob": "Birthday",
-                "name": "Name",
-                "contacts": "Contacts",
-                "roles": "Roles",
-                "services": "Services"
+        "forms": {
+            "labels": {
+                "phone": "Phone",
+                "roleName": "Role Name",
+                "sex":"Sex",
+                "dob":"Birthday",
+                "source":"Source",
+                "password": "Password",
+                "email": "E-mail",
+                "firstName": "First Name",
+                "lastName": "Last Name",
+                "currentPassword": "Current Password",
+                "newPassword": "New Password",
+                "confirmNewPassword": "Confirm New Password"
             },
             "actions": {
-                "tooltipText": "Edit profile"
-            }
-        },
-        "permissions": {
-            "role": "Role",
-            "addNewRole": "Add a new role",
-            "form": {
-                "labels": {
-                    "roleName":"Role name"
-                },
-                "submit": "Save",
-                "cancel": "Undo changes"
-            },
-            "rolesList": {
-                "searchPlaceholder": "Search...",
-                "emptyList": {
-                    "isEmptyBySearch": "We couldn't find any roles with that name. Please try another name or create new",
-                    "isEmpty": "We could not find any roles, please create a new one"
-                }
-            },
-            "permissionColumns": {
-                "value": "Resource",
-                "read": "View records",
-                "add": "Add records",
-                "edit": "Edit records",
-                "delete": "Delete records"
+                "submit": "Submit",
+                "save": "Save",
+                "cancel": "Cancel Changes",
+                "signIn": "Submit",
+                "signUp": "Sign Up",
+                "resetPass": "Send a recovery link",
+                "create": "Create"
             }
         }
     },
-
-    "signIn": {
-        "form": {
-            "labels": {
-                "password": "Password",
-                "email": "Email",
-                "submit": "Submit"
-            },
-            "title": "Log in",
-            "signUp": "Sign up",
-            "forgot": "Forgot your password?"
-        },
-        "requestErrors": {
+    "requestErrors": {
+        "signIn": {
             "invalid": {
                 "title": "Login error",
                 "description": "Check the data and try again"
@@ -91,38 +54,5 @@
                 "description": "Contact the support service"
             }
         }
-    },
-    "signUp": {
-        "form": {
-            "labels": {
-                "firstName": "First name",
-                "lastName": "Last name",
-                "email": "E-mail",
-                "submit": "Sign in"
-            },
-            "title": "New user registration",
-            "logIn": "Sign up",
-            "alreadyLogIn": "Already registered?"
-
-        }
-    },
-    "resetPassword": {
-        "form": {
-            "labels": {
-                "email": "E-mail",
-                "submit": "Send a recovery link"
-            },
-            "title": "Password recovery",
-            "subTitle": "Password recovery instructions will be sent to your email.",
-            "logIn": "Back to login"
-
-        }
-    },
-    "formValidation": {
-        "required": "Field is required",
-        "email": "Enter a valid email address",
-        "confirmPassword": "Passwords must match"
-
     }
-
 }

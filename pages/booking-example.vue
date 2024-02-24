@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import type { BookingEntity, ClientEntity, ProfileEntity, ServiceEntity } from '~/types/entities'
 
+const { t } = useI18n({
+  useScope: 'local',
+})
 const search: {
   profile: ProfileEntity | undefined
   client: ClientEntity | undefined
@@ -55,7 +58,7 @@ function create() {
   >
     <template #header>
       <h1 class="text-3xl font-bold">
-        Приклад букінга
+        Приклад букінга <p>{{ t('hello') }}</p>
       </h1>
     </template>
 

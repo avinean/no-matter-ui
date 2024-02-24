@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import type { ClientEntity } from '~/types/entities'
 
+const { t } = useI18n({
+  useScope: 'local',
+})
 const { baseUrl } = useRuntimeConfig().public
 const modalStore = useModalStore()
 const ModalClient = resolveComponent('modal-client')
@@ -36,7 +39,7 @@ function callModal(preset?: ClientEntity) {
   <div class="grid md:grid-cols-[200px,1fr] gap-2 divide-x min-h-full">
     <div>
       <UButton
-        label="Add item"
+        :label="t('clients.addNewClient')"
         icon="i-ic-outline-contact-phone"
         class="w-full"
         @click="callModal()"
@@ -45,6 +48,12 @@ function callModal(preset?: ClientEntity) {
         ref="commandPaletteRef"
         :groups="groups"
         :autoselect="false"
+        :placeholder="t('clients.clientsList.searchPlaceholder')"
+        :empty-state="{
+          icon: '',
+          queryLabel: t('clients.clientsList.emptyList.isEmptyBySearch'),
+          label: t('clients.clientsList.emptyList.isEmpty'),
+        }"
         @update:model-value="selectedId = $event.client.id"
       >
         <template #empty-state>
@@ -65,7 +74,7 @@ function callModal(preset?: ClientEntity) {
         <div class="grid lg:grid-cols-3 gap-2 w-full">
           <UCard>
             <base-image :src="selectedClient.image" width="200" height="200" />
-            <UFormGroup label="Статус">
+            <UFormGroup :label="t('clients.clientInfo.clientStatus')">
               <UToggle
                 on-icon="i-ic-baseline-check-circle-outline"
                 off-icon="i-outline-cancel"
@@ -81,13 +90,14 @@ function callModal(preset?: ClientEntity) {
               />
             </h1>
             <div class="grid grid-cols-[150px,1fr] items-center">
-              <span class="font-bold">Номер телефону:</span><span>{{ selectedClient.phone }}</span>
-              <span class="font-bold">Стать:</span><span>{{ selectedClient.sex }}</span>
-              <span class="font-bold">День народжння:</span><span><base-datetime :date="selectedClient.birthday" /></span>
-              <span class="font-bold">Баланс:</span><span>{{ selectedClient.balance || 0 }}</span>
+              <span class="font-bold">
+                {{ t('clients.clientInfo.phone') }}:</span><span>{{ selectedClient.phone }}</span>
+              <span class="font-bold">{{ t('clients.clientInfo.sex') }}:</span><span>{{ selectedClient.sex }}</span>
+              <span class="font-bold">{{ t('clients.clientInfo.dob') }}:</span><span><base-datetime :date="selectedClient.birthday" /></span>
+              <span class="font-bold">{{ t('clients.clientInfo.balance') }}:</span><span>{{ selectedClient.balance || 0 }}</span>
               <!-- <span class="font-bold">Номер картки:</span><span>{{ selectedClient.cardId || `${selectedClient.id}`.padStart(4, '0') }}</span> -->
-              <span class="font-bold">Source:</span><span>{{ selectedClient.source }}</span>
-              <span class="font-bold">Created at:</span><span><base-datetime :date="selectedClient.createdAt" /></span>
+              <span class="font-bold">{{ t('clients.clientInfo.source') }}:</span><span>{{ selectedClient.source }}</span>
+              <span class="font-bold">{{ t('clients.clientInfo.created') }}:</span><span><base-datetime :date="selectedClient.createdAt" /></span>
             </div>
           </UCard>
         </div>
@@ -95,3 +105,50 @@ function callModal(preset?: ClientEntity) {
     </div>
   </div>
 </template>
+
+<i18n lang="json">
+{
+  "en-US": {
+    "clients": {
+      "addNewClient": "Add New",
+      "clientsList": {
+        "searchPlaceholder": "Search...",
+        "emptyList": {
+          "isEmptyBySearch": "We couldn't find a client with that name. Please try again or create a new one",
+          "isEmpty": "We couldn't find any clients, create a new one"
+        }
+      },
+      "clientInfo": {
+        "phone": "Phone number",
+        "sex": "Sex",
+        "dob": "Date of birth",
+        "balance": "Balance",
+        "created": "Date of creation",
+        "source": "Source",
+        "clientStatus": "Status"
+      }
+    }
+  },
+  "uk-UK": {
+    "clients": {
+      "addNewClient": "Додати нового",
+      "clientsList": {
+        "searchPlaceholder": "Пошук...",
+        "emptyList": {
+          "isEmptyBySearch": "Нам не вдалося знайти клієнта з таким іменем. Будь ласка, спробуйте ще раз або створіть нового",
+          "isEmpty": "Нам не вдалося знайти жодної клієнта, створіть нового"
+        }
+      },
+      "clientInfo": {
+        "phone": "Номер телефону",
+        "sex": "Стать",
+        "dob": "Дата народження",
+        "balance": "Баланс",
+        "created": "Дата створення",
+        "source": "Джерело",
+        "clientStatus": "Статус"
+      }
+    }
+  }
+}
+</i18n>
