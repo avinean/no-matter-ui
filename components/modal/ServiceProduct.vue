@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import type { ServiceEntity } from '~/types/entities'
-
+const { t } = useI18n({
+  useScope: 'local',
+})
 const props = withDefaults(defineProps<{
   preset?: ServiceEntity | null
   type: 'product' | 'service'
@@ -14,7 +16,7 @@ const emit = defineEmits<{
 }>()
 
 defineExpose({
-  title: computed(() => props.preset?.id ? 'Редагувати' : 'Створити'),
+  title: computed(() => props.preset?.id ? t('edit', {type: props.type === 'product' ? t('product') : t('service')} ) : t('create', {type: props.type === 'product' ? t('product') : t('service')})),
 })
 
 const { add, edit } = props.type === 'product'
@@ -51,19 +53,19 @@ const serviceMaterials = computed({
 const columns = [
   {
     key: 'name',
-    label: 'Назва',
+    label: t('columns.name'),
   },
   {
     key: 'description',
-    label: 'Опис',
+    label: t('columns.description'),
   },
   {
     key: 'unit',
-    label: 'Одиниці вимірювання',
+    label: t('columns.unit'),
   },
   {
     key: 'quantity',
-    label: 'Кількість',
+    label: t('columns.quantity'),
   },
 ]
 
@@ -84,7 +86,7 @@ async function onCreateOrUpdate() {
     @submit="onCreateOrUpdate"
   >
     <UFormGroup
-      label="Назва"
+      :label="t('form.name')"
       name="name"
       required
     >
@@ -92,38 +94,38 @@ async function onCreateOrUpdate() {
     </UFormGroup>
 
     <UFormGroup
-      label="Опис"
-      name="description"
+        :label="t('form.description')"
+        name="description"
     >
       <UTextarea v-model="state.description" />
     </UFormGroup>
 
     <UFormGroup
-      label="Ціна"
-      name="price"
+        :label="t('form.price')"
+        name="price"
       required
     >
       <UInput v-model="state.price" type="number" />
     </UFormGroup>
 
     <UFormGroup
-      label="Тривалість"
-      name="duration"
+        :label="t('form.duration')"
+        name="duration"
       required
     >
       <UInput v-model="state.duration" type="number" />
     </UFormGroup>
 
     <UFormGroup
-      label="Знижка"
-      name="discount"
+        :label="t('form.discount')"
+        name="discount"
     >
       <UInput v-model="state.discount" type="number" />
     </UFormGroup>
 
     <UFormGroup
-      label="Матеріали"
-      name="materials"
+        :label="t('form.materials')"
+        name="materials"
     >
       <USelectMenu
         v-if="materials"
@@ -155,7 +157,53 @@ async function onCreateOrUpdate() {
     <UButton
       type="submit"
     >
-      Submit
+      {{$t('default.forms.actions.create')}}
     </UButton>
   </UForm>
 </template>
+
+
+<i18n lang="json">
+{
+  "en-US": {
+    "service": "service",
+    "product": "product",
+    "edit": "Edit {type}",
+    "create": "Create {type}",
+    "form": {
+      "name": "Name",
+      "description": "Description",
+      "price": "Price",
+      "duration": "Duration",
+      "discount": "Discount",
+      "materials": "Materials"
+    },
+    "columns": {
+      "name": "Name",
+      "description": "Description",
+      "unit": "Units",
+      "quantity": "Quantity"
+    }
+  },
+  "uk-UK": {
+    "service": "послугу",
+    "product": "товар",
+    "edit": "Редагувати {type}",
+    "create": "Створити {type}",
+    "form": {
+      "name": "Назва",
+      "description": "Опис",
+      "price": "Ціна",
+      "duration": "Тривалість",
+      "discount": "Знижка",
+      "materials": "Матеріали"
+    },
+    "columns": {
+      "name": "Назва",
+      "description": "Опис",
+      "unit": "Одиниці вимірювання",
+      "quantity": "Кількість"
+    }
+  }
+}
+</i18n>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { ClientEntity } from '~/types/entities'
-import { ModalClient } from '#components';
+import { ModalClient } from '#components'
 
 const { t } = useI18n({
   useScope: 'local',
@@ -49,32 +49,24 @@ function callModal(preset?: ClientEntity) {
         :groups="groups"
         :autoselect="false"
         :placeholder="t('clients.clientsList.searchPlaceholder')"
+        :ui="{ emptyState: {
+          wrapper: 'px-2 py-2 sm:px-2',
+        } }"
+
         :empty-state="{
           icon: '',
           queryLabel: t('clients.clientsList.emptyList.isEmptyBySearch'),
           label: t('clients.clientsList.emptyList.isEmpty'),
         }"
         @update:model-value="selectedId = $event.client.id"
-      >
-        <template #empty-state>
-          <div class="flex flex-col items-center justify-center py-6 gap-3">
-            <span class="italic text-sm">Nothing here!</span>
-            <UButton
-              label="Add item"
-              color="gray"
-              icon="i-ic-outline-contact-phone"
-              @click="callModal()"
-            />
-          </div>
-        </template>
-      </UCommandPalette>
+      />
     </div>
     <div class="w-full flex items-start gap-2 pl-2">
       <template v-if="selectedClient">
         <div class="grid lg:grid-cols-3 gap-2 w-full">
           <UCard>
             <base-image :src="selectedClient.image" width="200" height="200" />
-            <UFormGroup :label="t('clients.clientInfo.clientStatus')">
+            <UFormGroup :label="t('clients.clientInfo.status')">
               <UToggle
                 on-icon="i-ic-baseline-check-circle-outline"
                 off-icon="i-outline-cancel"
@@ -114,7 +106,7 @@ function callModal(preset?: ClientEntity) {
       "clientsList": {
         "searchPlaceholder": "Search...",
         "emptyList": {
-          "isEmptyBySearch": "We couldn't find a client with that name. Please try again or create a new one",
+          "isEmptyBySearch": "We couldn't find a client with that name. Try again or create a new one",
           "isEmpty": "We couldn't find any clients, create a new one"
         }
       },
@@ -125,7 +117,7 @@ function callModal(preset?: ClientEntity) {
         "balance": "Balance",
         "created": "Date of creation",
         "source": "Source",
-        "clientStatus": "Status"
+        "status": "Status"
       }
     }
   },
@@ -135,8 +127,8 @@ function callModal(preset?: ClientEntity) {
       "clientsList": {
         "searchPlaceholder": "Пошук...",
         "emptyList": {
-          "isEmptyBySearch": "Нам не вдалося знайти клієнта з таким іменем. Будь ласка, спробуйте ще раз або створіть нового",
-          "isEmpty": "Нам не вдалося знайти жодної клієнта, створіть нового"
+          "isEmptyBySearch": "Нам не вдалося знайти клієнта з таким іменем. Cпробуйте ще раз або створіть нового",
+          "isEmpty": "Нам не вдалося знайти жодного клієнта, створіть нового"
         }
       },
       "clientInfo": {
@@ -146,7 +138,7 @@ function callModal(preset?: ClientEntity) {
         "balance": "Баланс",
         "created": "Дата створення",
         "source": "Джерело",
-        "clientStatus": "Статус"
+        "status": "Статус"
       }
     }
   }

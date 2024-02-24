@@ -20,6 +20,7 @@
             "labels": {
                 "phone": "Телефон",
                 "roleName":"Назва ролі",
+                "role": "Роль",
                 "sex":"Стать",
                 "dob":"Дата народження",
                 "source":"Джерело",
@@ -29,7 +30,12 @@
                 "lastName": "Прізвище",
                 "currentPassword": "Поточний пароль",
                 "newPassword": "Новий пароль",
-                "confirmNewPassword": "Підтвердження пароля"
+                "confirmNewPassword": "Підтвердження пароля",
+                "services": "Виберіть доступні послуги для юзера"
+            },
+            "placeholders": {
+                "services": "Оберіть послуги",
+                "roles": "Оберіть ролі"
             },
             "actions": {
                 "submit": "Підтвердити",

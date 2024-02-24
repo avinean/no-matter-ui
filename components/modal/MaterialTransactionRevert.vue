@@ -2,10 +2,6 @@
 import type { FormError } from '#ui/types'
 import type { MaterialTransactionEntity } from '~/types/entities'
 
-defineExpose({
-  title: `Відмінити транзакцію`,
-})
-
 const { preset } = defineProps<{
   preset: MaterialTransactionEntity
 }>()
@@ -13,6 +9,10 @@ const { preset } = defineProps<{
 const emit = defineEmits<{
   submit: []
 }>()
+
+defineExpose({
+  title: `Відмінити транзакцію`,
+})
 
 const { revert } = useMaterialTransactionRepository()
 

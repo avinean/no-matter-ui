@@ -21,7 +21,8 @@
             "labels": {
                 "phone": "Phone",
                 "roleName": "Role Name",
-                "sex":"Sex",
+                "sex":"Gender",
+                "role": "Role",
                 "dob":"Birthday",
                 "source":"Source",
                 "password": "Password",
@@ -30,12 +31,18 @@
                 "lastName": "Last Name",
                 "currentPassword": "Current Password",
                 "newPassword": "New Password",
-                "confirmNewPassword": "Confirm New Password"
+                "confirmNewPassword": "Confirm New Password",
+                "services": "Select available services for the user"
+
+            },
+            "placeholders": {
+                "services": "Choose services",
+                "roles": "Choose roles"
             },
             "actions": {
                 "submit": "Submit",
                 "save": "Save",
-                "cancel": "Cancel Changes",
+                "cancel": "Cancel changes",
                 "signIn": "Submit",
                 "signUp": "Sign Up",
                 "resetPass": "Send a recovery link",

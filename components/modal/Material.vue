@@ -2,13 +2,13 @@
 import type { FormError, FormSubmitEvent } from '#ui/types'
 import type { MaterialEntity } from '~/types/entities'
 
-defineExpose({
-  title: `Додати матеріал`,
-})
-
 const emit = defineEmits<{
   submit: []
 }>()
+
+defineExpose({
+  title: `Додати матеріал`,
+})
 
 const { add } = useMaterialRepository()
 

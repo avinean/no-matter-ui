@@ -16,7 +16,7 @@ const { t } = useI18n({
 })
 
 defineExpose({
-  title: t('account.permissions.addNewRole'),
+  title: t('addNewRole'),
 })
 
 const toast = useToast()
@@ -67,10 +67,6 @@ function validate(state: typeof name) {
     class="w-full md:w-1/2 grid gap-x-4 gap-y-2   "
     @submit="onCreateOrUpdate"
   >
-    <h1 class="text-3xl font-bold">
-      {{ t('addNewRole') }}
-    </h1>
-
     <UFormGroup
       :label="$t('default.forms.labels.roleName')"
       name="name"

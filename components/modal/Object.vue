@@ -1,10 +1,6 @@
 <script lang="ts" setup>
 import type { BusinessEntity } from '~/types/entities'
 
-defineExpose({
-  title: `Створити обʼєкт бізнесу'`,
-})
-
 const props = defineProps<{
   preset?: BusinessEntity | null
 }>()
@@ -12,6 +8,10 @@ const props = defineProps<{
 const emit = defineEmits<{
   submit: []
 }>()
+
+defineExpose({
+  title: `Створити обʼєкт бізнесу'`,
+})
 
 const { baseUrl } = useRuntimeConfig().public
 const toast = useToast()

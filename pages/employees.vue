@@ -2,6 +2,9 @@
 import type { ProfileEntity } from '~/types/entities'
 import { ModalEmailPassAlert, ModalEmployee } from '#components'
 
+const { t } = useI18n({
+  useScope: 'local',
+})
 const { baseUrl } = useRuntimeConfig().public
 const { hasPermission } = useGlobalStore()
 const modalStore = useModalStore()
@@ -22,9 +25,9 @@ const groups = computed(() => [{
 }])
 
 const actions = [
-  { tooltip: 'Редагувати профіль', icon: 'i-ic-baseline-edit', onClick: () => callModal(selectedProfile.value) },
-  { tooltip: 'Копіювати поточний пароль', icon: 'i-ic-baseline-content-copy' },
-  { tooltip: 'Перегенерувати пароль', icon: 'i-ic-round-security' },
+  { tooltip: t('employees.actions.edit'), icon: 'i-ic-baseline-edit', onClick: () => callModal(selectedProfile.value) },
+  { tooltip: t('employees.actions.copy'), icon: 'i-ic-baseline-content-copy' },
+  { tooltip: t('employees.actions.regeneratePass'), icon: 'i-ic-round-security' },
 ]
 
 function callModal(preset?: ProfileEntity) {
@@ -47,7 +50,7 @@ function callModal(preset?: ProfileEntity) {
     <div>
       <UButton
         v-if="hasPermission('profile:add')"
-        label="Add item"
+        :label="t('employees.addNewEmployee')"
         icon="i-ic-outline-contact-phone"
         class="w-full"
         @click="callModal()"
@@ -56,28 +59,26 @@ function callModal(preset?: ProfileEntity) {
         ref="commandPaletteRef"
         :groups="groups"
         :autoselect="false"
+        :placeholder="t('employees.employeeList.searchPlaceholder')"
+        :ui="{ emptyState: {
+          wrapper: 'px-2 py-2 sm:px-2',
+        } }"
+        :empty-state="{
+          icon: '',
+          queryLabel: t('employees.employeeList.emptyList.isEmptyBySearch'),
+          label: t('employees.employeeList.emptyList.isEmpty'),
+        }"
         @update:model-value="selectedId = $event.client.id"
-      >
-        <template #empty-state>
-          <div class="flex flex-col items-center justify-center py-6 gap-3">
-            <span class="italic text-sm">Nothing here!</span>
-            <UButton
-              v-if="hasPermission('profile:add')"w
-              label="Add item"
-              color="gray"
-              icon="i-ic-outline-contact-phone"
-              @click="callModal()"
-            />
-          </div>
-        </template>
-      </UCommandPalette>
+      />
     </div>
     <div class="w-full flex items-start gap-2 pl-2">
       <template v-if="selectedProfile">
         <div class="grid lg:grid-cols-3 gap-2 w-full">
           <UCard>
             <base-image :src="selectedProfile.image" width="200" height="200" />
-            <UFormGroup label="Статус">
+            <UFormGroup
+                :label="t('employees.employeeInfo.status')"
+            >
               <UToggle
                 on-icon="i-ic-baseline-check-circle-outline"
                 off-icon="i-outline-cancel"
@@ -87,19 +88,18 @@ function callModal(preset?: ProfileEntity) {
           <UCard class="lg:col-span-2">
             <h1 class="flex justify-between font-bold text-xl">
               {{ selectedProfile.firstName }} {{ selectedProfile.lastName }}
-
               <base-action-bar :items="actions" />
             </h1>
             <div class="grid grid-cols-[150px,1fr] items-center">
-              <span class="font-bold">Номер телефону:</span><span>{{ selectedProfile.phone }}</span>
-              <span class="font-bold">Стать:</span><span>{{ selectedProfile.sex }}</span>
-              <span class="font-bold">День народження:</span><span><base-datetime :date="selectedProfile.birthday" /></span>
-              <span class="font-bold">Created at:</span><span><base-datetime :date="selectedProfile.createdAt" date-style="full" time-style="full" /></span>
-              <span class="font-bold">Ролі:</span>
+              <span class="font-bold">{{ t('employees.employeeInfo.phone') }}:</span><span>{{ selectedProfile.phone }}</span>
+              <span class="font-bold">{{ t('employees.employeeInfo.sex') }}:</span><span>{{ selectedProfile.sex }}</span>
+              <span class="font-bold">{{ t('employees.employeeInfo.dob') }}:</span><span><base-datetime :date="selectedProfile.birthday" /></span>
+              <span class="font-bold">{{ t('employees.employeeInfo.created') }}:</span><span><base-datetime :date="selectedProfile.createdAt" date-style="medium" time-style="medium" /></span>
+              <span class="font-bold">{{ t('employees.employeeInfo.roles') }}:</span>
               <span class="flex gap-2 flex-wrap mt-2">
                 <UBadge v-for="role in selectedProfile.roles" :key="role.name" :label="role.name" />
               </span>
-              <span class="font-bold">Послуги:</span>
+              <span class="font-bold">{{ t('employees.employeeInfo.services') }}:</span>
               <span class="flex gap-2 flex-wrap mt-2">
                 <UBadge v-for="service in selectedProfile.services" :key="service.name" :label="service.name" />
               </span>
@@ -110,3 +110,60 @@ function callModal(preset?: ProfileEntity) {
     </div>
   </div>
 </template>
+
+<i18n lang="json">
+{
+  "en-US": {
+    "employees": {
+      "addNewEmployee": "Add New",
+      "employeeList": {
+        "searchPlaceholder": "Search...",
+        "emptyList": {
+          "isEmptyBySearch": "We couldn't find any with that name. Please try again or create a new one",
+          "isEmpty": "We couldn't find any employees, create a new one"
+        }
+      },
+      "employeeInfo": {
+        "phone": "Phone number",
+        "sex": "Sex",
+        "dob": "Date of birth",
+        "created": "Date of creation",
+        "roles": "Roles",
+        "services": "Services",
+        "status": "Status"
+      },
+        "actions": {
+          "edit": "Edit Profile",
+          "copy": "Copy current password",
+          "regeneratePass": "Regenerate password"
+        }
+    }
+  },
+  "uk-UK": {
+    "employees": {
+      "addNewEmployee": "Додати нового",
+      "employeeList": {
+        "searchPlaceholder": "Пошук...",
+        "emptyList": {
+          "isEmptyBySearch": "Нам не вдалося знайти нікого з таким іменем. Будь ласка, спробуйте ще раз або створіть нового",
+          "isEmpty": "Нам не вдалося знайти жодного співробітника, створіть нового"
+        }
+      },
+      "employeeInfo": {
+        "phone": "Номер телефону",
+        "sex": "Стать",
+        "dob": "Дата народження",
+        "created": "Дата створення",
+        "roles": "Ролі",
+        "services": "Послуги",
+        "status": "Статус"
+      },
+      "actions": {
+        "edit": "Редагувати профіль",
+        "copy": "Копіювати поточний пароль",
+        "regeneratePass": "Перегенерувати пароль"
+      }
+    }
+  }
+}
+</i18n>

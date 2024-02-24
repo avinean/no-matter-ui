@@ -8,7 +8,7 @@ export const useGlobalStore = defineStore('global', () => {
   const business = ref<BusinessEntity>()
   const object = ref<BusinessObjectEntity>()
   const cookie = useCookie('sraka')
-
+  const {$i18n} = useNuxtApp()
   const isAdmin = computed(() => user.value?.roles.some(role => role.name === 'admin'))
   const permissions = computed(() => user.value?.roles.flatMap(
     role => role.assignedPermissions.map(
@@ -44,15 +44,15 @@ export const useGlobalStore = defineStore('global', () => {
     catch (error: any) {
       if (error.data?.statusCode === 401) {
         toast.add({
-          title: useNuxtApp().$i18n.t('requestErrors.signIn.invalid.title'),
-          description: useNuxtApp().$i18n.t('requestErrors.signIn.invalid.description'),
+          title: $i18n.t('requestErrors.signIn.invalid.title'),
+          description: $i18n.t('requestErrors.signIn.invalid.description'),
           color: 'red',
         })
       }
       else {
         toast.add({
-          title: useNuxtApp().$i18n.t('signIn.requestErrors.unknownError.title'),
-          description: useNuxtApp().$i18n.t('signIn.requestErrors.unknownError.description'),
+          title: $i18n.t('signIn.requestErrors.unknownError.title'),
+          description: $i18n.t('signIn.requestErrors.unknownError.description'),
           color: 'red',
         })
       }

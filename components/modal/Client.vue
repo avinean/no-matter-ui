@@ -1,19 +1,22 @@
 <script lang="ts" setup>
 import type { ClientEntity } from '~/types/entities'
-
-defineExpose({
-  title: `Створити профіль клієнта`,
-})
-
-const props = defineProps<{
-  preset?: ClientEntity | null
-}>()
-const emit = defineEmits<{
-  submit: []
-}>()
 const { t } = useI18n({
   useScope: 'local',
 })
+const props = defineProps<{
+  preset?: ClientEntity | null
+}>()
+
+const emit = defineEmits<{
+  submit: []
+}>()
+
+
+defineExpose({
+  title: computed(() => props.preset?.id ? t('client.createNew.titleUpdate') : t('client.createNew.titleCreate'))
+})
+
+
 const store = useSuggestionsStore()
 store.get('sexes')
 
@@ -75,16 +78,12 @@ async function onCreateOrUpdate() {
     class="grid gap-2"
     @submit="onCreateOrUpdate"
   >
-    <h1 class="text-3xl font-bold">
-      {{ props.preset?.id ? t('client.createNew.titleUpdate') : t('client.createNew.titleCreate') }}
-    </h1>
     <div class="grid grid-cols-2 gap-x-4 gap-y-2">
       <input-file
-          class="row-span-6"
-          :src="state.image"
-          @change="photo = $event"
+        class="row-span-6"
+        :src="state.image"
+        @change="photo = $event"
       />
-      <div class="grid gap-2">
         <UFormGroup
           :label="$t('default.forms.labels.firstName')"
           name="firstName"
@@ -93,14 +92,13 @@ async function onCreateOrUpdate() {
           <UInput v-model="state.firstName" />
         </UFormGroup>
 
-
-    <UFormGroup
-      label="First name"
-      name="firstName"
-      required
-    >
-      <UInput v-model="state.firstName" />
-    </UFormGroup>
+        <UFormGroup
+          label="First name"
+          name="firstName"
+          required
+        >
+          <UInput v-model="state.firstName" />
+        </UFormGroup>
 
         <UFormGroup
           :label="$t('default.forms.labels.lastName')"
@@ -151,14 +149,7 @@ async function onCreateOrUpdate() {
         >
           {{ props.preset?.id ? $t('default.forms.actions.save') : $t('default.forms.actions.create') }}
         </UButton>
-      </div>
-      <div>
-        <input-file
-          class="row-span-6"
-          :src="state.image"
-          @change="photo = $event"
-        />
-      </div>
+
     </div>
   </UForm>
 </template>
