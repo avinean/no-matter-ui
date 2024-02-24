@@ -9,6 +9,10 @@ const emit = defineEmits<{
   submit: []
 }>()
 
+defineExpose({
+  title: `Створити бізнес`,
+})
+
 const store = useGlobalStore()
 const { baseUrl } = useRuntimeConfig().public
 const toast = useToast()
@@ -59,9 +63,6 @@ async function onCreateOrUpdate() {
     class="grid grid-cols-2 gap-x-4 gap-y-2"
     @submit="onCreateOrUpdate"
   >
-    <h1 class="text-3xl font-bold">
-      Створити бізнес
-    </h1>
     <input-file
       class="row-span-6"
       :src="`${baseUrl}/${state.image}`"

@@ -31,7 +31,7 @@ const links = computed(() => [
     store.hasPermission('booking:read') && {
       label: t('default.applicationLinks.booking'),
       icon: 'i-ic-baseline-calendar-month',
-      to: '/booking-example',
+      to: '/booking',
     },
     store.hasPermission(['material:read', 'service:read'], 'some') && {
       label: t('default.applicationLinks.catalog'),
@@ -69,7 +69,7 @@ const links = computed(() => [
 
 <template>
   <div class="flex min-h-screen">
-    <div class="max-h-screen flex flex-col p-2 sticky top-0 left-0 z-50 transition">
+    <div class="max-h-screen flex flex-col p-2 sticky top-0 left-0 z-50 transition bg-gray-200">
       <div class="px-2 pb-2">
         <img
           src="/logo.svg"
@@ -89,7 +89,7 @@ const links = computed(() => [
 
       <!-- <use-business-select class="flex gap-2 py-2" /> -->
     </div>
-    <div class="w-full p-2">
+    <div class="w-full p-2 bg-gray-200">
       <div class="p-2 bg-white h-full rounded-xl">
         <slot />
       </div>

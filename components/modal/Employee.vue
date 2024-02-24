@@ -12,6 +12,10 @@ const emit = defineEmits<{
   submit: [user: { email: string, password: string }]
 }>()
 
+defineExpose({
+  title: computed(() => `${props.preset?.id ? 'Редагувати' : 'Додати'} профіль працівника`),
+})
+
 const modalStore = useModalStore()
 const globalStore = useGlobalStore()
 const suggestionsStore = useSuggestionsStore()
@@ -20,7 +24,7 @@ const { photo, add: addPhoto } = usePhoto(props.preset?.image)
 
 suggestionsStore.get(['sexes'])
 const { data: roles, refresh: refreshRoles } = useApi<RoleEntity[]>(`/role/${globalStore.business?.id}`)
-const { data: services, refresh: refreshServices } = useApi<ServiceEntity[]>(`/service/service`)
+const { data: services, refresh: refreshServices } = useAsyncData(() => useServiceRepository().get())
 
 const loading = ref(false)
 const state: Partial<ProfileEntity> = reactive({
@@ -83,9 +87,6 @@ async function onCreateOrUpdate() {
     class="grid grid-cols-2 gap-x-4 gap-y-2"
     @submit="onCreateOrUpdate"
   >
-    <h1 class="text-3xl font-bold">
-      {{ props.preset?.id ? "Редагувати" : "Додати" }} профіль працівника
-    </h1>
     <input-file
       class="row-span-6"
       :src="state.image"

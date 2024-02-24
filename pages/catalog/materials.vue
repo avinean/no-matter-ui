@@ -25,7 +25,7 @@ function menu(item: MaterialTransactionEntity): DropdownItem[][] {
     [{
       label: 'Відмінити',
       icon: 'i-ic-round-event-repeat',
-      disabled: !!(item.reverted || item.reverting),
+      disabled: !!(item.previous || item.next),
       click: () => {
         modalStore.open(ModalMaterialTransactionRevert, {
           onSubmit() {
@@ -79,6 +79,15 @@ function menu(item: MaterialTransactionEntity): DropdownItem[][] {
             {{ row.initiator.firstName }} {{ row.initiator.lastName }}
           </span>
         </span>
+      </template>      
+      <template #description-data="{ row }">
+        <template v-if="row.booking">
+          Booking #{{ row.booking.id }}, 
+          <base-datetime :date="row.booking.date" date-style="medium" time-style="medium" />
+        </template>
+        <template v-else>
+          {{ row.description || '—' }}
+        </template>
       </template>
       <template #createdAt-data="{ row }">
         <base-datetime :date="row.createdAt" date-style="medium" time-style="medium" />

@@ -7,11 +7,22 @@ export enum MaterialTransactionType {
   increase = 'increase',
   decrease = 'decrease',
   revert = 'revert',
+  consume = 'consume',
+  transfer = 'transfer',
+  adjust = 'adjust',
 }
 
 export enum ConfirmationStatus {
   new = 'new',
+  updated = 'updated',
   approved = 'approved',
+  rejected = 'rejected',
+}
+
+export enum OrderStatus {
+  new = 'new',
+  partiallyPaid = 'partiallyPaid',
+  paid = 'paid',
   rejected = 'rejected',
 }
 

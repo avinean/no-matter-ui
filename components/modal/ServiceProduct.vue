@@ -13,6 +13,10 @@ const emit = defineEmits<{
   submit: []
 }>()
 
+defineExpose({
+  title: computed(() => props.preset?.id ? 'Редагувати' : 'Створити'),
+})
+
 const { add, edit } = props.type === 'product'
   ? useProductRepository()
   : useServiceRepository()
@@ -79,9 +83,6 @@ async function onCreateOrUpdate() {
     class="grid gap-y-2"
     @submit="onCreateOrUpdate"
   >
-    <h1 class="text-3xl font-bold">
-      Додати {{ props.type === 'product' ? 'товар' : 'послугу' }}
-    </h1>
     <UFormGroup
       label="Назва"
       name="name"

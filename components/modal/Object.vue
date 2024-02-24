@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import type { BusinessEntity } from '~/types/entities'
 
+defineExpose({
+  title: `Створити обʼєкт бізнесу'`,
+})
+
 const props = defineProps<{
   preset?: BusinessEntity | null
 }>()
@@ -61,9 +65,6 @@ async function onCreateOrUpdate() {
     class="grid grid-cols-2 gap-x-4 gap-y-2"
     @submit="onCreateOrUpdate"
   >
-    <h1 class="text-3xl font-bold">
-      Створити бізнес
-    </h1>
     <input-file
       class="row-span-6"
       :src="`${baseUrl}/${state.image}`"

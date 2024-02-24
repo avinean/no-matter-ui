@@ -1,5 +1,5 @@
 import type { Action, Resource } from './permissions'
-import type { ConfirmationStatus, ContactType, MaterialTransactionType, ServiceType, Sex } from './enums'
+import type { ConfirmationStatus, ContactType, MaterialTransactionType, OrderStatus, ServiceType, Sex } from './enums'
 
 export interface PermissionEntity {
   id: number
@@ -43,11 +43,11 @@ export interface ProfileEntity {
   user: UserEntity
   roles: RoleEntity[]
   services: ServiceEntity[]
-  bookings: BookingEntity[]
   ownedBusinesses: BusinessEntity[]
   ownedObjects: BusinessObjectEntity[]
   employers: BusinessObjectEntity[]
   initiatedMaterialTransactions: MaterialTransactionEntity[]
+  orders: OrderEntity[]
 }
 
 export interface BusinessEntity {
@@ -75,6 +75,8 @@ export interface BusinessObjectEntity {
   customers: ClientEntity[]
   materialTransactions: MaterialTransactionEntity[]
   materials: MaterialEntity[]
+  bookings: BookingEntity[]
+  orders: OrderEntity[]
 }
 
 export interface MaterialEntity {
@@ -83,9 +85,10 @@ export interface MaterialEntity {
   description: string
   unit: string
   quantity: number
+  bookedQuantity: number
   criticalQuantity: number
-  createdAt: Date | string
-  updatedAt: Date | string
+  createdAt: Date
+  updatedAt: Date
   transactions: MaterialTransactionEntity[]
   businessObject: BusinessObjectEntity
   spending: ServiceMaterialEntity[]
@@ -96,12 +99,13 @@ export interface MaterialTransactionEntity {
   quantity: number
   description: string
   type: MaterialTransactionType
-  createdAt: Date | string
+  createdAt: Date
   material: MaterialEntity
   initiator: ProfileEntity
   businessObject: BusinessObjectEntity
-  reverted: MaterialTransactionEntity | null
-  reverting: MaterialTransactionEntity | null
+  previous: MaterialTransactionEntity | null
+  next: MaterialTransactionEntity | null
+  booking: BookingEntity
 }
 
 export interface ClientEntity {
@@ -167,32 +171,66 @@ export interface ServiceEntity {
   duration: number
   discount: number
   status: boolean
-  createdAt: Date | string
-  updatedAt: Date | string
+  createdAt: Date
+  updatedAt: Date
   profiles: ProfileEntity[]
   bookings: BookingEntity[]
   relatedBusinessObjects: BusinessObjectEntity[]
   orders: OrderEntity[]
   spending: ServiceMaterialEntity[]
+  booked: OrderProductsEntity[]
 }
 
 export interface OrderEntity {
   id: number
+  createdAt: Date
+  updatedAt: Date
+  statuses: OrderStatusEntity[]
   booking: BookingEntity
-  products: ServiceEntity[]
+  services: OrderProductsEntity[]
+  createdBy: ProfileEntity
+  businessObject: ProfileEntity
+}
+
+export interface OrderStatusEntity {
+  id: number
+  status: OrderStatus
+  comment: string
+  createdAt: Date
+  createdBy: ProfileEntity
+  order: OrderEntity
+}
+
+export interface BookingStatusEntity {
+  id: number
+  status: ConfirmationStatus
+  comment: string
+  createdAt: Date
+  createdBy: ProfileEntity
+  booking: BookingEntity
 }
 
 export interface BookingEntity {
   id: number
   date: Date | string
   duration: number
-  status: ConfirmationStatus
   comment: string
-  createdAt: Date | string
-  updatedAt: Date | string
-  profile: ProfileEntity
-  services: ServiceEntity[]
+  createdAt: Date
+  updatedAt: Date
+  businessObject: BusinessObjectEntity
   client: ClientEntity
+  profile: ProfileEntity
+  order: OrderEntity
+  services: Partial<OrderProductsEntity>[]
+  materialTransactions: MaterialTransactionEntity[]
+  statuses: BookingStatusEntity[]
+}
+
+export interface OrderProductsEntity {
+  id: number
+  quantity: number
+  service: ServiceEntity
+  booking: BookingEntity
   order: OrderEntity
 }
 

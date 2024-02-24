@@ -16,9 +16,6 @@ whenever(copied, () => {
 
 <template>
   <div class="space-y-2">
-    <h1 class="text-3xl font-bold">
-      Додати профіль працівника
-    </h1>
     <UFormGroup label="Імейл">
       <UButtonGroup
         class="w-full"

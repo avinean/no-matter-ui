@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import type { ClientEntity } from '~/types/entities'
 
+defineExpose({
+  title: `Створити профіль клієнта`,
+})
+
 const props = defineProps<{
   preset?: ClientEntity | null
 }>()
@@ -75,6 +79,11 @@ async function onCreateOrUpdate() {
       {{ props.preset?.id ? t('client.createNew.titleUpdate') : t('client.createNew.titleCreate') }}
     </h1>
     <div class="grid grid-cols-2 gap-x-4 gap-y-2">
+      <input-file
+          class="row-span-6"
+          :src="state.image"
+          @change="photo = $event"
+      />
       <div class="grid gap-2">
         <UFormGroup
           :label="$t('default.forms.labels.firstName')"
@@ -83,6 +92,15 @@ async function onCreateOrUpdate() {
         >
           <UInput v-model="state.firstName" />
         </UFormGroup>
+
+
+    <UFormGroup
+      label="First name"
+      name="firstName"
+      required
+    >
+      <UInput v-model="state.firstName" />
+    </UFormGroup>
 
         <UFormGroup
           :label="$t('default.forms.labels.lastName')"

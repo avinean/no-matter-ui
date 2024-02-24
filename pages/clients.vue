@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import type { ClientEntity } from '~/types/entities'
+import { ModalClient } from '#components';
 
 const { t } = useI18n({
   useScope: 'local',
 })
 const { baseUrl } = useRuntimeConfig().public
 const modalStore = useModalStore()
-const ModalClient = resolveComponent('modal-client')
 
-const { data, get } = useClientRepository()
-get()
+const { get } = useClientRepository()
+const { data } = useAsyncData(() => get())
 
 const commandPaletteRef = ref()
 const selectedId = ref<number | null>(null)

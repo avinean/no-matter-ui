@@ -15,6 +15,10 @@ const { t } = useI18n({
   useScope: 'local',
 })
 
+defineExpose({
+  title: t('account.permissions.addNewRole'),
+})
+
 const toast = useToast()
 const globalStore = useGlobalStore()
 const loading = ref(false)
