@@ -1,21 +1,18 @@
 <script lang="ts" setup>
 import type { ClientEntity } from '~/types/entities'
-const { t } = useI18n({
-  useScope: 'local',
-})
+
 const props = defineProps<{
   preset?: ClientEntity | null
 }>()
-
 const emit = defineEmits<{
   submit: []
 }>()
-
-
-defineExpose({
-  title: computed(() => props.preset?.id ? t('client.createNew.titleUpdate') : t('client.createNew.titleCreate'))
+const { t } = useI18n({
+  useScope: 'local',
 })
-
+defineExpose({
+  title: computed(() => props.preset?.id ? t('client.createNew.titleUpdate') : t('client.createNew.titleCreate')),
+})
 
 const store = useSuggestionsStore()
 store.get('sexes')
@@ -84,72 +81,71 @@ async function onCreateOrUpdate() {
         :src="state.image"
         @change="photo = $event"
       />
-        <UFormGroup
-          :label="$t('default.forms.labels.firstName')"
-          name="firstName"
-          required
-        >
-          <UInput v-model="state.firstName" />
-        </UFormGroup>
+      <UFormGroup
+        :label="$t('default.forms.labels.firstName')"
+        name="firstName"
+        required
+      >
+        <UInput v-model="state.firstName" />
+      </UFormGroup>
 
-        <UFormGroup
-          label="First name"
-          name="firstName"
-          required
-        >
-          <UInput v-model="state.firstName" />
-        </UFormGroup>
+      <UFormGroup
+        label="First name"
+        name="firstName"
+        required
+      >
+        <UInput v-model="state.firstName" />
+      </UFormGroup>
 
-        <UFormGroup
-          :label="$t('default.forms.labels.lastName')"
-          name="lastName"
-          required
-        >
-          <UInput v-model="state.lastName" />
-        </UFormGroup>
+      <UFormGroup
+        :label="$t('default.forms.labels.lastName')"
+        name="lastName"
+        required
+      >
+        <UInput v-model="state.lastName" />
+      </UFormGroup>
 
-        <UFormGroup
-          :label="$t('default.forms.labels.phone')"
-          name="phone"
-          required
-        >
-          <UInput v-model="state.phone" />
-        </UFormGroup>
+      <UFormGroup
+        :label="$t('default.forms.labels.phone')"
+        name="phone"
+        required
+      >
+        <UInput v-model="state.phone" />
+      </UFormGroup>
 
-        <UFormGroup
-          :label="$t('default.forms.labels.sex')"
-          name="sex"
-          required
-        >
-          <USelect
-            v-model="state.sex"
-            :options="store.suggestions.sexes"
-            trailing-icon="i-ic-baseline-keyboard-arrow-down"
-          />
-        </UFormGroup>
+      <UFormGroup
+        :label="$t('default.forms.labels.sex')"
+        name="sex"
+        required
+      >
+        <USelect
+          v-model="state.sex"
+          :options="store.suggestions.sexes"
+          trailing-icon="i-ic-baseline-keyboard-arrow-down"
+        />
+      </UFormGroup>
 
-        <UFormGroup
-          :label="$t('default.forms.labels.dob')"
-          name="birthday"
-          required
-        >
-          <input-date v-model="state.birthday" />
-        </UFormGroup>
+      <UFormGroup
+        :label="$t('default.forms.labels.dob')"
+        name="birthday"
+        required
+      >
+        <input-date v-model="state.birthday" />
+      </UFormGroup>
 
-        <UFormGroup
-          :label="$t('default.forms.labels.source')"
-          name="source"
-          required
-        >
-          <UInput v-model="state.source" />
-        </UFormGroup>
-        <UButton
-          type="submit"
-          class="flex justify-center"
-        >
-          {{ props.preset?.id ? $t('default.forms.actions.save') : $t('default.forms.actions.create') }}
-        </UButton>
-
+      <UFormGroup
+        :label="$t('default.forms.labels.source')"
+        name="source"
+        required
+      >
+        <UInput v-model="state.source" />
+      </UFormGroup>
+      <UButton
+        type="submit"
+        class="flex justify-center"
+      >
+        {{ props.preset?.id ? $t('default.forms.actions.save') : $t('default.forms.actions.create') }}
+      </UButton>
     </div>
   </UForm>
 </template>

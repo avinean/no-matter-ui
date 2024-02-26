@@ -77,7 +77,7 @@ function callModal(preset?: ProfileEntity) {
           <UCard>
             <base-image :src="selectedProfile.image" width="200" height="200" />
             <UFormGroup
-                :label="t('employees.employeeInfo.status')"
+              :label="t('employees.employeeInfo.status')"
             >
               <UToggle
                 on-icon="i-ic-baseline-check-circle-outline"

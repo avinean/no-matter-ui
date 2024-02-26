@@ -2,6 +2,7 @@
 import { ModalMaterial, ModalMaterialTransaction, ModalMaterialTransactionRevert } from '#components'
 import type { MaterialTransactionEntity } from '~/types/entities'
 import type { DropdownItem } from '#ui/types'
+
 const { t } = useI18n({
   useScope: 'local',
 })
@@ -12,14 +13,13 @@ const materialTransactionRepository = useMaterialTransactionRepository()
 const { data: materials, refresh: refreshMaterials } = useAsyncData(() => materialRepository.get())
 const { data: materialTransactions, refresh: refreshMaterialTransactions } = useAsyncData(() => materialTransactionRepository.get())
 
-
 const columns = [
   { key: 'id', label: t('columns.id') },
-  { key: 'quantity', label: t('columns.quantity')  },
-  { key: 'description', label: t('columns.description')  },
-  { key: 'type', label: t('columns.type')  },
-  { key: 'createdAt', label: t('columns.createdAt')  },
-  { key: 'initiator', label: t('columns.initiator')  },
+  { key: 'quantity', label: t('columns.quantity') },
+  { key: 'description', label: t('columns.description') },
+  { key: 'type', label: t('columns.type') },
+  { key: 'createdAt', label: t('columns.createdAt') },
+  { key: 'initiator', label: t('columns.initiator') },
   { key: 'actions' },
 ]
 
@@ -56,7 +56,7 @@ function menu(item: MaterialTransactionEntity): DropdownItem[][] {
         @click="modalStore.open(ModalMaterial, { onSubmit: refreshMaterials })"
       />
       <UButton
-          icon="i-ic-baseline-plus"
+        icon="i-ic-baseline-plus"
         size="sm"
         color="primary"
         square
@@ -70,21 +70,22 @@ function menu(item: MaterialTransactionEntity): DropdownItem[][] {
         })"
       />
     </div>
-    <div  v-if="materials?.length">
-      <h2>{{t('materials')}}</h2>
+    <div v-if="materials?.length">
+      <h2>{{ t('materials') }}</h2>
       <UTable v-if="materials" :rows="materials" />
     </div>
     <div v-if="materialTransactions?.length" class="mt-8">
-      <h2 >{{t('transactions')}}</h2>
+      <h2>{{ t('transactions') }}</h2>
       <UTable
-           :rows="materialTransactions" :columns="columns">
+        :rows="materialTransactions" :columns="columns"
+      >
         <template #initiator-data="{ row }">
-        <span class="inline-flex items-center gap-2">
-          <base-image :src="row.initiator.image" width="32" height="32" />
-          <span>
-            {{ row.initiator.firstName }} {{ row.initiator.lastName }}
+          <span class="inline-flex items-center gap-2">
+            <base-image :src="row.initiator.image" width="32" height="32" />
+            <span>
+              {{ row.initiator.firstName }} {{ row.initiator.lastName }}
+            </span>
           </span>
-        </span>
         </template>
         <template #description-data="{ row }">
           <template v-if="row.booking">
@@ -107,7 +108,6 @@ function menu(item: MaterialTransactionEntity): DropdownItem[][] {
     </div>
   </div>
 </template>
-
 
 <i18n lang="json">
 {
@@ -141,4 +141,3 @@ function menu(item: MaterialTransactionEntity): DropdownItem[][] {
   }
 }
 </i18n>
-

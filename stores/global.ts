@@ -8,7 +8,7 @@ export const useGlobalStore = defineStore('global', () => {
   const business = ref<BusinessEntity>()
   const object = ref<BusinessObjectEntity>()
   const cookie = useCookie('sraka')
-  const {$i18n} = useNuxtApp()
+  const { $i18n } = useNuxtApp()
   const isAdmin = computed(() => user.value?.roles.some(role => role.name === 'admin'))
   const permissions = computed(() => user.value?.roles.flatMap(
     role => role.assignedPermissions.map(

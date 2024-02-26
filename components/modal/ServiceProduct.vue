@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import type { ServiceEntity } from '~/types/entities'
-const { t } = useI18n({
-  useScope: 'local',
-})
+
 const props = withDefaults(defineProps<{
   preset?: ServiceEntity | null
   type: 'product' | 'service'
@@ -10,13 +8,14 @@ const props = withDefaults(defineProps<{
   preset: null,
   type: 'service',
 })
-
 const emit = defineEmits<{
   submit: []
 }>()
-
+const { t } = useI18n({
+  useScope: 'local',
+})
 defineExpose({
-  title: computed(() => props.preset?.id ? t('edit', {type: props.type === 'product' ? t('product') : t('service')} ) : t('create', {type: props.type === 'product' ? t('product') : t('service')})),
+  title: computed(() => props.preset?.id ? t('edit', { type: props.type === 'product' ? t('product') : t('service') }) : t('create', { type: props.type === 'product' ? t('product') : t('service') })),
 })
 
 const { add, edit } = props.type === 'product'
@@ -94,38 +93,38 @@ async function onCreateOrUpdate() {
     </UFormGroup>
 
     <UFormGroup
-        :label="t('form.description')"
-        name="description"
+      :label="t('form.description')"
+      name="description"
     >
       <UTextarea v-model="state.description" />
     </UFormGroup>
 
     <UFormGroup
-        :label="t('form.price')"
-        name="price"
+      :label="t('form.price')"
+      name="price"
       required
     >
       <UInput v-model="state.price" type="number" />
     </UFormGroup>
 
     <UFormGroup
-        :label="t('form.duration')"
-        name="duration"
+      :label="t('form.duration')"
+      name="duration"
       required
     >
       <UInput v-model="state.duration" type="number" />
     </UFormGroup>
 
     <UFormGroup
-        :label="t('form.discount')"
-        name="discount"
+      :label="t('form.discount')"
+      name="discount"
     >
       <UInput v-model="state.discount" type="number" />
     </UFormGroup>
 
     <UFormGroup
-        :label="t('form.materials')"
-        name="materials"
+      :label="t('form.materials')"
+      name="materials"
     >
       <USelectMenu
         v-if="materials"
@@ -157,11 +156,10 @@ async function onCreateOrUpdate() {
     <UButton
       type="submit"
     >
-      {{$t('default.forms.actions.create')}}
+      {{ $t('default.forms.actions.create') }}
     </UButton>
   </UForm>
 </template>
-
 
 <i18n lang="json">
 {

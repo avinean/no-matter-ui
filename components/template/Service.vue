@@ -1,15 +1,15 @@
 <script lang="ts" setup>
 import { ModalServiceProduct } from '#components'
 import type { ServiceEntity } from '~/types/entities'
-const { t } = useI18n({
-  useScope: 'local',
-})
-
 
 const props = withDefaults(defineProps<{
   type?: 'product' | 'service'
 }>(), {
   type: 'service',
+})
+
+const { t } = useI18n({
+  useScope: 'local',
 })
 
 const { hasPermission } = useGlobalStore()
@@ -24,7 +24,7 @@ const { data } = useAsyncData(() => get())
 const columns: any = [
   { key: 'name', label: t('columns.name') },
   { key: 'description', label: t('columns.description') },
-  { key: 'price', label:t('columns.price') },
+  { key: 'price', label: t('columns.price') },
   props.type === 'service' ? { key: 'duration', label: t('columns.duration') } : undefined,
   { key: 'discount', label: t('columns.discount') },
   { key: 'status', label: t('columns.status') },
@@ -40,7 +40,7 @@ function menu(item: ServiceEntity) {
       icon: 'i-ic-baseline-edit',
       click: () => callModal(item),
     }, {
-      label:  t('actions.duplicate'),
+      label: t('actions.duplicate'),
       icon: 'i-ic-baseline-content-copy',
       click: () => onDuplicate(item),
     }],
@@ -75,6 +75,7 @@ async function onDuplicate(item: ServiceEntity) {
   get()
 }
 </script>
+
 <template>
   <div>
     <div v-if="hasPermission('service:add')" class="flex justify-end gap-2 p-2">
@@ -101,10 +102,10 @@ async function onDuplicate(item: ServiceEntity) {
         </template>
         <template #status-data="{ row }">
           <UBadge v-if="row.status" color="green" variant="solid">
-            {{t('active')}}
+            {{ t('active') }}
           </UBadge>
           <UBadge v-else color="gray" variant="solid">
-            {{t('disabled')}}
+            {{ t('disabled') }}
           </UBadge>
         </template>
         <template #discount-data="{ row }">

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { HorizontalNavigationLink } from '#ui/types'
+
 const { t } = useI18n({
   useScope: 'local',
 })
-
 
 const { hasPermission } = useGlobalStore()
 const links = computed(() => [
@@ -33,6 +33,7 @@ const links = computed(() => [
     <NuxtPage />
   </div>
 </template>
+
 <i18n lang="json">
 {
   "en-US": {

@@ -1,9 +1,6 @@
 <script lang="ts" setup>
 import { ModalRole, ModalServiceProduct } from '#components'
 import type { ProfileEntity, RoleEntity, ServiceEntity } from '~/types/entities'
-const { t } = useI18n({
-  useScope: 'local',
-})
 
 const props = withDefaults(defineProps<{
   preset?: ProfileEntity | null
@@ -14,6 +11,10 @@ const props = withDefaults(defineProps<{
 const emit = defineEmits<{
   submit: [user: { email: string, password: string }]
 }>()
+
+const { t } = useI18n({
+  useScope: 'local',
+})
 
 defineExpose({
   title: computed(() => `${props.preset?.id ? t('employee.titleUpdate') : t('employee.titleCreate')} `),
@@ -97,7 +98,7 @@ async function onCreateOrUpdate() {
     />
 
     <UFormGroup
-        :label="$t('default.forms.labels.firstName')"
+      :label="$t('default.forms.labels.firstName')"
       name="firstName"
       required
     >
@@ -105,42 +106,42 @@ async function onCreateOrUpdate() {
     </UFormGroup>
 
     <UFormGroup
-        :label="$t('default.forms.labels.lastName')"
+      :label="$t('default.forms.labels.lastName')"
 
-        name="lastName"
+      name="lastName"
       required
     >
       <UInput v-model="state.lastName" />
     </UFormGroup>
 
     <UFormGroup
-        :label="$t('default.forms.labels.email')"
+      :label="$t('default.forms.labels.email')"
 
-        name="email"
+      name="email"
       required
     >
       <UInput v-model="state.email" />
     </UFormGroup>
 
     <UFormGroup
-        :label="$t('default.forms.labels.phone')"
-        name="phone"
+      :label="$t('default.forms.labels.phone')"
+      name="phone"
       required
     >
       <UInput v-model="state.phone" />
     </UFormGroup>
 
     <UFormGroup
-        :label="$t('default.forms.labels.dob')"
-        name="birthday"
+      :label="$t('default.forms.labels.dob')"
+      name="birthday"
       required
     >
       <InputDate v-model="state.birthday" />
     </UFormGroup>
 
     <UFormGroup
-        :label="$t('default.forms.labels.sex')"
-        name="sex"
+      :label="$t('default.forms.labels.sex')"
+      name="sex"
       required
     >
       <USelect
@@ -150,8 +151,8 @@ async function onCreateOrUpdate() {
     </UFormGroup>
 
     <UFormGroup
-        :label="$t('default.forms.labels.role')"
-        name="role"
+      :label="$t('default.forms.labels.role')"
+      name="role"
       required
     >
       <div class="flex gap-1">
@@ -215,7 +216,6 @@ async function onCreateOrUpdate() {
     </UButton>
   </UForm>
 </template>
-
 
 <i18n lang="json">
 {
