@@ -1,5 +1,5 @@
 <script setup>
-import { ModalBusiness, ModalObject } from '#components'
+import { ModalBusiness, ModalBusinessObject } from '#components'
 
 const { baseUrl } = useRuntimeConfig().public
 const globalStore = useGlobalStore()
@@ -11,7 +11,7 @@ const businesses = computed(() => globalStore.user.ownedBusinesses.map(business 
   avatar: { src: `${baseUrl}/${business.image}`, loading: 'lazy' },
 })))
 
-const businessObjects = computed(() => (globalStore.business?.objects || []).map(object => ({
+const businessObjects = computed(() => (globalStore.business.businessObjects || []).map(object => ({
   object,
   id: object.id,
   label: object.name,
@@ -76,7 +76,7 @@ const object = computed({
           commands: [{
             label: 'Додати новий обʼєкт',
             icon: 'i-ic-baseline-business',
-            click: () => modalStore.open(ModalObject),
+            click: () => modalStore.open(ModalBusinessObject),
           }],
         },
       ]"

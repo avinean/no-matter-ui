@@ -1,66 +1,44 @@
 <script lang="ts" setup>
-import type { BusinessEntity } from '~/types/entities'
-
-defineExpose({
-  title: `Створити обʼєкт бізнесу'`,
-})
+import type { BusinessObjectEntity } from '~/types/entities'
 
 const props = defineProps<{
-  preset?: BusinessEntity | null
+  preset?: BusinessObjectEntity | null
 }>()
 
 const emit = defineEmits<{
   submit: []
 }>()
 
+defineExpose({
+  title: `Створити обʼєкт бізнесу'`,
+})
+
 const { baseUrl } = useRuntimeConfig().public
-const toast = useToast()
-const globalStore = useGlobalStore()
 
 const { photo, add: addPhoto } = usePhoto(props.preset?.image)
+const { add, edit } = useBusinessObectRepository()
 
-const loading = ref(false)
-const state: Partial<BusinessEntity> = reactive({
+const state: Partial<BusinessObjectEntity> = reactive({
   name: props.preset?.name,
   description: props.preset?.description,
   image: props.preset?.image,
 })
 
 async function onCreateOrUpdate() {
-  loading.value = true
   const image = await addPhoto()
 
-  try {
-    const endpoint = props.preset?.id
-      ? `/business-object/${globalStore.user?.id}/${globalStore.business?.id}/${props.preset.id}`
-      : `/business-object/${globalStore.user?.id}/${globalStore.business?.id}`
-    const method = props.preset?.id ? 'PUT' : 'POST'
+  if (props.preset?.id)
+    await edit(props.preset?.id, { ...state, image })
 
-    await $api(endpoint, {
-      method,
-      body: {
-        ...state,
-        image,
-      },
-    })
+  else
+    await add({ ...state, image })
 
-    emit('submit')
-  }
-  catch (e) {
-    toast.add({
-      title: 'Error',
-      description: 'Користувача з таким номером телефону вже зареєстровано',
-    })
-  }
-  finally {
-    loading.value = false
-  }
+  emit('submit')
 }
 </script>
 
 <template>
   <UForm
-    ref="form"
     :state="state"
     class="grid grid-cols-2 gap-x-4 gap-y-2"
     @submit="onCreateOrUpdate"
