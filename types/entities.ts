@@ -48,6 +48,7 @@ export interface ProfileEntity {
   employers: BusinessObjectEntity[]
   initiatedMaterialTransactions: MaterialTransactionEntity[]
   orders: OrderEntity[]
+  schedule: ScheduleEntity[]
 }
 
 export interface BusinessEntity {
@@ -77,6 +78,7 @@ export interface BusinessObjectEntity {
   materials: MaterialEntity[]
   bookings: BookingEntity[]
   orders: OrderEntity[]
+  schedule: ScheduleEntity[]
 }
 
 export interface MaterialEntity {
@@ -234,8 +236,15 @@ export interface OrderProductsEntity {
   order: OrderEntity
 }
 
-export interface LocaleEntity {
-  locale: string
-  label: string
-  avatar: { src: string }
+export interface ScheduleEntity {
+  id: number
+  start: string
+  end: string
+  isWeekend: boolean
+  dayOfWeek: 1 | 2 | 3 | 4 | 5 | 6 | 0
+  offset: number
+  businessObject?: BusinessObjectEntity
+  profile?: ProfileEntity
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }

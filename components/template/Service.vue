@@ -19,7 +19,7 @@ const { get, add } = props.type === 'product'
   ? useProductRepository()
   : useServiceRepository()
 
-const { data } = useAsyncData(() => get())
+const { data, refresh } = useAsyncData(() => get())
 
 const columns: any = [
   { key: 'name', label: t('columns.name') },
@@ -57,7 +57,7 @@ function callModal(preset?: ServiceEntity) {
     preset,
     type: props.type,
     onSubmit() {
-      get()
+      refresh()
     },
   })
 }
@@ -71,8 +71,9 @@ async function onDuplicate(item: ServiceEntity) {
     duration: item.duration,
     discount: item.discount,
     status: item.status,
+    spending: item.spending.map(({ id: _, ...spending }) => spending),
   })
-  get()
+  refresh()
 }
 </script>
 

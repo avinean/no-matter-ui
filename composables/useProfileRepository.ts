@@ -1,4 +1,4 @@
-import type { ProfileEntity } from '~/types/entities'
+import type { ProfileEntity, ScheduleEntity } from '~/types/entities'
 
 export const useProfileRepository = createGlobalState(() => {
   const globalStore = useGlobalStore()
@@ -42,10 +42,18 @@ export const useProfileRepository = createGlobalState(() => {
     }
   }
 
+  function schedule(id: number, body: Partial<ScheduleEntity>[]) {
+    return $api(`/profile/${globalStore.object?.id}/${id}/schedule`, {
+      method: 'PUT',
+      body,
+    })
+  }
+
   return {
     data,
     get,
     add,
     edit,
+    schedule,
   }
 })

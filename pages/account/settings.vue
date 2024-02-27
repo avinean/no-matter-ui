@@ -1,16 +1,11 @@
 <script lang="ts" setup>
-import type { LocaleEntity } from '~/types/entities'
-
 const { t, locale } = useI18n({
   useScope: 'local',
 })
+const globalStore = useGlobalStore()
 const toast = useToast()
-const password = reactive({
-  password: undefined,
-  newPassword: undefined,
-  confirmPassword: undefined,
-})
-const locales = computed<LocaleEntity[]>(() => [
+
+const locales = computed(() => [
   {
     locale: 'uk-UK',
     label: t('titles.generalOptions.locales.ua'),
@@ -23,7 +18,13 @@ const locales = computed<LocaleEntity[]>(() => [
   },
 ])
 
-function validate(state: typeof password) {
+const password = reactive({
+  password: undefined,
+  newPassword: undefined,
+  confirmPassword: undefined,
+})
+
+function validatePassword(state: typeof password) {
   const errors = []
   if (!state.password)
     errors.push({ path: 'password', message: t('formValidation.required') })
@@ -63,7 +64,7 @@ async function onUpdatePassword() {
       </template>
       <UForm
         :state="password"
-        :validate="validate"
+        :validate="validatePassword"
         class="space-y-2 w-full"
         @submit="onUpdatePassword"
       >
@@ -119,6 +120,22 @@ async function onUpdatePassword() {
           </template>
         </USelectMenu>
       </UFormGroup>
+    </UCard>
+    <UCard
+      class="flex flex-col flex-1"
+      :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"
+    >
+      <template #header>
+        <h1 class="text-3xl font-bold">
+          Персональний графік роботи
+        </h1>
+      </template>
+
+      <FormSchedule
+        :schedule="globalStore.user?.schedule"
+        :profile-id="globalStore.user?.id"
+        @submit="globalStore.getUser"
+      />
     </UCard>
   </div>
 </template>
