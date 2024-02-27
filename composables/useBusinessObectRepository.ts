@@ -1,4 +1,4 @@
-import type { BusinessEntity, ProfileEntity, ScheduleEntity } from '~/types/entities'
+import type { BusinessEntity, CalendarEntity, ScheduleEntity } from '~/types/entities'
 
 export const useBusinessObectRepository = createGlobalState(() => {
   const globalStore = useGlobalStore()
@@ -24,9 +24,17 @@ export const useBusinessObectRepository = createGlobalState(() => {
     })
   }
 
+  function calendar(id: number, body: Partial<CalendarEntity>) {
+    return $api(`/business-object/${id}/calendar`, {
+      method: 'PUT',
+      body,
+    })
+  }
+
   return {
     add,
     edit,
     schedule,
+    calendar,
   }
 })

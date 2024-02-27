@@ -10,7 +10,7 @@ const { baseUrl } = useRuntimeConfig().public
 const links = computed(() => [
   {
     label: t('tabs.info'),
-    to: '/account/info',
+    to: '/account',
     avatar: {
       src: `${baseUrl}/${store.user?.image}`,
     },
@@ -19,6 +19,11 @@ const links = computed(() => [
     label: t('tabs.settings'),
     icon: 'i-ic-sharp-build',
     to: '/account/settings',
+  },
+  {
+    label: t('account.tabs.calendar'),
+    icon: 'i-ic-baseline-calendar-month',
+    to: '/account/calendar',
   },
   store.isAdmin && {
     label: t('tabs.access'),

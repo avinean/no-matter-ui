@@ -58,7 +58,7 @@ const links = computed(() => [
   [
     {
       label: t('default.applicationLinks.account'),
-      to: '/account/info',
+      to: '/account',
       avatar: {
         src: `${baseUrl}/${store.user?.image}`,
       },
@@ -70,7 +70,7 @@ const links = computed(() => [
 <template>
   <div class="flex min-h-screen">
     <div class="max-h-screen flex flex-col p-2 sticky top-0 left-0 z-50 transition bg-gray-200">
-      <div class="px-2 pb-2">
+      <div class="px-2 pb-2 flex justify-center">
         <img
           src="/logo.svg"
           alt="Syns"

@@ -8,8 +8,7 @@ const { t } = useI18n({
 const { baseUrl } = useRuntimeConfig().public
 const { hasPermission } = useGlobalStore()
 const modalStore = useModalStore()
-const { data, get } = useProfileRepository()
-get()
+const { data, refresh } = useAsyncData(useProfileRepository().get)
 const commandPaletteRef = ref()
 const selectedId = ref<number | null>(null)
 const selectedProfile = computed(() => data.value?.find(profile => profile.id === selectedId.value))
@@ -34,7 +33,7 @@ function callModal(preset?: ProfileEntity) {
   modalStore.open(ModalEmployee, {
     preset,
     onSubmit(user) {
-      get()
+      refresh()
       if (!preset) {
         nextTick(() => {
           modalStore.open(ModalEmailPassAlert, { user })

@@ -1,13 +1,11 @@
-import type { ProfileEntity, ScheduleEntity } from '~/types/entities'
+import type { CalendarEntity, ProfileEntity, ScheduleEntity } from '~/types/entities'
 
 export const useProfileRepository = createGlobalState(() => {
   const globalStore = useGlobalStore()
   const toast = useToast()
 
-  const data = ref<ProfileEntity[]>([])
-
-  async function get() {
-    data.value = await $api<ProfileEntity[]>(`/profile/${globalStore.object?.id || globalStore.user?.employers[0]?.id}`)
+  function get() {
+    return $api<ProfileEntity[]>(`/profile/${globalStore.object?.id || globalStore.user?.employers[0]?.id}`)
   }
 
   async function add(body: Partial<ProfileEntity>) {
@@ -49,11 +47,18 @@ export const useProfileRepository = createGlobalState(() => {
     })
   }
 
+  function calendar(id: number, body: Partial<CalendarEntity>) {
+    return $api(`/profile/${globalStore.object?.id}/${id}/calendar`, {
+      method: 'PUT',
+      body,
+    })
+  }
+
   return {
-    data,
     get,
     add,
     edit,
     schedule,
+    calendar,
   }
 })

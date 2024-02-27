@@ -106,5 +106,18 @@ const columns = computed(() => [
         />
       </UCard>
     </div>
+    <UCard :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }" class="col-span-2">
+      <template #header>
+        <h1 class="text-3xl font-bold">
+          Вихідні та святкові дні підприємства
+        </h1>
+      </template>
+      <FormCalendar
+        :calendar="globalStore.object?.calendar"
+        :schedule="globalStore.object?.schedule"
+        :bussiness-object-id="globalStore.object?.id"
+        @submit="globalStore.getUser"
+      />
+    </UCard>
   </div>
 </template>
