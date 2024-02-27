@@ -17,7 +17,7 @@ const { t } = useI18n({
 })
 
 defineExpose({
-  title: computed(() => `${props.preset?.id ? t('employee.titleUpdate') : t('employee.titleCreate')} `),
+  title: computed(() => `${props.preset?.id ? t('titleUpdate') : t('titleCreate')} `),
 })
 
 const modalStore = useModalStore()
@@ -220,16 +220,12 @@ async function onCreateOrUpdate() {
 <i18n lang="json">
 {
   "en-US": {
-    "employee": {
         "titleCreate": "Create employee profile",
         "titleUpdate": "Edit employee profile"
-    }
   },
   "uk-UK": {
-    "employee": {
         "titleCreate": "Створити профіль працівника",
         "titleUpdate": "Редагування профіля"
-    }
   }
 }
 </i18n>

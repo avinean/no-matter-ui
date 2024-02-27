@@ -56,14 +56,14 @@ async function setPermissions() {
     })
 
     toast.add({
-      title: t('permissions.form.formNotifications.accessTitle'),
-      description: t('permissions.form.formNotifications.accessDesc'),
+      title: t('form.formNotifications.accessTitle'),
+      description: t('form.formNotifications.accessDesc'),
     })
   }
   catch (e) {
     toast.add({
-      title: t('permissions.form.formNotifications.errorTitle'),
-      description: t('permissions.form.formNotifications.errorDesc'),
+      title: t('form.formNotifications.errorTitle'),
+      description: t('form.formNotifications.errorDesc'),
     })
   }
 }
@@ -78,7 +78,7 @@ function select(role: RoleEntity) {
   <div class="grid md:grid-cols-[200px,1fr] gap-2 divide-x min-h-full">
     <div class="p-2">
       <UButton
-        :label="t('permissions.addNewRole')"
+        :label="t('addNewRole')"
         icon="i-ic-outline-contact-phone"
         class="w-full"
         @click="callModal()"
@@ -89,40 +89,40 @@ function select(role: RoleEntity) {
         } }"
         :groups="groups"
         :autoselect="false"
-        :placeholder="t('permissions.rolesList.searchPlaceholder')"
+        :placeholder="t('rolesList.searchPlaceholder')"
         :empty-state="{
           icon: '',
-          queryLabel: t('permissions.rolesList.emptyList.isEmptyBySearch'),
-          label: t('permissions.rolesList.emptyList.isEmpty'),
+          queryLabel: t('rolesList.emptyList.isEmptyBySearch'),
+          label: t('rolesList.emptyList.isEmpty'),
         }"
         @update:model-value="select($event.role)"
       />
     </div>
     <div v-if="selected && !loading" class="w-full p-2 space-y-2">
       <h2 class="font-bold text-2xl">
-        {{ t('permissions.role') }}: {{ selected.name }}
+        {{ t('role') }}: {{ selected.name }}
       </h2>
       <UTable
         :columns="[
           {
             key: 'value',
-            label: t('permissions.permissionColumns.value'),
+            label: t('permissionColumns.value'),
           },
           {
             key: 'read',
-            label: t('permissions.permissionColumns.read'),
+            label: t('permissionColumns.read'),
           },
           {
             key: 'add',
-            label: t('permissions.permissionColumns.add'),
+            label: t('permissionColumns.add'),
           },
           {
             key: 'edit',
-            label: t('permissions.permissionColumns.edit'),
+            label: t('permissionColumns.edit'),
           },
           {
             key: 'delete',
-            label: t('permissions.permissionColumns.delete'),
+            label: t('permissionColumns.delete'),
           },
         ]"
         :rows="store.suggestions.resources"
@@ -154,7 +154,6 @@ function select(role: RoleEntity) {
 <i18n lang="json">
 {
   "en-US": {
-    "permissions": {
       "role": "Role",
       "addNewRole": "Add a new role",
       "rolesList": {
@@ -180,10 +179,8 @@ function select(role: RoleEntity) {
         "edit": "Edit records",
         "delete": "Delete records"
       }
-    }
   },
   "uk-UK": {
-    "permissions": {
       "role": "Роль",
       "addNewRole": "Додати нову роль",
       "rolesList": {
@@ -207,7 +204,6 @@ function select(role: RoleEntity) {
         "edit": "Редагувати записи",
         "delete": "Видаляти записи"
       }
-    }
 
   }
 }

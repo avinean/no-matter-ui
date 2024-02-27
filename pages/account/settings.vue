@@ -13,12 +13,12 @@ const password = reactive({
 const locales = computed<LocaleEntity[]>(() => [
   {
     locale: 'uk-UK',
-    label: t('settings.titles.generalOptions.locales.ua'),
+    label: t('titles.generalOptions.locales.ua'),
     avatar: { src: '/flag/uk.png' },
   },
   {
     locale: 'en-US',
-    label: t('settings.titles.generalOptions.locales.en'),
+    label: t('titles.generalOptions.locales.en'),
     avatar: { src: '/flag/gb.png' },
   },
 ])
@@ -41,7 +41,7 @@ async function onUpdatePassword() {
   })
   toast.add({
     title: 'Success',
-    description: t('settings.form.requestMessages.successChangePassword'),
+    description: t('form.requestMessages.successChangePassword'),
   })
 
   for (const key in password)
@@ -58,7 +58,7 @@ async function onUpdatePassword() {
     >
       <template #header>
         <h1 class="text-3xl font-bold">
-          {{ t('settings.titles.loginOptions') }}
+          {{ t('titles.loginOptions') }}
         </h1>
       </template>
       <UForm
@@ -102,11 +102,11 @@ async function onUpdatePassword() {
     >
       <template #header>
         <h1 class="text-3xl font-bold">
-          {{ t('settings.titles.generalOptions.generalTitle') }}
+          {{ t('titles.generalOptions.generalTitle') }}
         </h1>
       </template>
       <UFormGroup
-        :label="t('settings.titles.generalOptions.localeLabel')"
+        :label="t('titles.generalOptions.localeLabel')"
       >
         <USelectMenu
           v-model="locale"
@@ -126,7 +126,6 @@ async function onUpdatePassword() {
 <i18n lang="json">
 {
   "en-US": {
-    "settings": {
       "form": {
         "requestMessages": {
           "successChangePassword": "Password changed successfully"
@@ -143,10 +142,8 @@ async function onUpdatePassword() {
           }
         }
       }
-    }
   },
   "uk-UK": {
-    "settings": {
       "form": {
         "requestMessages": {
           "successChangePassword": "Пароль успішно змінено"
@@ -164,8 +161,6 @@ async function onUpdatePassword() {
 
         }
       }
-
-    }
   }
 }
 </i18n>

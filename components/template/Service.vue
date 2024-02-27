@@ -130,7 +130,6 @@ async function onDuplicate(item: ServiceEntity) {
 <i18n lang="json">
 {
   "en-US": {
-
     "active": "active",
     "disabled": "inactive",
     "product": {

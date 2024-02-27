@@ -39,7 +39,7 @@ function callModal(preset?: ClientEntity) {
   <div class="grid md:grid-cols-[200px,1fr] gap-2 divide-x min-h-full">
     <div>
       <UButton
-        :label="t('clients.addNewClient')"
+        :label="t('addNewClient')"
         icon="i-ic-outline-contact-phone"
         class="w-full"
         @click="callModal()"
@@ -48,15 +48,15 @@ function callModal(preset?: ClientEntity) {
         ref="commandPaletteRef"
         :groups="groups"
         :autoselect="false"
-        :placeholder="t('clients.clientsList.searchPlaceholder')"
+        :placeholder="t('clientsList.searchPlaceholder')"
         :ui="{ emptyState: {
           wrapper: 'px-2 py-2 sm:px-2',
         } }"
 
         :empty-state="{
           icon: '',
-          queryLabel: t('clients.clientsList.emptyList.isEmptyBySearch'),
-          label: t('clients.clientsList.emptyList.isEmpty'),
+          queryLabel: t('clientsList.emptyList.isEmptyBySearch'),
+          label: t('clientsList.emptyList.isEmpty'),
         }"
         @update:model-value="selectedId = $event.client.id"
       />
@@ -66,7 +66,7 @@ function callModal(preset?: ClientEntity) {
         <div class="grid lg:grid-cols-3 gap-2 w-full">
           <UCard>
             <base-image :src="selectedClient.image" width="200" height="200" />
-            <UFormGroup :label="t('clients.clientInfo.status')">
+            <UFormGroup :label="t('clientInfo.status')">
               <UToggle
                 on-icon="i-ic-baseline-check-circle-outline"
                 off-icon="i-outline-cancel"
@@ -83,13 +83,13 @@ function callModal(preset?: ClientEntity) {
             </h1>
             <div class="grid grid-cols-[150px,1fr] items-center">
               <span class="font-bold">
-                {{ t('clients.clientInfo.phone') }}:</span><span>{{ selectedClient.phone }}</span>
-              <span class="font-bold">{{ t('clients.clientInfo.sex') }}:</span><span>{{ selectedClient.sex }}</span>
-              <span class="font-bold">{{ t('clients.clientInfo.dob') }}:</span><span><base-datetime :date="selectedClient.birthday" /></span>
-              <span class="font-bold">{{ t('clients.clientInfo.balance') }}:</span><span>{{ selectedClient.balance || 0 }}</span>
+                {{ t('clientInfo.phone') }}:</span><span>{{ selectedClient.phone }}</span>
+              <span class="font-bold">{{ t('clientInfo.sex') }}:</span><span>{{ selectedClient.sex }}</span>
+              <span class="font-bold">{{ t('clientInfo.dob') }}:</span><span><base-datetime :date="selectedClient.birthday" /></span>
+              <span class="font-bold">{{ t('clientInfo.balance') }}:</span><span>{{ selectedClient.balance || 0 }}</span>
               <!-- <span class="font-bold">Номер картки:</span><span>{{ selectedClient.cardId || `${selectedClient.id}`.padStart(4, '0') }}</span> -->
-              <span class="font-bold">{{ t('clients.clientInfo.source') }}:</span><span>{{ selectedClient.source }}</span>
-              <span class="font-bold">{{ t('clients.clientInfo.created') }}:</span><span><base-datetime :date="selectedClient.createdAt" /></span>
+              <span class="font-bold">{{ t('clientInfo.source') }}:</span><span>{{ selectedClient.source }}</span>
+              <span class="font-bold">{{ t('clientInfo.created') }}:</span><span><base-datetime :date="selectedClient.createdAt" /></span>
             </div>
           </UCard>
         </div>
@@ -101,7 +101,6 @@ function callModal(preset?: ClientEntity) {
 <i18n lang="json">
 {
   "en-US": {
-    "clients": {
       "addNewClient": "Add New",
       "clientsList": {
         "searchPlaceholder": "Search...",
@@ -119,10 +118,8 @@ function callModal(preset?: ClientEntity) {
         "source": "Source",
         "status": "Status"
       }
-    }
   },
   "uk-UK": {
-    "clients": {
       "addNewClient": "Додати нового",
       "clientsList": {
         "searchPlaceholder": "Пошук...",
@@ -140,7 +137,6 @@ function callModal(preset?: ClientEntity) {
         "source": "Джерело",
         "status": "Статус"
       }
-    }
   }
 }
 </i18n>

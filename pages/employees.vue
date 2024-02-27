@@ -25,9 +25,9 @@ const groups = computed(() => [{
 }])
 
 const actions = [
-  { tooltip: t('employees.actions.edit'), icon: 'i-ic-baseline-edit', onClick: () => callModal(selectedProfile.value) },
-  { tooltip: t('employees.actions.copy'), icon: 'i-ic-baseline-content-copy' },
-  { tooltip: t('employees.actions.regeneratePass'), icon: 'i-ic-round-security' },
+  { tooltip: t('actions.edit'), icon: 'i-ic-baseline-edit', onClick: () => callModal(selectedProfile.value) },
+  { tooltip: t('actions.copy'), icon: 'i-ic-baseline-content-copy' },
+  { tooltip: t('actions.regeneratePass'), icon: 'i-ic-round-security' },
 ]
 
 function callModal(preset?: ProfileEntity) {
@@ -50,7 +50,7 @@ function callModal(preset?: ProfileEntity) {
     <div>
       <UButton
         v-if="hasPermission('profile:add')"
-        :label="t('employees.addNewEmployee')"
+        :label="t('addNewEmployee')"
         icon="i-ic-outline-contact-phone"
         class="w-full"
         @click="callModal()"
@@ -59,14 +59,14 @@ function callModal(preset?: ProfileEntity) {
         ref="commandPaletteRef"
         :groups="groups"
         :autoselect="false"
-        :placeholder="t('employees.employeeList.searchPlaceholder')"
+        :placeholder="t('employeeList.searchPlaceholder')"
         :ui="{ emptyState: {
           wrapper: 'px-2 py-2 sm:px-2',
         } }"
         :empty-state="{
           icon: '',
-          queryLabel: t('employees.employeeList.emptyList.isEmptyBySearch'),
-          label: t('employees.employeeList.emptyList.isEmpty'),
+          queryLabel: t('employeeList.emptyList.isEmptyBySearch'),
+          label: t('employeeList.emptyList.isEmpty'),
         }"
         @update:model-value="selectedId = $event.client.id"
       />
@@ -77,7 +77,7 @@ function callModal(preset?: ProfileEntity) {
           <UCard>
             <base-image :src="selectedProfile.image" width="200" height="200" />
             <UFormGroup
-              :label="t('employees.employeeInfo.status')"
+              :label="t('employeeInfo.status')"
             >
               <UToggle
                 on-icon="i-ic-baseline-check-circle-outline"
@@ -91,15 +91,15 @@ function callModal(preset?: ProfileEntity) {
               <base-action-bar :items="actions" />
             </h1>
             <div class="grid grid-cols-[150px,1fr] items-center">
-              <span class="font-bold">{{ t('employees.employeeInfo.phone') }}:</span><span>{{ selectedProfile.phone }}</span>
-              <span class="font-bold">{{ t('employees.employeeInfo.sex') }}:</span><span>{{ selectedProfile.sex }}</span>
-              <span class="font-bold">{{ t('employees.employeeInfo.dob') }}:</span><span><base-datetime :date="selectedProfile.birthday" /></span>
-              <span class="font-bold">{{ t('employees.employeeInfo.created') }}:</span><span><base-datetime :date="selectedProfile.createdAt" date-style="medium" time-style="medium" /></span>
-              <span class="font-bold">{{ t('employees.employeeInfo.roles') }}:</span>
+              <span class="font-bold">{{ t('employeeInfo.phone') }}:</span><span>{{ selectedProfile.phone }}</span>
+              <span class="font-bold">{{ t('employeeInfo.sex') }}:</span><span>{{ selectedProfile.sex }}</span>
+              <span class="font-bold">{{ t('employeeInfo.dob') }}:</span><span><base-datetime :date="selectedProfile.birthday" /></span>
+              <span class="font-bold">{{ t('employeeInfo.created') }}:</span><span><base-datetime :date="selectedProfile.createdAt" date-style="medium" time-style="medium" /></span>
+              <span class="font-bold">{{ t('employeeInfo.roles') }}:</span>
               <span class="flex gap-2 flex-wrap mt-2">
                 <UBadge v-for="role in selectedProfile.roles" :key="role.name" :label="role.name" />
               </span>
-              <span class="font-bold">{{ t('employees.employeeInfo.services') }}:</span>
+              <span class="font-bold">{{ t('employeeInfo.services') }}:</span>
               <span class="flex gap-2 flex-wrap mt-2">
                 <UBadge v-for="service in selectedProfile.services" :key="service.name" :label="service.name" />
               </span>
@@ -114,7 +114,6 @@ function callModal(preset?: ProfileEntity) {
 <i18n lang="json">
 {
   "en-US": {
-    "employees": {
       "addNewEmployee": "Add New",
       "employeeList": {
         "searchPlaceholder": "Search...",
@@ -137,10 +136,8 @@ function callModal(preset?: ProfileEntity) {
           "copy": "Copy current password",
           "regeneratePass": "Regenerate password"
         }
-    }
   },
   "uk-UK": {
-    "employees": {
       "addNewEmployee": "Додати нового",
       "employeeList": {
         "searchPlaceholder": "Пошук...",
@@ -163,7 +160,6 @@ function callModal(preset?: ProfileEntity) {
         "copy": "Копіювати поточний пароль",
         "regeneratePass": "Перегенерувати пароль"
       }
-    }
   }
 }
 </i18n>

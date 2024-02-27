@@ -86,8 +86,7 @@ async function onSubmit(event: FormSubmitEvent<any>) {
       "title": "Sign In",
       "signUp": "Sign up",
       "forgot": "Forgot your password?"
-    },
-
+    }
   },
   "uk-UK": {
     "form": {

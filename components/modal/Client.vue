@@ -11,7 +11,7 @@ const { t } = useI18n({
   useScope: 'local',
 })
 defineExpose({
-  title: computed(() => props.preset?.id ? t('client.createNew.titleUpdate') : t('client.createNew.titleCreate')),
+  title: computed(() => props.preset?.id ? t('titleUpdate') : t('titleCreate')),
 })
 
 const store = useSuggestionsStore()
@@ -153,20 +153,12 @@ async function onCreateOrUpdate() {
 <i18n lang="json">
 {
   "en-US": {
-    "client": {
-      "createNew": {
         "titleCreate": "Create client profile",
         "titleUpdate": "Edit client profile"
-      }
-    }
   },
   "uk-UK": {
-    "client": {
-      "createNew": {
         "titleCreate": "Створити профіль клієнта",
         "titleUpdate": "Редагування профіля"
-      }
-    }
   }
 }
 </i18n>

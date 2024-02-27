@@ -32,7 +32,7 @@ async function onSubmit(event: FormSubmitEvent<any>) {
 <template>
   <div class="self-center w-full lg:w-1/2">
     <h1 class="text-2xl text-gray-700 mb-4">
-      {{ t('form.title') }}
+      {{ t('title') }}
     </h1>
     <UForm
       :validate="validate"
@@ -73,13 +73,13 @@ async function onSubmit(event: FormSubmitEvent<any>) {
     </UForm>
     <div class="flex align-center gap-1.5 mt-4">
       <span class="">
-        {{ t('form.alreadyLogIn') }}
+        {{ t('alreadyLogIn') }}
       </span>
       <ULink
         to="/auth/sign-in"
-        inactive-class="underline  hover:text-violet-400 "
+        inactive-class="underline  hover:text-violet-400"
       >
-        {{ t('form.logIn') }}
+        {{ t('logIn') }}
       </ULink>
     </div>
   </div>
@@ -88,24 +88,14 @@ async function onSubmit(event: FormSubmitEvent<any>) {
 <i18n lang="json">
 {
   "en-US": {
-    "form": {
       "title": "New user registration",
       "logIn": "Sign up",
       "alreadyLogIn": "Already registered?"
-    }
   },
   "uk-UK": {
-    "form": {
-      "labels": {
-        "firstName": "Ваше ім'я",
-        "lastName": "Ваше прізвище",
-        "email": "E-mail",
-        "submit": "Зареєструватися"
-      },
       "title": "Реєстрація нового користувача",
       "logIn": "Увійти",
       "alreadyLogIn": "Вже зареєстровані?"
-    }
   }
 }
 </i18n>
