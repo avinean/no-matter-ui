@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { ModalEmployee } from '#components'
 
-const { t } = useI18n()
+const { t } = useI18n({
+  useScope: 'local',
+})
 
 const globalStore = useGlobalStore()
 const modalStore = useModalStore()
 const actions = [
   { tooltip:
-        t('account.info.actions.tooltipText'), icon: 'i-ic-baseline-edit', onClick: () => modalStore.open(ModalEmployee, {
+        t('actions.tooltipText'), icon: 'i-ic-baseline-edit', onClick: () => modalStore.open(ModalEmployee, {
     preset: globalStore.user,
     onSubmit() {
       globalStore.getUser()
@@ -22,7 +24,7 @@ const actions = [
   >
     <template #header>
       <h1 class="text-3xl font-bold">
-        {{ $t('account.info.title') }}
+        {{ t('title') }}
       </h1>
     </template>
 
@@ -33,25 +35,25 @@ const actions = [
 
       <div class="flex gap-2">
         <div class="font-bold min-w-40">
-          {{ $t('account.info.userFields.name') }}:
+          {{ t('userFields.name') }}:
         </div>
         <div>{{ globalStore.user?.firstName }} {{ globalStore.user?.lastName }} ({{ globalStore.user?.sex }})</div>
       </div>
       <div class="flex gap-2">
         <div class="font-bold min-w-40">
-          {{ $t('account.info.userFields.dob') }}:
+          {{ t('userFields.dob') }}:
         </div>
         <base-datetime :date="globalStore.user?.birthday" />
       </div>
       <div class="flex gap-2">
         <div class="font-bold min-w-40">
-          {{ $t('account.info.userFields.contacts') }}:
+          {{ t('userFields.contacts') }}:
         </div>
         <div>{{ globalStore.user?.email }}, {{ globalStore.user?.phone }}</div>
       </div>
       <div class="flex gap-2">
         <div class="font-bold min-w-40">
-          {{ $t('account.info.userFields.roles') }}:
+          {{ t('userFields.roles') }}:
         </div>
         <div class="flex gap-2 flex-wrap">
           <UBadge v-for="role in globalStore.user?.roles" :key="role.name" :label="role.name" />
@@ -59,7 +61,7 @@ const actions = [
       </div>
       <div v-if="globalStore.user?.services" class="flex gap-2">
         <div class="font-bold min-w-40">
-          {{ $t('account.info.userFields.services') }}:
+          {{ t('userFields.services') }}:
         </div>
         <div class="flex gap-2 flex-wrap">
           <UBadge v-for="service in globalStore.user?.services" :key="service.name" :label="service.name" />
@@ -68,3 +70,34 @@ const actions = [
     </div>
   </UCard>
 </template>
+
+<i18n lang="json">
+{
+  "en-US": {
+      "title": "Account information",
+      "userFields": {
+        "dob": "Date of birthday",
+        "name": "Name",
+        "contacts": "Contacts",
+        "roles": "Roles",
+        "services": "Services"
+      },
+      "actions": {
+        "tooltipText": "Edit profile"
+    }
+  },
+  "uk-UK": {
+      "title": "Інформація про аккаунт",
+      "userFields": {
+        "dob": "Дата народження",
+        "name": "Імʼя",
+        "contacts": "Контакти",
+        "roles": "Ролі",
+        "services": "Сервіси"
+      },
+      "actions": {
+        "tooltipText": "Редагувати профіль"
+      }
+  }
+}
+</i18n>

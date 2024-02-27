@@ -8,6 +8,10 @@ const props = withDefaults(defineProps<{
   type: 'service',
 })
 
+const { t } = useI18n({
+  useScope: 'local',
+})
+
 const { hasPermission } = useGlobalStore()
 const modalStore = useModalStore()
 
@@ -18,30 +22,30 @@ const { get, add } = props.type === 'product'
 const { data, refresh } = useAsyncData(() => get())
 
 const columns: any = [
-  { key: 'name', label: 'Назва' },
-  { key: 'description', label: 'Опис' },
-  { key: 'price', label: 'Ціна' },
-  props.type === 'service' ? { key: 'duration', label: 'Тривалість послуги' } : undefined,
-  { key: 'discount', label: 'Знижка' },
-  { key: 'status', label: 'Статус' },
-  { key: 'createdAt', label: 'Створено' },
-  { key: 'updatedAt', label: 'Змінено' },
+  { key: 'name', label: t('columns.name') },
+  { key: 'description', label: t('columns.description') },
+  { key: 'price', label: t('columns.price') },
+  props.type === 'service' ? { key: 'duration', label: t('columns.duration') } : undefined,
+  { key: 'discount', label: t('columns.discount') },
+  { key: 'status', label: t('columns.status') },
+  { key: 'createdAt', label: t('columns.createdAt') },
+  { key: 'updatedAt', label: t('columns.updatedAt') },
   { key: 'actions' },
 ].filter(Boolean)
 
 function menu(item: ServiceEntity) {
   return [
     [{
-      label: 'Edit',
+      label: t('actions.edit'),
       icon: 'i-ic-baseline-edit',
       click: () => callModal(item),
     }, {
-      label: 'Duplicate',
+      label: t('actions.duplicate'),
       icon: 'i-ic-baseline-content-copy',
       click: () => onDuplicate(item),
     }],
     [{
-      label: item.status ? 'Archive' : 'Unarchive',
+      label: item.status ? t('actions.archive') : t('actions.unarchive'),
       icon: item.status ? 'i-ic-baseline-archive' : 'i-ic-baseline-unarchive',
       // click: () => onChangeStatus(item),
     }],
@@ -60,7 +64,7 @@ function callModal(preset?: ServiceEntity) {
 
 async function onDuplicate(item: ServiceEntity) {
   await add({
-    name: `${item.name} (копія ${new Date().toLocaleString()})`,
+    name: `${item.name} (${t('product.copy')} ${new Date().toLocaleString()})`,
     description: item.description,
     type: item.type,
     price: item.price,
@@ -82,13 +86,14 @@ async function onDuplicate(item: ServiceEntity) {
         color="primary"
         square
         variant="solid"
-        :label="`Додати ${type === 'service' ? 'послугу' : 'товар'}`"
+
+        :label="t(`${type === 'service' ? 'service.addNew' : 'product.addNew'}`)"
         @click="callModal()"
       />
     </div>
 
     <template v-if="data">
-      <h2>{{ props.type === 'product' ? 'Товари' : 'Послуги' }}</h2>
+      <h2>{{ t(`${type === 'service' ? 'service.title' : 'product.title'}`) }}</h2>
       <UTable :rows="data" :columns="columns">
         <template #createdAt-data="{ row }">
           <base-datetime :date="row.createdAt" />
@@ -98,10 +103,10 @@ async function onDuplicate(item: ServiceEntity) {
         </template>
         <template #status-data="{ row }">
           <UBadge v-if="row.status" color="green" variant="solid">
-            активний
+            {{ t('active') }}
           </UBadge>
           <UBadge v-else color="gray" variant="solid">
-            неактивний
+            {{ t('disabled') }}
           </UBadge>
         </template>
         <template #discount-data="{ row }">
@@ -122,3 +127,66 @@ async function onDuplicate(item: ServiceEntity) {
     </template>
   </div>
 </template>
+
+<i18n lang="json">
+{
+  "en-US": {
+    "active": "active",
+    "disabled": "inactive",
+    "product": {
+      "title": "Products",
+      "addNew": "Create new product",
+      "copy": "copy from"
+    },
+    "service": {
+      "title": "Services",
+      "addNew": "Create new services"
+    },
+    "columns": {
+      "name": "Name",
+      "description": "Description",
+      "price": "Price",
+      "duration": "Service duration",
+      "discount": "Discount",
+      "status": "Status",
+      "createdAt": "Created",
+      "updatedAt": "Changed"
+    },
+    "actions": {
+      "edit": "Edit",
+      "duplicate": "Duplicate",
+      "archive": "Archive",
+      "unarchive": "Unarchive"
+    }
+  },
+  "uk-UK": {
+    "active": "активний",
+    "disabled": "неактивний",
+    "product": {
+      "title": "Товари",
+      "addNew": "Додати новий товар",
+      "copy": "Копія від"
+    },
+    "service": {
+      "title": "Послуги",
+      "addNew": "Додати нову послугу "
+    },
+    "columns": {
+      "name": "Назва",
+      "description": "Опис",
+      "price": "Ціна",
+      "duration": "Тривалість послуги",
+      "discount": "Знижка",
+      "status": "Статус",
+      "createdAt": "Створено",
+      "updatedAt": "Змінено"
+    },
+    "actions": {
+      "edit": "Редагувати",
+      "duplicate": "Дублювати",
+      "archive": "Додати в архів",
+      "unarchive": "Розархівувати"
+    }
+  }
+}
+</i18n>

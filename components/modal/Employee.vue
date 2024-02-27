@@ -12,8 +12,12 @@ const emit = defineEmits<{
   submit: [user: { email: string, password: string }]
 }>()
 
+const { t } = useI18n({
+  useScope: 'local',
+})
+
 defineExpose({
-  title: computed(() => `${props.preset?.id ? 'Редагувати' : 'Додати'} профіль працівника`),
+  title: computed(() => `${props.preset?.id ? t('titleUpdate') : t('titleCreate')} `),
 })
 
 const modalStore = useModalStore()
@@ -94,7 +98,7 @@ async function onCreateOrUpdate() {
     />
 
     <UFormGroup
-      label="First name"
+      :label="$t('default.forms.labels.firstName')"
       name="firstName"
       required
     >
@@ -102,7 +106,8 @@ async function onCreateOrUpdate() {
     </UFormGroup>
 
     <UFormGroup
-      label="Last name"
+      :label="$t('default.forms.labels.lastName')"
+
       name="lastName"
       required
     >
@@ -110,7 +115,8 @@ async function onCreateOrUpdate() {
     </UFormGroup>
 
     <UFormGroup
-      label="Email"
+      :label="$t('default.forms.labels.email')"
+
       name="email"
       required
     >
@@ -118,7 +124,7 @@ async function onCreateOrUpdate() {
     </UFormGroup>
 
     <UFormGroup
-      label="Phone"
+      :label="$t('default.forms.labels.phone')"
       name="phone"
       required
     >
@@ -126,7 +132,7 @@ async function onCreateOrUpdate() {
     </UFormGroup>
 
     <UFormGroup
-      label="Birthday"
+      :label="$t('default.forms.labels.dob')"
       name="birthday"
       required
     >
@@ -134,7 +140,7 @@ async function onCreateOrUpdate() {
     </UFormGroup>
 
     <UFormGroup
-      label="Sex"
+      :label="$t('default.forms.labels.sex')"
       name="sex"
       required
     >
@@ -145,7 +151,7 @@ async function onCreateOrUpdate() {
     </UFormGroup>
 
     <UFormGroup
-      label="Role"
+      :label="$t('default.forms.labels.role')"
       name="role"
       required
     >
@@ -157,7 +163,7 @@ async function onCreateOrUpdate() {
           option-attribute="name"
           multiple
           selected-icon="i-ic-round-check"
-          placeholder="Оберіть ролі"
+          :placeholder="$t('default.forms.placeholders.roles')"
           creatable
           class="flex-1"
         />
@@ -177,7 +183,7 @@ async function onCreateOrUpdate() {
 
     <UFormGroup
       v-if="services"
-      label="Які послуги може надавати спеціаліст"
+      :label="$t('default.forms.labels.services')"
       name="services"
       required
     >
@@ -188,7 +194,7 @@ async function onCreateOrUpdate() {
           option-attribute="name"
           multiple
           selected-icon="i-ic-round-check"
-          placeholder="Оберіть послуги"
+          :placeholder="$t('default.forms.placeholders.services')"
           class="flex-1"
         />
         <UButton
@@ -210,3 +216,16 @@ async function onCreateOrUpdate() {
     </UButton>
   </UForm>
 </template>
+
+<i18n lang="json">
+{
+  "en-US": {
+        "titleCreate": "Create employee profile",
+        "titleUpdate": "Edit employee profile"
+  },
+  "uk-UK": {
+        "titleCreate": "Створити профіль працівника",
+        "titleUpdate": "Редагування профіля"
+  }
+}
+</i18n>

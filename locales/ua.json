@@ -1,88 +1,55 @@
 {
-    "account": {
-        "tabs": {
-            "info": "Інформація",
-            "settings": "Налаштування",
-            "access": "Дозволи",
-            "exit": "Вихід"
+    "formValidation": {
+        "required": "Поле обов'язкове",
+        "email": "Введіть валідну емейл адресу",
+        "confirmPassword": "Паролі мають збігатись"
+    },
+    "default": {
+        "applicationLinks": {
+            "dashboard": "Головна",
+            "clients": "Клієнти",
+            "entries": "Записи",
+            "employees": "Працівники",
+            "booking": "Бронювання",
+            "catalog": "Каталог",
+            "business": "Бізнес",
+            "object": "Обʼєкт",
+            "account": "Аккаунт"
         },
-        "settings": {
-            "form": {
-                "labels": {
-                    "password": "Поточний пароль",
-                    "newPassword": "Новий пароль",
-                    "confirmNewPassword": "Підтвердження пароля",
-                    "submit": "Зберегти"
-                },
-                "requestMessages": {
-                    "successChangePassword": "Пароль успішно змінено"
-                }
+        "forms": {
+            "labels": {
+                "phone": "Телефон",
+                "roleName":"Назва ролі",
+                "role": "Роль",
+                "sex":"Стать",
+                "dob":"Дата народження",
+                "source":"Джерело",
+                "password": "Пароль",
+                "email": "E-mail",
+                "firstName": "Ім'я",
+                "lastName": "Прізвище",
+                "currentPassword": "Поточний пароль",
+                "newPassword": "Новий пароль",
+                "confirmNewPassword": "Підтвердження пароля",
+                "services": "Виберіть доступні послуги для юзера"
             },
-            "titles": {
-                "loginOptions": "Зміна параметрів входу",
-                "generalOptions": {
-                    "generalTitle": "Загальні налаштування",
-                    "localeLabel": "Мова додатку",
-                    "locales": {
-                        "ua": "Українська",
-                        "en": "English"
-                    }
-
-                }
-            }
-
-        },
-        "info": {
-            "title": "Інформація про аккаунт",
-            "userFields": {
-                "dob": "День народження",
-                "name": "Імʼя",
-                "contacts": "Контакти",
-                "roles": "Ролі",
-                "services": "Сервіси"
+            "placeholders": {
+                "services": "Оберіть послуги",
+                "roles": "Оберіть ролі"
             },
             "actions": {
-                "tooltipText": "Редагувати профіль"
-            }
-        },
-        "permissions": {
-            "role": "Роль",
-            "addNewRole": "Додати нову роль",
-            "form": {
-                "labels": {
-                    "roleName":"Назва ролі"
-                },
-                "submit": "Зберегти",
-                "cancel": "Відмінити зміни"
-            },
-            "rolesList": {
-                "searchPlaceholder": "Пошук...",
-                "emptyList": {
-                    "isEmptyBySearch": "Нам не вдалося знайти роль з такою назвою. Будь ласка, спробуйте іншу, або створіть нову",
-                    "isEmpty": "Нам не вдалося знайти жодної ролі, створіть нову"
-                }
-            },
-            "permissionColumns": {
-                "value": "Ресурс",
-                "read": "Переглядати записи",
-                "add": "Додавати записи",
-                "edit": "Редагувати записи",
-                "delete": "Видаляти записи"
+                "submit": "Підтвердити",
+                "save": "Зберегти",
+                "cancel": "Відмінити зміни",
+                "signIn": "Увійти",
+                "signUp": "Зареєструватися",
+                "resetPass": "Надіслати",
+                "create": "Створити"
             }
         }
     },
-    "signIn": {
-        "form": {
-            "labels": {
-                "password": "Пароль",
-                "email": "E-mail",
-                "submit": "Увійти"
-            },
-            "title": "Авторизація",
-            "signUp": "Реєстрація",
-            "forgot": "Забули пароль?"
-        },
-        "requestErrors": {
+    "requestErrors": {
+        "signIn": {
             "invalid": {
                 "title": "Помилка входу",
                 "description": "Перевірте дані та спробуйте ще раз"
@@ -92,35 +59,5 @@
                 "description": "Зверніться до служби підтримки"
             }
         }
-    },
-    "signUp": {
-        "form": {
-            "labels": {
-                "firstName": "Ваше ім'я",
-                "lastName": "Ваше прізвище",
-                "email": "E-mail",
-                "submit": "Зареєструватися"
-            },
-            "title": "Реєстрація нового користувача",
-            "logIn": "Увійти",
-            "alreadyLogIn": "Вже зареєстровані?"
-        }
-    },
-    "resetPassword": {
-        "form": {
-            "labels": {
-                "email": "E-mail",
-                "submit": "Надіслати"
-            },
-            "title": "Відновлення паролю",
-            "subTitle": "Інструкції щодо відновлення паролю буде відправлено на вашу пошту.",
-            "logIn": "Назад до входу"
-
-        }
-    },
-    "formValidation": {
-        "required": "Поле обов'язкове",
-        "email": "Введіть валідну емейл адресу",
-        "confirmPassword": "Паролі мають збігатись"
     }
 }

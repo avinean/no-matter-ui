@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import type { ClientEntity } from '~/types/entities'
-import { ModalClient } from '#components';
+import { ModalClient } from '#components'
 
+const { t } = useI18n({
+  useScope: 'local',
+})
 const { baseUrl } = useRuntimeConfig().public
 const modalStore = useModalStore()
 
@@ -36,7 +39,7 @@ function callModal(preset?: ClientEntity) {
   <div class="grid md:grid-cols-[200px,1fr] gap-2 divide-x min-h-full">
     <div>
       <UButton
-        label="Add item"
+        :label="t('addNewClient')"
         icon="i-ic-outline-contact-phone"
         class="w-full"
         @click="callModal()"
@@ -45,27 +48,25 @@ function callModal(preset?: ClientEntity) {
         ref="commandPaletteRef"
         :groups="groups"
         :autoselect="false"
+        :placeholder="t('clientsList.searchPlaceholder')"
+        :ui="{ emptyState: {
+          wrapper: 'px-2 py-2 sm:px-2',
+        } }"
+
+        :empty-state="{
+          icon: '',
+          queryLabel: t('clientsList.emptyList.isEmptyBySearch'),
+          label: t('clientsList.emptyList.isEmpty'),
+        }"
         @update:model-value="selectedId = $event.client.id"
-      >
-        <template #empty-state>
-          <div class="flex flex-col items-center justify-center py-6 gap-3">
-            <span class="italic text-sm">Nothing here!</span>
-            <UButton
-              label="Add item"
-              color="gray"
-              icon="i-ic-outline-contact-phone"
-              @click="callModal()"
-            />
-          </div>
-        </template>
-      </UCommandPalette>
+      />
     </div>
     <div class="w-full flex items-start gap-2 pl-2">
       <template v-if="selectedClient">
         <div class="grid lg:grid-cols-3 gap-2 w-full">
           <UCard>
             <base-image :src="selectedClient.image" width="200" height="200" />
-            <UFormGroup label="Статус">
+            <UFormGroup :label="t('clientInfo.status')">
               <UToggle
                 on-icon="i-ic-baseline-check-circle-outline"
                 off-icon="i-outline-cancel"
@@ -81,13 +82,14 @@ function callModal(preset?: ClientEntity) {
               />
             </h1>
             <div class="grid grid-cols-[150px,1fr] items-center">
-              <span class="font-bold">Номер телефону:</span><span>{{ selectedClient.phone }}</span>
-              <span class="font-bold">Стать:</span><span>{{ selectedClient.sex }}</span>
-              <span class="font-bold">День народжння:</span><span><base-datetime :date="selectedClient.birthday" /></span>
-              <span class="font-bold">Баланс:</span><span>{{ selectedClient.balance || 0 }}</span>
+              <span class="font-bold">
+                {{ t('clientInfo.phone') }}:</span><span>{{ selectedClient.phone }}</span>
+              <span class="font-bold">{{ t('clientInfo.sex') }}:</span><span>{{ selectedClient.sex }}</span>
+              <span class="font-bold">{{ t('clientInfo.dob') }}:</span><span><base-datetime :date="selectedClient.birthday" /></span>
+              <span class="font-bold">{{ t('clientInfo.balance') }}:</span><span>{{ selectedClient.balance || 0 }}</span>
               <!-- <span class="font-bold">Номер картки:</span><span>{{ selectedClient.cardId || `${selectedClient.id}`.padStart(4, '0') }}</span> -->
-              <span class="font-bold">Source:</span><span>{{ selectedClient.source }}</span>
-              <span class="font-bold">Created at:</span><span><base-datetime :date="selectedClient.createdAt" /></span>
+              <span class="font-bold">{{ t('clientInfo.source') }}:</span><span>{{ selectedClient.source }}</span>
+              <span class="font-bold">{{ t('clientInfo.created') }}:</span><span><base-datetime :date="selectedClient.createdAt" /></span>
             </div>
           </UCard>
         </div>
@@ -95,3 +97,46 @@ function callModal(preset?: ClientEntity) {
     </div>
   </div>
 </template>
+
+<i18n lang="json">
+{
+  "en-US": {
+      "addNewClient": "Add New",
+      "clientsList": {
+        "searchPlaceholder": "Search...",
+        "emptyList": {
+          "isEmptyBySearch": "We couldn't find a client with that name. Try again or create a new one",
+          "isEmpty": "We couldn't find any clients, create a new one"
+        }
+      },
+      "clientInfo": {
+        "phone": "Phone number",
+        "sex": "Sex",
+        "dob": "Date of birth",
+        "balance": "Balance",
+        "created": "Date of creation",
+        "source": "Source",
+        "status": "Status"
+      }
+  },
+  "uk-UK": {
+      "addNewClient": "Додати нового",
+      "clientsList": {
+        "searchPlaceholder": "Пошук...",
+        "emptyList": {
+          "isEmptyBySearch": "Нам не вдалося знайти клієнта з таким іменем. Cпробуйте ще раз або створіть нового",
+          "isEmpty": "Нам не вдалося знайти жодного клієнта, створіть нового"
+        }
+      },
+      "clientInfo": {
+        "phone": "Номер телефону",
+        "sex": "Стать",
+        "dob": "Дата народження",
+        "balance": "Баланс",
+        "created": "Дата створення",
+        "source": "Джерело",
+        "status": "Статус"
+      }
+  }
+}
+</i18n>

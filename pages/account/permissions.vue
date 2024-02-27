@@ -2,6 +2,9 @@
 import { ModalRole } from '#components'
 import type { RoleEntity } from '~/types/entities'
 
+const { t } = useI18n({
+  useScope: 'local',
+})
 const toast = useToast()
 const globalStore = useGlobalStore()
 const modalStore = useModalStore()
@@ -53,14 +56,14 @@ async function setPermissions() {
     })
 
     toast.add({
-      title: 'Вдалося!',
-      description: `Дозволи успішно оновлено`,
+      title: t('form.formNotifications.accessTitle'),
+      description: t('form.formNotifications.accessDesc'),
     })
   }
   catch (e) {
     toast.add({
-      title: 'Щось пішло не так',
-      description: `Повторіть спробу та звʼяжіться зі службою підтримки`,
+      title: t('form.formNotifications.errorTitle'),
+      description: t('form.formNotifications.errorDesc'),
     })
   }
 }
@@ -75,7 +78,7 @@ function select(role: RoleEntity) {
   <div class="grid md:grid-cols-[200px,1fr] gap-2 divide-x min-h-full">
     <div class="p-2">
       <UButton
-        :label="$t('account.permissions.addNewRole')"
+        :label="t('addNewRole')"
         icon="i-ic-outline-contact-phone"
         class="w-full"
         @click="callModal()"
@@ -86,40 +89,40 @@ function select(role: RoleEntity) {
         } }"
         :groups="groups"
         :autoselect="false"
-        :placeholder="$t('account.permissions.rolesList.searchPlaceholder')"
+        :placeholder="t('rolesList.searchPlaceholder')"
         :empty-state="{
           icon: '',
-          queryLabel: $t('account.permissions.rolesList.emptyList.isEmptyBySearch'),
-          label: $t('account.permissions.rolesList.emptyList.isEmpty'),
+          queryLabel: t('rolesList.emptyList.isEmptyBySearch'),
+          label: t('rolesList.emptyList.isEmpty'),
         }"
         @update:model-value="select($event.role)"
       />
     </div>
     <div v-if="selected && !loading" class="w-full p-2 space-y-2">
       <h2 class="font-bold text-2xl">
-        {{ $t('account.permissions.role') }}: {{ selected.name }}
+        {{ t('role') }}: {{ selected.name }}
       </h2>
       <UTable
         :columns="[
           {
             key: 'value',
-            label: $t('account.permissions.permissionColumns.value'),
+            label: t('permissionColumns.value'),
           },
           {
             key: 'read',
-            label: $t('account.permissions.permissionColumns.read'),
+            label: t('permissionColumns.read'),
           },
           {
             key: 'add',
-            label: $t('account.permissions.permissionColumns.add'),
+            label: t('permissionColumns.add'),
           },
           {
             key: 'edit',
-            label: $t('account.permissions.permissionColumns.edit'),
+            label: t('permissionColumns.edit'),
           },
           {
             key: 'delete',
-            label: $t('account.permissions.permissionColumns.delete'),
+            label: t('permissionColumns.delete'),
           },
         ]"
         :rows="store.suggestions.resources"
@@ -135,11 +138,11 @@ function select(role: RoleEntity) {
         <UButton
           color="gray"
           icon="i-ic-baseline-cancel"
-          :label="$t('account.permissions.form.cancel') "
+          :label="$t('default.forms.actions.cancel') "
         />
         <UButton
           icon="i-ic-baseline-save"
-          :label="$t('account.permissions.form.submit') "
+          :label="$t('default.forms.actions.submit') "
 
           @click="setPermissions"
         />
@@ -147,3 +150,61 @@ function select(role: RoleEntity) {
     </div>
   </div>
 </template>
+
+<i18n lang="json">
+{
+  "en-US": {
+      "role": "Role",
+      "addNewRole": "Add a new role",
+      "rolesList": {
+        "searchPlaceholder": "Search...",
+        "emptyList": {
+          "isEmptyBySearch": "We couldn't find any roles with that name. Please try another name or create new",
+          "isEmpty": "We could not find any roles, please create a new one"
+        }
+
+      },
+      "form": {
+        "formNotifications": {
+          "accessTitle": "Success!",
+          "accessDesc": "Permissions successfully updated",
+          "errorTitle": "Something went wrong",
+          "errorDesc": "Please try again or contact support"
+        }
+      },
+      "permissionColumns": {
+        "value": "Resource",
+        "read": "View records",
+        "add": "Add records",
+        "edit": "Edit records",
+        "delete": "Delete records"
+      }
+  },
+  "uk-UK": {
+      "role": "Роль",
+      "addNewRole": "Додати нову роль",
+      "rolesList": {
+        "searchPlaceholder": "Пошук...",
+        "emptyList": {
+          "isEmptyBySearch": "Нам не вдалося знайти роль з такою назвою. Будь ласка, спробуйте іншу, або створіть нову",
+          "isEmpty": "Нам не вдалося знайти жодної ролі, створіть нову"
+        }
+      },
+      "form": {
+        "formNotifications": {
+          "accessTitle": "Вдалося!",
+          "accessDesc": "Дозволи успішно оновлено",
+          "errorTitle": "Щось пішло не так"
+        }
+      },
+      "permissionColumns": {
+        "value": "Ресурс",
+        "read": "Переглядати записи",
+        "add": "Додавати записи",
+        "edit": "Редагувати записи",
+        "delete": "Видаляти записи"
+      }
+
+  }
+}
+</i18n>

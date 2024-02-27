@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { BookingEntity, ClientEntity, OrderProductsEntity, ProfileEntity, ServiceEntity } from '~/types/entities'
+import type { BookingEntity, OrderProductsEntity } from '~/types/entities'
 
 const props = defineProps<{
   preset?: BookingEntity | null
