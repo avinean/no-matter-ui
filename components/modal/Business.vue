@@ -13,11 +13,10 @@ defineExpose({
   title: `Створити бізнес`,
 })
 
-const store = useGlobalStore()
 const { baseUrl } = useRuntimeConfig().public
-const toast = useToast()
 
 const { photo, add: addPhoto } = usePhoto(props.preset?.image)
+const { add, edit } = useBusinessRepository()
 
 const loading = ref(false)
 const state: Partial<BusinessEntity> = reactive({
@@ -30,30 +29,12 @@ async function onCreateOrUpdate() {
   loading.value = true
   const image = await addPhoto()
 
-  try {
-    const endpoint = props.preset?.id ? `/business/${store.user?.id}/${props.preset.id}` : `/business/${store.user?.id}`
-    const method = props.preset?.id ? 'PUT' : 'POST'
+  if (props.preset?.id)
+    await edit(props.preset.id, { ...state, image })
+  else
+    await add({ ...state, image })
 
-    await $api(endpoint, {
-      method,
-      body: {
-        ...state,
-        image,
-      },
-    })
-
-    emit('submit')
-  }
-  catch (e) {
-    console.log(e)
-    toast.add({
-      title: 'Error',
-      description: 'Користувача з таким номером телефону вже зареєстровано',
-    })
-  }
-  finally {
-    loading.value = false
-  }
+  emit('submit')
 }
 </script>
 

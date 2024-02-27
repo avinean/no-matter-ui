@@ -15,7 +15,7 @@ const globalStore = useGlobalStore()
       </template>
       <FormCalendar
         :calendar="globalStore.user?.calendar"
-      :schedule="globalStore.user?.schedule"
+        :schedule="globalStore.user?.schedule"
         :profile-id="globalStore.user?.id"
         @submit="globalStore.getUser"
       />

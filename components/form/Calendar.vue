@@ -49,7 +49,7 @@ const attributes = computed<CalendarProps['attributes']>(() => [
   ...(props.calendar?.map(item => ({
     dot: true,
     popover: {
-      label: item.type === DayType.workingDay ? `${item.comment} (${item.start} - ${item.end})` : item.comment,
+      label: item.type === DayType.workingDay ? `ʼ${item.comment} (${item.start} - ${item.end})` : item.comment,
     },
     highlight: {
       color: colors[item.type],

@@ -1,10 +1,29 @@
 <script setup lang="ts">
-const globalStore = useGlobalStore()
+import { ModalBusiness, ModalBusinessObject } from '#components'
 
-const actions = [
-  { tooltip: 'Редагувати профіль', icon: 'i-ic-baseline-edit', onClick: () => { } },
-  { tooltip: 'Копіювати поточний пароль', icon: 'i-ic-baseline-content-copy' },
-  { tooltip: 'Перегенерувати пароль', icon: 'i-ic-round-security' },
+const globalStore = useGlobalStore()
+const modalStore = useModalStore()
+
+const businessActions = [
+  {
+    tooltip: 'Редагувати бізнес',
+    icon: 'i-ic-baseline-edit',
+    onClick: () => modalStore.open(ModalBusiness, {
+      preset: globalStore.business,
+      onSubmit: globalStore.getUser,
+    }),
+  },
+]
+
+const businessObjectActions = [
+  {
+    tooltip: 'Редагувати підприємство',
+    icon: 'i-ic-baseline-edit',
+    onClick: () => modalStore.open(ModalBusinessObject, {
+      preset: globalStore.object,
+      onSubmit: globalStore.getUser,
+    }),
+  },
 ]
 
 const columns = computed(() => [
@@ -41,7 +60,7 @@ const columns = computed(() => [
           <div class="grid grid-cols-2 flex-1">
             <span class="font-bold text-2xl">{{ globalStore.business?.name }}</span>
             <span class="justify-self-end">
-              <base-action-bar :items="actions" />
+              <base-action-bar :items="businessActions" />
             </span>
             <span class="font-bold">Опис:</span><span>{{ globalStore.business?.description }}</span>
             <span class="font-bold">Дата створення:</span><span><base-datetime :date="globalStore.business?.createdAt" /></span>
@@ -85,7 +104,7 @@ const columns = computed(() => [
           <div class="grid grid-cols-2 flex-1">
             <span class="font-bold text-2xl">{{ globalStore.object?.name }}</span>
             <span class="justify-self-end">
-              <base-action-bar :items="actions" />
+              <base-action-bar :items="businessObjectActions" />
             </span>
             <span class="font-bold">Опис:</span><span>{{ globalStore.object?.description }}</span>
             <span class="font-bold">Дата сворення:</span><span><base-datetime :date="globalStore.object?.createdAt" /></span>

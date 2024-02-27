@@ -29,7 +29,6 @@ async function onCreateOrUpdate() {
 
   if (props.preset?.id)
     await edit(props.preset?.id, { ...state, image })
-
   else
     await add({ ...state, image })
 

@@ -11,7 +11,7 @@ export const useBusinessObectRepository = createGlobalState(() => {
   }
 
   async function edit(id: number, body: Partial<BusinessEntity>) {
-    await $api(`/business-object/${globalStore.user?.id}/${globalStore.business?.id}`, {
+    await $api(`/business-object/${globalStore.user?.id}/${globalStore.business?.id}/${id}`, {
       method: 'PUT',
       body,
     })
