@@ -54,11 +54,16 @@ export const useProfileRepository = createGlobalState(() => {
     })
   }
 
+  function language(id: number, lang: string) {
+    return $api(`/profile/${globalStore.object?.id}/${id}/lang/${lang}`, { method: 'PUT' })
+  }
+
   return {
     get,
     add,
     edit,
     schedule,
     calendar,
+    language,
   }
 })
