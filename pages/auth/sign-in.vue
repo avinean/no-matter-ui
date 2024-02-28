@@ -7,14 +7,14 @@ const { t } = useI18n({
 })
 
 const form = reactive({
-  phone: undefined,
+  email: undefined,
   password: undefined,
 })
 
 function validate(): FormError[] {
   const errors = []
-  if (!form.phone)
-    errors.push({ path: 'phone', message: t('formValidation.required') })
+  if (!form.email)
+    errors.push({ path: 'email', message: t('formValidation.required') })
   if (!form.password)
     errors.push({ path: 'password', message: t('formValidation.required') })
   return errors
@@ -41,7 +41,7 @@ async function onSubmit(event: FormSubmitEvent<any>) {
         name="email"
         required
       >
-        <UInput v-model="form.phone" />
+        <UInput v-model="form.email" />
       </UFormGroup>
 
       <UFormGroup

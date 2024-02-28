@@ -5,6 +5,10 @@ const { baseUrl } = useRuntimeConfig().public
 const globalStore = useGlobalStore()
 const modalStore = useModalStore()
 
+defineExpose({
+  title: 'Оберіть бізнес та підприємство',
+})
+
 const businesses = computed(() => globalStore.user.ownedBusinesses.map(business => ({
   id: business.id,
   label: business.name,
