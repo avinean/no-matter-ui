@@ -7,7 +7,7 @@ const { t } = useI18n({
 })
 const globalStore = useGlobalStore()
 const modalStore = useModalStore()
-const { edit } = useProfileRepository()
+const { useAsPrimary } = useProfileRepository()
 const { data, refresh } = useAsyncData(useUserRepository().get)
 const selectedId = ref<number | null>(null)
 const selectedUser = computed(() => data.value?.find(user => user.id === selectedId.value))
@@ -41,9 +41,7 @@ function menu(item: ProfileEntity) {
       label: 'Використати',
       icon: 'i-ic-baseline-check-circle',
       click: async () => {
-        await edit(item.id, {
-          isPrimary: { id: selectedId.value! } as UserEntity,
-        })
+        await useAsPrimary(item.id)
         globalStore.getUser()
       },
     },

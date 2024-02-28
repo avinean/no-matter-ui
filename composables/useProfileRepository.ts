@@ -40,6 +40,12 @@ export const useProfileRepository = createGlobalState(() => {
     }
   }
 
+  function useAsPrimary(id: number) {
+    return $api(`/profile/${globalStore.object?.id}/${id}/primary`, {
+      method: 'PUT',
+    })
+  }
+
   function schedule(id: number, body: Partial<ScheduleEntity>[]) {
     return $api(`/profile/${globalStore.object?.id}/${id}/schedule`, {
       method: 'PUT',
@@ -62,6 +68,7 @@ export const useProfileRepository = createGlobalState(() => {
     get,
     add,
     edit,
+    useAsPrimary,
     schedule,
     calendar,
     language,

@@ -27,7 +27,7 @@ export interface UserEntity {
   updatedAt: Date | string
   associatedProfiles: ProfileEntity[]
   createdBy: ProfileEntity
-   primaryProfile: ProfileEntity;
+  primaryProfile: ProfileEntity
 }
 
 export interface ProfileEntity {
@@ -43,7 +43,7 @@ export interface ProfileEntity {
   createdAt: Date | string
   updatedAt: Date | string
   userId: number
-  isPrimary: UserEntity;
+  primaryFor: UserEntity
   user: UserEntity
   users: ProfileEntity[]
   roles: RoleEntity[]

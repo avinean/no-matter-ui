@@ -22,7 +22,7 @@ export const useGlobalStore = defineStore('global', () => {
 
   async function resetPassword(body: { email: string }) {
     try {
-      const data = await $api<{ message: string }>('/auth/reset-password', {
+      await $api<{ message: string }>('/auth/reset-password', {
         method: 'POST',
         body,
       })
@@ -82,7 +82,7 @@ export const useGlobalStore = defineStore('global', () => {
     const profile = await $api<ProfileEntity>('/profile/me')
     user.value = profile
     business.value = profile?.ownedBusinesses?.[0]
-    object.value = profile?.ownedBusinesses?.[0]?.businessObjects?.[0]
+    object.value = profile?.ownedBusinesses?.[0]?.businessObjects?.[0] || profile?.employers?.[0]
   }
 
   return {
