@@ -45,7 +45,7 @@ function callModal(preset?: ProfileEntity) {
 </script>
 
 <template>
-  <div class="grid md:grid-cols-[200px,1fr] gap-2 divide-x min-h-full">
+  <div class="grid md:grid-cols-[200px,1fr] gap-2 divide-x min-h-full pt-2">
     <div>
       <UButton
         v-if="hasPermission('profile:add')"

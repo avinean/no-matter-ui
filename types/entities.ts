@@ -20,11 +20,14 @@ export interface RoleEntity {
 
 export interface UserEntity {
   id: number
-  phone: string
+  phone?: string
+  email: string
   password: string
   createdAt: Date | string
   updatedAt: Date | string
   associatedProfiles: ProfileEntity[]
+  createdBy: ProfileEntity
+   primaryProfile: ProfileEntity;
 }
 
 export interface ProfileEntity {
@@ -40,7 +43,9 @@ export interface ProfileEntity {
   createdAt: Date | string
   updatedAt: Date | string
   userId: number
+  isPrimary: UserEntity;
   user: UserEntity
+  users: ProfileEntity[]
   roles: RoleEntity[]
   services: ServiceEntity[]
   ownedBusinesses: BusinessEntity[]

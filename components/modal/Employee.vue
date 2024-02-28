@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { ModalRole, ModalServiceProduct } from '#components'
-import type { ProfileEntity, RoleEntity, ServiceEntity } from '~/types/entities'
+import type { ProfileEntity, RoleEntity, ServiceEntity, UserEntity } from '~/types/entities'
 
 const props = withDefaults(defineProps<{
   preset?: ProfileEntity | null
+  user?: UserEntity
 }>(), {
   preset: null,
 })
@@ -79,7 +80,7 @@ async function onCreateOrUpdate() {
 
   const user = await (props.preset?.id
     ? edit(props.preset?.id, { ...state, image })
-    : add({ ...state, image }))
+    : add({ ...state, image, user: props.user }))
 
   emit('submit', user!)
 }

@@ -13,25 +13,20 @@ const links = computed(() => [
       icon: 'i-ic-outline-dashboard',
       to: '/',
     },
-    store.hasPermission('client:read') && {
-      label: t('default.applicationLinks.clients'),
-      icon: 'i-ic-baseline-people',
-      to: '/clients',
-    },
     store.hasPermission('booking:read') && {
       label: t('default.applicationLinks.entries'),
       icon: 'i-ic-baseline-arrow-right',
       to: '/entries',
     },
-    store.hasPermission('profile:read') && {
-      label: t('default.applicationLinks.employees'),
-      icon: 'i-ic-sharp-groups',
-      to: '/employees',
-    },
     store.hasPermission('booking:read') && {
       label: t('default.applicationLinks.booking'),
       icon: 'i-ic-baseline-calendar-month',
       to: '/booking',
+    },
+    {
+      label: t('default.applicationLinks.people'),
+      icon: 'i-ic-sharp-groups',
+      to: '/people/employees',
     },
     store.hasPermission(['material:read', 'service:read'], 'some') && {
       label: t('default.applicationLinks.catalog'),
