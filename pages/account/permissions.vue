@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ModalRole } from '#components'
-import type { RoleEntity } from '~/types/entities'
+import type { PermissionEntity, RoleEntity } from '~/types/entities'
+import type { Action, Resource } from '~/types/permissions'
+import type { DeepPartial } from '~/types/utils'
 
 const { t } = useI18n({
   useScope: 'local',
@@ -39,11 +41,11 @@ function callModal(preset?: RoleEntity) {
 }
 
 async function setPermissions() {
-  const role = {
+  const role: DeepPartial<RoleEntity> = {
     ...selected.value!,
-    permissions: permissions.value.map((permission) => {
-      const [name, resource, action] = permission.split(':')
-      return { name, resource, action }
+    assignedPermissions: permissions.value.map((permission) => {
+      const [_, resourceType, actionType] = permission.split(':') as [string, Resource, Action]
+      return { actionType, resourceType } satisfies Partial<PermissionEntity>
     }),
   }
 
