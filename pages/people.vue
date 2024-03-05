@@ -17,11 +17,11 @@ const links = computed(() => [
     icon: 'i-ic-baseline-people',
     to: '/people/clients',
   },
-  {
-    label: t('default.applicationLinks.users'),
-    icon: 'i-ic-baseline-manage-accounts',
-    to: '/people/users',
-  },
+  // {
+  //   label: t('default.applicationLinks.users'),
+  //   icon: 'i-ic-baseline-manage-accounts',
+  //   to: '/people/users',
+  // },
 ].filter(Boolean) as HorizontalNavigationLink[])
 </script>
 
