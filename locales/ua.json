@@ -60,5 +60,12 @@
                 "title": "Помилка входу"
             }
         }
+    },
+    "locale": {
+        "localeLabel": "Мова додатку",
+        "locales": {
+            "ua": "Українська",
+            "en": "English"
+        }
     }
 }

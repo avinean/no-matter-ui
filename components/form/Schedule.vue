@@ -17,13 +17,13 @@ const { t } = useI18n({
 })
 
 const dayOfWeek = computed(() => ([
-  'Неділя',
-  'Понеділок',
-  'Вівторок',
-  'Середа',
-  'Четвер',
-  'П\'ятниця',
-  'Субота',
+  t('daysOfWeek.sunday'),
+  t('daysOfWeek.monday'),
+  t('daysOfWeek.tuesday'),
+  t('daysOfWeek.wednesday'),
+  t('daysOfWeek.thursday'),
+  t('daysOfWeek.friday'),
+  t('daysOfWeek.saturday'),
 ]))
 
 const schedule = ref<Partial<ScheduleEntity>[]>([1, 2, 3, 4, 5, 6, 0].map((day) => {
@@ -111,16 +111,35 @@ async function onUpdateSchedule() {
 {
   "en-US": {
     "columns": {
-      "isWeekend": "Вихідний",
-      "day": "День тижня",
-      "period": "Проміжок від-до"
+      "isWeekend": "Weekend",
+      "day": "Day of the week",
+      "period": "Interval from-to"
+    },
+    "daysOfWeek": {
+      "sunday": "Sunday",
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday"
     }
   },
   "uk-UK": {
     "columns": {
-      "isWeekend": "Weekend",
-      "day": "Day of the week",
-      "period": "Interval from to"
+      "isWeekend": "Вихідний",
+      "day": "День тижня",
+      "period": "Проміжок від-до"
+    },
+
+    "daysOfWeek": {
+      "sunday": "Неділя",
+      "monday": "Понеділок",
+      "tuesday": "Вівторок",
+      "wednesday": "Середа",
+      "thursday": "Четвер",
+      "friday": "П'ятниця",
+      "saturday": "Субота"
     }
   }
 }

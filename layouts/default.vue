@@ -1,6 +1,5 @@
 <script setup>
 import { ModalBusinessSelector } from '#components'
-import Loader from "~/components/base/Loader.vue";
 
 const { t } = useI18n()
 const store = useGlobalStore()
@@ -65,7 +64,7 @@ const links = computed(() => [
 
 <template>
   <div class="flex min-h-screen">
-    <Loader v-if="store.loading"  />
+    <Loader  v-if="store.loading" />
     <div class="max-h-screen flex flex-col p-2 sticky top-0 left-0 z-40 transition bg-gray-200">
       <div class="px-2 pb-2 flex justify-center">
         <img

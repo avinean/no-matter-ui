@@ -1,22 +1,13 @@
 <script lang="ts" setup>
-const { t, locale } = useI18n({
+import LocaleSwitcher from "~/components/base/LocaleSwitcher.vue";
+
+const { t } = useI18n({
   useScope: 'local',
 })
 const globalStore = useGlobalStore()
 const toast = useToast()
 
-const locales = computed(() => [
-  {
-    locale: 'uk-UK',
-    label: t('titles.generalOptions.locales.ua'),
-    avatar: { src: '/flag/uk.png' },
-  },
-  {
-    locale: 'en-US',
-    label: t('titles.generalOptions.locales.en'),
-    avatar: { src: '/flag/gb.png' },
-  },
-])
+
 
 const password = reactive({
   password: undefined,
@@ -106,20 +97,7 @@ async function onUpdatePassword() {
           {{ t('titles.generalOptions.generalTitle') }}
         </h1>
       </template>
-      <UFormGroup
-        :label="t('titles.generalOptions.localeLabel')"
-      >
-        <USelectMenu
-          v-model="locale"
-          :options="locales"
-          value-attribute="locale"
-          trailing-icon="i-ic-baseline-keyboard-arrow-down"
-        >
-          <template #leading>
-            <UAvatar v-if="locale" :src="locales.find(_ => _.locale === locale)?.avatar.src" size="2xs" class="mx-0.5" />
-          </template>
-        </USelectMenu>
-      </UFormGroup>
+      <LocaleSwitcher />
     </UCard>
     <UCard
       class="flex flex-col flex-1"
@@ -152,12 +130,7 @@ async function onUpdatePassword() {
         "schedule": "Personal work schedule",
         "loginOptions": "Change login options",
         "generalOptions": {
-          "generalTitle": "General settings",
-          "localeLabel": "Application language",
-          "locales": {
-            "ua": "Ukrainian",
-            "en": "English"
-          }
+          "generalTitle": "General settings"
         }
       }
   },
@@ -171,13 +144,7 @@ async function onUpdatePassword() {
         "schedule": "Персональний графік роботи",
         "loginOptions": "Зміна параметрів входу",
         "generalOptions": {
-          "generalTitle": "Загальні налаштування",
-          "localeLabel": "Мова додатку",
-          "locales": {
-            "ua": "Українська",
-            "en": "English"
-          }
-
+          "generalTitle": "Загальні налаштування"
         }
       }
   }
