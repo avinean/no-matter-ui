@@ -1,13 +1,11 @@
 <script lang="ts" setup>
-import LocaleSwitcher from "~/components/base/LocaleSwitcher.vue";
+import LocaleSwitcher from '~/components/base/LocaleSwitcher.vue'
 
 const { t } = useI18n({
   useScope: 'local',
 })
 const globalStore = useGlobalStore()
 const toast = useToast()
-
-
 
 const password = reactive({
   password: undefined,

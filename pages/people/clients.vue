@@ -50,7 +50,7 @@ function callModal(preset?: ClientEntity) {
         :autoselect="false"
         :placeholder="t('clientsList.searchPlaceholder')"
         :ui="{ emptyState: {
-          wrapper: 'px-2 py-2 sm:px-2'
+          wrapper: 'px-2 py-2 sm:px-2',
         } }"
         :empty-state="{
           icon: '',

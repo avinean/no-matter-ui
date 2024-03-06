@@ -42,6 +42,6 @@ const modalContent = ref<{ title: string } | null>(null)
         @submit="close"
       />
     </UCard>
-    <UseModal :index="index + 1"/>
+    <UseModal :index="index + 1" />
   </UModal>
 </template>

@@ -15,18 +15,17 @@ const locales = computed(() => [
     avatar: { src: '/flag/gb.png' },
   },
 ])
-
 </script>
 
 <template>
   <UFormGroup
-      :label="t('locale.localeLabel')"
+    :label="t('locale.localeLabel')"
   >
     <USelectMenu
-        v-model="locale"
-        :options="locales"
-        value-attribute="locale"
-        trailing-icon="i-ic-baseline-keyboard-arrow-down"
+      v-model="locale"
+      :options="locales"
+      value-attribute="locale"
+      trailing-icon="i-ic-baseline-keyboard-arrow-down"
     >
       <template #leading>
         <UAvatar v-if="locale" :src="locales.find(_ => _.locale === locale)?.avatar.src" size="2xs" class="mx-0.5" />
@@ -34,4 +33,3 @@ const locales = computed(() => [
     </USelectMenu>
   </UFormGroup>
 </template>
-
