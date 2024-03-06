@@ -1,10 +1,12 @@
 <script setup lang="ts">
+
 const globalStore = useGlobalStore()
 </script>
 
 <template>
   <NuxtLayout>
     <NuxtPage :key="globalStore.object?.name" />
+
     <UNotifications />
     <ClientOnly>
       <UseModal />

@@ -1,7 +1,8 @@
-import type { ClientEntity } from '~/types/entities'
+import type {ClientEntity} from '~/types/entities'
 
 export const useClientRepository = createGlobalState(() => {
   const globalStore = useGlobalStore()
+
   const toast = useToast()
 
   function get() {
@@ -25,10 +26,11 @@ export const useClientRepository = createGlobalState(() => {
 
   function edit(id: number, body: Partial<ClientEntity>) {
     try {
-      return $api(`/client/${globalStore.object?.id}/${id}`, {
+      const data =  $api(`/client/${globalStore.object?.id}/${id}`, {
         method: 'PUT',
         body,
       })
+      return  data
     }
     catch (e) {
       toast.add({

@@ -9,8 +9,8 @@ const { baseUrl } = useRuntimeConfig().public
 const modalStore = useModalStore()
 
 const { get } = useClientRepository()
-const { data } = useAsyncData(() => get())
-
+const { data, refresh } = useAsyncData(() => get())
+console.log(data.value, 'data')
 const commandPaletteRef = ref()
 const selectedId = ref<number | null>(null)
 const selectedClient = computed(() => data.value?.find(client => client.id === selectedId.value))
@@ -29,7 +29,7 @@ function callModal(preset?: ClientEntity) {
   modalStore.open(ModalClient, {
     preset,
     onSubmit() {
-      get()
+      refresh()
     },
   })
 }
@@ -50,9 +50,8 @@ function callModal(preset?: ClientEntity) {
         :autoselect="false"
         :placeholder="t('clientsList.searchPlaceholder')"
         :ui="{ emptyState: {
-          wrapper: 'px-2 py-2 sm:px-2',
+          wrapper: 'px-2 py-2 sm:px-2'
         } }"
-
         :empty-state="{
           icon: '',
           queryLabel: t('clientsList.emptyList.isEmptyBySearch'),

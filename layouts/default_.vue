@@ -61,7 +61,7 @@ const secondaryLinks = computed(() => [
         :key="link.to"
         :to="link.to"
         :aria-label="link.label"
-        class="flex items-center w-full gap-2 py-4 px-2 text-gray-100 transition hover:bg-gray-100 hover:text-slate-800"
+        class="flex items-center w-full gap-2 py-4 z-40 px-2 text-gray-100 transition hover:bg-gray-100 hover:text-slate-800"
         active-class="bg-gray-100 text-slate-800"
       >
         <UIcon

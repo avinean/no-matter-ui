@@ -77,7 +77,7 @@ async function onSubmit(event: FormSubmitEvent<any>) {
       </span>
       <ULink
         to="/auth/sign-in"
-        inactive-class="underline  hover:text-violet-400"
+        inactive-class="hover:text-violet-400"
       >
         {{ t('logIn') }}
       </ULink>
@@ -89,7 +89,7 @@ async function onSubmit(event: FormSubmitEvent<any>) {
 {
   "en-US": {
       "title": "New user registration",
-      "logIn": "Sign up",
+      "logIn": "Sign in",
       "alreadyLogIn": "Already registered?"
   },
   "uk-UK": {
