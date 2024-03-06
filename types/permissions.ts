@@ -16,6 +16,7 @@ export enum Resource {
   booking = 'booking',
   profile = 'profile',
   role = 'role',
+  order = 'order',
 }
 
 export type Permission = `${Resource}:${Action}`

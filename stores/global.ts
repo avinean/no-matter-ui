@@ -41,6 +41,7 @@ export const useGlobalStore = defineStore('global', () => {
         body,
       })
       cookie.value = data?.access_token
+      await nextTick()
       await getUser()
       router.push('/')
     }
