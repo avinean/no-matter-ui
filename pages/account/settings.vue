@@ -127,7 +127,7 @@ async function onUpdatePassword() {
     >
       <template #header>
         <h1 class="text-3xl font-bold">
-          Персональний графік роботи
+          {{ t('titles.schedule') }}
         </h1>
       </template>
 
@@ -149,6 +149,7 @@ async function onUpdatePassword() {
         }
       },
       "titles": {
+        "schedule": "Personal work schedule",
         "loginOptions": "Change login options",
         "generalOptions": {
           "generalTitle": "General settings",
@@ -167,6 +168,7 @@ async function onUpdatePassword() {
         }
       },
       "titles": {
+        "schedule": "Персональний графік роботи",
         "loginOptions": "Зміна параметрів входу",
         "generalOptions": {
           "generalTitle": "Загальні налаштування",

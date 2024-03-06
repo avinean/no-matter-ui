@@ -12,7 +12,9 @@ const emit = defineEmits<{
   submit: []
 }>()
 
-const { t } = useI18n()
+const { t } = useI18n({
+  useScope: 'local',
+})
 
 const dayOfWeek = computed(() => ([
   'Неділя',
@@ -39,15 +41,15 @@ const schedule = ref<Partial<ScheduleEntity>[]>([1, 2, 3, 4, 5, 6, 0].map((day) 
 const columns = computed(() => [
   {
     key: 'isWeekend',
-    label: 'Вихідний',
+    label: t('columns.isWeekend'),
   },
   {
     key: 'day',
-    label: 'День тижня',
+    label: t('columns.day'),
   },
   {
     key: 'period',
-    label: 'Проміжок часу',
+    label: t('columns.period'),
   },
 ])
 
@@ -100,7 +102,26 @@ async function onUpdateSchedule() {
     </UTable>
 
     <UButton type="submit">
-      {{ $t('account.settings.form.labels.submit') }}
+      {{ $t('default.forms.actions.save') }}
     </UButton>
   </UForm>
 </template>
+
+<i18n lang="json">
+{
+  "en-US": {
+    "columns": {
+      "isWeekend": "Вихідний",
+      "day": "День тижня",
+      "period": "Проміжок від-до"
+    }
+  },
+  "uk-UK": {
+    "columns": {
+      "isWeekend": "Weekend",
+      "day": "Day of the week",
+      "period": "Interval from to"
+    }
+  }
+}
+</i18n>

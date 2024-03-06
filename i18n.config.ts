@@ -3,8 +3,9 @@ import ua from './locales/ua.json'
 
 export default {
   legacy: false,
-  locale: 'en-US', // default locale
-  vueI18nLoader: true,
+  locale: 'uk-UK', // default locale
+  // vueI18nLoader: true,
+  // inheritLocale: false,
   locales: ['uk-UK', 'en-US'],
   messages: {
     'en-US': en,
