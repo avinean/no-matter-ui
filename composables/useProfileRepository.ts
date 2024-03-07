@@ -14,7 +14,6 @@ export const useProfileRepository = createGlobalState(() => {
         method: 'POST',
         body,
       })
-
       return data.user
     }
     catch (e) {

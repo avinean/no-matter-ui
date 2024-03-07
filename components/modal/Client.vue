@@ -90,14 +90,6 @@ async function onCreateOrUpdate() {
       </UFormGroup>
 
       <UFormGroup
-        label="First name"
-        name="firstName"
-        required
-      >
-        <UInput v-model="state.firstName" />
-      </UFormGroup>
-
-      <UFormGroup
         :label="$t('default.forms.labels.lastName')"
         name="lastName"
         required

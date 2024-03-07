@@ -21,7 +21,7 @@ const links = computed(() => [
     to: '/account/settings',
   },
   {
-    label: t('account.tabs.calendar'),
+    label: t('tabs.calendar'),
     icon: 'i-ic-baseline-calendar-month',
     to: '/account/calendar',
   },
@@ -31,7 +31,7 @@ const links = computed(() => [
     to: '/account/permissions',
   },
   store.isAdmin && {
-    label: t('account.tabs.businesses'),
+    label: t('tabs.businesses'),
     icon: 'i-ic-baseline-security',
     to: '/account/businesses',
   },
@@ -58,6 +58,8 @@ const links = computed(() => [
 {
   "en-US": {
     "tabs": {
+      "businesses": "Businesses",
+      "calendar": "Calendar",
       "info": "Information",
       "settings": "Settings",
       "access": "Permissions",
@@ -66,6 +68,8 @@ const links = computed(() => [
   },
   "uk-UK": {
     "tabs": {
+      "businesses": "Компанії",
+      "calendar": "Календар",
       "info": "Інформація",
       "settings": "Налаштування",
       "access": "Дозволи",

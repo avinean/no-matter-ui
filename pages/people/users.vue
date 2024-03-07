@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ProfileEntity, UserEntity } from '~/types/entities'
+import type { ProfileEntity } from '~/types/entities'
 import { ModalEmailPassAlert, ModalEmployee } from '#components'
 
 const { t } = useI18n({

@@ -3,6 +3,7 @@ import type { Permission } from '~/types/permissions'
 
 export const useGlobalStore = defineStore('global', () => {
   const router = useRouter()
+  const loading = ref(false)
   const toast = useToast()
   const user = ref<ProfileEntity | null>(null)
   const business = ref<BusinessEntity>()
@@ -15,7 +16,9 @@ export const useGlobalStore = defineStore('global', () => {
       permission => `${permission.resourceType}:${permission.actionType}` as unknown as Permission,
     ),
   ))
-
+  function setLoading(value: boolean) {
+    loading.value = value
+  }
   function hasPermission(permission: Permission | Permission[], mode: 'every' | 'some' = 'every') {
     return [permission].flat()[mode](p => permissions.value?.includes(p))
   }
@@ -91,6 +94,7 @@ export const useGlobalStore = defineStore('global', () => {
     isAdmin,
     business,
     object,
+    loading,
     login,
     signup,
     resetPassword,
@@ -98,5 +102,6 @@ export const useGlobalStore = defineStore('global', () => {
     getUser,
     getBusinesses,
     hasPermission,
+    setLoading,
   }
 })
