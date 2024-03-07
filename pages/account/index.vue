@@ -56,7 +56,7 @@ const actions = [
           {{ t('userFields.roles') }}:
         </div>
         <div class="flex gap-2 flex-wrap">
-          <UBadge v-for="role in globalStore.user?.roles" :key="role.name" :label="role.name" />
+          <UBadge v-for="role in globalStore.user?.roles" :key="role.name" :label="role.name" variant="subtle" />
         </div>
       </div>
       <div v-if="globalStore.user?.services" class="flex gap-2">
@@ -64,7 +64,7 @@ const actions = [
           {{ t('userFields.services') }}:
         </div>
         <div class="flex gap-2 flex-wrap">
-          <UBadge v-for="service in globalStore.user?.services" :key="service.name" :label="service.name" />
+          <UBadge v-for="service in globalStore.user?.services" :key="service.name" :label="service.name" variant="subtle" />
         </div>
       </div>
     </div>

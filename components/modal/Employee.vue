@@ -178,7 +178,7 @@ async function onCreateOrUpdate() {
         />
       </div>
       <div class="flex gap-2 flex-wrap mt-2">
-        <UBadge v-for="role in state.roles" :key="role.name" :label="role.name" />
+        <UBadge v-for="role in state.roles" :key="role.name" :label="role.name" variant="subtle" />
       </div>
     </UFormGroup>
 
@@ -208,7 +208,7 @@ async function onCreateOrUpdate() {
         />
       </div>
       <div class="flex gap-2 flex-wrap mt-2">
-        <UBadge v-for="service in state.services" :key="service.name" :label="service.name" />
+        <UBadge v-for="service in state.services" :key="service.name" :label="service.name" variant="subtle" />
       </div>
     </UFormGroup>
 

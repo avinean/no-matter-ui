@@ -4,7 +4,7 @@ const globalStore = useGlobalStore()
 
 <template>
   <NuxtLayout>
-    <BaseLoader  v-if="globalStore.loading" />
+    <BaseLoader v-model="globalStore.loading" />
     <NuxtPage :key="globalStore.object?.name" />
     <UNotifications />
     <ClientOnly>
@@ -14,12 +14,12 @@ const globalStore = useGlobalStore()
 </template>
 
 <style>
-.page-enter-active,
-.page-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   transition: all 0.2s;
 }
-.page-enter-from,
-.page-leave-to {
+.fade-enter-from,
+.fade-leave-to {
   opacity: 0;
   filter: blur(1rem);
 }

@@ -36,6 +36,7 @@ function remove(item: string) {
     <UBadge
       v-for="item in model"
       :key="item"
+      variant="subtle"
       @click="remove(item)"
     >
       {{ item }}

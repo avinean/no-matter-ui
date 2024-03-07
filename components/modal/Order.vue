@@ -39,16 +39,16 @@ const columns = [
     <div>
       <div>Статуси</div>
       <div v-for="status in preset?.statuses" :key="status.id" class="flex gap-1">
-        <UBadge v-if="status.status === OrderStatus.new" color="gray" variant="solid" size="xs">
+        <UBadge v-if="status.status === OrderStatus.new" color="gray" variant="subtle" size="xs">
           новий
         </UBadge>
-        <UBadge v-else-if="status.status === OrderStatus.partiallyPaid" color="gray" variant="solid" size="xs">
+        <UBadge v-else-if="status.status === OrderStatus.partiallyPaid" color="gray" variant="subtle" size="xs">
           оновлений
         </UBadge>
-        <UBadge v-else-if="status.status === OrderStatus.paid" color="green" variant="solid" size="xs">
+        <UBadge v-else-if="status.status === OrderStatus.paid" color="green" variant="subtle" size="xs">
           підтверджений
         </UBadge>
-        <UBadge v-else color="red" variant="solid" size="xs">
+        <UBadge v-else color="red" variant="subtle" size="xs">
           відмінений
         </UBadge>
 

@@ -17,5 +17,13 @@ export default defineAppConfig({
     notifications: {
       position: 'top-10 bottom-auto',
     },
+    table: {
+      th: {
+        padding: 'py-1 px-2',
+      },
+      td: {
+        padding: 'py-1 px-2',
+      },
+    }
   },
 })

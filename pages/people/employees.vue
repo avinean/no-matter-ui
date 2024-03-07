@@ -96,11 +96,11 @@ function callModal(preset?: ProfileEntity) {
               <span class="font-bold">{{ t('employeeInfo.created') }}:</span><span><base-datetime :date="selectedProfile.createdAt" date-style="medium" time-style="medium" /></span>
               <span class="font-bold">{{ t('employeeInfo.roles') }}:</span>
               <span class="flex gap-2 flex-wrap mt-2">
-                <UBadge v-for="role in selectedProfile.roles" :key="role.name" :label="role.name" />
+                <UBadge v-for="role in selectedProfile.roles" :key="role.name" :label="role.name" variant="subtle" />
               </span>
               <span class="font-bold">{{ t('employeeInfo.services') }}:</span>
               <span class="flex gap-2 flex-wrap mt-2">
-                <UBadge v-for="service in selectedProfile.services" :key="service.name" :label="service.name" />
+                <UBadge v-for="service in selectedProfile.services" :key="service.name" :label="service.name" variant="subtle" />
               </span>
             </div>
           </UCard>

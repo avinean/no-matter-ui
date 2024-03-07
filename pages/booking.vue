@@ -87,30 +87,30 @@ const columns = [
           mode="hover"
           :popper="{ placement: 'bottom-start' }"
         >
-          <UBadge v-if="row.statuses.at(-1).status === ConfirmationStatus.new" color="gray" variant="solid">
+          <UBadge v-if="row.statuses.at(-1).status === ConfirmationStatus.new" color="gray" variant="subtle">
             новий
           </UBadge>
-          <UBadge v-else-if="row.statuses.at(-1).status === ConfirmationStatus.updated" color="gray" variant="solid">
+          <UBadge v-else-if="row.statuses.at(-1).status === ConfirmationStatus.updated" color="gray" variant="subtle">
             оновлений
           </UBadge>
-          <UBadge v-else-if="row.statuses.at(-1).status === ConfirmationStatus.approved" color="green" variant="solid">
+          <UBadge v-else-if="row.statuses.at(-1).status === ConfirmationStatus.approved" color="green" variant="subtle">
             підтверджений
           </UBadge>
-          <UBadge v-else color="red" variant="solid">
+          <UBadge v-else color="red" variant="subtle">
             відмінений
           </UBadge>
 
           <template #item="{ item }">
-            <UBadge v-if="item.status === ConfirmationStatus.new" color="gray" variant="solid" size="xs">
+            <UBadge v-if="item.status === ConfirmationStatus.new" color="gray" variant="subtle" size="xs">
               новий
             </UBadge>
-            <UBadge v-else-if="item.status === ConfirmationStatus.updated" color="gray" variant="solid" size="xs">
+            <UBadge v-else-if="item.status === ConfirmationStatus.updated" color="gray" variant="subtle" size="xs">
               оновлений
             </UBadge>
-            <UBadge v-else-if="item.status === ConfirmationStatus.approved" color="green" variant="solid" size="xs">
+            <UBadge v-else-if="item.status === ConfirmationStatus.approved" color="green" variant="subtle" size="xs">
               підтверджений
             </UBadge>
-            <UBadge v-else color="red" variant="solid" size="xs">
+            <UBadge v-else color="red" variant="subtle" size="xs">
               відмінений
             </UBadge>
 

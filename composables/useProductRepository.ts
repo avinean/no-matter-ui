@@ -1,11 +1,17 @@
+import type { PaginationRequest, PaginationResponse } from '~/types/api'
 import type { ServiceEntity } from '~/types/entities'
 
 export const useProductRepository = createGlobalState(() => {
   const globalStore = useGlobalStore()
   const toast = useToast()
 
-  function get() {
-    return $api<ServiceEntity[]>(`/service/product/${globalStore.object?.id || globalStore.user?.employers[0]?.id}`)
+  function get(query?: PaginationRequest) {
+    return $api<PaginationResponse<ServiceEntity>>(
+      `/service/product/${globalStore.object?.id || globalStore.user?.employers[0]?.id}`,
+      {
+        query
+      }
+    )
   }
 
   function add(body: Partial<ServiceEntity>) {

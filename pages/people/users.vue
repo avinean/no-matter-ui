@@ -129,7 +129,7 @@ function addProfile() {
           </template>
           <template #roles-data="{ row }">
             <span class="flex gap-2 flex-wrap mt-2">
-              <UBadge v-for="role in row.roles" :key="role.name" :label="role.name" />
+              <UBadge v-for="role in row.roles" :key="role.name" :label="role.name" variant="subtle" />
             </span>
           </template>
           <template #actions-data="{ row }">
