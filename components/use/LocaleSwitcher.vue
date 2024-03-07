@@ -1,35 +1,29 @@
 <script setup lang="ts">
-const { t, locale } = useI18n({
-  useScope: 'global',
-})
+const { locale } = useI18n()
 
-const locales = computed(() => [
+const locales = [
   {
     locale: 'uk-UK',
-    label: t('locale.locales.ua'),
+    label: 'Українська',
     avatar: { src: '/flag/uk.png' },
   },
   {
     locale: 'en-US',
-    label: t('locale.locales.en'),
+    label: 'English',
     avatar: { src: '/flag/gb.png' },
   },
-])
+]
 </script>
 
 <template>
-  <UFormGroup
-    :label="t('locale.localeLabel')"
+  <USelectMenu
+    v-model="locale"
+    :options="locales"
+    value-attribute="locale"
+    trailing-icon="i-ic-baseline-keyboard-arrow-down"
   >
-    <USelectMenu
-      v-model="locale"
-      :options="locales"
-      value-attribute="locale"
-      trailing-icon="i-ic-baseline-keyboard-arrow-down"
-    >
-      <template #leading>
-        <UAvatar v-if="locale" :src="locales.find(_ => _.locale === locale)?.avatar.src" size="2xs" class="mx-0.5" />
-      </template>
-    </USelectMenu>
-  </UFormGroup>
+    <template #leading>
+      <UAvatar v-if="locale" :src="locales.find(_ => _.locale === locale)?.avatar.src" size="2xs" class="mx-0.5" />
+    </template>
+  </USelectMenu>
 </template>

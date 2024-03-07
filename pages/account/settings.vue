@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-
 const { t } = useI18n({
   useScope: 'local',
 })
@@ -94,7 +93,12 @@ async function onUpdatePassword() {
           {{ t('titles.generalOptions.generalTitle') }}
         </h1>
       </template>
-      <UseLocaleSwitcher />
+
+      <UFormGroup
+        :label="t('locale.localeLabel')"
+      >
+        <UseLocaleSwitcher />
+      </UFormGroup>
     </UCard>
     <UCard
       class="flex flex-col flex-1"
@@ -129,21 +133,27 @@ async function onUpdatePassword() {
         "generalOptions": {
           "generalTitle": "General settings"
         }
-      }
+      },
+    "locale": {
+      "localeLabel": "Application language"
+    }
   },
   "uk-UK": {
-      "form": {
-        "requestMessages": {
-          "successChangePassword": "Пароль успішно змінено"
-        }
-      },
-      "titles": {
-        "schedule": "Персональний графік роботи",
-        "loginOptions": "Зміна параметрів входу",
-        "generalOptions": {
-          "generalTitle": "Загальні налаштування"
-        }
+    "form": {
+      "requestMessages": {
+        "successChangePassword": "Пароль успішно змінено"
       }
+    },
+    "titles": {
+      "schedule": "Персональний графік роботи",
+      "loginOptions": "Зміна параметрів входу",
+      "generalOptions": {
+        "generalTitle": "Загальні налаштування"
+      }
+    },
+    "locale": {
+      "localeLabel": "Мова додатку"
+    }
   }
 }
 </i18n>

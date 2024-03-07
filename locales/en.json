@@ -62,12 +62,5 @@
                 "description": "Contact the support service"
             }
         }
-    },
-    "locale": {
-        "locales": {
-            "ua": "Ukrainian",
-            "en": "English"
-        },
-        "localeLabel": "Application language"
     }
 }
