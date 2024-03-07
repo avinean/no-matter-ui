@@ -10,7 +10,6 @@ const modalStore = useModalStore()
 
 const { get } = useClientRepository()
 const { data, refresh } = useAsyncData(() => get())
-console.log(data.value, 'data')
 const commandPaletteRef = ref()
 const selectedId = ref<number | null>(null)
 const selectedClient = computed(() => data.value?.find(client => client.id === selectedId.value))

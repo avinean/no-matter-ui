@@ -4,8 +4,8 @@ const globalStore = useGlobalStore()
 
 <template>
   <NuxtLayout>
+    <BaseLoader  v-if="globalStore.loading" />
     <NuxtPage :key="globalStore.object?.name" />
-
     <UNotifications />
     <ClientOnly>
       <UseModal />

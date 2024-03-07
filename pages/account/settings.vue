@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import LocaleSwitcher from '~/components/base/LocaleSwitcher.vue'
 
 const { t } = useI18n({
   useScope: 'local',
@@ -95,7 +94,7 @@ async function onUpdatePassword() {
           {{ t('titles.generalOptions.generalTitle') }}
         </h1>
       </template>
-      <LocaleSwitcher />
+      <UseLocaleSwitcher />
     </UCard>
     <UCard
       class="flex flex-col flex-1"
