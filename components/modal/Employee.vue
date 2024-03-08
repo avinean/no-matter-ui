@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { ModalRole, UseServicesSelect } from '#components'
-import type { ProfileEntity, RoleEntity, UserEntity } from '~/types/entities'
+import { UseServicesSelect } from '#components'
+import type { ProfileEntity, UserEntity } from '~/types/entities'
 
 const props = withDefaults(defineProps<{
   preset?: ProfileEntity | null
@@ -21,14 +21,11 @@ defineExpose({
   title: computed(() => `${props.preset?.id ? t('titleUpdate') : t('titleCreate')} `),
 })
 
-const modalStore = useModalStore()
-const globalStore = useGlobalStore()
 const suggestionsStore = useSuggestionsStore()
 const { add, edit } = useProfileRepository()
 const { photo, add: addPhoto } = usePhoto(props.preset?.image)
 
 suggestionsStore.get(['sexes'])
-const { data: roles, refresh: refreshRoles } = useApi<RoleEntity[]>(`/role/${globalStore.business?.id}`)
 
 const loading = ref(false)
 const state: Partial<ProfileEntity> = reactive({
@@ -42,21 +39,6 @@ const state: Partial<ProfileEntity> = reactive({
   roles: props.preset?.roles || [],
   services: props.preset?.services || [],
 })
-
-whenever(roles, () => {
-  state.roles
-    = state.roles
-      ?.map(role => role.name === 'admin' ? role : roles.value?.find(({ id }) => id === role.id))
-      .filter<RoleEntity>((value): value is RoleEntity => Boolean(value)) || []
-})
-
-function addRole() {
-  modalStore.open(ModalRole, {
-    onSubmit() {
-      refreshRoles()
-    },
-  })
-}
 
 async function onCreateOrUpdate() {
   loading.value = true
@@ -141,27 +123,7 @@ async function onCreateOrUpdate() {
       name="role"
       required
     >
-      <div class="flex gap-1">
-        <USelectMenu
-          v-if="roles"
-          v-model="state.roles"
-          :options="roles"
-          option-attribute="name"
-          multiple
-          selected-icon="i-ic-round-check"
-          :placeholder="$t('default.forms.placeholders.roles')"
-          creatable
-          class="flex-1"
-        />
-        <UButton
-          icon="i-ic-outline-add-moderator"
-          size="sm"
-          color="primary"
-          square
-          variant="solid"
-          @click="addRole()"
-        />
-      </div>
+      <UseRolesSelect v-model="state.roles" />
       <div class="flex gap-2 flex-wrap mt-2">
         <UBadge v-for="role in state.roles" :key="role.name" :label="role.name" variant="subtle" />
       </div>
