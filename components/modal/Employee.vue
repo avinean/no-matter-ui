@@ -13,6 +13,7 @@ const emit = defineEmits<{
   submit: [user: { email: string, password: string }]
 }>()
 
+const toaster = useToast()
 const { t } = useI18n({
   useScope: 'local',
 })
@@ -23,7 +24,7 @@ defineExpose({
 
 const suggestionsStore = useSuggestionsStore()
 const { add, edit } = useProfileRepository()
-const { photo, add: addPhoto } = usePhoto(props.preset?.image)
+const { photo, url, add: addPhoto } = usePhoto(props.preset?.image)
 
 suggestionsStore.get(['sexes'])
 
@@ -43,13 +44,29 @@ const state: Partial<ProfileEntity> = reactive({
 async function onCreateOrUpdate() {
   loading.value = true
 
-  const image = await addPhoto()
+  try {
+    await addPhoto()
+  }
+  catch (error) {
+    toaster.add({
+      title: 'Щось пішло не так',
+      description: 'Не вдалось завантажити фото',
+    })
+  }
 
-  const user = await (props.preset?.id
-    ? edit(props.preset?.id, { ...state, image })
-    : add({ ...state, image, user: props.user }))
+  try {
+    const user = await (props.preset?.id
+      ? edit(props.preset?.id, { ...state, image: url.value })
+      : add({ ...state, image: url.value, user: props.user }))
 
-  emit('submit', user!)
+    emit('submit', user!)
+  }
+  catch (error) {
+    toaster.add({
+      title: 'Щось пішло не так',
+      description: 'не вдалось створити користувача',
+    })
+  }
 }
 </script>
 

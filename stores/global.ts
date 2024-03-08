@@ -35,6 +35,7 @@ export const useGlobalStore = defineStore('global', () => {
     }
   }
   async function login(body: { phone: string, password: string }) {
+    loading.value = true
     try {
       const data = await $api<{ access_token: string }>('/auth/login', {
         method: 'POST',
@@ -60,6 +61,9 @@ export const useGlobalStore = defineStore('global', () => {
           color: 'red',
         })
       }
+    }
+    finally {
+      loading.value = false
     }
   }
 
