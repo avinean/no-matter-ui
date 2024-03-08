@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { ModalRole, ModalServiceProduct } from '#components'
-import type { ProfileEntity, RoleEntity, ServiceEntity, UserEntity } from '~/types/entities'
+import { ModalRole, UseServicesSelect } from '#components'
+import type { ProfileEntity, RoleEntity, UserEntity } from '~/types/entities'
 
 const props = withDefaults(defineProps<{
   preset?: ProfileEntity | null
@@ -29,7 +29,6 @@ const { photo, add: addPhoto } = usePhoto(props.preset?.image)
 
 suggestionsStore.get(['sexes'])
 const { data: roles, refresh: refreshRoles } = useApi<RoleEntity[]>(`/role/${globalStore.business?.id}`)
-const { data: services, refresh: refreshServices } = useAsyncData(() => useServiceRepository().get())
 
 const loading = ref(false)
 const state: Partial<ProfileEntity> = reactive({
@@ -44,11 +43,6 @@ const state: Partial<ProfileEntity> = reactive({
   services: props.preset?.services || [],
 })
 
-whenever(services, ({ items }) => {
-  state.services = state.services?.map(
-    service => items?.find(({ id }) => id === service.id),
-  ).filter<ServiceEntity>((value): value is ServiceEntity => Boolean(value)) || []
-})
 whenever(roles, () => {
   state.roles
     = state.roles
@@ -60,15 +54,6 @@ function addRole() {
   modalStore.open(ModalRole, {
     onSubmit() {
       refreshRoles()
-    },
-  })
-}
-
-function addService() {
-  modalStore.open(ModalServiceProduct, {
-    type: 'service',
-    onSubmit() {
-      refreshServices()
     },
   })
 }
@@ -183,30 +168,11 @@ async function onCreateOrUpdate() {
     </UFormGroup>
 
     <UFormGroup
-      v-if="services"
       :label="$t('default.forms.labels.services')"
       name="services"
       required
     >
-      <div class="flex gap-1">
-        <USelectMenu
-          v-model="state.services"
-          :options="services.items"
-          option-attribute="name"
-          multiple
-          selected-icon="i-ic-round-check"
-          :placeholder="$t('default.forms.placeholders.services')"
-          class="flex-1"
-        />
-        <UButton
-          icon="i-ic-baseline-medical-services"
-          size="sm"
-          color="primary"
-          square
-          variant="solid"
-          @click="addService()"
-        />
-      </div>
+      <UseServicesSelect v-model="state.services" />
       <div class="flex gap-2 flex-wrap mt-2">
         <UBadge v-for="service in state.services" :key="service.name" :label="service.name" variant="subtle" />
       </div>
@@ -221,12 +187,12 @@ async function onCreateOrUpdate() {
 <i18n lang="json">
 {
   "en-US": {
-        "titleCreate": "Create employee profile",
-        "titleUpdate": "Edit employee profile"
+    "titleCreate": "Create employee profile",
+    "titleUpdate": "Edit employee profile"
   },
   "uk-UK": {
-        "titleCreate": "Створити профіль працівника",
-        "titleUpdate": "Редагування профіля"
+    "titleCreate": "Створити профіль працівника",
+    "titleUpdate": "Редагування профіля"
   }
 }
 </i18n>
