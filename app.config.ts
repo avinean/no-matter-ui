@@ -1,4 +1,5 @@
 export default defineAppConfig({
+  nuxtIcon: {},
   ui: {
     primary: 'slate',
     icons: ['goole mat'],
@@ -24,6 +25,6 @@ export default defineAppConfig({
       td: {
         padding: 'py-1 px-2',
       },
-    }
+    },
   },
 })

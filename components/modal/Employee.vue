@@ -44,9 +44,9 @@ const state: Partial<ProfileEntity> = reactive({
   services: props.preset?.services || [],
 })
 
-whenever(services, () => {
+whenever(services, ({ items }) => {
   state.services = state.services?.map(
-    service => services.value?.find(({ id }) => id === service.id),
+    service => items?.find(({ id }) => id === service.id),
   ).filter<ServiceEntity>((value): value is ServiceEntity => Boolean(value)) || []
 })
 whenever(roles, () => {
@@ -191,7 +191,7 @@ async function onCreateOrUpdate() {
       <div class="flex gap-1">
         <USelectMenu
           v-model="state.services"
-          :options="services"
+          :options="services.items"
           option-attribute="name"
           multiple
           selected-icon="i-ic-round-check"
