@@ -1,12 +1,14 @@
 <script setup lang="ts">
+const { t } = useI18n({
+  useScope: 'local',
+})
 import { ModalBusiness, ModalBusinessObject } from '#components'
-
 const globalStore = useGlobalStore()
 const modalStore = useModalStore()
 
 const businessActions = [
   {
-    tooltip: 'Редагувати бізнес',
+    tooltip: t('tooltips.editBusiness'),
     icon: 'i-ic-baseline-edit',
     onClick: () => modalStore.open(ModalBusiness, {
       preset: globalStore.business,
@@ -17,7 +19,7 @@ const businessActions = [
 
 const businessObjectActions = [
   {
-    tooltip: 'Редагувати підприємство',
+    tooltip: t('tooltips.editEnterprise'),
     icon: 'i-ic-baseline-edit',
     onClick: () => modalStore.open(ModalBusinessObject, {
       preset: globalStore.object,
@@ -29,15 +31,15 @@ const businessObjectActions = [
 const columns = computed(() => [
   {
     key: 'logo',
-    label: 'Логотип',
+    label: t('columns.logo'),
   },
   {
     key: 'name',
-    label: 'Назва',
+    label: t('columns.name'),
   },
   {
     key: 'description',
-    label: 'Опис',
+    label: t('columns.description'),
   },
   {
     key: 'action',
@@ -46,12 +48,12 @@ const columns = computed(() => [
 </script>
 
 <template>
-  <div class="grid lg:grid-cols-2 gap-2">
+  <div>
     <div class="space-y-2">
       <UCard :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
         <template #header>
           <h1 class="text-3xl font-bold">
-            Поточний бізнес
+            {{ t('titles.business') }}
           </h1>
         </template>
         <div class="flex items-start gap-2">
@@ -62,28 +64,30 @@ const columns = computed(() => [
             <span class="justify-self-end">
               <base-action-bar :items="businessActions" />
             </span>
-            <span class="font-bold">Опис:</span><span>{{ globalStore.business?.description }}</span>
-            <span class="font-bold">Дата створення:</span><span><base-datetime :date="globalStore.business?.createdAt" /></span>
+            <span class="font-bold">{{t('view.description')}}:</span><span>{{ globalStore.business?.description }}</span>
+            <span class="font-bold">{{t('view.createdAt')}}:</span><span><base-datetime :date="globalStore.business?.createdAt" /></span>
+
           </div>
         </div>
       </UCard>
-      <UCard :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
+      <UCard v-if="globalStore.business?.businessObjects.length! > 1"  :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
         <template #header>
           <h1 class="text-3xl font-bold">
-            Підприємства
+            {{ t('titles.enterprises') }}
           </h1>
         </template>
         <UTable :rows="globalStore.business?.businessObjects" :columns="columns">
           <template #logo-data="{ row }">
             <base-image :src="row.image" width="50" height="50" />
           </template>
-          <template #action-data="{ row }">
+          <template  #action-data="{ row }">
             <UButton
+                v-show="globalStore.object?.id !== row?.id"
               icon="i-ic-baseline-arrow-circle-right"
               size="sm"
               color="primary"
               variant="solid"
-              label="Обрати"
+              :label="$t('default.forms.actions.select')"
               trailing
               @click="globalStore.object = row"
             />
@@ -95,7 +99,7 @@ const columns = computed(() => [
       <UCard :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
         <template #header>
           <h1 class="text-3xl font-bold">
-            Поточне підприємство
+            {{ t('titles.enterprise') }}
           </h1>
         </template>
         <div class="flex items-start gap-2">
@@ -106,15 +110,15 @@ const columns = computed(() => [
             <span class="justify-self-end">
               <base-action-bar :items="businessObjectActions" />
             </span>
-            <span class="font-bold">Опис:</span><span>{{ globalStore.object?.description }}</span>
-            <span class="font-bold">Дата сворення:</span><span><base-datetime :date="globalStore.object?.createdAt" /></span>
+            <span class="font-bold">{{t('view.description')}}:</span><span>{{ globalStore.object?.description }}</span>
+            <span class="font-bold">{{t('view.createdAt')}}:</span><span><base-datetime :date="globalStore.object?.createdAt" /></span>
           </div>
         </div>
       </UCard>
       <UCard :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
         <template #header>
           <h1 class="text-3xl font-bold">
-            Графік роботи підприємства
+            {{ t('titles.enterpriseSchedule') }}
           </h1>
         </template>
 
@@ -128,7 +132,7 @@ const columns = computed(() => [
     <UCard :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }" class="col-span-2">
       <template #header>
         <h1 class="text-3xl font-bold">
-          Вихідні та святкові дні підприємства
+          {{ t('titles.enterpriseWeekends') }}
         </h1>
       </template>
       <FormCalendar
@@ -140,3 +144,55 @@ const columns = computed(() => [
     </UCard>
   </div>
 </template>
+
+
+<i18n lang="json">
+{
+  "en-US": {
+    "view": {
+      "createdAt":  "Date of creation",
+      "description": "Description"
+    },
+    "tooltips": {
+      "editBusiness": "Edit Business",
+      "editEnterprise": "Edit Enterprise"
+    },
+    "columns": {
+      "logo": "Logo",
+      "name": "Name",
+      "description": "Description"
+    },
+    "titles": {
+      "business": "Current business",
+      "enterprises": "Enterprises",
+      "enterprise": "Current enterprise",
+      "enterpriseSchedule": "Work schedule of the enterprise",
+      "enterpriseWeekends": "Weekends and holidays of the enterprise"
+    }
+  },
+  "uk-UK": {
+    "view": {
+      "createdAt": "Дата створення",
+      "description": "Опис"
+    },
+
+    "tooltips": {
+      "editBusiness": "Редагувати бізнес",
+      "editEnterprise": "Редагувати підприємство"
+    },
+    "columns": {
+      "logo": "Логотип",
+      "name": "Ім'я",
+      "description": "Опис"
+    },
+    "titles": {
+      "business": "Поточний бізнес",
+      "enterprises": "Підприємства",
+      "enterprise": "Поточне підприємство",
+      "enterpriseSchedule": "Графік роботи підприємства",
+      "enterpriseWeekends": "Вихідні та святкові дні підприємства"
+
+    }
+  }
+}
+</i18n>

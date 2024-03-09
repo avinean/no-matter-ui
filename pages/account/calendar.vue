@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+const { t } = useI18n({
+  useScope: 'local',
+})
 const globalStore = useGlobalStore()
 </script>
 
@@ -10,7 +13,7 @@ const globalStore = useGlobalStore()
     >
       <template #header>
         <h1 class="text-3xl font-bold">
-          {{ $t('account.settings.titles.calendar') }}
+          {{ t('calendar') }}
         </h1>
       </template>
       <FormCalendar
@@ -22,3 +25,13 @@ const globalStore = useGlobalStore()
     </UCard>
   </div>
 </template>
+<i18n lang="json">
+{
+  "en-US": {
+   "calendar": "Calendar"
+  },
+  "uk-UK": {
+    "calendar": "Календар"
+  }
+}
+</i18n>
