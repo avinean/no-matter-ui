@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+const { t } = useI18n({
+  useScope: 'local',
+})
 import { Calendar } from 'v-calendar'
 import type { BusinessObjectEntity, CalendarEntity, ProfileEntity, ScheduleEntity } from '~/types/entities'
 import { DayType } from '~/types/enums'
@@ -96,34 +99,34 @@ async function onUpdateSchedule() {
       class="space-y-2"
       @submit="onUpdateSchedule"
     >
-      <UFormGroup :label="$t('account.calendar.form.labels.type')" name="type" required>
+      <UFormGroup :label="t('form.type')" name="type" required>
         <USelect
           v-model="state.type"
           :options="Object.values(DayType).map((value) => ({
-            label: $t(`enums.dayType.${value}`),
+            label: t(`dayTypes.${value}`),
             value,
           }))"
         />
       </UFormGroup>
-      <UFormGroup :label="$t('account.calendar.form.labels.comment')" name="comment">
+      <UFormGroup :label="t('form.comment')" name="comment">
         <UTextarea v-model="state.comment" />
       </UFormGroup>
-      <UFormGroup :label="$t('account.calendar.form.labels.from')" name="from" required>
+      <UFormGroup :label="t('form.from')" name="from" required>
         <InputDate v-model="state.from" />
       </UFormGroup>
-      <UFormGroup :label="$t('account.calendar.form.labels.to')" name="to" required>
+      <UFormGroup :label="t('form.to')" name="to" required>
         <InputDate v-model="state.to" />
       </UFormGroup>
       <template v-if="state.type === DayType.workingDay">
-        <UFormGroup :label="$t('account.calendar.form.labels.start')" name="start" required>
+        <UFormGroup :label="t('form.start')" name="start" required>
           <UInput v-model="state.start" type="time" />
         </UFormGroup>
-        <UFormGroup :label="$t('account.calendar.form.labels.end')" name="end" required>
+        <UFormGroup :label="t('form.end')" name="end" required>
           <UInput v-model="state.end" type="time" />
         </UFormGroup>
       </template>
       <UButton type="submit">
-        {{ $t('account.settings.form.labels.submit') }}
+        {{ $t('default.forms.actions.add') }}
       </UButton>
     </UForm>
     <Calendar
@@ -134,3 +137,43 @@ async function onUpdateSchedule() {
     />
   </div>
 </template>
+
+<i18n lang="json">
+{
+  "en-US": {
+    "dayTypes": {
+      "stateHoliday": "State holiday",
+      "companyHoliday": "Company holiday",
+      "holiday": "Holiday",
+      "workingDay": "Working Day",
+      "vacation": "Vacation",
+      "sickLeave": "Sick Leave",
+      "dayOff": "Day Off"
+    },
+
+    "form": {
+      "type": "Type",
+      "comment": "Comment",
+      "from": "Start",
+      "to": "End"
+    }
+  },
+  "uk-UK": {
+    "dayTypes": {
+      "stateHoliday": "Державне свято",
+      "companyHoliday": "Cвято компанії",
+      "holiday": "Неробочий день",
+      "workingDay": "Робочий день",
+      "vacation": "Відпустка",
+      "sickLeave": "Лікарняний",
+      "dayOff": "Вихідний"
+    },
+    "form": {
+      "type": "Тип",
+      "comment": "Коментар",
+      "from": "Початок",
+      "to": "Кінець"
+    }
+  }
+}
+</i18n>

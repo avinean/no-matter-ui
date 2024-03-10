@@ -47,7 +47,9 @@
                 "signIn": "Submit",
                 "signUp": "Sign Up",
                 "resetPass": "Send a recovery link",
-                "create": "Create"
+                "create": "Create",
+                "add": "Add",
+                "select": "Select"
             }
         }
     },
