@@ -8,7 +8,7 @@ import interactionPlugin from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import dayGridPlugin from '@fullcalendar/daygrid'
 
-const { baseUrl } = useRuntimeConfig().public
+const { imageBaseUrl } = useRuntimeConfig().public
 const store = useEntriesStore()
 
 function getEventStyle(event: any) {
@@ -58,7 +58,7 @@ const groups = computed(() => [{
     label: `${client.firstName} ${client.lastName}`,
     suffix: client.jobTitle,
     client,
-    // avatar: { src: `${baseUrl}/${client.image || ''}`, loading: 'lazy' },
+    // avatar: { src: `${imageBaseUrl}/${client.image || ''}`, loading: 'lazy' },
   })),
 }])
 const selectedProfile = computed(() => tabItems?.find(profile => profile.id === selectedId.value))

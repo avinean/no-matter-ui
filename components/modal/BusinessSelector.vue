@@ -1,7 +1,7 @@
 <script setup>
 import { ModalBusiness, ModalBusinessObject } from '#components'
 
-const { baseUrl } = useRuntimeConfig().public
+const { imageBaseUrl } = useRuntimeConfig().public
 const globalStore = useGlobalStore()
 const modalStore = useModalStore()
 
@@ -12,14 +12,14 @@ defineExpose({
 const businesses = computed(() => globalStore.user.ownedBusinesses.map(business => ({
   id: business.id,
   label: business.name,
-  avatar: { src: `${baseUrl}/${business.image}`, loading: 'lazy' },
+  avatar: { src: `${imageBaseUrl}/${business.image}`, loading: 'lazy' },
 })))
 
 const businessObjects = computed(() => (globalStore.business.businessObjects || []).map(object => ({
   object,
   id: object.id,
   label: object.name,
-  avatar: { src: `${baseUrl}/${object.image}`, loading: 'lazy' },
+  avatar: { src: `${imageBaseUrl}/${object.image}`, loading: 'lazy' },
 })))
 
 const business = computed({

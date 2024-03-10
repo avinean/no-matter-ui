@@ -5,14 +5,14 @@ const { t } = useI18n({
   useScope: 'local',
 })
 const store = useGlobalStore()
-const { baseUrl } = useRuntimeConfig().public
+const { imageBaseUrl } = useRuntimeConfig().public
 
 const links = computed(() => [
   {
     label: t('tabs.info'),
     to: '/account',
     avatar: {
-      src: `${baseUrl}/${store.user?.image}`,
+      src: `${imageBaseUrl}/${store.user?.image}`,
     },
   },
   {
