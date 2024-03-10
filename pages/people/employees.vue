@@ -5,7 +5,6 @@ import { ModalEmailPassAlert, ModalEmployee } from '#components'
 const { t } = useI18n({
   useScope: 'local',
 })
-const { imageBaseUrl } = useRuntimeConfig().public
 const { hasPermission } = useGlobalStore()
 const modalStore = useModalStore()
 const { data, refresh } = useAsyncData(useProfileRepository().get)
@@ -19,7 +18,7 @@ const groups = computed(() => [{
     id: client.id,
     label: `${client.firstName} ${client.lastName}`,
     client,
-    avatar: { src: `${imageBaseUrl}/${client.image}`, loading: 'lazy' },
+    avatar: { src: client.image, loading: 'lazy' },
   })),
 }])
 

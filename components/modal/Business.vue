@@ -13,8 +13,6 @@ defineExpose({
   title: `Створити бізнес`,
 })
 
-const { imageBaseUrl } = useRuntimeConfig().public
-
 const { photo, add: addPhoto } = usePhoto(props.preset?.image)
 const { add, edit } = useBusinessRepository()
 
@@ -46,7 +44,7 @@ async function onCreateOrUpdate() {
   >
     <input-file
       class="row-span-6"
-      :src="`${imageBaseUrl}/${state.image}`"
+      :src="state.image"
       @change="photo = $event"
     />
 

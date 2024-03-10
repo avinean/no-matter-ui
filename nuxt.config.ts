@@ -1,7 +1,6 @@
 import ui from './config/ui'
 import colorMode from './config/colorMode'
 import modules from './config/modules'
-import image from './config/image'
 import app from './config/app'
 import runtimeConfig from './config/runtimeConfig'
 import googleFonts from './config/googleFonts'
@@ -17,7 +16,6 @@ export default defineNuxtConfig({
   ui,
   colorMode,
   modules,
-  image,
   app,
   runtimeConfig,
   devtools: { enabled: false },

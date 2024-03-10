@@ -4,7 +4,6 @@ import { ModalBusinessSelector } from '#components'
 const { t } = useI18n()
 const store = useGlobalStore()
 const modalStore = useModalStore()
-const { imageBaseUrl } = useRuntimeConfig().public
 
 const links = computed(() => [
   [
@@ -38,14 +37,14 @@ const links = computed(() => [
     {
       label: t('default.applicationLinks.business'),
       avatar: {
-        src: `${imageBaseUrl}/${store.business?.image}`,
+        src: store.business?.image,
       },
       click: () => modalStore.open(ModalBusinessSelector),
     },
     {
       label: t('default.applicationLinks.object'),
       avatar: {
-        src: `${imageBaseUrl}/${store.object?.image}`,
+        src: store.object?.image,
       },
       click: () => modalStore.open(ModalBusinessSelector),
     },
@@ -55,7 +54,7 @@ const links = computed(() => [
       label: t('default.applicationLinks.account'),
       to: '/account',
       avatar: {
-        src: `${imageBaseUrl}/${store.user?.image}`,
+        src: store.user?.image,
       },
     },
   ],

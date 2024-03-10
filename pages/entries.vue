@@ -8,7 +8,6 @@ import interactionPlugin from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import dayGridPlugin from '@fullcalendar/daygrid'
 
-const { imageBaseUrl } = useRuntimeConfig().public
 const store = useEntriesStore()
 
 function getEventStyle(event: any) {

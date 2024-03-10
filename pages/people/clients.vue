@@ -5,7 +5,6 @@ import { ModalClient } from '#components'
 const { t } = useI18n({
   useScope: 'local',
 })
-const { imageBaseUrl } = useRuntimeConfig().public
 const modalStore = useModalStore()
 
 const { get } = useClientRepository()
@@ -20,7 +19,7 @@ const groups = computed(() => [{
     id: client.id,
     label: `${client.firstName} ${client.lastName}`,
     client,
-    avatar: { src: `${imageBaseUrl}/${client.image}`, loading: 'lazy' },
+    avatar: { src: client.image, loading: 'lazy' },
   })),
 }])
 
