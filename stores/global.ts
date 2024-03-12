@@ -47,7 +47,7 @@ export const useGlobalStore = defineStore('global', () => {
       router.push('/')
     }
     catch (error: any) {
-      if (error.data?.statusCode === 401) {
+      if (error.status === 401) {
         toast.add({
           title: $i18n.t('requestErrors.signIn.invalid.title'),
           description: $i18n.t('requestErrors.signIn.invalid.description'),
@@ -56,8 +56,8 @@ export const useGlobalStore = defineStore('global', () => {
       }
       else {
         toast.add({
-          title: $i18n.t('signIn.requestErrors.unknownError.title'),
-          description: $i18n.t('signIn.requestErrors.unknownError.description'),
+          title: $i18n.t('requestErrors.unknownError.title'),
+          description: $i18n.t('requestErrors.unknownError.description'),
           color: 'red',
         })
       }
@@ -67,13 +67,36 @@ export const useGlobalStore = defineStore('global', () => {
     }
   }
 
-  async function signup(body: { firstName: string, lastName: string, phone: string }) {
-    await $api<{ access_token: string }>('/auth/signup', {
-      method: 'POST',
-      body,
-    })
+  async function signup(body: { firstName: string, lastName: string, phone: string }, cb) {
+    loading.value = true
+    try {
+      await $api<{ access_token: string }>('/auth/signup', {
+        method: 'POST',
+        body,
+      })
 
-    router.push('/auth/sign-in')
+      cb?.()
+      router.push('/auth/sign-in')
+    }
+    catch (error: any) {
+      if (error.status === 409) {
+        toast.add({
+          title: $i18n.t('requestErrors.signUp.duplicate.title'),
+          description: $i18n.t('requestErrors.signUp.duplicate.description'),
+          color: 'red',
+        })
+      }
+      else {
+        toast.add({
+          title: $i18n.t('requestErrors.unknownError.title'),
+          description: $i18n.t('requestErrors.unknownError.description'),
+          color: 'red',
+        })
+      }
+    }
+    finally {
+      loading.value = false
+    }
   }
 
   function logout() {

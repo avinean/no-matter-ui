@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import type { FormError, FormSubmitEvent } from '#ui/types'
 
-const { t } = useI18n({
-  useScope: 'local',
-})
+const { t } = useI18n({ useScope: 'local' })
 
+const toast = useToast()
 const store = useGlobalStore()
 
 const form = reactive({
@@ -25,7 +24,13 @@ function validate(state: any): FormError[] {
 }
 
 async function onSubmit(event: FormSubmitEvent<any>) {
-  store.signup(event.data)
+  store.signup(event.data, () => {
+    toast.add({
+      title: t('success.title'),
+      description: t('success.description'),
+      color: 'green',
+    })
+  })
 }
 </script>
 
@@ -88,14 +93,22 @@ async function onSubmit(event: FormSubmitEvent<any>) {
 <i18n lang="json">
 {
   "en-US": {
-      "title": "New user registration",
-      "logIn": "Sign in",
-      "alreadyLogIn": "Already registered?"
+    "title": "New user registration",
+    "logIn": "Sign in",
+    "alreadyLogIn": "Already registered?",
+    "success": {
+      "title": "Registration successful",
+      "description": "Registration is successful. Your password has been sent to your email."
+    }
   },
   "uk-UK": {
-      "title": "Реєстрація нового користувача",
-      "logIn": "Увійти",
-      "alreadyLogIn": "Вже зареєстровані?"
+    "title": "Реєстрація нового користувача",
+    "logIn": "Увійти",
+    "alreadyLogIn": "Вже зареєстровані?",
+    "success": {
+      "title": "Реєстрація успішна",
+      "description": "Реєстрація успішна. Ваш пароль відправлено на вашу пошту."
+    }
   }
 }
 </i18n>
