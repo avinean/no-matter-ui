@@ -67,7 +67,7 @@ export const useGlobalStore = defineStore('global', () => {
     }
   }
 
-  async function signup(body: { firstName: string, lastName: string, phone: string }, cb) {
+  async function signup(body: { firstName: string, lastName: string, phone: string }, cb?: () => void) {
     loading.value = true
     try {
       await $api<{ access_token: string }>('/auth/signup', {
