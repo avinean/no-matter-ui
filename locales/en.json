@@ -1,44 +1,37 @@
 {
-    "formValidation": {
-        "required": "Field is required",
-        "email": "Enter a valid email address",
-        "confirmPassword": "Passwords must match"
-
-    },
     "default": {
         "applicationLinks": {
-            "dashboard": "Home",
-            "clients": "Clients",
-            "entries": "Entries",
-            "employees": "Employees",
+            "account": "Account",
             "booking": "Booking",
-            "catalog": "Catalog",
-            "people": "People",
             "business": "Business",
+            "catalog": "Catalog",
+            "clients": "Clients",
+            "dashboard": "Home",
+            "employees": "Employees",
+            "entries": "Entries",
             "object": "Object",
-            "account": "Account"
+            "people": "People"
         },
         "forms": {
             "labels": {
-                "phone": "Phone",
-                "roleName": "Role Name",
-                "sex":"Gender",
-                "role": "Role",
-                "dob":"Birthday",
-                "source":"Source",
-                "password": "Password",
+                "confirmNewPassword": "Confirm New Password",
+                "currentPassword": "Current Password",
+                "dob": "Birthday",
                 "email": "E-mail",
                 "firstName": "First Name",
                 "lastName": "Last Name",
-                "currentPassword": "Current Password",
                 "newPassword": "New Password",
-                "confirmNewPassword": "Confirm New Password",
                 "services": "Select available services for the user",
                 "name": "Name",
                 "desc": "Description",
                 "unit": "Unit",
-                "criticalQuantity": "Critical quantity"
-
+                "criticalQuantity": "Critical quantity",
+              "password": "Password",
+              "phone": "Phone",
+              "role": "Role",
+              "roleName": "Role Name",
+              "sex": "Gender",
+              "source": "Source"
             },
             "placeholders": {
                 "services": "Choose services",
@@ -56,6 +49,11 @@
                 "select": "Select"
             }
         }
+    },
+    "formValidation": {
+        "confirmPassword": "Passwords must match",
+        "email": "Enter a valid email address",
+        "required": "Field is required"
     },
     "requestErrors": {
         "signIn": {

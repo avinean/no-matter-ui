@@ -18,7 +18,7 @@ export default defineNuxtConfig({
   modules,
   app,
   runtimeConfig,
-  devtools: { enabled: false },
+  devtools: { enabled: true },
   googleFonts,
   css,
   pinia,
