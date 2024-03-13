@@ -23,7 +23,7 @@ function handleFileChange(event: any) {
 </script>
 
 <template>
-  <label class="cursor-pointer relative rounded-md">
+  <label class="cursor-pointer relative rounded-md overflow-hidden">
     <input
       type="file"
       hidden
