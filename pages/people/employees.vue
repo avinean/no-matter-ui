@@ -74,14 +74,6 @@ function callModal(preset?: ProfileEntity) {
         <div class="grid lg:grid-cols-3 gap-2 w-full">
           <UCard>
             <base-image :src="selectedProfile.image" width="200" height="200" />
-            <UFormGroup
-              :label="t('employeeInfo.status')"
-            >
-              <UToggle
-                on-icon="i-ic-baseline-check-circle-outline"
-                off-icon="i-outline-cancel"
-              />
-            </UFormGroup>
           </UCard>
           <UCard class="lg:col-span-2">
             <h1 class="flex justify-between font-bold text-xl">
@@ -91,6 +83,7 @@ function callModal(preset?: ProfileEntity) {
             <div class="grid grid-cols-[150px,1fr] items-center">
               <span class="font-bold">{{ t('employeeInfo.phone') }}:</span><span>{{ selectedProfile.phone }}</span>
               <span class="font-bold">{{ t('employeeInfo.sex') }}:</span><span>{{ selectedProfile.sex }}</span>
+
               <span class="font-bold">{{ t('employeeInfo.dob') }}:</span><span><base-datetime :date="selectedProfile.birthday" /></span>
               <span class="font-bold">{{ t('employeeInfo.created') }}:</span><span><base-datetime :date="selectedProfile.createdAt" date-style="medium" time-style="medium" /></span>
               <span class="font-bold">{{ t('employeeInfo.roles') }}:</span>
@@ -100,6 +93,16 @@ function callModal(preset?: ProfileEntity) {
               <span class="font-bold">{{ t('employeeInfo.services') }}:</span>
               <span class="flex gap-2 flex-wrap mt-2">
                 <UBadge v-for="service in selectedProfile.services" :key="service.name" :label="service.name" variant="subtle" />
+              </span>
+              <span class="font-bold">{{ t('employeeInfo.status') }}:</span>
+              <span class="mt-2">
+                <UToggle
+                  v-model="selectedProfile.status"
+                  on-icon="i-ic-baseline-check-circle-outline"
+                  off-icon="i-outline-cancel"
+                  color="lime"
+                  disabled
+                />
               </span>
             </div>
           </UCard>

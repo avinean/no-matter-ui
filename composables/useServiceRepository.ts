@@ -9,8 +9,8 @@ export const useServiceRepository = createGlobalState(() => {
     return $api<PaginationResponse<ServiceEntity>>(
       `/service/service/${globalStore.object?.id || globalStore.user?.employers[0]?.id}`,
       {
-        query
-      }
+        query,
+      },
     )
   }
 

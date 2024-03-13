@@ -1,13 +1,8 @@
 <script lang="ts" setup>
-const { t } = useI18n({
-  useScope: 'local',
-})
 import { Calendar } from 'v-calendar'
 import type { BusinessObjectEntity, CalendarEntity, ProfileEntity, ScheduleEntity } from '~/types/entities'
 import { DayType } from '~/types/enums'
 import type { Props } from '~/types/utils'
-
-type CalendarProps = Props<typeof Calendar>
 
 const props = defineProps<{
   calendar?: CalendarEntity[]
@@ -19,6 +14,12 @@ const props = defineProps<{
 const emit = defineEmits<{
   submit: []
 }>()
+
+const { t } = useI18n({
+  useScope: 'local',
+})
+
+type CalendarProps = Props<typeof Calendar>
 
 const colors: Record<DayType, string> = {
   [DayType.workingDay]: 'red',
@@ -37,7 +38,7 @@ const attributes = computed<CalendarProps['attributes']>(() => [
       fillMode: 'light',
     },
     popover: {
-      label: 'Вихідний день',
+      label: t('popover.dayOf'),
     },
     dates: [
       {
@@ -118,10 +119,10 @@ async function onUpdateSchedule() {
         <InputDate v-model="state.to" />
       </UFormGroup>
       <template v-if="state.type === DayType.workingDay">
-        <UFormGroup :label="t('form.start')" name="start" required>
+        <UFormGroup :label="t('form.fromTime')" name="start" required>
           <UInput v-model="state.start" type="time" />
         </UFormGroup>
-        <UFormGroup :label="t('form.end')" name="end" required>
+        <UFormGroup :label="t('form.toTime')" name="end" required>
           <UInput v-model="state.end" type="time" />
         </UFormGroup>
       </template>
@@ -141,6 +142,9 @@ async function onUpdateSchedule() {
 <i18n lang="json">
 {
   "en-US": {
+    "popover": {
+      "dayOf": "Day off"
+    },
     "dayTypes": {
       "stateHoliday": "State holiday",
       "companyHoliday": "Company holiday",
@@ -154,11 +158,16 @@ async function onUpdateSchedule() {
     "form": {
       "type": "Type",
       "comment": "Comment",
-      "from": "Start",
-      "to": "End"
+      "from": "Day start",
+      "to": "Day end" ,
+      "fromTime": "TIme start",
+      "toTime": "TIme end"
     }
   },
   "uk-UK": {
+    "popover": {
+      "dayOf": "Вихідний день"
+    },
     "dayTypes": {
       "stateHoliday": "Державне свято",
       "companyHoliday": "Cвято компанії",
@@ -171,8 +180,10 @@ async function onUpdateSchedule() {
     "form": {
       "type": "Тип",
       "comment": "Коментар",
-      "from": "Початок",
-      "to": "Кінець"
+      "from": "День від",
+      "to": "День до",
+      "fromTime": "Час від",
+      "toTime": "Час до"
     }
   }
 }

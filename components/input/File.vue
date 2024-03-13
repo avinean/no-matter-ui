@@ -1,7 +1,7 @@
 <script setup lang="ts">
-defineProps < {
+const props = defineProps<{
   src?: string
-} > ()
+}>()
 
 const emit = defineEmits<{
   change: [file: File]
@@ -23,7 +23,7 @@ function handleFileChange(event: any) {
 </script>
 
 <template>
-  <label class="cursor-pointer">
+  <label class="block cursor-pointer w-28 h-28 rounded-full overflow-hidden">
     <input
       type="file"
       hidden

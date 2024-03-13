@@ -33,7 +33,11 @@
                 "currentPassword": "Current Password",
                 "newPassword": "New Password",
                 "confirmNewPassword": "Confirm New Password",
-                "services": "Select available services for the user"
+                "services": "Select available services for the user",
+                "name": "Name",
+                "desc": "Description",
+                "unit": "Unit",
+                "criticalQuantity": "Critical quantity"
 
             },
             "placeholders": {
@@ -43,7 +47,7 @@
             "actions": {
                 "submit": "Submit",
                 "save": "Save",
-                "cancel": "Cancel changes",
+                "cancel": "Cancel",
                 "signIn": "Submit",
                 "signUp": "Sign Up",
                 "resetPass": "Send a recovery link",

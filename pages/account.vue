@@ -7,12 +7,16 @@ const { t } = useI18n({
 const store = useGlobalStore()
 
 const links = computed(() => [
-  {
+  store.user?.image ? {
     label: t('tabs.info'),
     to: '/account',
     avatar: {
       src: store.user?.image,
     },
+  }: {
+    label: t('tabs.info'),
+    to: '/account',
+    icon: 'i-ic-outline-info',
   },
   {
     label: t('tabs.settings'),

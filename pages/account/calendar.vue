@@ -25,6 +25,7 @@ const globalStore = useGlobalStore()
     </UCard>
   </div>
 </template>
+
 <i18n lang="json">
 {
   "en-US": {

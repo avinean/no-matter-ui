@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import { ModalBusiness, ModalBusinessObject } from '#components'
+
 const { t } = useI18n({
   useScope: 'local',
 })
-import { ModalBusiness, ModalBusinessObject } from '#components'
 const globalStore = useGlobalStore()
 const modalStore = useModalStore()
 
@@ -64,13 +65,12 @@ const columns = computed(() => [
             <span class="justify-self-end">
               <base-action-bar :items="businessActions" />
             </span>
-            <span class="font-bold">{{t('view.description')}}:</span><span>{{ globalStore.business?.description }}</span>
-            <span class="font-bold">{{t('view.createdAt')}}:</span><span><base-datetime :date="globalStore.business?.createdAt" /></span>
-
+            <span class="font-bold">{{ t('view.description') }}:</span><span>{{ globalStore.business?.description }}</span>
+            <span class="font-bold">{{ t('view.createdAt') }}:</span><span><base-datetime :date="globalStore.business?.createdAt" /></span>
           </div>
         </div>
       </UCard>
-      <UCard v-if="globalStore.business?.businessObjects.length! > 1"  :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
+      <UCard v-if="globalStore.business?.businessObjects.length! > 1" :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
         <template #header>
           <h1 class="text-3xl font-bold">
             {{ t('titles.enterprises') }}
@@ -80,9 +80,9 @@ const columns = computed(() => [
           <template #logo-data="{ row }">
             <base-image :src="row.image" width="50" height="50" />
           </template>
-          <template  #action-data="{ row }">
+          <template #action-data="{ row }">
             <UButton
-                v-show="globalStore.object?.id !== row?.id"
+              v-show="globalStore.object?.id !== row?.id"
               icon="i-ic-baseline-arrow-circle-right"
               size="sm"
               color="primary"
@@ -110,8 +110,8 @@ const columns = computed(() => [
             <span class="justify-self-end">
               <base-action-bar :items="businessObjectActions" />
             </span>
-            <span class="font-bold">{{t('view.description')}}:</span><span>{{ globalStore.object?.description }}</span>
-            <span class="font-bold">{{t('view.createdAt')}}:</span><span><base-datetime :date="globalStore.object?.createdAt" /></span>
+            <span class="font-bold">{{ t('view.description') }}:</span><span>{{ globalStore.object?.description }}</span>
+            <span class="font-bold">{{ t('view.createdAt') }}:</span><span><base-datetime :date="globalStore.object?.createdAt" /></span>
           </div>
         </div>
       </UCard>
@@ -144,7 +144,6 @@ const columns = computed(() => [
     </UCard>
   </div>
 </template>
-
 
 <i18n lang="json">
 {

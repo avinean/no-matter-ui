@@ -14,7 +14,7 @@ const links = computed(() => [
     },
     store.hasPermission('booking:read') && {
       label: t('default.applicationLinks.entries'),
-      icon: 'i-ic-baseline-arrow-right',
+      icon: 'i-ic-baseline-auto-stories',
       to: '/entries',
     },
     store.hasPermission('booking:read') && {
@@ -34,36 +34,53 @@ const links = computed(() => [
     },
   ].filter(Boolean),
   [
-    {
-      label: t('default.applicationLinks.business'),
-      avatar: {
-        src: store.business?.image,
-      },
-      click: () => modalStore.open(ModalBusinessSelector),
-    },
-    {
-      label: t('default.applicationLinks.object'),
-      avatar: {
-        src: store.object?.image,
-      },
-      click: () => modalStore.open(ModalBusinessSelector),
-    },
+    store.business?.image
+      ? {
+          label: t('default.applicationLinks.business'),
+          avatar: {
+            src: store.business?.image,
+          },
+          click: () => modalStore.open(ModalBusinessSelector),
+        }
+      : {
+          label: t('default.applicationLinks.business'),
+          icon: 'i-ic-baseline-business',
+          click: () => modalStore.open(ModalBusinessSelector),
+        },
+    store.object?.image
+      ? {
+          label: t('default.applicationLinks.object'),
+          avatar: {
+            src: store.object?.image,
+          },
+          click: () => modalStore.open(ModalBusinessSelector),
+        }
+      : {
+          label: t('default.applicationLinks.object'),
+          icon: 'i-ic-outline-maps-home-work',
+          click: () => modalStore.open(ModalBusinessSelector),
+        },
   ],
   [
-    {
-      label: t('default.applicationLinks.account'),
-      to: '/account',
-      avatar: {
-        src: store.user?.image,
-      },
-    },
+    store.user?.image
+      ? {
+          label: t('default.applicationLinks.account'),
+          to: '/account',
+          avatar: {
+            src: store.user?.image,
+          },
+        }
+      : {
+          label: t('default.applicationLinks.account'),
+          to: '/account',
+          icon: 'i-ic-baseline-account-circle',
+        },
   ],
 ])
 </script>
 
 <template>
   <div class="flex min-h-screen">
-
     <div class="max-h-screen flex flex-col p-2 sticky top-0 left-0 z-40 transition bg-gray-200">
       <div class="px-2 pb-2 flex justify-center">
         <img
