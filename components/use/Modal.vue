@@ -20,7 +20,7 @@ const modalContent = ref<{ title: string } | null>(null)
     prevent-close
     @close="close"
   >
-    <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
+    <UCard>
       <template #header>
         <div class="flex justify-between p-2">
           <h1 class="text-3xl font-bold">

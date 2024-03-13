@@ -2,15 +2,12 @@
     "default": {
         "applicationLinks": {
             "account": "Аккаунт",
-            "booking": "Бронювання",
             "business": "Бізнес",
             "catalog": "Каталог",
-            "clients": "Клієнти",
-            "dashboard": "Головна",
-            "employees": "Працівники",
-            "entries": "Записи",
+            "dashboard": "Дешборд",
             "object": "Обʼєкт",
-            "people": "Люди"
+            "people": "Люди",
+            "service": "Service"
         },
         "forms": {
             "actions": {

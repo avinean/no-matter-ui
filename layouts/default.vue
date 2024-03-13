@@ -12,15 +12,10 @@ const links = computed(() => [
       icon: 'i-ic-outline-dashboard',
       to: '/',
     },
-    store.hasPermission('booking:read') && {
-      label: t('default.applicationLinks.entries'),
-      icon: 'i-ic-baseline-arrow-right',
-      to: '/entries',
-    },
-    store.hasPermission('booking:read') && {
-      label: t('default.applicationLinks.booking'),
-      icon: 'i-ic-baseline-calendar-month',
-      to: '/booking',
+    {
+      label: t('default.applicationLinks.service'), // Обслуговування
+      icon: 'i-ic-baseline-diversity-2',
+      to: '/service/booking',
     },
     {
       label: t('default.applicationLinks.people'),
@@ -85,7 +80,7 @@ const links = computed(() => [
       <!-- <use-business-select class="flex gap-2 py-2" /> -->
     </div>
     <div class="w-full p-2 bg-gray-200">
-      <div class="p-2 bg-white h-full rounded-xl">
+      <div class="p-2 bg-white h-full rounded-md">
         <slot />
       </div>
     </div>

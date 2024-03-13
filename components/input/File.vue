@@ -23,24 +23,18 @@ function handleFileChange(event: any) {
 </script>
 
 <template>
-  <label class="cursor-pointer">
+  <label class="cursor-pointer relative rounded-md">
     <input
       type="file"
       hidden
       @change="handleFileChange"
     >
-    <img
-      v-if="imageUrl"
-      :src="imageUrl"
-      alt="Preview"
-      width="100%"
-      height="100%"
-    >
     <base-image
-      v-else
-      :src="src"
-      width="100%"
-      height="100%"
+      :src="imageUrl || src"
+      class="object-contain"
     />
+    <div class="flex items-center justify-center bg-orange-500 absolute bottom-0 left-0 right-0 p-2">
+      <span class="i-ic-baseline-photo-camera text-white text-2xl" />
+    </div>
   </label>
 </template>

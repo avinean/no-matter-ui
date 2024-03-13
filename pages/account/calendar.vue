@@ -7,10 +7,7 @@ const globalStore = useGlobalStore()
 
 <template>
   <div class="">
-    <UCard
-      class="flex flex-col flex-1"
-      :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"
-    >
+    <UCard class="flex flex-col flex-1">
       <template #header>
         <h1 class="text-3xl font-bold">
           {{ t('calendar') }}
@@ -25,6 +22,7 @@ const globalStore = useGlobalStore()
     </UCard>
   </div>
 </template>
+
 <i18n lang="json">
 {
   "en-US": {

@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import { ModalBusiness, ModalBusinessObject } from '#components'
+
 const { t } = useI18n({
   useScope: 'local',
 })
-import { ModalBusiness, ModalBusinessObject } from '#components'
 const globalStore = useGlobalStore()
 const modalStore = useModalStore()
 
@@ -48,88 +49,83 @@ const columns = computed(() => [
 </script>
 
 <template>
-  <div>
-    <div class="space-y-2">
-      <UCard :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-        <template #header>
-          <h1 class="text-3xl font-bold">
-            {{ t('titles.business') }}
-          </h1>
-        </template>
-        <div class="flex items-start gap-2">
-          <base-image :src="globalStore.business?.image" width="100" height="100" />
+  <div class="space-y-2">
+    <UCard>
+      <template #header>
+        <h1 class="text-3xl font-bold">
+          {{ t('titles.business') }}
+        </h1>
+      </template>
+      <div class="flex items-start gap-2">
+        <base-image :src="globalStore.business?.image" width="100" height="100" />
 
-          <div class="grid grid-cols-2 flex-1">
-            <span class="font-bold text-2xl">{{ globalStore.business?.name }}</span>
-            <span class="justify-self-end">
-              <base-action-bar :items="businessActions" />
-            </span>
-            <span class="font-bold">{{t('view.description')}}:</span><span>{{ globalStore.business?.description }}</span>
-            <span class="font-bold">{{t('view.createdAt')}}:</span><span><base-datetime :date="globalStore.business?.createdAt" /></span>
-
-          </div>
+        <div class="grid grid-cols-2 flex-1">
+          <span class="font-bold text-2xl">{{ globalStore.business?.name }}</span>
+          <span class="justify-self-end">
+            <base-action-bar :items="businessActions" />
+          </span>
+          <span class="font-bold">{{ t('view.description') }}:</span><span>{{ globalStore.business?.description }}</span>
+          <span class="font-bold">{{ t('view.createdAt') }}:</span><span><base-datetime :date="globalStore.business?.createdAt" /></span>
         </div>
-      </UCard>
-      <UCard v-if="globalStore.business?.businessObjects.length! > 1"  :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-        <template #header>
-          <h1 class="text-3xl font-bold">
-            {{ t('titles.enterprises') }}
-          </h1>
+      </div>
+    </UCard>
+    <UCard v-if="globalStore.business?.businessObjects.length! > 1">
+      <template #header>
+        <h1 class="text-3xl font-bold">
+          {{ t('titles.enterprises') }}
+        </h1>
+      </template>
+      <UTable :rows="globalStore.business?.businessObjects" :columns="columns">
+        <template #logo-data="{ row }">
+          <base-image :src="row.image" width="50" height="50" />
         </template>
-        <UTable :rows="globalStore.business?.businessObjects" :columns="columns">
-          <template #logo-data="{ row }">
-            <base-image :src="row.image" width="50" height="50" />
-          </template>
-          <template  #action-data="{ row }">
-            <UButton
-                v-show="globalStore.object?.id !== row?.id"
-              icon="i-ic-baseline-arrow-circle-right"
-              size="sm"
-              color="primary"
-              variant="solid"
-              :label="$t('default.forms.actions.select')"
-              trailing
-              @click="globalStore.object = row"
-            />
-          </template>
-        </UTable>
-      </UCard>
-    </div>
-    <div class="space-y-2">
-      <UCard :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-        <template #header>
-          <h1 class="text-3xl font-bold">
-            {{ t('titles.enterprise') }}
-          </h1>
+        <template #action-data="{ row }">
+          <UButton
+            v-show="globalStore.object?.id !== row?.id"
+            icon="i-ic-baseline-arrow-circle-right"
+            size="sm"
+            color="primary"
+            variant="solid"
+            :label="$t('default.forms.actions.select')"
+            trailing
+            @click="globalStore.object = row"
+          />
         </template>
-        <div class="flex items-start gap-2">
-          <base-image :src="globalStore.object?.image" width="100" height="100" />
+      </UTable>
+    </UCard>
+    <UCard>
+      <template #header>
+        <h1 class="text-3xl font-bold">
+          {{ t('titles.enterprise') }}
+        </h1>
+      </template>
+      <div class="flex items-start gap-2">
+        <base-image :src="globalStore.object?.image" width="100" height="100" />
 
-          <div class="grid grid-cols-2 flex-1">
-            <span class="font-bold text-2xl">{{ globalStore.object?.name }}</span>
-            <span class="justify-self-end">
-              <base-action-bar :items="businessObjectActions" />
-            </span>
-            <span class="font-bold">{{t('view.description')}}:</span><span>{{ globalStore.object?.description }}</span>
-            <span class="font-bold">{{t('view.createdAt')}}:</span><span><base-datetime :date="globalStore.object?.createdAt" /></span>
-          </div>
+        <div class="grid grid-cols-2 flex-1">
+          <span class="font-bold text-2xl">{{ globalStore.object?.name }}</span>
+          <span class="justify-self-end">
+            <base-action-bar :items="businessObjectActions" />
+          </span>
+          <span class="font-bold">{{ t('view.description') }}:</span><span>{{ globalStore.object?.description }}</span>
+          <span class="font-bold">{{ t('view.createdAt') }}:</span><span><base-datetime :date="globalStore.object?.createdAt" /></span>
         </div>
-      </UCard>
-      <UCard :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-        <template #header>
-          <h1 class="text-3xl font-bold">
-            {{ t('titles.enterpriseSchedule') }}
-          </h1>
-        </template>
+      </div>
+    </UCard>
+    <UCard>
+      <template #header>
+        <h1 class="text-3xl font-bold">
+          {{ t('titles.enterpriseSchedule') }}
+        </h1>
+      </template>
 
-        <FormSchedule
-          :schedule="globalStore.object?.schedule"
-          :bussiness-object-id="globalStore.object?.id"
-          @submit="globalStore.getUser"
-        />
-      </UCard>
-    </div>
-    <UCard :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }" class="col-span-2">
+      <FormSchedule
+        :schedule="globalStore.object?.schedule"
+        :bussiness-object-id="globalStore.object?.id"
+        @submit="globalStore.getUser"
+      />
+    </UCard>
+    <UCard  class="col-span-2">
       <template #header>
         <h1 class="text-3xl font-bold">
           {{ t('titles.enterpriseWeekends') }}
@@ -144,7 +140,6 @@ const columns = computed(() => [
     </UCard>
   </div>
 </template>
-
 
 <i18n lang="json">
 {
