@@ -5,5 +5,5 @@ defineProps<{
 </script>
 
 <template>
-  <img :src="src || '/placeholder.jpg'">
+  <img :src="src || '/default-img.png'">
 </template>

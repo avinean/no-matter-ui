@@ -31,26 +31,26 @@ const links = computed(() => [
   [
     {
       label: t('default.applicationLinks.business'),
-      avatar: {
-        src: store.business?.image,
-      },
+      ...(store.business?.image
+        ? { avatar: { src: store.business?.image } }
+        : { icon: 'i-ic-baseline-business' }),
       click: () => modalStore.open(ModalBusinessSelector),
     },
     {
       label: t('default.applicationLinks.object'),
-      avatar: {
-        src: store.object?.image,
-      },
+      ...(store.object?.image
+        ? { avatar: { src: store.object?.image } }
+        : { icon: 'i-ic-outline-maps-home-work' }),
       click: () => modalStore.open(ModalBusinessSelector),
     },
   ],
   [
     {
       label: t('default.applicationLinks.account'),
+      ...(store.user?.image
+        ? { avatar: { src: store.user?.image } }
+        : { icon: 'i-ic-baseline-account-circle' }),
       to: '/account',
-      avatar: {
-        src: store.user?.image,
-      },
     },
   ],
 ])
@@ -58,7 +58,6 @@ const links = computed(() => [
 
 <template>
   <div class="flex min-h-screen">
-
     <div class="max-h-screen flex flex-col p-2 sticky top-0 left-0 z-40 transition bg-gray-200">
       <div class="px-2 pb-2 flex justify-center">
         <img

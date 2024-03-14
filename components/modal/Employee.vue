@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { FormError } from '#ui/types'
 import { UseServicesSelect } from '#components'
 import type { ProfileEntity, UserEntity } from '~/types/entities'
 
@@ -11,17 +12,18 @@ const props = withDefaults(defineProps<{
 
 const emit = defineEmits<{
   submit: [user: { email: string, password: string }]
+  close: []
 }>()
-
-const toaster = useToast()
 const { t } = useI18n({
   useScope: 'local',
 })
 
+const toaster = useToast()
+
 defineExpose({
   title: computed(() => `${props.preset?.id ? t('titleUpdate') : t('titleCreate')} `),
+  width: 'max-w-2xl sm:max-w-2xl',
 })
-
 const suggestionsStore = useSuggestionsStore()
 const { add, edit } = useProfileRepository()
 const { photo, url, add: addPhoto } = usePhoto(props.preset?.image)
@@ -39,6 +41,7 @@ const state: Partial<ProfileEntity> = reactive({
   sex: props.preset?.sex,
   roles: props.preset?.roles || [],
   services: props.preset?.services || [],
+  status: props.preset?.status,
 })
 
 async function onCreateOrUpdate() {
@@ -49,129 +52,223 @@ async function onCreateOrUpdate() {
   }
   catch (error) {
     toaster.add({
-      title: 'Щось пішло не так',
-      description: 'Не вдалось завантажити фото',
+      title: t('notifications.errors.title'),
+      description: t('notifications.errors.photo'),
     })
   }
-
   try {
     const user = await (props.preset?.id
       ? edit(props.preset?.id, { ...state, image: url.value })
       : add({ ...state, image: url.value, user: props.user }))
 
     emit('submit', user!)
-  }
-  catch (error) {
     toaster.add({
-      title: 'Щось пішло не так',
-      description: 'не вдалось створити користувача',
+      title: t(props.preset?.id ? 'notifications.success.update' : 'notifications.success.create'),
     })
   }
+  catch (e: any) {
+    if (e.response.status === 409) {
+      toaster.add({
+        title: t('notifications.errors.title'),
+        description: t(props.preset?.id ? 'notifications.errors.update' : 'notifications.errors.create'),
+      })
+    }
+  }
+}
+
+function validate(state: ProfileEntity): FormError[] {
+  const errors = []
+  if (!state.firstName)
+    errors.push({ path: 'firstName', message: t('formValidation.required') })
+  if (!state.email)
+    errors.push({ path: 'email', message: t('formValidation.required') })
+  if (!state.lastName)
+    errors.push({ path: 'lastName', message: t('formValidation.required') })
+  if (!state.birthday)
+    errors.push({ path: 'birthday', message: t('formValidation.required') })
+  if (!state.phone)
+    errors.push({ path: 'phone', message: t('formValidation.required') })
+  if (!state.sex)
+    errors.push({ path: 'sex', message: t('formValidation.required') })
+  if (!state.roles?.length)
+    errors.push({ path: 'roles', message: t('formValidation.required') })
+  return errors
 }
 </script>
 
 <template>
   <UForm
+    :validate="validate"
     :state="state"
-    class="grid grid-cols-2 gap-x-4 gap-y-2"
+    class="grid gap-2"
     @submit="onCreateOrUpdate"
   >
-    <input-file
-      class="row-span-6"
-      :src="state.image"
-      @change="photo = $event"
-    />
-
-    <UFormGroup
-      :label="$t('default.forms.labels.firstName')"
-      name="firstName"
-      required
-    >
-      <UInput v-model="state.firstName" />
-    </UFormGroup>
-
-    <UFormGroup
-      :label="$t('default.forms.labels.lastName')"
-
-      name="lastName"
-      required
-    >
-      <UInput v-model="state.lastName" />
-    </UFormGroup>
-
-    <UFormGroup
-      :label="$t('default.forms.labels.email')"
-
-      name="email"
-      required
-    >
-      <UInput v-model="state.email" />
-    </UFormGroup>
-
-    <UFormGroup
-      :label="$t('default.forms.labels.phone')"
-      name="phone"
-      required
-    >
-      <UInput v-model="state.phone" />
-    </UFormGroup>
-
-    <UFormGroup
-      :label="$t('default.forms.labels.dob')"
-      name="birthday"
-      required
-    >
-      <InputDate v-model="state.birthday" />
-    </UFormGroup>
-
-    <UFormGroup
-      :label="$t('default.forms.labels.sex')"
-      name="sex"
-      required
-    >
-      <USelect
-        v-model="state.sex"
-        :options="suggestionsStore.suggestions.sexes"
+    <div class="flex justify-center">
+      <input-file
+        class="row-span-6"
+        :src="state.image"
+        @change="photo = $event"
       />
-    </UFormGroup>
+    </div>
+    <div class="grid  gap-y-2">
+      <UCard
+        :ui="{
+          body: {
+            padding: 'px-3 py-3 sm:p-3 grid grid-cols-2 gap-x-4 gap-y-2',
+          } }"
+      >
+        <template #header>
+          <div class="flex justify-between p-1">
+            <h3 class="text-xl font-bold">
+              {{ t('generalTitle') }}
+            </h3>
+          </div>
+        </template>
+        <UFormGroup
+          :label="$t('default.forms.labels.firstName')"
+          name="firstName"
+          required
+        >
+          <UInput v-model="state.firstName" />
+        </UFormGroup>
+        <UFormGroup
+          :label="$t('default.forms.labels.email')"
+          name="email"
 
-    <UFormGroup
-      :label="$t('default.forms.labels.role')"
-      name="role"
-      required
-    >
-      <UseRolesSelect v-model="state.roles" />
-      <div class="flex gap-2 flex-wrap mt-2">
-        <UBadge v-for="role in state.roles" :key="role.name" :label="role.name" variant="subtle" />
-      </div>
-    </UFormGroup>
+          required
+        >
+          <UInput v-model="state.email" type="email" />
+        </UFormGroup>
+        <UFormGroup
+          :label="$t('default.forms.labels.lastName')"
 
-    <UFormGroup
-      :label="$t('default.forms.labels.services')"
-      name="services"
-      required
-    >
-      <UseServicesSelect v-model="state.services" />
-      <div class="flex gap-2 flex-wrap mt-2">
-        <UBadge v-for="service in state.services" :key="service.name" :label="service.name" variant="subtle" />
-      </div>
-    </UFormGroup>
+          name="lastName"
+          required
+        >
+          <UInput v-model="state.lastName" />
+        </UFormGroup>
+        <UFormGroup
+          :label="$t('default.forms.labels.dob')"
+          name="birthday"
+          required
+        >
+          <InputDate v-model="state.birthday" />
+        </UFormGroup>
+        <UFormGroup
+          :label="$t('default.forms.labels.phone')"
+          name="phone"
+          required
+        >
+          <UInput v-model="state.phone" />
+        </UFormGroup>
 
-    <UButton type="submit">
-      Submit
-    </UButton>
+        <UFormGroup
+          :label="$t('default.forms.labels.sex')"
+          name="sex"
+          required
+        >
+          <USelect
+            v-model="state.sex"
+            :options="suggestionsStore.suggestions.sexes"
+          />
+        </UFormGroup>
+      </UCard>
+      <UCard
+        :ui="{
+          body: {
+            padding: 'px-3 py-3 sm:p-3 grid grid-cols-1 gap-x-4 gap-y-2',
+          },
+        }"
+      >
+        <template #header>
+          <div class="flex justify-between p-1">
+            <h3 class="text-xl font-bold">
+              {{ t('professionalInfoTitle') }}
+            </h3>
+          </div>
+        </template>
+        <UFormGroup
+          :label="t('status')"
+        >
+          <UToggle
+            v-model="state.status"
+            on-icon="i-ic-baseline-check-circle-outline"
+            off-icon="i-outline-cancel"
+            color="lime"
+          />
+        </UFormGroup>
+        <UFormGroup
+          :label="$t('default.forms.labels.services')"
+          name="services"
+        >
+          <UseServicesSelect v-model="state.services" />
+          <div class="flex gap-2 flex-wrap mt-2">
+            <UBadge v-for="service in state.services" :key="service.name" :label="service.name" variant="subtle" />
+          </div>
+        </UFormGroup>
+        <UFormGroup
+          :label="$t('default.forms.labels.role')"
+          name="roles"
+          required
+        >
+          <UseRolesSelect v-model="state.roles" />
+          <div class="flex gap-2 flex-wrap mt-2">
+            <UBadge v-for="role in state.roles" :key="role.name" :label="role.name" variant="subtle" />
+          </div>
+        </UFormGroup>
+      </UCard>
+    </div>
+    <div class="flex gap-2 justify-end mt-4">
+      <UButton class="w-36 justify-center" @click="emit('close')">
+        {{ $t('default.forms.actions.cancel') }}
+      </UButton>
+      <UButton type="submit" class="w-36 justify-center">
+        {{ props?.preset?.id ? $t('default.forms.actions.save') : $t('default.forms.actions.create') }}
+      </UButton>
+    </div>
   </UForm>
 </template>
 
 <i18n lang="json">
 {
   "en-US": {
+    "status": "Status",
     "titleCreate": "Create employee profile",
-    "titleUpdate": "Edit employee profile"
+    "titleUpdate": "Edit employee profile",
+    "generalTitle": "General info",
+    "professionalInfoTitle": "Professional info",
+    "notifications":  {
+      "errors": {
+        "title": "Something went wrong",
+        "photo": "Failed to upload photo",
+        "create": "Could not create, maybe such a user already exists",
+        "update": "Failed to update user"
+      },
+      "success": {
+        "create": "Successfully created",
+        "update": "Successfully updated"
+      }
+    }
   },
   "uk-UK": {
+    "status":  "Статус",
     "titleCreate": "Створити профіль працівника",
-    "titleUpdate": "Редагування профіля"
+    "titleUpdate": "Редагування профіля",
+    "generalTitle": "Загальна інформація",
+    "professionalInfoTitle": "Професійна інформація",
+    "notifications": {
+      "errors": {
+        "title": "Щось пішло не так",
+        "photo": "Не вдалось завантажити фото",
+        "create": "Не вдалось створити, можливо такий користувач вже існує",
+        "update":  "Не вдалось оновити дані користувача"
+      },
+      "success": {
+        "create": "Успішно створено",
+        "update":  "Дані успішно оновлено"
+      }
+    }
+
   }
 }
 </i18n>

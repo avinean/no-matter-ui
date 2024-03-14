@@ -5,7 +5,9 @@ import type { MaterialTransactionEntity } from '~/types/entities'
 const emit = defineEmits<{
   submit: []
 }>()
-
+const { t } = useI18n({
+  useScope: 'local',
+})
 defineExpose({
   title: `Збільшити кількість матеріалу`,
 })
@@ -24,8 +26,8 @@ const state = reactive<Partial<MaterialTransactionEntity>>({
 function validate(state: any): FormError[] {
   const errors = []
   for (const key in state) {
-    if (state[key] === undefined || state[key] === '')
-      errors.push({ path: key, message: 'Required' })
+    if (!state[key])
+      errors.push({ path: key, message: t('formValidation.required') })
   }
   return errors
 }

@@ -72,7 +72,14 @@ function menu(item: MaterialTransactionEntity): DropdownItem[][] {
     </div>
     <div v-if="materials?.length">
       <h2>{{ t('materials') }}</h2>
-      <UTable v-if="materials" :rows="materials" />
+      <UTable v-if="materials" :rows="materials">
+        <template #createdAt-data="{ row }">
+          <base-datetime :date="row.createdAt" date-style="medium" time-style="medium" />
+        </template>
+        <template #updatedAt-data="{ row }">
+          <base-datetime :date="row.createdAt" date-style="medium" time-style="medium" />
+        </template>
+      </UTable>
     </div>
     <div v-if="materialTransactions?.length" class="mt-8">
       <h2>{{ t('transactions') }}</h2>
