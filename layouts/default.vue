@@ -34,47 +34,29 @@ const links = computed(() => [
     },
   ].filter(Boolean),
   [
-    store.business?.image
-      ? {
-          label: t('default.applicationLinks.business'),
-          avatar: {
-            src: store.business?.image,
-          },
-          click: () => modalStore.open(ModalBusinessSelector),
-        }
-      : {
-          label: t('default.applicationLinks.business'),
-          icon: 'i-ic-baseline-business',
-          click: () => modalStore.open(ModalBusinessSelector),
-        },
-    store.object?.image
-      ? {
-          label: t('default.applicationLinks.object'),
-          avatar: {
-            src: store.object?.image,
-          },
-          click: () => modalStore.open(ModalBusinessSelector),
-        }
-      : {
-          label: t('default.applicationLinks.object'),
-          icon: 'i-ic-outline-maps-home-work',
-          click: () => modalStore.open(ModalBusinessSelector),
-        },
+    {
+      label: t('default.applicationLinks.business'),
+      ...(store.business?.image
+        ? { avatar: { src: store.business?.image } }
+        : { icon: 'i-ic-baseline-business' }),
+      click: () => modalStore.open(ModalBusinessSelector),
+    },
+    {
+      label: t('default.applicationLinks.object'),
+      ...(store.object?.image
+        ? { avatar: { src: store.object?.image } }
+        : { icon: 'i-ic-outline-maps-home-work' }),
+      click: () => modalStore.open(ModalBusinessSelector),
+    },
   ],
   [
-    store.user?.image
-      ? {
-          label: t('default.applicationLinks.account'),
-          to: '/account',
-          avatar: {
-            src: store.user?.image,
-          },
-        }
-      : {
-          label: t('default.applicationLinks.account'),
-          to: '/account',
-          icon: 'i-ic-baseline-account-circle',
-        },
+    {
+      label: t('default.applicationLinks.account'),
+      ...(store.user?.image
+        ? { avatar: { src: store.user?.image } }
+        : { icon: 'i-ic-baseline-account-circle' }),
+      to: '/account',
+    },
   ],
 ])
 </script>

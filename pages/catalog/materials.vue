@@ -72,7 +72,7 @@ function menu(item: MaterialTransactionEntity): DropdownItem[][] {
     </div>
     <div v-if="materials?.length">
       <h2>{{ t('materials') }}</h2>
-      <UTable v-if="materials" :rows="materials" >
+      <UTable v-if="materials" :rows="materials">
         <template #createdAt-data="{ row }">
           <base-datetime :date="row.createdAt" date-style="medium" time-style="medium" />
         </template>

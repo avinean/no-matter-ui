@@ -6,14 +6,13 @@ import type { ProfileEntity, UserEntity } from '~/types/entities'
 const props = withDefaults(defineProps<{
   preset?: ProfileEntity | null
   user?: UserEntity
-  close?: () => void
 }>(), {
   preset: null,
-  close: () => {},
 })
 
 const emit = defineEmits<{
   submit: [user: { email: string, password: string }]
+  close: []
 }>()
 const { t } = useI18n({
   useScope: 'local',
@@ -76,15 +75,21 @@ async function onCreateOrUpdate() {
     }
   }
 }
-function validate(state: any): FormError[] {
-  const {roles, services, ...rest} = state
+
+function validate(state: ProfileEntity): FormError[] {
   const errors = []
-  for (const key in rest) {
-    if (state[key] === undefined || state[key] === '')
-      errors.push({ path: key, message: t('formValidation.required') })
-  }
-  if (!state.services?.length)
-    errors.push({ path: 'services', message: t('formValidation.required') })
+  if (!state.firstName)
+    errors.push({ path: 'firstName', message: t('formValidation.required') })
+  if (!state.email)
+    errors.push({ path: 'email', message: t('formValidation.required') })
+  if (!state.lastName)
+    errors.push({ path: 'lastName', message: t('formValidation.required') })
+  if (!state.birthday)
+    errors.push({ path: 'birthday', message: t('formValidation.required') })
+  if (!state.phone)
+    errors.push({ path: 'phone', message: t('formValidation.required') })
+  if (!state.sex)
+    errors.push({ path: 'sex', message: t('formValidation.required') })
   if (!state.roles?.length)
     errors.push({ path: 'roles', message: t('formValidation.required') })
   return errors
@@ -93,7 +98,7 @@ function validate(state: any): FormError[] {
 
 <template>
   <UForm
-      :validate="validate"
+    :validate="validate"
     :state="state"
     class="grid gap-2"
     @submit="onCreateOrUpdate"
@@ -107,20 +112,15 @@ function validate(state: any): FormError[] {
     </div>
     <div class="grid  gap-y-2">
       <UCard
-        :ui="{ ring: '',
-               divide: 'divide-y divide-gray-100 dark:divide-gray-800 ',
-               body: {
-                 padding: 'px-3 py-3 sm:p-3 grid grid-cols-2 gap-x-4 gap-y-2',
-
-               },
-               header: {
-                 padding: 'px-3 py-3 sm:px-3',
-               } }"
+        :ui="{
+          body: {
+            padding: 'px-3 py-3 sm:p-3 grid grid-cols-2 gap-x-4 gap-y-2',
+          } }"
       >
         <template #header>
           <div class="flex justify-between p-1">
             <h3 class="text-xl font-bold">
-              Загальна інформація
+              {{ t('generalTitle') }}
             </h3>
           </div>
         </template>
@@ -174,20 +174,16 @@ function validate(state: any): FormError[] {
         </UFormGroup>
       </UCard>
       <UCard
-        :ui="{ ring: '',
-               divide: 'divide-y divide-gray-100 dark:divide-gray-800 ',
-               body: {
-                 padding: 'px-3 py-3 sm:p-3 grid grid-cols-1 gap-x-4 gap-y-2',
-
-               },
-               header: {
-                 padding: 'px-3 py-3 sm:px-3',
-               } }"
+        :ui="{
+          body: {
+            padding: 'px-3 py-3 sm:p-3 grid grid-cols-1 gap-x-4 gap-y-2',
+          },
+        }"
       >
         <template #header>
           <div class="flex justify-between p-1">
             <h3 class="text-xl font-bold">
-              Професійна інформація
+              {{ t('professionalInfoTitle') }}
             </h3>
           </div>
         </template>
@@ -204,7 +200,6 @@ function validate(state: any): FormError[] {
         <UFormGroup
           :label="$t('default.forms.labels.services')"
           name="services"
-          required
         >
           <UseServicesSelect v-model="state.services" />
           <div class="flex gap-2 flex-wrap mt-2">
@@ -224,7 +219,7 @@ function validate(state: any): FormError[] {
       </UCard>
     </div>
     <div class="flex gap-2 justify-end mt-4">
-      <UButton class="w-36 justify-center" @click="close">
+      <UButton class="w-36 justify-center" @click="emit('close')">
         {{ $t('default.forms.actions.cancel') }}
       </UButton>
       <UButton type="submit" class="w-36 justify-center">
@@ -240,6 +235,8 @@ function validate(state: any): FormError[] {
     "status": "Status",
     "titleCreate": "Create employee profile",
     "titleUpdate": "Edit employee profile",
+    "generalTitle": "General info",
+    "professionalInfoTitle": "Professional info",
     "notifications":  {
       "errors": {
         "title": "Something went wrong",
@@ -257,6 +254,8 @@ function validate(state: any): FormError[] {
     "status":  "Статус",
     "titleCreate": "Створити профіль працівника",
     "titleUpdate": "Редагування профіля",
+    "generalTitle": "Загальна інформація",
+    "professionalInfoTitle": "Професійна інформація",
     "notifications": {
       "errors": {
         "title": "Щось пішло не так",

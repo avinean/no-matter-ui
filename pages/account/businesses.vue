@@ -51,10 +51,10 @@ const columns = computed(() => [
 <template>
   <div>
     <div class="space-y-2">
-      <UCard :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
+      <UCard>
         <template #header>
           <h1 class="text-3xl font-bold">
-            {{ t('titles.business') }}
+            {{ t('titles.business') }}1
           </h1>
         </template>
         <div class="flex items-start gap-2">
@@ -70,7 +70,7 @@ const columns = computed(() => [
           </div>
         </div>
       </UCard>
-      <UCard v-if="globalStore.business?.businessObjects.length! > 1" :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
+      <UCard v-if="globalStore.business?.businessObjects.length! > 1">
         <template #header>
           <h1 class="text-3xl font-bold">
             {{ t('titles.enterprises') }}
@@ -96,7 +96,7 @@ const columns = computed(() => [
       </UCard>
     </div>
     <div class="space-y-2">
-      <UCard :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
+      <UCard>
         <template #header>
           <h1 class="text-3xl font-bold">
             {{ t('titles.enterprise') }}
@@ -115,7 +115,7 @@ const columns = computed(() => [
           </div>
         </div>
       </UCard>
-      <UCard :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
+      <UCard>
         <template #header>
           <h1 class="text-3xl font-bold">
             {{ t('titles.enterpriseSchedule') }}
@@ -129,7 +129,7 @@ const columns = computed(() => [
         />
       </UCard>
     </div>
-    <UCard :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }" class="col-span-2">
+    <UCard class="col-span-2">
       <template #header>
         <h1 class="text-3xl font-bold">
           {{ t('titles.enterpriseWeekends') }}

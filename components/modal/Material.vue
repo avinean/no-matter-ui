@@ -24,7 +24,7 @@ const state = reactive({
 function validate(state: any): FormError[] {
   const errors = []
   for (const key in state) {
-    if (state[key] === undefined || state[key] === '')
+    if (!state[key])
       errors.push({ path: key, message: t('formValidation.required') })
   }
   return errors

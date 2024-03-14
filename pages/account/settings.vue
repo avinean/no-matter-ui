@@ -42,7 +42,6 @@ async function onUpdatePassword() {
   <div class="grid md:grid-cols-[1fr,1fr] gap-2">
     <UCard
       class="flex flex-col flex-1"
-      :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"
     >
       <template #header>
         <h1 class="text-3xl font-bold">
@@ -86,7 +85,6 @@ async function onUpdatePassword() {
     </UCard>
     <UCard
       class="flex flex-col flex-1"
-      :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"
     >
       <template #header>
         <h1 class="text-3xl font-bold">
@@ -102,7 +100,6 @@ async function onUpdatePassword() {
     </UCard>
     <UCard
       class="flex flex-col flex-1"
-      :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"
     >
       <template #header>
         <h1 class="text-3xl font-bold">

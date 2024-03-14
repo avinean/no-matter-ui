@@ -20,7 +20,7 @@ const actions = [
 
 <template>
   <UCard
-    :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"
+    :ui="{ body: { base: 'flex-1' } }"
   >
     <template #header>
       <h1 class="text-3xl font-bold">

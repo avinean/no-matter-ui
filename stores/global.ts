@@ -56,8 +56,8 @@ export const useGlobalStore = defineStore('global', () => {
       }
       else {
         toast.add({
-          title: $i18n.t('requestErrors.signIn.unknownError.title'),
-          description: $i18n.t('requestErrors.signIn.unknownError.description'),
+          title: $i18n.t('requestErrors.unknownError.title'),
+          description: $i18n.t('requestErrors.unknownError.description'),
           color: 'red',
         })
       }

@@ -1,10 +1,17 @@
 export default defineAppConfig({
   nuxtIcon: {},
   ui: {
-    primary: 'slate',
+    primary: 'orange',
     icons: ['goole mat'],
     avatar: {
       rounded: 'rounded-sm',
+    },
+    card: {
+      body: {
+        base: 'flex-1'
+      },
+      ring: '',
+      divide: 'divide-y divide-gray-100 dark:divide-gray-800',
     },
     commandPalette: {
       group: {

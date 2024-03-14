@@ -58,13 +58,19 @@
     "requestErrors": {
         "signIn": {
             "invalid": {
-                "title": "Login error",
-                "description": "Check the data and try again"
-            },
-            "unknownError": {
-                "title": "Login error",
-                "description": "Contact the support service"
+                "description": "Check the data and try again",
+                "title": "Login error!"
             }
+        },
+        "signUp": {
+            "duplicate": {
+                "description": "You are already registered. If you forgot your password, use the password recovery form",
+                "title": "Registration error!"
+            }
+        },
+        "unknownError": {
+            "description": "Contact the support service",
+            "title": "Something went wrong!"
         }
     }
 }
