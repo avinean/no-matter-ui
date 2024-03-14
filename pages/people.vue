@@ -8,12 +8,12 @@ const { t } = useI18n({
 const { hasPermission } = useGlobalStore()
 const links = computed(() => [
   hasPermission('profile:read') && {
-    label: t('default.applicationLinks.employees'),
+    label: t('employees'),
     icon: 'i-ic-sharp-groups',
     to: '/people/employees',
   },
   hasPermission('client:read') && {
-    label: t('default.applicationLinks.clients'),
+    label: t('clients'),
     icon: 'i-ic-baseline-people',
     to: '/people/clients',
   },
