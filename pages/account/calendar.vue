@@ -7,9 +7,7 @@ const globalStore = useGlobalStore()
 
 <template>
   <div class="">
-    <UCard
-      class="flex flex-col flex-1"
-    >
+    <UCard class="flex flex-col flex-1">
       <template #header>
         <h1 class="text-3xl font-bold">
           {{ t('calendar') }}

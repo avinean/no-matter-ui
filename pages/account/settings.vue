@@ -40,9 +40,7 @@ async function onUpdatePassword() {
 
 <template>
   <div class="grid md:grid-cols-[1fr,1fr] gap-2">
-    <UCard
-      class="flex flex-col flex-1"
-    >
+    <UCard class="flex flex-col flex-1">
       <template #header>
         <h1 class="text-3xl font-bold">
           {{ t('titles.loginOptions') }}
@@ -83,9 +81,7 @@ async function onUpdatePassword() {
         </UButton>
       </UForm>
     </UCard>
-    <UCard
-      class="flex flex-col flex-1"
-    >
+    <UCard class="flex flex-col flex-1">
       <template #header>
         <h1 class="text-3xl font-bold">
           {{ t('titles.generalOptions.generalTitle') }}
@@ -98,9 +94,7 @@ async function onUpdatePassword() {
         <UseLocaleSwitcher />
       </UFormGroup>
     </UCard>
-    <UCard
-      class="flex flex-col flex-1"
-    >
+    <UCard class="flex flex-col flex-1">
       <template #header>
         <h1 class="text-3xl font-bold">
           {{ t('titles.schedule') }}

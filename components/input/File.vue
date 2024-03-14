@@ -1,7 +1,7 @@
 <script setup lang="ts">
-const props = defineProps<{
+defineProps < {
   src?: string
-}>()
+} > ()
 
 const emit = defineEmits<{
   change: [file: File]
@@ -23,24 +23,18 @@ function handleFileChange(event: any) {
 </script>
 
 <template>
-  <label class="block cursor-pointer w-28 h-28 rounded-full overflow-hidden">
+  <label class="cursor-pointer relative rounded-md overflow-hidden">
     <input
       type="file"
       hidden
       @change="handleFileChange"
     >
-    <img
-      v-if="imageUrl"
-      :src="imageUrl"
-      alt="Preview"
-      width="100%"
-      height="100%"
-    >
     <base-image
-      v-else
-      :src="src"
-      width="100%"
-      height="100%"
+      :src="imageUrl || src"
+      class="object-contain"
     />
+    <div class="flex items-center justify-center bg-orange-500 absolute bottom-0 left-0 right-0 p-2">
+      <span class="i-ic-baseline-photo-camera text-white text-2xl" />
+    </div>
   </label>
 </template>

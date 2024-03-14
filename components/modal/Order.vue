@@ -59,13 +59,13 @@ const columns = [
     </div>
     <UTable v-if="preset?.services?.length" :rows="preset.services" :columns="columns" class="col-span-2">
       <template #name-data="{ row }">
-        {{ row.service.name }}
+        {{ row.service?.name }}
       </template>
       <template #description-data="{ row }">
-        {{ row.service.description }}
+        {{ row.service?.description }}
       </template>
       <template #duration-data="{ row }">
-        {{ row.service.duration }}
+        {{ row.service?.duration }}
       </template>
       <template #quantity-data="{ row }">
         <UInput v-model="row.quantity" type="number" />

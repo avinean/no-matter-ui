@@ -19,9 +19,7 @@ const actions = [
 </script>
 
 <template>
-  <UCard
-    :ui="{ body: { base: 'flex-1' } }"
-  >
+  <UCard>
     <template #header>
       <h1 class="text-3xl font-bold">
         {{ t('title') }}

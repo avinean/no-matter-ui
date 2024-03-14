@@ -2,13 +2,10 @@
     "default": {
         "applicationLinks": {
             "account": "Account",
-            "booking": "Booking",
+            "service": "Service",
             "business": "Business",
             "catalog": "Catalog",
-            "clients": "Clients",
-            "dashboard": "Home",
-            "employees": "Employees",
-            "entries": "Entries",
+            "dashboard": "Dashboard",
             "object": "Object",
             "people": "People"
         },
