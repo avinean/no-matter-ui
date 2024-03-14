@@ -125,7 +125,6 @@ const columns = computed(() => [
           @submit="globalStore.getUser"
         />
       </UCard>
-    </div>
     <UCard class="col-span-2">
       <template #header>
         <h1 class="text-3xl font-bold">
