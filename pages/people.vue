@@ -37,14 +37,12 @@ const links = computed(() => [
 <i18n lang="json">
 {
   "en-US": {
-    "services": "Services",
-    "products": "Products",
-    "materials": "Materials"
+    "clients": "Клієнти",
+    "employees": "Працівники"
   },
   "uk-UK": {
-    "services": "Послуги",
-    "products": "Продукти",
-    "materials":  "Матеріали"
+    "clients": "Clients",
+    "employees": "Employees"
 
   }
 }
