@@ -27,12 +27,27 @@ const pages = computed(() => data.value?.pages || 0)
     <BaseLoader v-model="pending" />
     <div class="flex justify-between gap-2 p-2">
       <h2>{{ title }}</h2>
-      <slot name="actions" :refresh="refresh" />
+      <slot
+        name="actions"
+        :refresh="refresh"
+      />
     </div>
-    <slot :items="items" :refresh="refresh" />
+    <slot
+      :items="items"
+      :refresh="refresh"
+    />
     <div class="flex gap-2 justify-end">
-      <USelect v-model="take" :options="[10, 20, 50]" />
-      <UPagination v-model="page" size="sm" :total="pages" :prev-button="{ icon: 'i-ic-baseline-chevron-left' }" :next-button="{ icon: 'i-ic-baseline-chevron-right' }" />
+      <USelect
+        v-model="take"
+        :options="[10, 20, 50]"
+      />
+      <UPagination
+        v-model="page"
+        size="sm"
+        :total="pages"
+        :prev-button="{ icon: 'i-ic-baseline-chevron-left' }"
+        :next-button="{ icon: 'i-ic-baseline-chevron-right' }"
+      />
     </div>
   </div>
 </template>

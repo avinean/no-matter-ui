@@ -73,7 +73,11 @@ function callModal(preset?: ProfileEntity) {
       <template v-if="selectedProfile">
         <div class="grid lg:grid-cols-3 gap-2 w-full">
           <UCard>
-            <base-image :src="selectedProfile.image" width="200" height="200" />
+            <base-image
+              :src="selectedProfile.image"
+              width="200"
+              height="200"
+            />
           </UCard>
           <UCard class="lg:col-span-2">
             <h1 class="flex justify-between font-bold text-xl">
@@ -85,14 +89,28 @@ function callModal(preset?: ProfileEntity) {
               <span class="font-bold">{{ t('employeeInfo.sex') }}:</span><span>{{ selectedProfile.sex }}</span>
 
               <span class="font-bold">{{ t('employeeInfo.dob') }}:</span><span><base-datetime :date="selectedProfile.birthday" /></span>
-              <span class="font-bold">{{ t('employeeInfo.created') }}:</span><span><base-datetime :date="selectedProfile.createdAt" date-style="medium" time-style="medium" /></span>
+              <span class="font-bold">{{ t('employeeInfo.created') }}:</span><span><base-datetime
+                :date="selectedProfile.createdAt"
+                date-style="medium"
+                time-style="medium"
+              /></span>
               <span class="font-bold">{{ t('employeeInfo.roles') }}:</span>
               <span class="flex gap-2 flex-wrap mt-2">
-                <UBadge v-for="role in selectedProfile.roles" :key="role.name" :label="role.name" variant="subtle" />
+                <UBadge
+                  v-for="role in selectedProfile.roles"
+                  :key="role.name"
+                  :label="role.name"
+                  variant="subtle"
+                />
               </span>
               <span class="font-bold">{{ t('employeeInfo.services') }}:</span>
               <span class="flex gap-2 flex-wrap mt-2">
-                <UBadge v-for="service in selectedProfile.services" :key="service.name" :label="service.name" variant="subtle" />
+                <UBadge
+                  v-for="service in selectedProfile.services"
+                  :key="service.name"
+                  :label="service.name"
+                  variant="subtle"
+                />
               </span>
               <span class="font-bold">{{ t('employeeInfo.status') }}:</span>
               <span class="mt-2">

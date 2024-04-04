@@ -82,7 +82,10 @@ async function onUpdateSchedule() {
     class="space-y-2 w-full"
     @submit="onUpdateSchedule"
   >
-    <UTable :rows="schedule" :columns="columns">
+    <UTable
+      :rows="schedule"
+      :columns="columns"
+    >
       <template #day-data="{ row }">
         <div class="flex items-center">
           <span class="text-lg font-bold">{{ dayOfWeek[row.dayOfWeek] }}</span>
@@ -91,8 +94,16 @@ async function onUpdateSchedule() {
       <template #period-data="{ row }">
         <UFormGroup :name="`${row.day}period`">
           <div class="flex gap-2">
-            <UInput v-model="row.start" type="time" :disabled="row.isWeekend" />
-            <UInput v-model="row.end" type="time" :disabled="row.isWeekend" />
+            <UInput
+              v-model="row.start"
+              type="time"
+              :disabled="row.isWeekend"
+            />
+            <UInput
+              v-model="row.end"
+              type="time"
+              :disabled="row.isWeekend"
+            />
           </div>
         </UFormGroup>
       </template>

@@ -62,7 +62,11 @@ function callModal(preset?: ClientEntity) {
       <template v-if="selectedClient">
         <div class="grid lg:grid-cols-3 gap-2 w-full">
           <UCard>
-            <base-image :src="selectedClient.image" width="200" height="200" />
+            <base-image
+              :src="selectedClient.image"
+              width="200"
+              height="200"
+            />
             <UFormGroup :label="t('clientInfo.status')">
               <UToggle
                 on-icon="i-ic-baseline-check-circle-outline"

@@ -30,7 +30,11 @@ whenever(copied, () => {
           class="w-full"
           disabled
         />
-        <UButton icon="i-ic-baseline-content-copy" color="gray" @click="copy(user.password)" />
+        <UButton
+          icon="i-ic-baseline-content-copy"
+          color="gray"
+          @click="copy(user.password)"
+        />
       </UButtonGroup>
     </UFormGroup>
 
@@ -45,7 +49,11 @@ whenever(copied, () => {
           class="w-full"
           disabled
         />
-        <UButton icon="i-ic-baseline-content-copy" color="gray" @click="copy(user.password)" />
+        <UButton
+          icon="i-ic-baseline-content-copy"
+          color="gray"
+          @click="copy(user.password)"
+        />
       </UButtonGroup>
     </UFormGroup>
 

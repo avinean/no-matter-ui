@@ -104,7 +104,10 @@ async function onCreateOrUpdate() {
       name="price"
       required
     >
-      <UInput v-model="state.price" type="number" />
+      <UInput
+        v-model="state.price"
+        type="number"
+      />
     </UFormGroup>
 
     <UFormGroup
@@ -112,14 +115,20 @@ async function onCreateOrUpdate() {
       name="duration"
       required
     >
-      <UInput v-model="state.duration" type="number" />
+      <UInput
+        v-model="state.duration"
+        type="number"
+      />
     </UFormGroup>
 
     <UFormGroup
       :label="t('form.discount')"
       name="discount"
     >
-      <UInput v-model="state.discount" type="number" />
+      <UInput
+        v-model="state.discount"
+        type="number"
+      />
     </UFormGroup>
 
     <UFormGroup
@@ -137,7 +146,11 @@ async function onCreateOrUpdate() {
         selected-icon="i-ic-round-check"
       />
 
-      <UTable v-if="state.spending?.length" :rows="state.spending" :columns="columns">
+      <UTable
+        v-if="state.spending?.length"
+        :rows="state.spending"
+        :columns="columns"
+      >
         <template #name-data="{ row }">
           {{ row.material.name }}
         </template>
@@ -148,7 +161,10 @@ async function onCreateOrUpdate() {
           {{ row.material.unit }}
         </template>
         <template #quantity-data="{ row }">
-          <UInput v-model="row.quantity" type="number" />
+          <UInput
+            v-model="row.quantity"
+            type="number"
+          />
         </template>
       </UTable>
     </UFormGroup>

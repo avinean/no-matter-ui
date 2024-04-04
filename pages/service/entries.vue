@@ -60,7 +60,6 @@ const groups = computed(() => [{
     // avatar: { src: `${imageBaseUrl}/${client.image || ''}`, loading: 'lazy' },
   })),
 }])
-const selectedProfile = computed(() => tabItems?.find(profile => profile.id === selectedId.value))
 
 function handleEventClick(clickInfo: any) {
   isOpenEvent.value = true
@@ -210,7 +209,10 @@ function handleTabChange(id: number) {
                   class="px-6 py-3 flex items-center cursor-pointer"
                   @click="calendarRef?.calendar.prev()"
                 >
-                  <UIcon name="i-ic-baseline-chevron-left" class="text-xl text-gray-900" />
+                  <UIcon
+                    name="i-ic-baseline-chevron-left"
+                    class="text-xl text-gray-900"
+                  />
                 </div>
               </div>
               <div
@@ -220,7 +222,11 @@ function handleTabChange(id: number) {
                 Сьогодні
               </div>
               <div class="flex items-center gap-4 px-6 py-2 border-l-4 border-r-4">
-                <base-datetime v-if="calendarRef?.calendar.getDate()" :date="calendarRef?.calendar.getDate()" date-style="medium" />
+                <base-datetime
+                  v-if="calendarRef?.calendar.getDate()"
+                  :date="calendarRef?.calendar.getDate()"
+                  date-style="medium"
+                />
                 <input-date
                   @update:model-value="goToSelectedDate"
                 >
@@ -235,8 +241,14 @@ function handleTabChange(id: number) {
                 {{ getCurrentDayName() }}
               </div>
               <div>
-                <div class="px-6 py-3 flex items-center cursor-pointer" @click="calendarRef?.calendar.next()">
-                  <UIcon name="i-ic-baseline-chevron-right" class="text-gray-900 text-xl" />
+                <div
+                  class="px-6 py-3 flex items-center cursor-pointer"
+                  @click="calendarRef?.calendar.next()"
+                >
+                  <UIcon
+                    name="i-ic-baseline-chevron-right"
+                    class="text-gray-900 text-xl"
+                  />
                 </div>
               </div>
             </div>
@@ -262,7 +274,9 @@ function handleTabChange(id: number) {
             </div>
           </div>
           <FullCalendar
-            ref="calendarRef" :options="options" class="syns_calendar"
+            ref="calendarRef"
+            :options="options"
+            class="syns_calendar"
           >
             <template #eventContent="arg">
               <div
@@ -274,7 +288,10 @@ function handleTabChange(id: number) {
                 :style="getEventStyle(arg.event.extendedProps)"
               >
                 <div class="truncate">
-                  <base-datetime :date="arg.event.start" time-style="short" />
+                  <base-datetime
+                    :date="arg.event.start"
+                    time-style="short"
+                  />
                   {{ arg.event.title }}
                 </div>
               </div>

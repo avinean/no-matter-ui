@@ -33,13 +33,27 @@ const date = defineModel<Date | string>({ default: new Date() })
           size="sm"
           orientation="horizontal"
         >
-          <UButton color="gray" class="flex-1" @click="togglePopover">
-            <slot name="display" :date="date">
-              <base-datetime :date="date" date-style="full" />
+          <UButton
+            color="gray"
+            class="flex-1"
+            @click="togglePopover"
+          >
+            <slot
+              name="display"
+              :date="date"
+            >
+              <base-datetime
+                :date="date"
+                date-style="full"
+              />
             </slot>
           </UButton>
           >
-          <UButton icon="i-ic-baseline-calendar-month" color="gray" @click="togglePopover" />
+          <UButton
+            icon="i-ic-baseline-calendar-month"
+            color="gray"
+            @click="togglePopover"
+          />
         </UButtonGroup>
       </slot>
     </template>

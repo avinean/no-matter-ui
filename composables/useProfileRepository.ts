@@ -2,7 +2,6 @@ import type { CalendarEntity, ProfileEntity, ScheduleEntity } from '~/types/enti
 
 export const useProfileRepository = createGlobalState(() => {
   const globalStore = useGlobalStore()
-  const toast = useToast()
 
   function get() {
     return $api<ProfileEntity[]>(`/profile/${globalStore.object?.id || globalStore.user?.employers[0]?.id}`)

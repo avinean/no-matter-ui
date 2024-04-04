@@ -65,7 +65,13 @@ function addTimeSlot(item: object) {
       name="service"
       required
     >
-      <USelectMenu v-model="event.service" searchable :options="services" multiple option-attribute="name">
+      <USelectMenu
+        v-model="event.service"
+        searchable
+        :options="services"
+        multiple
+        option-attribute="name"
+      >
         <template #label>
           <UBadge
             v-for="item, i in event.service"
@@ -105,7 +111,11 @@ function addTimeSlot(item: object) {
       name="start"
       required
     >
-      <input-date v-model="event.start" :mode="pickerMode" :full-date="false" />
+      <input-date
+        v-model="event.start"
+        :mode="pickerMode"
+        :full-date="false"
+      />
     </UFormGroup>
     <UFormGroup
       v-if="event.start"
@@ -148,7 +158,10 @@ function addTimeSlot(item: object) {
       name="phone"
       required
     >
-      <UInput v-model="event.phone" type="tel" />
+      <UInput
+        v-model="event.phone"
+        type="tel"
+      />
     </UFormGroup>
 
     <UFormGroup
@@ -157,7 +170,10 @@ function addTimeSlot(item: object) {
       name="title"
       required
     >
-      <UInput v-model="event.title" placeholder="Стрижка + фарбування" />
+      <UInput
+        v-model="event.title"
+        placeholder="Стрижка + фарбування"
+      />
     </UFormGroup>
 
     <UFormGroup
@@ -174,11 +190,15 @@ function addTimeSlot(item: object) {
     >
       <UToggle
         v-model="event.approved"
-        :disabled="event.beenPaid && event.approved" color="lime"
+        :disabled="event.beenPaid && event.approved"
+        color="lime"
       />
     </UFormGroup>
 
-    <div v-if="!event.approved || !event.beenPaid" class="flex justify-end gap-2">
+    <div
+      v-if="!event.approved || !event.beenPaid"
+      class="flex justify-end gap-2"
+    >
       <UButton
         v-if="preset?.isEdit"
         color="red"

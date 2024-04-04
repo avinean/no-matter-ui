@@ -74,7 +74,10 @@ function validate(state: typeof name) {
     >
       <UInput v-model="name.name" />
     </UFormGroup>
-    <UButton type="submit" class="flex justify-center w-32">
+    <UButton
+      type="submit"
+      class="flex justify-center w-32"
+    >
       {{ $t('default.forms.actions.save') }}
     </UButton>
   </UForm>

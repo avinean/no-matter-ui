@@ -31,7 +31,7 @@ export const useGlobalStore = defineStore('global', () => {
       })
     }
     catch (error: any) {
-
+      console.log(error)
     }
   }
   async function login(body: { phone: string, password: string }) {

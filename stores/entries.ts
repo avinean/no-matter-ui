@@ -3,7 +3,7 @@ import type { EventEntity } from '~/types/entities'
 export const useEntriesStore = defineStore('entries', () => {
   const today = new Date()
   const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 8, 0, 0) // Set the start time to 8:00 AM for example
-  const _endOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 17, 0, 0) // Set the end time to 5:00 PM for example
+  // const _endOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 17, 0, 0) // Set the end time to 5:00 PM for example
 
   const events = ref<EventEntity[]>([
     {

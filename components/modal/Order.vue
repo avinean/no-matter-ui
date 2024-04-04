@@ -38,26 +38,59 @@ const columns = [
     </div>
     <div>
       <div>Статуси</div>
-      <div v-for="status in preset?.statuses" :key="status.id" class="flex gap-1">
-        <UBadge v-if="status.status === OrderStatus.new" color="gray" variant="subtle" size="xs">
+      <div
+        v-for="status in preset?.statuses"
+        :key="status.id"
+        class="flex gap-1"
+      >
+        <UBadge
+          v-if="status.status === OrderStatus.new"
+          color="gray"
+          variant="subtle"
+          size="xs"
+        >
           новий
         </UBadge>
-        <UBadge v-else-if="status.status === OrderStatus.partiallyPaid" color="gray" variant="subtle" size="xs">
+        <UBadge
+          v-else-if="status.status === OrderStatus.partiallyPaid"
+          color="gray"
+          variant="subtle"
+          size="xs"
+        >
           оновлений
         </UBadge>
-        <UBadge v-else-if="status.status === OrderStatus.paid" color="green" variant="subtle" size="xs">
+        <UBadge
+          v-else-if="status.status === OrderStatus.paid"
+          color="green"
+          variant="subtle"
+          size="xs"
+        >
           підтверджений
         </UBadge>
-        <UBadge v-else color="red" variant="subtle" size="xs">
+        <UBadge
+          v-else
+          color="red"
+          variant="subtle"
+          size="xs"
+        >
           відмінений
         </UBadge>
 
-        <base-image :src="status.createdBy.image" width="16" height="16" />
+        <base-image
+          :src="status.createdBy.image"
+          width="16"
+          height="16"
+        />
         {{ status.createdBy.firstName }} {{ status.createdBy.lastName }}
         <base-datetime :date="status.createdAt" />
       </div>
     </div>
-    <UTable v-if="preset?.services?.length" :rows="preset.services" :columns="columns" class="col-span-2">
+    <UTable
+      v-if="preset?.services?.length"
+      :rows="preset.services"
+      :columns="columns"
+      class="col-span-2"
+    >
       <template #name-data="{ row }">
         {{ row.service?.name }}
       </template>
@@ -68,7 +101,10 @@ const columns = [
         {{ row.service?.duration }}
       </template>
       <template #quantity-data="{ row }">
-        <UInput v-model="row.quantity" type="number" />
+        <UInput
+          v-model="row.quantity"
+          type="number"
+        />
       </template>
     </UTable>
   </div>

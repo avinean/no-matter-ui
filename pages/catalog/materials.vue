@@ -74,21 +74,40 @@ function menu(item: MaterialTransactionEntity): DropdownItem[][] {
       </div>
     </div>
 
-    <UTable v-if="materials" :rows="materials">
+    <UTable
+      v-if="materials"
+      :rows="materials"
+    >
       <template #createdAt-data="{ row }">
-        <base-datetime :date="row.createdAt" date-style="medium" time-style="medium" />
+        <base-datetime
+          :date="row.createdAt"
+          date-style="medium"
+          time-style="medium"
+        />
       </template>
       <template #updatedAt-data="{ row }">
-        <base-datetime :date="row.createdAt" date-style="medium" time-style="medium" />
+        <base-datetime
+          :date="row.createdAt"
+          date-style="medium"
+          time-style="medium"
+        />
       </template>
     </UTable>
 
     <div class="mt-8">
       <h2>{{ t('transactions') }}</h2>
-      <UTable v-if="materialTransactions" :rows="materialTransactions" :columns="columns">
+      <UTable
+        v-if="materialTransactions"
+        :rows="materialTransactions"
+        :columns="columns"
+      >
         <template #initiator-data="{ row }">
           <span class="inline-flex items-center gap-2">
-            <base-image :src="row.initiator.image" width="32" height="32" />
+            <base-image
+              :src="row.initiator.image"
+              width="32"
+              height="32"
+            />
             <span>
               {{ row.initiator.firstName }} {{ row.initiator.lastName }}
             </span>
@@ -97,18 +116,30 @@ function menu(item: MaterialTransactionEntity): DropdownItem[][] {
         <template #description-data="{ row }">
           <template v-if="row.booking">
             Booking #{{ row.booking.id }},
-            <base-datetime :date="row.booking.date" date-style="medium" time-style="medium" />
+            <base-datetime
+              :date="row.booking.date"
+              date-style="medium"
+              time-style="medium"
+            />
           </template>
           <template v-else>
             {{ row.description || '—' }}
           </template>
         </template>
         <template #createdAt-data="{ row }">
-          <base-datetime :date="row.createdAt" date-style="medium" time-style="medium" />
+          <base-datetime
+            :date="row.createdAt"
+            date-style="medium"
+            time-style="medium"
+          />
         </template>
         <template #actions-data="{ row }">
           <UDropdown :items="menu(row)">
-            <UButton color="gray" variant="ghost" icon="i-ic-outline-more-horiz" />
+            <UButton
+              color="gray"
+              variant="ghost"
+              icon="i-ic-outline-more-horiz"
+            />
           </UDropdown>
         </template>
       </UTable>

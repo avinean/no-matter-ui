@@ -27,7 +27,8 @@ const links = computed(() => [
 <template>
   <div>
     <UHorizontalNavigation
-      :links="links" class="border-b border-gray-200 dark:border-gray-800"
+      :links="links"
+      class="border-b border-gray-200 dark:border-gray-800"
     />
     <NuxtPage />
   </div>

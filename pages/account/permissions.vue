@@ -100,7 +100,10 @@ function select(role: RoleEntity) {
         @update:model-value="select($event.role)"
       />
     </div>
-    <div v-if="selected && !loading" class="w-full p-2 space-y-2">
+    <div
+      v-if="selected && !loading"
+      class="w-full p-2 space-y-2"
+    >
       <h2 class="font-bold text-2xl">
         {{ t('role') }}: {{ selected.name }}
       </h2>
@@ -129,7 +132,11 @@ function select(role: RoleEntity) {
         ]"
         :rows="store.suggestions.resources"
       >
-        <template v-for="(action, key) in store.suggestions.actions" :key="key" #[`${action.value}-data`]="{ row }">
+        <template
+          v-for="(action, key) in store.suggestions.actions"
+          :key="key"
+          #[`${action.value}-data`]="{ row }"
+        >
           <UCheckbox
             v-model="permissions"
             :value="`${selected.name}:${row.value}:${action.value}`"

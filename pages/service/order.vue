@@ -34,17 +34,29 @@ const columns = [
     :getter="get"
   >
     <template #default="{ items }">
-      <UTable :rows="items" :columns="columns" @select="open(ModalOrder, { preset: $event })">
+      <UTable
+        :rows="items"
+        :columns="columns"
+        @select="open(ModalOrder, { preset: $event })"
+      >
         <template #createdBy-data="{ row }">
           <span class="inline-flex items-center gap-2">
-            <base-image :src="row.createdBy.image" width="32" height="32" />
+            <base-image
+              :src="row.createdBy.image"
+              width="32"
+              height="32"
+            />
             <span>
               {{ row.createdBy.firstName }} {{ row.createdBy.lastName }}
             </span>
           </span>
         </template>
         <template #createdAt-data="{ row }">
-          <base-datetime :date="row.createdAt" date-style="medium" time-style="medium" />
+          <base-datetime
+            :date="row.createdAt"
+            date-style="medium"
+            time-style="medium"
+          />
         </template>
         <template #booking-data="{ row }">
           booking #{{ row.booking.id }}

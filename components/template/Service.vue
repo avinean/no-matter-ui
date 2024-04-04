@@ -72,10 +72,16 @@ async function onDuplicate(cb: any, item: ServiceEntity) {
       />
     </template>
     <template #default="{ items, refresh }">
-      <UTable :rows="items" :columns="columns">
+      <UTable
+        :rows="items"
+        :columns="columns"
+      >
         <template #name-data="{ row }">
           <div class="w-36 text-ellipsis overflow-hidden">
-            <UPopover mode="hover" :popper="{ placement: 'right' }">
+            <UPopover
+              mode="hover"
+              :popper="{ placement: 'right' }"
+            >
               {{ row.name }}
               <template #panel>
                 <div class="p-2">
@@ -97,10 +103,18 @@ async function onDuplicate(cb: any, item: ServiceEntity) {
           <base-datetime :date="row.createdAt" />
         </template>
         <template #status-data="{ row }">
-          <UBadge v-if="row.status" color="green" variant="subtle">
+          <UBadge
+            v-if="row.status"
+            color="green"
+            variant="subtle"
+          >
             {{ t('active') }}
           </UBadge>
-          <UBadge v-else color="gray" variant="subtle">
+          <UBadge
+            v-else
+            color="gray"
+            variant="subtle"
+          >
             {{ t('disabled') }}
           </UBadge>
         </template>
@@ -132,7 +146,11 @@ async function onDuplicate(cb: any, item: ServiceEntity) {
               }],
             ]"
           >
-            <UButton color="gray" variant="ghost" icon="i-ic-outline-more-horiz" />
+            <UButton
+              color="gray"
+              variant="ghost"
+              icon="i-ic-outline-more-horiz"
+            />
           </UDropdown>
         </template>
       </UTable>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { ProfileEntity } from '~/types/entities'
-import { ModalEmailPassAlert, ModalEmployee } from '#components'
+import { ModalEmployee } from '#components'
 
 const { t } = useI18n({
   useScope: 'local',
@@ -21,20 +21,6 @@ const groups = computed(() => [{
   })),
 }])
 
-function callModal(preset?: ProfileEntity) {
-  modalStore.open(ModalEmployee, {
-    preset,
-    onSubmit(user) {
-      refresh()
-      if (!preset) {
-        nextTick(() => {
-          modalStore.open(ModalEmailPassAlert, { user })
-        })
-      }
-    },
-  })
-}
-
 function menu(item: ProfileEntity) {
   return [
     [{
@@ -45,25 +31,6 @@ function menu(item: ProfileEntity) {
         globalStore.getUser()
       },
     },
-      //   {
-      //   label: 'Виставити рахунок',
-      //   icon: 'i-ic-outline-receipt-long',
-      //   click: async () => {
-      //     // const order = await bookingRepository.confirm(item)
-      //     refresh()
-
-    //     // modalStore.open(ModalOrder, {
-    //     //   preset: order,
-    //     // })
-    //   },
-    // }, {
-    //   label: 'Відмінити',
-    //   icon: 'i-ic-baseline-content-copy',
-    //   click: async () => {
-    //     // await bookingRepository.cancel(item)
-    //     refresh()
-    //   },
-    //   }
     ],
   ]
 }
@@ -117,9 +84,16 @@ function addProfile() {
             @click="addProfile"
           />
         </div>
-        <UTable :rows="selectedUser.associatedProfiles || []" :columns="columns">
+        <UTable
+          :rows="selectedUser.associatedProfiles || []"
+          :columns="columns"
+        >
           <template #image-data="{ row }">
-            <base-image :src="row.image" width="32" height="32" />
+            <base-image
+              :src="row.image"
+              width="32"
+              height="32"
+            />
           </template>
           <template #name-data="{ row }">
             {{ row.firstName }} {{ row.lastName }}
@@ -129,12 +103,21 @@ function addProfile() {
           </template>
           <template #roles-data="{ row }">
             <span class="flex gap-2 flex-wrap mt-2">
-              <UBadge v-for="role in row.roles" :key="role.name" :label="role.name" variant="subtle" />
+              <UBadge
+                v-for="role in row.roles"
+                :key="role.name"
+                :label="role.name"
+                variant="subtle"
+              />
             </span>
           </template>
           <template #actions-data="{ row }">
             <UDropdown :items="menu(row)">
-              <UButton color="gray" variant="ghost" icon="i-ic-outline-more-horiz" />
+              <UButton
+                color="gray"
+                variant="ghost"
+                icon="i-ic-outline-more-horiz"
+              />
             </UDropdown>
           </template>
         </UTable>

@@ -23,7 +23,12 @@ const locales = [
     trailing-icon="i-ic-baseline-keyboard-arrow-down"
   >
     <template #leading>
-      <UAvatar v-if="locale" :src="locales.find(_ => _.locale === locale)?.avatar.src" size="2xs" class="mx-0.5" />
+      <UAvatar
+        v-if="locale"
+        :src="locales.find(_ => _.locale === locale)?.avatar.src"
+        size="2xs"
+        class="mx-0.5"
+      />
     </template>
   </USelectMenu>
 </template>

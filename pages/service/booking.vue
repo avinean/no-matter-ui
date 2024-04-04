@@ -70,9 +70,17 @@ const columns = [
     </div>
 
     <h2>Заброньовані товари</h2>
-    <UTable v-if="data" :rows="data" :columns="columns">
+    <UTable
+      v-if="data"
+      :rows="data"
+      :columns="columns"
+    >
       <template #date-data="{ row }">
-        <base-datetime :date="row.date" date-style="long" time-style="short" />
+        <base-datetime
+          :date="row.date"
+          date-style="long"
+          time-style="short"
+        />
       </template>
       <template #createdAt-data="{ row }">
         <base-datetime :date="row.createdAt" />
@@ -87,47 +95,97 @@ const columns = [
           mode="hover"
           :popper="{ placement: 'bottom-start' }"
         >
-          <UBadge v-if="row.statuses.at(-1).status === ConfirmationStatus.new" color="gray" variant="subtle">
+          <UBadge
+            v-if="row.statuses.at(-1).status === ConfirmationStatus.new"
+            color="gray"
+            variant="subtle"
+          >
             новий
           </UBadge>
-          <UBadge v-else-if="row.statuses.at(-1).status === ConfirmationStatus.updated" color="gray" variant="subtle">
+          <UBadge
+            v-else-if="row.statuses.at(-1).status === ConfirmationStatus.updated"
+            color="gray"
+            variant="subtle"
+          >
             оновлений
           </UBadge>
-          <UBadge v-else-if="row.statuses.at(-1).status === ConfirmationStatus.approved" color="green" variant="subtle">
+          <UBadge
+            v-else-if="row.statuses.at(-1).status === ConfirmationStatus.approved"
+            color="green"
+            variant="subtle"
+          >
             підтверджений
           </UBadge>
-          <UBadge v-else color="red" variant="subtle">
+          <UBadge
+            v-else
+            color="red"
+            variant="subtle"
+          >
             відмінений
           </UBadge>
 
           <template #item="{ item }">
-            <UBadge v-if="item.status === ConfirmationStatus.new" color="gray" variant="subtle" size="xs">
+            <UBadge
+              v-if="item.status === ConfirmationStatus.new"
+              color="gray"
+              variant="subtle"
+              size="xs"
+            >
               новий
             </UBadge>
-            <UBadge v-else-if="item.status === ConfirmationStatus.updated" color="gray" variant="subtle" size="xs">
+            <UBadge
+              v-else-if="item.status === ConfirmationStatus.updated"
+              color="gray"
+              variant="subtle"
+              size="xs"
+            >
               оновлений
             </UBadge>
-            <UBadge v-else-if="item.status === ConfirmationStatus.approved" color="green" variant="subtle" size="xs">
+            <UBadge
+              v-else-if="item.status === ConfirmationStatus.approved"
+              color="green"
+              variant="subtle"
+              size="xs"
+            >
               підтверджений
             </UBadge>
-            <UBadge v-else color="red" variant="subtle" size="xs">
+            <UBadge
+              v-else
+              color="red"
+              variant="subtle"
+              size="xs"
+            >
               відмінений
             </UBadge>
 
-            <base-image :src="item.createdBy.image" width="16" height="16" />
+            <base-image
+              :src="item.createdBy.image"
+              width="16"
+              height="16"
+            />
             {{ item.createdBy.firstName }} {{ item.createdBy.lastName }}
             <base-datetime :date="item.date" />
           </template>
         </UDropdown>
       </template>
       <template #services-data="{ row }">
-        <template v-for="service in row.services" :key="service.id">
+        <template
+          v-for="service in row.services"
+          :key="service.id"
+        >
           {{ service.name }},
         </template>
       </template>
       <template #profile-data="{ row }">
-        <span v-if="row.profile" class="inline-flex items-center gap-2">
-          <base-image :src="row.profile.image" width="32" height="32" />
+        <span
+          v-if="row.profile"
+          class="inline-flex items-center gap-2"
+        >
+          <base-image
+            :src="row.profile.image"
+            width="32"
+            height="32"
+          />
           <span>
             {{ row.profile.firstName }} {{ row.profile.lastName }}
           </span>
@@ -135,7 +193,11 @@ const columns = [
       </template>
       <template #client-data="{ row }">
         <span class="inline-flex items-center gap-2">
-          <base-image :src="row.client.image" width="32" height="32" />
+          <base-image
+            :src="row.client.image"
+            width="32"
+            height="32"
+          />
           <span>
             {{ row.client.firstName }} {{ row.client.lastName }}
           </span>
@@ -143,7 +205,11 @@ const columns = [
       </template>
       <template #actions-data="{ row }">
         <UDropdown :items="menu(row)">
-          <UButton color="gray" variant="ghost" icon="i-ic-outline-more-horiz" />
+          <UButton
+            color="gray"
+            variant="ghost"
+            icon="i-ic-outline-more-horiz"
+          />
         </UDropdown>
       </template>
     </UTable>

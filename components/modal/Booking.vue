@@ -109,7 +109,11 @@ async function create() {
         selected-icon="i-ic-round-check"
       />
 
-      <UTable v-if="search.services?.length" :rows="search.services" :columns="columns">
+      <UTable
+        v-if="search.services?.length"
+        :rows="search.services"
+        :columns="columns"
+      >
         <template #name-data="{ row }">
           {{ row.service.name }}
         </template>
@@ -120,7 +124,10 @@ async function create() {
           {{ row.service.duration }}
         </template>
         <template #quantity-data="{ row }">
-          <UInput v-model="row.quantity" type="number" />
+          <UInput
+            v-model="row.quantity"
+            type="number"
+          />
         </template>
       </UTable>
     </UFormGroup>
@@ -139,7 +146,10 @@ async function create() {
         selected-icon="i-ic-round-check"
         :search-attributes="['firstName', 'lastName']"
       >
-        <template v-if="search.profile" #label>
+        <template
+          v-if="search.profile"
+          #label
+        >
           {{ search.profile?.firstName }} {{ search.profile?.lastName }}
         </template>
         <template #option="{ option }">
@@ -161,17 +171,27 @@ async function create() {
       name="duration"
       required
     >
-      <UInput v-model="search.duration" type="number" />
+      <UInput
+        v-model="search.duration"
+        type="number"
+      />
     </UFormGroup>
     <div class="flex gap-2 flex-wrap mt-2">
       <UButton
         v-for="timeslot in timeslots"
-        :key="timeslot" size="2xs"
+        :key="timeslot"
+        size="2xs"
         :color="selectedSlot === timeslot ? 'primary' : 'gray'"
         @click="selectedSlot = timeslot"
       >
-        <base-datetime :date="timeslot.time" time-style="short" />
-        <UTooltip v-if="timeslot.booked" :text="`${timeslot.booked.comment} ${timeslot.booked.date}`">
+        <base-datetime
+          :date="timeslot.time"
+          time-style="short"
+        />
+        <UTooltip
+          v-if="timeslot.booked"
+          :text="`${timeslot.booked.comment} ${timeslot.booked.date}`"
+        >
           <span>booked</span>
         </UTooltip>
       </UButton>
@@ -199,7 +219,10 @@ async function create() {
         selected-icon="i-ic-round-check"
         :search-attributes="['firstName', 'lastName']"
       >
-        <template v-if="search.client" #label>
+        <template
+          v-if="search.client"
+          #label
+        >
           {{ search.client?.firstName }} {{ search.client?.lastName }}
         </template>
         <template #option="{ option }">

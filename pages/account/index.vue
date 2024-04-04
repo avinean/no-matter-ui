@@ -27,7 +27,11 @@ const actions = [
     </template>
 
     <div class="space-y-2">
-      <base-image :src="globalStore.user?.image" width="200" height="200" />
+      <base-image
+        :src="globalStore.user?.image"
+        width="200"
+        height="200"
+      />
 
       <base-action-bar :items="actions" />
 
@@ -54,15 +58,28 @@ const actions = [
           {{ t('userFields.roles') }}:
         </div>
         <div class="flex gap-2 flex-wrap">
-          <UBadge v-for="role in globalStore.user?.roles" :key="role.name" :label="role.name" variant="subtle" />
+          <UBadge
+            v-for="role in globalStore.user?.roles"
+            :key="role.name"
+            :label="role.name"
+            variant="subtle"
+          />
         </div>
       </div>
-      <div v-if="globalStore.user?.services" class="flex gap-2">
+      <div
+        v-if="globalStore.user?.services"
+        class="flex gap-2"
+      >
         <div class="font-bold min-w-40">
           {{ t('userFields.services') }}:
         </div>
         <div class="flex gap-2 flex-wrap">
-          <UBadge v-for="service in globalStore.user?.services" :key="service.name" :label="service.name" variant="subtle" />
+          <UBadge
+            v-for="service in globalStore.user?.services"
+            :key="service.name"
+            :label="service.name"
+            variant="subtle"
+          />
         </div>
       </div>
     </div>

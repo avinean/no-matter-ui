@@ -57,7 +57,11 @@ const columns = computed(() => [
         </h1>
       </template>
       <div class="flex items-start gap-2">
-        <base-image :src="globalStore.business?.image" width="100" height="100" />
+        <base-image
+          :src="globalStore.business?.image"
+          width="100"
+          height="100"
+        />
 
         <div class="grid grid-cols-2 flex-1">
           <span class="font-bold text-2xl">{{ globalStore.business?.name }}</span>
@@ -75,9 +79,16 @@ const columns = computed(() => [
           {{ t('titles.enterprises') }}
         </h1>
       </template>
-      <UTable :rows="globalStore.business?.businessObjects" :columns="columns">
+      <UTable
+        :rows="globalStore.business?.businessObjects"
+        :columns="columns"
+      >
         <template #logo-data="{ row }">
-          <base-image :src="row.image" width="50" height="50" />
+          <base-image
+            :src="row.image"
+            width="50"
+            height="50"
+          />
         </template>
         <template #action-data="{ row }">
           <UButton
@@ -100,7 +111,11 @@ const columns = computed(() => [
         </h1>
       </template>
       <div class="flex items-start gap-2">
-        <base-image :src="globalStore.object?.image" width="100" height="100" />
+        <base-image
+          :src="globalStore.object?.image"
+          width="100"
+          height="100"
+        />
 
         <div class="grid grid-cols-2 flex-1">
           <span class="font-bold text-2xl">{{ globalStore.object?.name }}</span>
@@ -119,12 +134,12 @@ const columns = computed(() => [
         </h1>
       </template>
 
-        <FormSchedule
-          :schedule="globalStore.object?.schedule"
-          :bussiness-object-id="globalStore.object?.id"
-          @submit="globalStore.getUser"
-        />
-      </UCard>
+      <FormSchedule
+        :schedule="globalStore.object?.schedule"
+        :bussiness-object-id="globalStore.object?.id"
+        @submit="globalStore.getUser"
+      />
+    </UCard>
     <UCard class="col-span-2">
       <template #header>
         <h1 class="text-3xl font-bold">

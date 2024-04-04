@@ -4,7 +4,10 @@ const model = defineModel<boolean>()
 
 <template>
   <Transition name="fade">
-    <div v-show="model" class="fixed left-0 top-0 right-0 bottom-0 flex items-center justify-center backdrop-blur z-50">
+    <div
+      v-show="model"
+      class="fixed left-0 top-0 right-0 bottom-0 flex items-center justify-center backdrop-blur z-50"
+    >
       <div class="lds-roller">
         <div /><div /><div /><div /><div /><div /><div /><div />
       </div>

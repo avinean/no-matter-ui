@@ -14,12 +14,24 @@ defineProps<{
 </script>
 
 <template>
-  <UButtonGroup :size="size || 'sm'" :orientation="orientation">
-    <template v-for="(item, key) in items" :key>
-      <UTooltip v-if="item.tooltip" :text="item.tooltip">
+  <UButtonGroup
+    :size="size || 'sm'"
+    :orientation="orientation"
+  >
+    <template
+      v-for="(item, key) in items"
+      :key
+    >
+      <UTooltip
+        v-if="item.tooltip"
+        :text="item.tooltip"
+      >
         <UButton v-bind="item" />
       </UTooltip>
-      <UButton v-else v-bind="item" />
+      <UButton
+        v-else
+        v-bind="item"
+      />
     </template>
   </UButtonGroup>
 </template>

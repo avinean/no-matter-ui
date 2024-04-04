@@ -100,7 +100,11 @@ async function onUpdateSchedule() {
       class="space-y-2"
       @submit="onUpdateSchedule"
     >
-      <UFormGroup :label="t('form.type')" name="type" required>
+      <UFormGroup
+        :label="t('form.type')"
+        name="type"
+        required
+      >
         <USelect
           v-model="state.type"
           :options="Object.values(DayType).map((value) => ({
@@ -109,21 +113,46 @@ async function onUpdateSchedule() {
           }))"
         />
       </UFormGroup>
-      <UFormGroup :label="t('form.comment')" name="comment">
+      <UFormGroup
+        :label="t('form.comment')"
+        name="comment"
+      >
         <UTextarea v-model="state.comment" />
       </UFormGroup>
-      <UFormGroup :label="t('form.from')" name="from" required>
+      <UFormGroup
+        :label="t('form.from')"
+        name="from"
+        required
+      >
         <InputDate v-model="state.from" />
       </UFormGroup>
-      <UFormGroup :label="t('form.to')" name="to" required>
+      <UFormGroup
+        :label="t('form.to')"
+        name="to"
+        required
+      >
         <InputDate v-model="state.to" />
       </UFormGroup>
       <template v-if="state.type === DayType.workingDay">
-        <UFormGroup :label="t('form.fromTime')" name="start" required>
-          <UInput v-model="state.start" type="time" />
+        <UFormGroup
+          :label="t('form.fromTime')"
+          name="start"
+          required
+        >
+          <UInput
+            v-model="state.start"
+            type="time"
+          />
         </UFormGroup>
-        <UFormGroup :label="t('form.toTime')" name="end" required>
-          <UInput v-model="state.end" type="time" />
+        <UFormGroup
+          :label="t('form.toTime')"
+          name="end"
+          required
+        >
+          <UInput
+            v-model="state.end"
+            type="time"
+          />
         </UFormGroup>
       </template>
       <UButton type="submit">

@@ -7,7 +7,7 @@ const props = withDefaults(defineProps<{
   preset?: ProfileEntity | null
   user?: UserEntity
 }>(), {
-  preset: null,
+  preset: null
 })
 
 const emit = defineEmits<{
@@ -137,7 +137,10 @@ function validate(state: ProfileEntity): FormError[] {
 
           required
         >
-          <UInput v-model="state.email" type="email" />
+          <UInput
+            v-model="state.email"
+            type="email"
+          />
         </UFormGroup>
         <UFormGroup
           :label="$t('default.forms.labels.lastName')"
@@ -203,7 +206,12 @@ function validate(state: ProfileEntity): FormError[] {
         >
           <UseServicesSelect v-model="state.services" />
           <div class="flex gap-2 flex-wrap mt-2">
-            <UBadge v-for="service in state.services" :key="service.name" :label="service.name" variant="subtle" />
+            <UBadge
+              v-for="service in state.services"
+              :key="service.name"
+              :label="service.name"
+              variant="subtle"
+            />
           </div>
         </UFormGroup>
         <UFormGroup
@@ -213,16 +221,27 @@ function validate(state: ProfileEntity): FormError[] {
         >
           <UseRolesSelect v-model="state.roles" />
           <div class="flex gap-2 flex-wrap mt-2">
-            <UBadge v-for="role in state.roles" :key="role.name" :label="role.name" variant="subtle" />
+            <UBadge
+              v-for="role in state.roles"
+              :key="role.name"
+              :label="role.name"
+              variant="subtle"
+            />
           </div>
         </UFormGroup>
       </UCard>
     </div>
     <div class="flex gap-2 justify-end mt-4">
-      <UButton class="w-36 justify-center" @click="emit('close')">
+      <UButton
+        class="w-36 justify-center"
+        @click="emit('close')"
+      >
         {{ $t('default.forms.actions.cancel') }}
       </UButton>
-      <UButton type="submit" class="w-36 justify-center">
+      <UButton
+        type="submit"
+        class="w-36 justify-center"
+      >
         {{ props?.preset?.id ? $t('default.forms.actions.save') : $t('default.forms.actions.create') }}
       </UButton>
     </div>

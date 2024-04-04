@@ -6,5 +6,6 @@ export default [
   '@vueuse/nuxt',
   '@nuxtjs/color-mode',
   '@nuxtjs/i18n',
-  '@nuxt/image'
+  '@nuxt/image',
+    '@nuxtjs/eslint-module'
 ] satisfies NuxtConfig['modules']

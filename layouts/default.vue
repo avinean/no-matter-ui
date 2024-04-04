@@ -74,7 +74,7 @@ const links = computed(() => [
         :ui="{
           wrapper: 'flex-1 flex flex-col',
         }"
-        />
+      />
 
       <!-- <use-business-select class="flex gap-2 py-2" /> -->
     </div>
