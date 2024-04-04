@@ -5,9 +5,11 @@ import type { MaterialEntity } from '~/types/entities'
 const emit = defineEmits<{
   submit: []
 }>()
-
+const { t } = useI18n({
+  useScope: 'local',
+})
 defineExpose({
-  title: `Додати матеріал`,
+  title: t('title'),
 })
 
 const { add } = useMaterialRepository()
@@ -22,8 +24,8 @@ const state = reactive({
 function validate(state: any): FormError[] {
   const errors = []
   for (const key in state) {
-    if (state[key] === undefined || state[key] === '')
-      errors.push({ path: key, message: 'Required' })
+    if (!state[key])
+      errors.push({ path: key, message: t('formValidation.required') })
   }
   return errors
 }
@@ -42,35 +44,46 @@ async function onCreateOrUpdate(event: FormSubmitEvent<Partial<MaterialEntity>>)
     @submit="onCreateOrUpdate"
   >
     <UFormGroup
-      label="Name"
+      :label="$t('default.forms.labels.name')"
       name="name"
     >
       <UInput v-model="state.name" />
     </UFormGroup>
 
     <UFormGroup
-      label="Description"
+      :label="$t('default.forms.labels.desc')"
       name="description"
     >
       <UInput v-model="state.description" />
     </UFormGroup>
 
     <UFormGroup
-      label="Unit"
+      :label="$t('default.forms.labels.unit')"
       name="unit"
     >
       <UInput v-model="state.unit" />
     </UFormGroup>
 
     <UFormGroup
-      label="Critical quantity"
+      :label="$t('default.forms.labels.criticalQuantity')"
       name="criticalQuantity"
     >
       <UInput v-model="state.criticalQuantity" />
     </UFormGroup>
 
     <UButton type="submit">
-      Submit
+      {{ $t('default.forms.actions.create') }}
     </UButton>
   </UForm>
 </template>
+
+<i18n lang="json">
+{
+  "en-US": {
+    "title": "Add material"
+  },
+  "uk-UK": {
+    "title": "Додати матеріал"
+  }
+}
+</i18n>

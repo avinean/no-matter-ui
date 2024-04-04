@@ -9,10 +9,10 @@ const store = useGlobalStore()
 const links = computed(() => [
   {
     label: t('tabs.info'),
+    ...(store.user?.image
+      ? { avatar: { src: store.user?.image } }
+      : { icon: 'i-ic-outline-info' }),
     to: '/account',
-    avatar: {
-      src: store.user?.image,
-    },
   },
   {
     label: t('tabs.settings'),

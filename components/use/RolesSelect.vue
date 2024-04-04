@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ModalRole, ModalServiceProduct } from '#components'
+import { ModalRole } from '#components'
 import type { RoleEntity } from '~/types/entities'
 
 const globalStore = useGlobalStore()

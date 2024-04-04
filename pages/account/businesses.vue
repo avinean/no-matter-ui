@@ -119,13 +119,13 @@ const columns = computed(() => [
         </h1>
       </template>
 
-      <FormSchedule
-        :schedule="globalStore.object?.schedule"
-        :bussiness-object-id="globalStore.object?.id"
-        @submit="globalStore.getUser"
-      />
-    </UCard>
-    <UCard  class="col-span-2">
+        <FormSchedule
+          :schedule="globalStore.object?.schedule"
+          :bussiness-object-id="globalStore.object?.id"
+          @submit="globalStore.getUser"
+        />
+      </UCard>
+    <UCard class="col-span-2">
       <template #header>
         <h1 class="text-3xl font-bold">
           {{ t('titles.enterpriseWeekends') }}

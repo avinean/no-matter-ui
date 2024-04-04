@@ -75,7 +75,14 @@ async function onDuplicate(cb: any, item: ServiceEntity) {
       <UTable :rows="items" :columns="columns">
         <template #name-data="{ row }">
           <div class="w-36 text-ellipsis overflow-hidden">
-            {{ row.name }}
+            <UPopover mode="hover" :popper="{ placement: 'right' }">
+              {{ row.name }}
+              <template #panel>
+                <div class="p-2">
+                  {{ row.name }}
+                </div>
+              </template>
+            </UPopover>
           </div>
         </template>
         <template #description-data="{ row }">

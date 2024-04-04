@@ -71,7 +71,7 @@ function addTimeSlot(item: object) {
             v-for="item, i in event.service"
             :key="i"
             class="gap-2"
-                        @click="removeSelectedService(item)"
+            @click="removeSelectedService(item)"
           >
             {{ item.name }}
             <UIcon name="i-ic-baseline-cancel" />

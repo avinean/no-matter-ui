@@ -47,7 +47,7 @@ export const useGlobalStore = defineStore('global', () => {
       router.push('/')
     }
     catch (error: any) {
-      if (error.status === 401) {
+      if (error.data?.statusCode === 401) {
         toast.add({
           title: $i18n.t('requestErrors.signIn.invalid.title'),
           description: $i18n.t('requestErrors.signIn.invalid.description'),

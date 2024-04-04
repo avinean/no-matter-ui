@@ -10,17 +10,6 @@
             "people": "People"
         },
         "forms": {
-            "actions": {
-                "add": "Add",
-                "cancel": "Cancel changes",
-                "create": "Create",
-                "resetPass": "Send a recovery link",
-                "save": "Save",
-                "select": "Select",
-                "signIn": "Submit",
-                "signUp": "Sign Up",
-                "submit": "Submit"
-            },
             "labels": {
                 "confirmNewPassword": "Confirm New Password",
                 "currentPassword": "Current Password",
@@ -29,17 +18,32 @@
                 "firstName": "First Name",
                 "lastName": "Last Name",
                 "newPassword": "New Password",
-                "password": "Password",
-                "phone": "Phone",
-                "role": "Role",
-                "roleName": "Role Name",
                 "services": "Select available services for the user",
-                "sex": "Gender",
-                "source": "Source"
+                "name": "Name",
+                "desc": "Description",
+                "unit": "Unit",
+                "criticalQuantity": "Critical quantity",
+              "password": "Password",
+              "phone": "Phone",
+              "role": "Role",
+              "roleName": "Role Name",
+              "sex": "Gender",
+              "source": "Source"
             },
             "placeholders": {
-                "roles": "Choose roles",
-                "services": "Choose services"
+                "services": "Choose services",
+                "roles": "Choose roles"
+            },
+            "actions": {
+                "submit": "Submit",
+                "save": "Save",
+                "cancel": "Cancel",
+                "signIn": "Submit",
+                "signUp": "Sign Up",
+                "resetPass": "Send a recovery link",
+                "create": "Create",
+                "add": "Add",
+                "select": "Select"
             }
         }
     },
@@ -63,7 +67,7 @@
         },
         "unknownError": {
             "description": "Contact the support service",
-            "title": "Somethong went wrong!"
+            "title": "Something went wrong!"
         }
     }
 }
