@@ -45,40 +45,39 @@ function menu(item: MaterialTransactionEntity): DropdownItem[][] {
 
 <template>
   <div>
-    <div class="flex justify-end gap-2 p-2">
-      <UButton
-        icon="i-ic-baseline-create"
-        size="sm"
-        color="primary"
-        square
-        variant="solid"
-        :label="t('addNew')"
-        @click="modalStore.open(ModalMaterial, { onSubmit: refreshMaterials })"
-      />
-      <UButton
-        icon="i-ic-baseline-plus"
-        size="sm"
-        color="primary"
-        square
-        variant="solid"
-        :label="t('updateQuantity')"
-        @click="modalStore.open(ModalMaterialTransaction, {
-          onSubmit() {
-            refreshMaterialTransactions()
-            refreshMaterials()
-          },
-        })"
-      />
-    </div>
-    <div v-if="materials?.length">
+    <div class="flex justify-between gap-2 p-2">
       <h2>{{ t('materials') }}</h2>
-      <UTable v-if="materials" :rows="materials" />
+      <div class="flex gap-2">
+        <UButton
+          icon="i-ic-baseline-create"
+          size="sm"
+          color="primary"
+          square
+          variant="solid"
+          :label="t('addNew')"
+          @click="modalStore.open(ModalMaterial, { onSubmit: refreshMaterials })"
+        />
+        <UButton
+          icon="i-ic-baseline-plus"
+          size="sm"
+          color="primary"
+          square
+          variant="solid"
+          :label="t('updateQuantity')"
+          @click="modalStore.open(ModalMaterialTransaction, {
+            onSubmit() {
+              refreshMaterialTransactions()
+              refreshMaterials()
+            },
+          })"
+        />
+      </div>
     </div>
-    <div v-if="materialTransactions?.length" class="mt-8">
+    <UTable v-if="materials" :rows="materials" />
+
+    <div class="mt-8">
       <h2>{{ t('transactions') }}</h2>
-      <UTable
-        :rows="materialTransactions" :columns="columns"
-      >
+      <UTable v-if="materialTransactions" :rows="materialTransactions" :columns="columns" >
         <template #initiator-data="{ row }">
           <span class="inline-flex items-center gap-2">
             <base-image :src="row.initiator.image" width="32" height="32" />

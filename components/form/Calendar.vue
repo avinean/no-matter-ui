@@ -1,13 +1,8 @@
 <script lang="ts" setup>
-const { t } = useI18n({
-  useScope: 'local',
-})
 import { Calendar } from 'v-calendar'
 import type { BusinessObjectEntity, CalendarEntity, ProfileEntity, ScheduleEntity } from '~/types/entities'
 import { DayType } from '~/types/enums'
 import type { Props } from '~/types/utils'
-
-type CalendarProps = Props<typeof Calendar>
 
 const props = defineProps<{
   calendar?: CalendarEntity[]
@@ -19,6 +14,12 @@ const props = defineProps<{
 const emit = defineEmits<{
   submit: []
 }>()
+
+const { t } = useI18n({
+  useScope: 'local',
+})
+
+type CalendarProps = Props<typeof Calendar>
 
 const colors: Record<DayType, string> = {
   [DayType.workingDay]: 'red',
