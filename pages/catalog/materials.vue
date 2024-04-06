@@ -45,7 +45,7 @@ function menu(item: MaterialTransactionEntity): DropdownItem[][] {
 
 <template>
   <div>
-    <div class="flex justify-between gap-2 p-2">
+    <div class="flex items-center justify-between gap-2 p-2">
       <h2>{{ t('materials') }}</h2>
       <div class="flex gap-2">
         <UButton

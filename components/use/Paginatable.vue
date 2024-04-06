@@ -25,7 +25,7 @@ const pages = computed(() => data.value?.pages || 0)
 <template>
   <div>
     <BaseLoader v-model="pending" />
-    <div class="flex justify-between gap-2 p-2">
+    <div class="flex items-center justify-between gap-2 p-2">
       <h2>{{ title }}</h2>
       <slot
         name="actions"

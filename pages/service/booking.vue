@@ -55,7 +55,8 @@ const columns = [
 
 <template>
   <div>
-    <div class="flex justify-end gap-2 p-2">
+    <div class="flex items-center justify-between gap-2 p-2">
+      <h1>Заброньовані товари</h1>
       <UButton
         icon="i-ic-baseline-calendar-month"
         size="sm"
@@ -68,8 +69,6 @@ const columns = [
         })"
       />
     </div>
-
-    <h2>Заброньовані товари</h2>
     <UTable
       v-if="data"
       :rows="data"

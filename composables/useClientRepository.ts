@@ -1,17 +1,15 @@
 import type { ClientEntity } from '~/types/entities'
 
 export const useClientRepository = createGlobalState(() => {
-  const globalStore = useGlobalStore()
-
   const toast = useToast()
 
   function get() {
-    return $api<ClientEntity[]>(`/client/${globalStore.object?.id || globalStore.user?.employers[0]?.id}`)
+    return $api<ClientEntity[]>(`/client`)
   }
 
   function add(body: Partial<ClientEntity>) {
     try {
-      return $api(`/client/${globalStore.object?.id}`, {
+      return $api(`/client`, {
         method: 'POST',
         body,
       })
@@ -26,7 +24,7 @@ export const useClientRepository = createGlobalState(() => {
 
   function edit(id: number, body: Partial<ClientEntity>) {
     try {
-      return $api(`/client/${globalStore.object?.id}/${id}`, {
+      return $api(`/client/${id}`, {
         method: 'PUT',
         body,
       })

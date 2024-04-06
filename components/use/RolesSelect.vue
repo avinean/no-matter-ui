@@ -2,11 +2,10 @@
 import { ModalRole } from '#components'
 import type { RoleEntity } from '~/types/entities'
 
-const globalStore = useGlobalStore()
 const { open } = useModalStore()
 
 const model = defineModel<RoleEntity[]>({ default: [] })
-const { data, refresh } = useApi<RoleEntity[]>(`/role/${globalStore.business?.id}`)
+const { data, refresh } = useApi<RoleEntity[]>(`/role`)
 
 whenever(data, () => {
   model.value

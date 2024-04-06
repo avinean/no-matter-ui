@@ -105,7 +105,7 @@ function validate(state: ProfileEntity): FormError[] {
   >
     <div class="flex justify-center">
       <input-file
-        class="row-span-6"
+        class="w-40"
         :src="state.image"
         @change="photo = $event"
       />

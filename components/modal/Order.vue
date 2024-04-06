@@ -1,13 +1,12 @@
 <script lang="ts" setup>
 import type { OrderEntity } from '~/types/entities'
-import { OrderStatus } from '~/types/enums'
 
 const props = defineProps<{
   preset?: OrderEntity | null
 }>()
 
 defineExpose({
-  title: computed(() => `Рахунок/Замовлення #${props.preset?.id}`),
+  title: computed(() => `Рахунок #${props.preset?.id}`),
 })
 
 const columns = [
@@ -27,62 +26,16 @@ const columns = [
 </script>
 
 <template>
-  <div class="grid cols-2 gap-y-2">
+  <div class="space-y-2">
     <div>
-      <div>
+      <div class="font-bold">
         Рахунок #{{ preset?.id }} від <base-datetime :date="preset?.createdAt" />
       </div>
-      <div>
-        За попереднім замовленням #{{ preset?.booking?.id }} від <base-datetime :date="preset?.booking?.createdAt" />
-      </div>
-    </div>
-    <div>
-      <div>Статуси</div>
       <div
-        v-for="status in preset?.statuses"
-        :key="status.id"
-        class="flex gap-1"
+        v-if="preset?.booking"
+        class="font-bold"
       >
-        <UBadge
-          v-if="status.status === OrderStatus.new"
-          color="gray"
-          variant="subtle"
-          size="xs"
-        >
-          новий
-        </UBadge>
-        <UBadge
-          v-else-if="status.status === OrderStatus.partiallyPaid"
-          color="gray"
-          variant="subtle"
-          size="xs"
-        >
-          оновлений
-        </UBadge>
-        <UBadge
-          v-else-if="status.status === OrderStatus.paid"
-          color="green"
-          variant="subtle"
-          size="xs"
-        >
-          підтверджений
-        </UBadge>
-        <UBadge
-          v-else
-          color="red"
-          variant="subtle"
-          size="xs"
-        >
-          відмінений
-        </UBadge>
-
-        <base-image
-          :src="status.createdBy.image"
-          width="16"
-          height="16"
-        />
-        {{ status.createdBy.firstName }} {{ status.createdBy.lastName }}
-        <base-datetime :date="status.createdAt" />
+        За попереднім замовленням #{{ preset?.booking?.id }} від <base-datetime :date="preset?.booking?.createdAt" />
       </div>
     </div>
     <UTable
@@ -107,5 +60,22 @@ const columns = [
         />
       </template>
     </UTable>
+    <UButton>
+      Додати послугу/товар
+    </UButton>
+    <div class="rounded-sm bg-gray-200">
+      <div class="flex justify-between">
+        <div>Підсумок</div>
+        <div>0 грн</div>
+      </div>
+      <div class="flex justify-between">
+        <div>Знижка</div>
+        <div>0 грн</div>
+      </div>
+      <div class="flex justify-between">
+        <div>До сплати</div>
+        <div>0 грн</div>
+      </div>
+    </div>
   </div>
 </template>

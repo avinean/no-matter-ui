@@ -1,4 +1,4 @@
-import type { BusinessEntity, BusinessObjectEntity, ProfileEntity } from '~/types/entities'
+import type { BusinessEntity, ProfileEntity } from '~/types/entities'
 import type { Permission } from '~/types/permissions'
 
 export const useGlobalStore = defineStore('global', () => {
@@ -6,8 +6,6 @@ export const useGlobalStore = defineStore('global', () => {
   const loading = ref(false)
   const toast = useToast()
   const user = ref<ProfileEntity | null>(null)
-  const business = ref<BusinessEntity>()
-  const object = ref<BusinessObjectEntity>()
   const cookie = useCookie('sraka')
   const { $i18n } = useNuxtApp()
   const isAdmin = computed(() => user.value?.roles.some(role => role.name === 'admin'))
@@ -106,21 +104,17 @@ export const useGlobalStore = defineStore('global', () => {
   }
 
   async function getBusinesses() {
-    user.value!.ownedBusinesses = await $api<BusinessEntity[]>(`/business/${user.value?.id}`)
+    user.value!.businesses = await $api<BusinessEntity[]>(`/business/${user.value?.id}`)
   }
 
   async function getUser() {
     const profile = await $api<ProfileEntity>('/profile/me')
     user.value = profile
-    business.value = profile?.ownedBusinesses?.[0]
-    object.value = profile?.ownedBusinesses?.[0]?.businessObjects?.[0] || profile?.employers?.[0]
   }
 
   return {
     user,
     isAdmin,
-    business,
-    object,
     loading,
     login,
     signup,

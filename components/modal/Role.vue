@@ -20,7 +20,6 @@ defineExpose({
 })
 
 const toast = useToast()
-const globalStore = useGlobalStore()
 const loading = ref(false)
 const name: Partial<RoleEntity> = reactive({
   name: props.preset?.name,
@@ -30,7 +29,7 @@ async function onCreateOrUpdate() {
   loading.value = true
 
   try {
-    const endpoint = props.preset?.id ? `/role/${globalStore.business?.id}/${props.preset.id}` : `/role/${globalStore.business?.id}`
+    const endpoint = props.preset?.id ? `/role/${props.preset.id}` : `/role`
     const method = props.preset?.id ? 'PUT' : 'POST'
 
     await $api(endpoint, {

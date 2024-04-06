@@ -12,7 +12,6 @@ export interface RoleEntity {
   id: number
   name: string
   assignedPermissions: PermissionEntity[]
-  assignedProfiles: ProfileEntity[]
   business: BusinessEntity
   createdAt: Date | string
   updatedAt: Date | string
@@ -45,14 +44,11 @@ export interface ProfileEntity {
   userId: number
   primaryFor: UserEntity
   user: UserEntity
-  users: ProfileEntity[]
   roles: RoleEntity[]
   services: ServiceEntity[]
-  ownedBusinesses: BusinessEntity[]
-  ownedObjects: BusinessObjectEntity[]
-  employers: BusinessObjectEntity[]
-  initiatedMaterialTransactions: MaterialTransactionEntity[]
-  orders: OrderEntity[]
+  businesses: BusinessEntity[]
+  primaryBusiness: BusinessEntity
+  primaryBusinessObject: BusinessObjectEntity
   schedule: ScheduleEntity[]
   calendar: CalendarEntity[]
 }
@@ -64,7 +60,6 @@ export interface BusinessEntity {
   image?: string
   createdAt: Date | string
   updatedAt: Date | string
-  owner: ProfileEntity
   businessObjects: BusinessObjectEntity[]
   roles: RoleEntity[]
 }
@@ -76,9 +71,7 @@ export interface BusinessObjectEntity {
   image?: string
   createdAt: Date | string
   updatedAt: Date | string
-  createdBy: ProfileEntity
   business: BusinessEntity
-  employees: ProfileEntity[]
   customers: ClientEntity[]
   materialTransactions: MaterialTransactionEntity[]
   materials: MaterialEntity[]
@@ -183,9 +176,7 @@ export interface ServiceEntity {
   createdAt: Date
   updatedAt: Date
   profiles: ProfileEntity[]
-  bookings: BookingEntity[]
   relatedBusinessObjects: BusinessObjectEntity[]
-  orders: OrderEntity[]
   spending: ServiceMaterialEntity[]
   booked: OrderProductsEntity[]
 }

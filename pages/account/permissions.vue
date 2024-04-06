@@ -8,7 +8,6 @@ const { t } = useI18n({
   useScope: 'local',
 })
 const toast = useToast()
-const globalStore = useGlobalStore()
 const modalStore = useModalStore()
 const store = useSuggestionsStore()
 store.get('roles')
@@ -16,7 +15,7 @@ store.get('resources')
 store.get('actions')
 const loading = computed(() => store.loading.actions || store.loading.resources || store.loading.roles)
 
-const { data, refresh } = useApi<RoleEntity[]>(`/role/${globalStore.business?.id}`)
+const { data, refresh } = useApi<RoleEntity[]>(`/role`)
 
 const selected = ref<RoleEntity | null>(null)
 
@@ -50,7 +49,7 @@ async function setPermissions() {
   }
 
   try {
-    await $api(`/role/${globalStore.business?.id}/${role.id}`, {
+    await $api(`/role/${role.id}`, {
       method: 'PUT',
       body: role,
     }).then(() => {

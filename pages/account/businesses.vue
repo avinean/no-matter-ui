@@ -12,7 +12,7 @@ const businessActions = [
     tooltip: t('tooltips.editBusiness'),
     icon: 'i-ic-baseline-edit',
     onClick: () => modalStore.open(ModalBusiness, {
-      preset: globalStore.business,
+      preset: globalStore.user?.primaryBusiness,
       onSubmit: globalStore.getUser,
     }),
   },
@@ -23,7 +23,7 @@ const businessObjectActions = [
     tooltip: t('tooltips.editEnterprise'),
     icon: 'i-ic-baseline-edit',
     onClick: () => modalStore.open(ModalBusinessObject, {
-      preset: globalStore.object,
+      preset: globalStore.user?.primaryBusinessObject,
       onSubmit: globalStore.getUser,
     }),
   },
@@ -58,29 +58,29 @@ const columns = computed(() => [
       </template>
       <div class="flex items-start gap-2">
         <base-image
-          :src="globalStore.business?.image"
+          :src="globalStore.user?.primaryBusiness?.image"
           width="100"
           height="100"
         />
 
         <div class="grid grid-cols-2 flex-1">
-          <span class="font-bold text-2xl">{{ globalStore.business?.name }}</span>
+          <span class="font-bold text-2xl">{{ globalStore.user?.primaryBusiness?.name }}</span>
           <span class="justify-self-end">
             <base-action-bar :items="businessActions" />
           </span>
-          <span class="font-bold">{{ t('view.description') }}:</span><span>{{ globalStore.business?.description }}</span>
-          <span class="font-bold">{{ t('view.createdAt') }}:</span><span><base-datetime :date="globalStore.business?.createdAt" /></span>
+          <span class="font-bold">{{ t('view.description') }}:</span><span>{{ globalStore.user?.primaryBusiness?.description }}</span>
+          <span class="font-bold">{{ t('view.createdAt') }}:</span><span><base-datetime :date="globalStore.user?.primaryBusiness?.createdAt" /></span>
         </div>
       </div>
     </UCard>
-    <UCard v-if="globalStore.business?.businessObjects.length! > 1">
+    <UCard v-if="globalStore.user?.primaryBusiness?.businessObjects.length! > 1">
       <template #header>
         <h1 class="text-3xl font-bold">
           {{ t('titles.enterprises') }}
         </h1>
       </template>
       <UTable
-        :rows="globalStore.business?.businessObjects"
+        :rows="globalStore.user?.primaryBusiness?.businessObjects"
         :columns="columns"
       >
         <template #logo-data="{ row }">
@@ -92,15 +92,16 @@ const columns = computed(() => [
         </template>
         <template #action-data="{ row }">
           <UButton
-            v-show="globalStore.object?.id !== row?.id"
+            v-show="globalStore.user?.primaryBusinessObject?.id !== row?.id"
             icon="i-ic-baseline-arrow-circle-right"
             size="sm"
             color="primary"
             variant="solid"
             :label="$t('default.forms.actions.select')"
             trailing
-            @click="globalStore.object = row"
           />
+          <!-- TODO -->
+          <!-- @click="globalStore.user?.primaryBusinessObject = row" -->
         </template>
       </UTable>
     </UCard>
@@ -112,18 +113,18 @@ const columns = computed(() => [
       </template>
       <div class="flex items-start gap-2">
         <base-image
-          :src="globalStore.object?.image"
+          :src="globalStore.user?.primaryBusinessObject?.image"
           width="100"
           height="100"
         />
 
         <div class="grid grid-cols-2 flex-1">
-          <span class="font-bold text-2xl">{{ globalStore.object?.name }}</span>
+          <span class="font-bold text-2xl">{{ globalStore.user?.primaryBusinessObject?.name }}</span>
           <span class="justify-self-end">
             <base-action-bar :items="businessObjectActions" />
           </span>
-          <span class="font-bold">{{ t('view.description') }}:</span><span>{{ globalStore.object?.description }}</span>
-          <span class="font-bold">{{ t('view.createdAt') }}:</span><span><base-datetime :date="globalStore.object?.createdAt" /></span>
+          <span class="font-bold">{{ t('view.description') }}:</span><span>{{ globalStore.user?.primaryBusinessObject?.description }}</span>
+          <span class="font-bold">{{ t('view.createdAt') }}:</span><span><base-datetime :date="globalStore.user?.primaryBusinessObject?.createdAt" /></span>
         </div>
       </div>
     </UCard>
@@ -135,8 +136,8 @@ const columns = computed(() => [
       </template>
 
       <FormSchedule
-        :schedule="globalStore.object?.schedule"
-        :bussiness-object-id="globalStore.object?.id"
+        :schedule="globalStore.user?.primaryBusinessObject?.schedule"
+        :bussiness-object-id="globalStore.user?.primaryBusinessObject?.id"
         @submit="globalStore.getUser"
       />
     </UCard>
@@ -147,9 +148,9 @@ const columns = computed(() => [
         </h1>
       </template>
       <FormCalendar
-        :calendar="globalStore.object?.calendar"
-        :schedule="globalStore.object?.schedule"
-        :bussiness-object-id="globalStore.object?.id"
+        :calendar="globalStore.user?.primaryBusinessObject?.calendar"
+        :schedule="globalStore.user?.primaryBusinessObject?.schedule"
+        :bussiness-object-id="globalStore.user?.primaryBusinessObject?.id"
         @submit="globalStore.getUser"
       />
     </UCard>

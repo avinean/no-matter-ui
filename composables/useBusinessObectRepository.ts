@@ -1,17 +1,15 @@
 import type { BusinessEntity, CalendarEntity, ScheduleEntity } from '~/types/entities'
 
 export const useBusinessObectRepository = createGlobalState(() => {
-  const globalStore = useGlobalStore()
-
   async function add(body: Partial<BusinessEntity>) {
-    await $api(`/business-object/${globalStore.user?.id}/${globalStore.business?.id}`, {
+    await $api(`/business-object`, {
       method: 'POST',
       body,
     })
   }
 
   async function edit(id: number, body: Partial<BusinessEntity>) {
-    await $api(`/business-object/${globalStore.user?.id}/${globalStore.business?.id}/${id}`, {
+    await $api(`/business-object/${id}`, {
       method: 'PUT',
       body,
     })

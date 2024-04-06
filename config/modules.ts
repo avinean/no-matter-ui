@@ -7,5 +7,5 @@ export default [
   '@nuxtjs/color-mode',
   '@nuxtjs/i18n',
   '@nuxt/image',
-    '@nuxtjs/eslint-module'
+  ['@nuxtjs/eslint-module', { cache: false, lintOnStart: false }],
 ] satisfies NuxtConfig['modules']

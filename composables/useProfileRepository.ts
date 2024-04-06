@@ -1,14 +1,12 @@
 import type { CalendarEntity, ProfileEntity, ScheduleEntity } from '~/types/entities'
 
 export const useProfileRepository = createGlobalState(() => {
-  const globalStore = useGlobalStore()
-
   function get() {
-    return $api<ProfileEntity[]>(`/profile/${globalStore.object?.id || globalStore.user?.employers[0]?.id}`)
+    return $api<ProfileEntity[]>(`/profile`)
   }
 
   async function add(body: Partial<ProfileEntity>) {
-    const data = await $api<{ user: { email: string, password: string } }>(`/profile/${globalStore.object?.id}`, {
+    const data = await $api<{ user: { email: string, password: string } }>(`/profile`, {
       method: 'POST',
       body,
     })
@@ -16,34 +14,34 @@ export const useProfileRepository = createGlobalState(() => {
   }
 
   async function edit(id: number, body: Partial<ProfileEntity>) {
-    await $api(`/profile/${globalStore.object?.id}/${id}`, {
+    await $api(`/profile/${id}`, {
       method: 'PUT',
       body,
     })
   }
 
   function useAsPrimary(id: number) {
-    return $api(`/profile/${globalStore.object?.id}/${id}/primary`, {
+    return $api(`/profile/${id}/primary`, {
       method: 'PUT',
     })
   }
 
   function schedule(id: number, body: Partial<ScheduleEntity>[]) {
-    return $api(`/profile/${globalStore.object?.id}/${id}/schedule`, {
+    return $api(`/profile/${id}/schedule`, {
       method: 'PUT',
       body,
     })
   }
 
   function calendar(id: number, body: Partial<CalendarEntity>) {
-    return $api(`/profile/${globalStore.object?.id}/${id}/calendar`, {
+    return $api(`/profile/${id}/calendar`, {
       method: 'PUT',
       body,
     })
   }
 
   function language(id: number, lang: string) {
-    return $api(`/profile/${globalStore.object?.id}/${id}/lang/${lang}`, { method: 'PUT' })
+    return $api(`/profile/${id}/lang/${lang}`, { method: 'PUT' })
   }
 
   return {

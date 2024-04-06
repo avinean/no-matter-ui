@@ -2,12 +2,11 @@ import type { PaginationRequest, PaginationResponse } from '~/types/api'
 import type { ServiceEntity } from '~/types/entities'
 
 export const useProductRepository = createGlobalState(() => {
-  const globalStore = useGlobalStore()
   const toast = useToast()
 
   function get(query?: PaginationRequest) {
     return $api<PaginationResponse<ServiceEntity>>(
-      `/service/product/${globalStore.object?.id || globalStore.user?.employers[0]?.id}`,
+      `/service/product`,
       {
         query,
       },
@@ -16,7 +15,7 @@ export const useProductRepository = createGlobalState(() => {
 
   function add(body: Partial<ServiceEntity>) {
     try {
-      return $api(`/service/product/${globalStore.object?.id}`, {
+      return $api(`/service/product`, {
         method: 'POST',
         body,
       })
@@ -31,7 +30,7 @@ export const useProductRepository = createGlobalState(() => {
 
   function edit(id: number, body: Partial<ServiceEntity>) {
     try {
-      return $api(`/service/product/${globalStore.object?.id}/${id}`, {
+      return $api(`/service/product/${id}`, {
         method: 'PUT',
         body,
       })

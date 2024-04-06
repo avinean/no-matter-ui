@@ -1,16 +1,15 @@
 import type { MaterialTransactionEntity } from '~/types/entities'
 
 export const useMaterialTransactionRepository = createGlobalState(() => {
-  const globalStore = useGlobalStore()
   const toast = useToast()
 
   function get() {
-    return $api<MaterialTransactionEntity[]>(`/material-transaction/${globalStore.object?.id || globalStore.user?.employers[0]?.id}`)
+    return $api<MaterialTransactionEntity[]>(`/material-transaction`)
   }
 
   function add(body: Partial<MaterialTransactionEntity>) {
     try {
-      return $api(`/material-transaction/${globalStore.object?.id}`, {
+      return $api(`/material-transaction`, {
         method: 'POST',
         body,
       })
@@ -25,7 +24,7 @@ export const useMaterialTransactionRepository = createGlobalState(() => {
 
   function revert(id: number, description: string) {
     try {
-      return $api(`/material-transaction/${globalStore.object?.id}/${id}`, {
+      return $api(`/material-transaction/${id}`, {
         method: 'POST',
         body: { description },
       })

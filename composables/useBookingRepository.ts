@@ -1,16 +1,15 @@
 import type { BookingEntity, OrderEntity, ProfileEntity, ServiceEntity } from '~/types/entities'
 
 export const useBookingRepository = createGlobalState(() => {
-  const globalStore = useGlobalStore()
   const toast = useToast()
 
   function get() {
-    return $api<BookingEntity[]>(`/booking/${globalStore.object?.id || globalStore.user?.employers[0]?.id}`)
+    return $api<BookingEntity[]>(`/booking`)
   }
 
   function add(body: Partial<BookingEntity>) {
     try {
-      return $api(`/booking/${globalStore.object?.id}`, {
+      return $api(`/booking`, {
         method: 'POST',
         body,
       })
@@ -25,7 +24,7 @@ export const useBookingRepository = createGlobalState(() => {
 
   function edit(id: number, body: Partial<BookingEntity>) {
     try {
-      return $api(`/booking/${globalStore.object?.id}/${id}`, {
+      return $api(`/booking/${id}`, {
         method: 'PUT',
         body,
       })
@@ -40,7 +39,7 @@ export const useBookingRepository = createGlobalState(() => {
 
   function profiles(body: Partial<BookingEntity>) {
     return $api<ProfileEntity[]>(
-      `/booking/${globalStore.object?.id}/profiles`,
+      `/booking/profiles`,
       {
         method: 'POST',
         body: {
@@ -51,25 +50,25 @@ export const useBookingRepository = createGlobalState(() => {
   }
   function services(body: Partial<BookingEntity>) {
     return $api<ServiceEntity[]>(
-      `/booking/${globalStore.object?.id}/services`,
+      `/booking/services`,
       { method: 'POST', body },
     )
   }
   function timeslots(body: Partial<BookingEntity>) {
     return $api<any[]>(
-      `/booking/${globalStore.object?.id}/timeslots`,
+      `/booking/timeslots`,
       { method: 'POST', body },
     )
   }
 
   function confirm({ id }: BookingEntity) {
-    return $api<OrderEntity>(`/booking/${globalStore.object?.id}/${id}/confirm`, {
+    return $api<OrderEntity>(`/booking/${id}/confirm`, {
       method: 'PUT',
     })
   }
 
   function cancel({ id }: BookingEntity) {
-    return $api(`/booking/${globalStore.object?.id}/${id}/cancel`, {
+    return $api(`/booking/${id}/cancel`, {
       method: 'PUT',
     })
   }

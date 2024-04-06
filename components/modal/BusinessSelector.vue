@@ -8,13 +8,13 @@ defineExpose({
   title: 'Оберіть бізнес та підприємство',
 })
 
-const businesses = computed(() => globalStore.user.ownedBusinesses.map(business => ({
+const businesses = computed(() => globalStore.user.businesses.map(business => ({
   id: business.id,
   label: business.name,
   avatar: { src: business.image, loading: 'lazy' },
 })))
 
-const businessObjects = computed(() => (globalStore.business.businessObjects || []).map(object => ({
+const businessObjects = computed(() => (globalStore.user.primaryBusiness.businessObjects || []).map(object => ({
   object,
   id: object.id,
   label: object.name,
@@ -28,7 +28,7 @@ const business = computed({
   set(value) {
     if (value.click)
       return value.click()
-    globalStore.business = globalStore.user.ownedBusinesses.find(b => b.id === value.id)
+    globalStore.business = globalStore.user.businesses.find(b => b.id === value.id)
   },
 })
 
