@@ -50,7 +50,7 @@ const links = computed(() => [
       ...(store.user?.image
         ? { avatar: { src: store.user?.image } }
         : { icon: 'i-ic-baseline-account-circle' }),
-      to: '/account',
+      to: '/account/info',
     },
   ],
 ])

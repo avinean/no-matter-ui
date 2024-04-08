@@ -1,6 +1,6 @@
 import type { BusinessEntity, CalendarEntity, ScheduleEntity } from '~/types/entities'
 
-export const useBusinessObectRepository = createGlobalState(() => {
+export const useBusinessObjectRepository = createGlobalState(() => {
   async function add(body: Partial<BusinessEntity>) {
     await $api(`/business-object`, {
       method: 'POST',
@@ -13,6 +13,12 @@ export const useBusinessObectRepository = createGlobalState(() => {
       method: 'PUT',
       body,
     })
+  }
+
+  function useAsPrimary(id: number) {
+    return $api(`/business-object/${id}/primary`, {
+      method: "PUT",
+    });
   }
 
   function schedule(id: number, body: Partial<ScheduleEntity>[]) {
@@ -32,6 +38,7 @@ export const useBusinessObectRepository = createGlobalState(() => {
   return {
     add,
     edit,
+    useAsPrimary,
     schedule,
     calendar,
   }

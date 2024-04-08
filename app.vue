@@ -5,7 +5,7 @@ const globalStore = useGlobalStore()
 <template>
   <NuxtLayout>
     <BaseLoader v-model="globalStore.loading" />
-    <NuxtPage :key="globalStore.user?.primaryBusinessObject.id" />
+    <NuxtPage :key="globalStore.user?.primaryBusinessObject?.id" />
     <UNotifications />
     <ClientOnly>
       <UseModal />

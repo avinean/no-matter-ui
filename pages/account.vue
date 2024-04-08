@@ -12,7 +12,7 @@ const links = computed(() => [
     ...(store.user?.image
       ? { avatar: { src: store.user?.image } }
       : { icon: 'i-ic-outline-info' }),
-    to: '/account',
+    to: '/account/info',
   },
   {
     label: t('tabs.settings'),

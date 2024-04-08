@@ -87,7 +87,7 @@ async function onUpdateSchedule() {
   if (props.profileId)
     await useProfileRepository().calendar(props.profileId, state)
   else if (props.bussinessObjectId)
-    await useBusinessObectRepository().calendar(props.bussinessObjectId, state)
+    await useBusinessObjectRepository().calendar(props.bussinessObjectId, state)
   emit('submit')
 }
 </script>

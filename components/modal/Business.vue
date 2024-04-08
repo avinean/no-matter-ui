@@ -13,6 +13,7 @@ defineExpose({
   title: `Створити бізнес`,
 })
 
+const store = useGlobalStore()
 const { photo, add: addPhoto } = usePhoto(props.preset?.image)
 const { add, edit } = useBusinessRepository()
 
@@ -32,6 +33,7 @@ async function onCreateOrUpdate() {
   else
     await add({ ...state, image })
 
+  await store.getUser()
   emit('submit')
 }
 </script>

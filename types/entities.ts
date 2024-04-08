@@ -30,27 +30,28 @@ export interface UserEntity {
 }
 
 export interface ProfileEntity {
-  id: number
-  firstName: string
-  lastName: string
-  sex: Sex
-  birthday: Date | string
-  image: string
-  email: string
-  phone: string
-  status: boolean
-  createdAt: Date | string
-  updatedAt: Date | string
-  userId: number
-  primaryFor: UserEntity
-  user: UserEntity
-  roles: RoleEntity[]
-  services: ServiceEntity[]
-  businesses: BusinessEntity[]
-  primaryBusiness: BusinessEntity
-  primaryBusinessObject: BusinessObjectEntity
-  schedule: ScheduleEntity[]
-  calendar: CalendarEntity[]
+  id: number;
+  firstName: string;
+  lastName: string;
+  sex: Sex;
+  birthday: Date | string;
+  image: string;
+  email: string;
+  phone: string;
+  status: boolean;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+  userId: number;
+  primaryFor: UserEntity;
+  user: UserEntity;
+  roles: RoleEntity[];
+  services: ServiceEntity[];
+  businesses: BusinessEntity[];
+  businessObjects: BusinessObjectEntity[];
+  primaryBusiness: BusinessEntity;
+  primaryBusinessObject: BusinessObjectEntity | null;
+  schedule: ScheduleEntity[];
+  calendar: CalendarEntity[];
 }
 
 export interface BusinessEntity {

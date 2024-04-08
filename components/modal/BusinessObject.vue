@@ -13,8 +13,10 @@ defineExpose({
   title: `Створити обʼєкт бізнесу'`,
 })
 
+const store = useGlobalStore()
 const { photo, add: addPhoto } = usePhoto(props.preset?.image)
-const { add, edit } = useBusinessObectRepository()
+const { add, edit } = useBusinessObjectRepository()
+const loading = ref(false)
 
 const state: Partial<BusinessObjectEntity> = reactive({
   name: props.preset?.name,
@@ -23,14 +25,20 @@ const state: Partial<BusinessObjectEntity> = reactive({
 })
 
 async function onCreateOrUpdate() {
+  loading.value = true
   const image = await addPhoto()
 
-  if (props.preset?.id)
-    await edit(props.preset?.id, { ...state, image })
-  else
-    await add({ ...state, image })
+  try {
+    if (props.preset?.id)
+      await edit(props.preset?.id, { ...state, image })
+    else
+      await add({ ...state, image })
 
-  emit('submit')
+    await store.getUser()
+    emit('submit')
+  } finally {
+    loading.value = false
+  }
 }
 </script>
 
@@ -63,6 +71,7 @@ async function onCreateOrUpdate() {
     </UFormGroup>
 
     <UButton
+      :loading="loading"
       type="submit"
     >
       Submit
