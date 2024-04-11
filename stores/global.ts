@@ -65,6 +65,18 @@ export const useGlobalStore = defineStore('global', () => {
     }
   }
 
+  async function refreshToken() {
+    loading.value = true;
+    try {
+      const data = await $api<{ access_token: string }>('/auth/refresh-token', { method: 'POST' });
+      cookie.value = data?.access_token;
+      await nextTick();
+      await getUser();
+    } finally {
+      loading.value = false;
+    }
+  }
+
   async function signup(body: { firstName: string, lastName: string, phone: string }, cb?: () => void) {
     loading.value = true
     try {
@@ -117,6 +129,7 @@ export const useGlobalStore = defineStore('global', () => {
     isAdmin,
     loading,
     login,
+    refreshToken,
     signup,
     resetPassword,
     logout,

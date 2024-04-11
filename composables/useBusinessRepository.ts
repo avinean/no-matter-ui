@@ -1,6 +1,7 @@
 import type { BusinessEntity } from '~/types/entities'
 
 export const useBusinessRepository = createGlobalState(() => {
+  const globalStore = useGlobalStore();
   async function add(body: Partial<BusinessEntity>) {
     await $api(`/business`, {
       method: 'POST',
@@ -15,10 +16,11 @@ export const useBusinessRepository = createGlobalState(() => {
     })
   }
 
-  function useAsPrimary(id: number) {
-    return $api(`/business/${id}/primary`, {
-      method: "PUT",
+  async function useAsPrimary(id: number) {
+    await $api(`/business/${id}/primary`, {
+      method: 'PUT',
     });
+    await globalStore.refreshToken();
   }
 
   return {

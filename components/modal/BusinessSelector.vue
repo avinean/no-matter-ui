@@ -9,19 +9,13 @@ defineExpose({
 })
 
 async function selectBusiness(businessId) {
-  globalStore.loading = true
   const { useAsPrimary } = useBusinessRepository()
   await useAsPrimary(businessId)
-  await globalStore.getUser()
-  globalStore.loading = false
 }
 
 async function selectBusinessObject(objectId) {
-  globalStore.loading = true
   const { useAsPrimary } = useBusinessObjectRepository()
   await useAsPrimary(objectId)
-  await globalStore.getUser()
-  globalStore.loading = false
 }
 
 </script>
