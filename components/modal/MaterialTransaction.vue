@@ -9,7 +9,7 @@ const { t } = useI18n({
   useScope: 'local',
 })
 defineExpose({
-  title: `Збільшити кількість матеріалу`,
+  title: t('title'),
 })
 
 const { get } = useMaterialRepository()
@@ -46,7 +46,7 @@ async function onCreateOrUpdate(event: FormSubmitEvent<Partial<MaterialTransacti
     @submit="onCreateOrUpdate"
   >
     <UFormGroup
-      label="Material"
+      :label="t('labels.material')"
       name="materialId"
     >
       <USelectMenu
@@ -58,21 +58,43 @@ async function onCreateOrUpdate(event: FormSubmitEvent<Partial<MaterialTransacti
     </UFormGroup>
 
     <UFormGroup
-      label="Quantity"
+      :label="t('labels.quantity')"
       name="quantity"
     >
       <UInput v-model="state.quantity" />
     </UFormGroup>
 
     <UFormGroup
-      label="Description"
+      :label="t('labels.description')"
       name="description"
     >
       <UInput v-model="state.description" />
     </UFormGroup>
 
     <UButton type="submit">
-      Submit
+      {{ $t('default.forms.actions.save') }}
     </UButton>
   </UForm>
 </template>
+
+<i18n lang="json">
+{
+  "en-US": {
+    "title": "Increase the amount",
+    "labels": {
+      "material":  "Material",
+      "quantity": "Quantity",
+      "description": "Description"
+    }
+  },
+  "uk-UK": {
+    "title": "Збільшити кількість матеріалу",
+
+    "labels":  {
+      "material":  "Матеріал",
+      "quantity":  "Кількість",
+      "description":  "Опис"
+    }
+  }
+}
+</i18n>
