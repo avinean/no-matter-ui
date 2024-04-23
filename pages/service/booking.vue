@@ -3,6 +3,10 @@ import { ModalBooking, ModalOrder } from '#components'
 import type { BookingEntity } from '~/types/entities'
 import { ConfirmationStatus } from '~/types/enums'
 
+const { t } = useI18n({
+  useScope: 'local',
+})
+
 const modalStore = useModalStore()
 const bookingRepository = useBookingRepository()
 
@@ -11,7 +15,7 @@ const { data, refresh } = useAsyncData(() => bookingRepository.get())
 function menu(item: BookingEntity) {
   return [
     [{
-      label: 'Редагувати',
+      label: t('tooltips.edit'),
       icon: 'i-ic-baseline-edit',
       click: () => {
         modalStore.open(ModalBooking, {
@@ -20,7 +24,7 @@ function menu(item: BookingEntity) {
         })
       },
     }, {
-      label: 'Виставити рахунок',
+      label:  t('tooltips.invoice'),
       icon: 'i-ic-outline-receipt-long',
       click: async () => {
         const order = await bookingRepository.confirm(item)
@@ -31,7 +35,7 @@ function menu(item: BookingEntity) {
         })
       },
     }, {
-      label: 'Відмінити',
+      label: t('tooltips.cancel'),
       icon: 'i-ic-baseline-content-copy',
       click: async () => {
         await bookingRepository.cancel(item)
@@ -40,30 +44,30 @@ function menu(item: BookingEntity) {
     }],
   ]
 }
-
-const columns = [
-  { key: 'date', label: 'Час' },
-  { key: 'duration', label: 'Тривалість послуги' },
-  { key: 'status', label: 'Статус' },
-  { key: 'comment', label: 'Опис' },
-  { key: 'createdAt', label: 'Створено' },
-  { key: 'profile', label: 'Виконавець' },
-  { key: 'client', label: 'Замовник' },
+const columns = computed(() => [
+  { key: 'date', label: t('columns.date') },
+  { key: 'duration', label: t('columns.duration') },
+  { key: 'status',  label: t('columns.status') },
+  { key: 'comment', label: t('columns.comment') },
+  { key: 'createdAt', label: t('columns.createdAt') },
+  { key: 'profile',label: t('columns.profile') },
+  { key: 'client', label: t('columns.client') },
   { key: 'actions' },
-]
+])
+
 </script>
 
 <template>
   <div>
     <div class="flex items-center justify-between gap-2 p-2">
-      <h1>Заброньовані товари</h1>
+      <h1>{{ t('title') }}</h1>
       <UButton
         icon="i-ic-baseline-calendar-month"
         size="sm"
         color="primary"
         square
         variant="solid"
-        label="Забронювати"
+        :label="t('labels.book')"
         @click="modalStore.open(ModalBooking, {
           onSubmit: refresh,
         })"
@@ -214,3 +218,50 @@ const columns = [
     </UTable>
   </div>
 </template>
+
+
+<i18n lang="json">
+{
+  "en-US": {
+    "title": "Booked goods",
+    "labels": {
+      "book": "Book now"
+    },
+    "tooltips": {
+      "edit": "Edit",
+      "invoice": "Issue a bill",
+      "cancel": "Cancel"
+    },
+    "columns": {
+      "date": "Date",
+      "duration": "Duration",
+      "status": "Status",
+      "comment": "Comment",
+      "createdAt": "Created",
+      "profile": "Performer",
+      "client": "Client"
+    }
+  },
+  "uk-UK": {
+    "title": "Заброньовані товари",
+    "labels": {
+      "book": "Забронювати"
+    },
+    "tooltips": {
+      "edit": "Редагувати ",
+      "invoice": "Виставити рахунок ",
+      "cancel": "Відмінити"
+    },
+    "columns": {
+      "date": "Час",
+      "duration": "Тривалість послуги",
+      "status": "Статус",
+      "comment": "Опис",
+      "createdAt": "Створено",
+      "profile": "Виконавець",
+      "client": "Замовник"
+    }
+  }
+}
+</i18n>
+

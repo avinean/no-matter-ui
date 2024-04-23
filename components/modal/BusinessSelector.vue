@@ -1,11 +1,17 @@
 <script setup>
+const { t } = useI18n({
+  useScope: 'local',
+})
+
 import { ModalBusiness, ModalBusinessObject } from '#components'
 
 const globalStore = useGlobalStore()
 const modalStore = useModalStore()
 
+
+
 defineExpose({
-  title: 'Оберіть бізнес та підприємство',
+  title: t('titles.general'),
 })
 
 async function selectBusiness(businessId) {
@@ -23,12 +29,12 @@ async function selectBusinessObject(objectId) {
 <template>
   <div class="grid grid-cols-2 gap-2">
     <div>
-      <h3>Бізнеси</h3>
+      <h3>{{ t('titles.businesses') }}</h3>
       <div class="space-y-1">
         <div
           v-for="business in globalStore.user.businesses"
           :key="business.id"
-          class="flex items-center gap-2 cursor-pointer p-2 rounded-md"
+          class="flex items-center gap-2 cursor-pointer p-2 rounded-md mb-3"
           :class="{ 'bg-gray-100': business.id === globalStore.user.primaryBusiness.id }"
           @click="selectBusiness(business.id)"
         >
@@ -43,17 +49,17 @@ async function selectBusinessObject(objectId) {
           icon="i-ic-outline-business-center"
           @click="modalStore.open(ModalBusiness)"
         >
-          Додати бізнес
+          {{ t('addBusiness') }}
         </UButton>
       </div>
     </div>
     <div>
-      <h3>Об'єкти</h3>
+      <h3>{{ t('titles.objects') }}</h3>
       <div class="space-y-1">
         <div
           v-for="object in globalStore.user.primaryBusiness.businessObjects"
           :key="object.id"
-          class="flex items-center gap-2 cursor-pointer p-2 rounded-md"
+          class="flex items-center gap-2 cursor-pointer p-2 rounded-md mb-3"
           :class="{ 'bg-gray-100': object.id === globalStore.user.primaryBusinessObject?.id }"
           @click="selectBusinessObject(object.id)"
         >
@@ -68,9 +74,34 @@ async function selectBusinessObject(objectId) {
           icon="i-ic-outline-maps-home-work"
           @click="modalStore.open(ModalBusinessObject)"
         >
-          Додати об'єкт
+          {{ t('addObjects') }}
         </UButton>
       </div>
     </div>
   </div>
 </template>
+
+<i18n lang="json">
+{
+  "en-US": {
+    "titles": {
+      "general": "Select a business and an enterprise",
+      "businesses": "Businesses",
+      "objects": "Objects"
+
+    },
+    "addBusiness": "Add new business",
+    "addObjects": "Add new object"
+  },
+  "uk-UK": {
+    "titles": {
+      "general":  "Оберіть бізнес та підприємство",
+      "businesses": "Бізнеси",
+      "objects": "Об'єкти"
+
+    },
+    "addBusiness":  "Додати бізнес",
+    "addObjects":  "Додати об'єкт"
+  }
+}
+</i18n>

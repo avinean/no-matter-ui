@@ -6,31 +6,32 @@ const { t } = useI18n({ useScope: 'local' })
 const { get } = useOrderRepository()
 const { open } = useModalStore()
 
-const columns = [
+const columns = computed(() => [
   {
     key: 'id',
-    label: t(`$order.id`),
+    label: "ID",
   },
   {
     key: 'createdAt',
-    label: t(`$order.createdAt`),
+    label: t(`columns.createdAt`),
   },
   {
     key: 'createdBy',
-    label: t(`$order.createdBy`),
+    label: t(`columns.createdBy`),
     data: 'createdBy-data',
   },
   {
     key: 'booking',
-    label: t(`$order.booking`),
+    label: t(`columns.booking`),
     data: 'booking-data',
   },
-]
+])
+
 </script>
 
 <template>
   <UsePaginatable
-    :title="t(`$order.title`)"
+    :title="t(`title`)"
     :getter="get"
   >
     <template #default="{ items }">
@@ -65,3 +66,25 @@ const columns = [
     </template>
   </UsePaginatable>
 </template>
+
+
+<i18n lang="json">
+{
+  "en-US": {
+    "title": "Created orders",
+    "columns": {
+      "createdAt": "Date of creation",
+      "createdBy": "Created by",
+      "booking": "Booking"
+    }
+  },
+  "uk-UK": {
+    "title": "Створені замовлення",
+    "columns": {
+      "createdAt": "Створено",
+      "createdBy": "Ким створено",
+      "booking": "Бронювання"
+    }
+  }
+}
+</i18n>

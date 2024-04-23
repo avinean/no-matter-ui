@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+const { t } = useI18n({
+  useScope: 'local',
+})
+
 import type { BusinessObjectEntity } from '~/types/entities'
 
 const props = defineProps<{
@@ -10,7 +14,7 @@ const emit = defineEmits<{
 }>()
 
 defineExpose({
-  title: `Створити обʼєкт бізнесу'`,
+  title: t('title'),
 })
 
 const store = useGlobalStore()
@@ -49,13 +53,13 @@ async function onCreateOrUpdate() {
     @submit="onCreateOrUpdate"
   >
     <input-file
-      class="row-span-6"
+      class="row-span-6 w-40"
       :src="state.image"
       @change="photo = $event"
     />
 
     <UFormGroup
-      label="Назва"
+      :label="$t('default.forms.labels.name') "
       name="name"
       required
     >
@@ -63,7 +67,7 @@ async function onCreateOrUpdate() {
     </UFormGroup>
 
     <UFormGroup
-      label="Опис"
+      :label="$t('default.forms.labels.desc') "
       name="description"
       required
     >
@@ -74,7 +78,17 @@ async function onCreateOrUpdate() {
       :loading="loading"
       type="submit"
     >
-      Submit
+      {{ $t('default.forms.actions.create') }}
     </UButton>
   </UForm>
 </template>
+<i18n lang="json">
+{
+  "en-US": {
+    "title": "Create a business object"
+  },
+  "uk-UK": {
+    "title": "Створити об'єкт бізнесу"
+  }
+}
+</i18n>

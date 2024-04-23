@@ -6,14 +6,16 @@ const { t } = useI18n({
 })
 
 const { hasPermission } = useGlobalStore()
+
+
 const links = computed(() => [
   hasPermission('profile:read') && {
-    label: t('employees'),
+    label: t('tabs.employees'),
     icon: 'i-ic-sharp-groups',
     to: '/people/employees',
   },
   hasPermission('client:read') && {
-    label: t('clients'),
+    label: t('tabs.clients'),
     icon: 'i-ic-baseline-people',
     to: '/people/clients',
   },
@@ -38,12 +40,17 @@ const links = computed(() => [
 <i18n lang="json">
 {
   "en-US": {
-    "clients": "Clients",
-    "employees": "Employees"
+    "tabs": {
+      "clients": "Clients",
+      "employees": "Employees"
+    }
   },
   "uk-UK": {
-    "clients": "Клієнти",
-    "employees": "Працівники"
+    "tabs": {
+      "clients": "Клієнти",
+      "employees": "Працівники"
+    }
   }
 }
 </i18n>
+

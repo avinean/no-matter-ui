@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import type { BookingEntity, OrderProductsEntity } from '~/types/entities'
 
+const { t } = useI18n({
+  useScope: 'local',
+})
+
 const props = defineProps<{
   preset?: BookingEntity | null
 }>()
@@ -10,7 +14,7 @@ const emit = defineEmits<{
 }>()
 
 defineExpose({
-  title: `Забронювати`,
+  title: t('title'),
 })
 
 const search: Partial<BookingEntity> = reactive({
@@ -52,24 +56,24 @@ const orderProducts = computed({
   },
 })
 
-const columns = [
+const columns = computed(() => [
   {
     key: 'name',
-    label: 'Назва',
+    label: t('columns.name'),
   },
   {
     key: 'description',
-    label: 'Опис',
+    label: t('columns.description'),
   },
   {
     key: 'duration',
-    label: 'Тривалість',
+    label: t('columns.duration'),
   },
   {
     key: 'quantity',
-    label: 'Кількість',
+    label: t('columns.quantity'),
   },
-]
+])
 
 const selectedSlot = ref<{ time: string, booked: BookingEntity } | null>(null)
 
@@ -95,7 +99,7 @@ async function create() {
     @submit="create"
   >
     <UFormGroup
-      label="Послуги"
+      :label="t('labels.services')"
       name="services"
     >
       <USelectMenu
@@ -133,7 +137,7 @@ async function create() {
     </UFormGroup>
 
     <UFormGroup
-      label="Виконавець"
+      :label="t('labels.performer')"
       name="user"
       required
     >
@@ -141,7 +145,7 @@ async function create() {
         v-model="search.profile"
         :options="profiles || []"
         searchable
-        searchable-placeholder="Шукайте за іменем"
+        :searchable-placeholder="t('searchPlaceholder')"
         by="id"
         selected-icon="i-ic-round-check"
         :search-attributes="['firstName', 'lastName']"
@@ -159,7 +163,8 @@ async function create() {
     </UFormGroup>
 
     <UFormGroup
-      label="Дата"
+      :label="t('labels.date')"
+
       name="date"
       required
     >
@@ -167,7 +172,8 @@ async function create() {
     </UFormGroup>
 
     <UFormGroup
-      label="Тривалість"
+      :label="t('labels.duration')"
+
       name="duration"
       required
     >
@@ -198,14 +204,14 @@ async function create() {
     </div>
 
     <UFormGroup
-      label="Коментар"
+      :label="t('labels.comment')"
       name="comment"
     >
       <UTextarea v-model="search.comment" />
     </UFormGroup>
 
     <UFormGroup
-      label="Замовник"
+      :label="t('labels.client')"
       name="client"
       required
     >
@@ -214,7 +220,7 @@ async function create() {
         v-model="search.client"
         :options="clients"
         searchable
-        searchable-placeholder="Шукайте за іменем"
+        :searchable-placeholder="t('searchPlaceholder')"
         by="id"
         selected-icon="i-ic-round-check"
         :search-attributes="['firstName', 'lastName']"
@@ -232,7 +238,50 @@ async function create() {
     </UFormGroup>
 
     <UButton type="submit">
-      Submit
+      {{ $t('default.forms.actions.save') }}
     </UButton>
   </UForm>
 </template>
+
+
+<i18n lang="json">
+{
+  "en-US": {
+    "title": "Book now",
+    "searchPlaceholder":  "Search by name",
+    "labels": {
+      "services": "Services",
+      "performer": "Performer",
+      "date": "Date",
+      "duration": "Duration",
+      "comment": "Comment",
+      "client": "Client"
+    },
+    "columns": {
+      "name": "Name",
+      "description": "Description",
+      "duration": "Duration",
+      "quantity": "Quantity"
+    }
+
+  },
+  "uk-UK": {
+    "title": "Забронювати",
+    "searchPlaceholder": "Шукайте за іменем",
+    "labels": {
+      "services": "Послуги",
+      "performer": "Виконавець",
+      "date": "Дата",
+      "duration": "Тривалість",
+      "comment": "Коментар",
+      "client": "Замовник"
+    },
+    "columns": {
+      "name": "Назва",
+      "description": "Опис",
+      "duration": "Тривалість",
+      "quantity": "Кількість"
+    }
+  }
+}
+</i18n>
