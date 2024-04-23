@@ -59,19 +59,19 @@ const orderProducts = computed({
 const columns = computed(() => [
   {
     key: 'name',
-    label: t('labels.name'),
+    label: t('columns.name'),
   },
   {
     key: 'description',
-    label: t('labels.description'),
+    label: t('columns.description'),
   },
   {
     key: 'duration',
-    label: t('labels.duration'),
+    label: t('columns.duration'),
   },
   {
     key: 'quantity',
-    label: t('labels.quantity'),
+    label: t('columns.quantity'),
   },
 ])
 

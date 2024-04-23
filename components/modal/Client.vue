@@ -75,66 +75,78 @@ async function onCreateOrUpdate() {
     class="grid gap-2"
     @submit="onCreateOrUpdate"
   >
-    <div class="grid grid-cols-2 gap-x-4 gap-y-2">
+    <div class="flex justify-center">
       <input-file
-        class="row-span-6"
-        :src="state.image"
-        @change="photo = $event"
+          class="row-span-6 w-40"
+          :src="state.image"
+          @change="photo = $event"
       />
+    </div>
+    <div class="grid gap-y-2">
+    <UCard
+        :ui="{
+          body: {
+            padding: 'px-3 py-3 sm:p-3 grid grid-cols-2 gap-x-4 gap-y-2',
+          } }"
+    >
       <UFormGroup
-        :label="$t('default.forms.labels.firstName')"
-        name="firstName"
-        required
+          :label="$t('default.forms.labels.firstName')"
+          name="firstName"
+          required
       >
         <UInput v-model="state.firstName" />
       </UFormGroup>
 
       <UFormGroup
-        :label="$t('default.forms.labels.lastName')"
-        name="lastName"
-        required
+          :label="$t('default.forms.labels.lastName')"
+          name="lastName"
+          required
       >
         <UInput v-model="state.lastName" />
       </UFormGroup>
 
       <UFormGroup
-        :label="$t('default.forms.labels.phone')"
-        name="phone"
-        required
+          :label="$t('default.forms.labels.phone')"
+          name="phone"
+          required
       >
         <UInput v-model="state.phone" />
       </UFormGroup>
 
       <UFormGroup
-        :label="$t('default.forms.labels.sex')"
-        name="sex"
-        required
+          :label="$t('default.forms.labels.sex')"
+          name="sex"
+          required
       >
         <USelect
-          v-model="state.sex"
-          :options="store.suggestions.sexes"
-          trailing-icon="i-ic-baseline-keyboard-arrow-down"
+            v-model="state.sex"
+            :options="store.suggestions.sexes"
+            trailing-icon="i-ic-baseline-keyboard-arrow-down"
         />
       </UFormGroup>
 
       <UFormGroup
-        :label="$t('default.forms.labels.dob')"
-        name="birthday"
-        required
+          :label="$t('default.forms.labels.dob')"
+          name="birthday"
+          required
       >
         <input-date v-model="state.birthday" />
       </UFormGroup>
 
       <UFormGroup
-        :label="$t('default.forms.labels.source')"
-        name="source"
-        required
+          :label="$t('default.forms.labels.source')"
+          name="source"
+          required
       >
         <UInput v-model="state.source" />
       </UFormGroup>
+    </UCard>
+
+    </div>
+    <div class="flex gap-2 justify-end mt-4">
       <UButton
-        type="submit"
-        class="flex justify-center"
+          type="submit"
+          class="flex justify-center"
       >
         {{ props.preset?.id ? $t('default.forms.actions.save') : $t('default.forms.actions.create') }}
       </UButton>
